@@ -521,67 +521,72 @@
       display: flex; align-items: stretch;
       filter: drop-shadow(-4px 0 18px rgba(0,0,0,.18));
     }
-    /* Onglet vertical "CONTACT" */
+
+    /* Onglet vertical — ultra-compact enroulé */
     #sticky-tab {
-      writing-mode: vertical-rl; text-orientation: mixed;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
       transform: rotate(180deg);
       background: var(--black); color: var(--white);
       font-family: var(--ff-logo);
-      font-size: .6rem; letter-spacing: .28em; text-transform: uppercase;
-      padding: 1.3rem .6rem;
+      font-size: .52rem; letter-spacing: .2em; text-transform: uppercase;
+      /* padding: haut/bas (= largeur visuelle) | gauche/droite (= hauteur visuelle) */
+      padding: .6rem .3rem;
       cursor: pointer; user-select: none;
       border-radius: 6px 0 0 6px;
       transition: background .3s;
-      display: flex; align-items: center; gap: .6rem;
+      display: flex; align-items: center; justify-content: center;
+      white-space: nowrap;
     }
     #sticky-tab:hover { background: var(--gold); color: var(--black); }
-    #sticky-tab .tab-icon { writing-mode: horizontal-tb; transform: rotate(90deg); font-size: .85rem; }
 
-    /* Panneau dépliable */
+    /* Panneau dépliable — inchangé quand ouvert */
     #sticky-panel {
       background: var(--charcoal);
       width: 0; overflow: hidden;
       transition: width .42s var(--ease);
       display: flex; flex-direction: column; justify-content: center;
     }
-    #sticky-contact.open #sticky-panel { width: 270px; }
+    #sticky-contact.open #sticky-panel { width: 260px; }
     .sp-inner {
-      padding: 1.8rem 1.6rem; min-width: 270px;
+      padding: 1.4rem 1.3rem; min-width: 260px;
     }
-    .sp-logo { margin-bottom: 1.3rem; }
+    .sp-logo { margin-bottom: 1rem; }
     .sp-logo .logo-g { color: white; font-size: .85rem; }
     .sp-logo .logo-p { font-size: .36rem; color: var(--gold); }
 
     .sp-title {
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: .95rem; color: var(--gold-lt); margin-bottom: 1.2rem;
-      line-height: 1.4;
+      font-size: .88rem; color: var(--gold-lt); margin-bottom: 1rem;
+      line-height: 1.3; white-space: nowrap;
     }
     .sp-row {
-      display: flex; align-items: center; gap: .75rem;
-      padding: .65rem 0;
+      display: flex; align-items: center; gap: .7rem;
+      padding: .5rem 0;
       border-bottom: 1px solid rgba(255,255,255,.08);
       text-decoration: none;
     }
     .sp-row:last-child { border-bottom: none; }
-    .sp-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .sp-icon { width: 26px; height: 26px; flex-shrink: 0; }
     .sp-info { display: flex; flex-direction: column; }
-    .sp-lbl { font-size: .55rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .15rem; }
-    .sp-val { font-size: .75rem; color: rgba(255,255,255,.8); }
+    .sp-lbl { font-size: .52rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .1rem; }
+    .sp-val { font-size: .7rem; color: rgba(255,255,255,.8); }
     .sp-row:hover .sp-val { color: var(--gold); }
 
     .sp-close {
-      position: absolute; top: .6rem; right: .6rem;
+      position: absolute; top: .5rem; right: .5rem;
       background: none; border: none; color: rgba(255,255,255,.4);
-      font-size: 1rem; cursor: pointer; padding: .2rem;
+      font-size: .9rem; cursor: pointer; padding: .2rem;
       line-height: 1;
     }
     .sp-close:hover { color: white; }
 
-    @media(max-width:600px) {
-      #sticky-contact { top: auto; bottom: 4.5rem; transform: none; }
-      #sticky-contact.open #sticky-panel { width: 240px; }
-      .sp-inner { min-width: 240px; padding: 1.4rem 1.2rem; }
+    @media(max-width:768px) {
+      #sticky-contact { top: auto; bottom: 5rem; transform: none; }
+      #sticky-tab { font-size: .48rem; padding: .5rem .28rem; }
+      #sticky-contact.open #sticky-panel { width: 220px; }
+      .sp-inner { min-width: 220px; padding: 1.1rem 1rem; }
+      .sp-title { font-size: .8rem; }
     }
 
     /* ---- Social SVG icons ---- */
@@ -609,7 +614,7 @@
         </div>
         <p class="sp-title">Contactez notre équipe B2B</p>
 
-        <!-- Site web -->
+        <!-- Notre site -->
         <a class="sp-row" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
           <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#C5A36A"/>
@@ -625,7 +630,20 @@
           </div>
         </a>
 
-        <!-- WhatsApp — logo unifié (fond vert + bulle blanche) -->
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
         <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
           <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#25D366"/>
@@ -674,19 +692,6 @@
           </div>
         </a>
 
-        <!-- Email — logo doré unifié -->
-        <a class="sp-row" href="/cdn-cgi/l/email-protection#583f31372a3f3139616b6b6868183f35393134763b3735">
-          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
-            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
-          </svg>
-          <div class="sp-info">
-            <span class="sp-lbl">Email</span>
-            <span class="sp-val"><span class="__cf_email__" data-cfemail="0f6866607d68666e363c3c3f3f4f68626e6663216c6062">[email&#160;protected]</span></span>
-          </div>
-        </a>
-
         <!-- Showroom -->
         <a class="sp-row" href="#contact">
           <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -702,7 +707,6 @@
       </div>
     </div>
     <div id="sticky-tab" onclick="toggleSticky()">
-      <span class="tab-icon">✉</span>
       Contact
     </div>
   </div>
@@ -766,7 +770,7 @@
       <span class="logo-p">paris</span>
     </div>
     <div class="intro-text">
-      <h2>Vêtir les boutiques qui font la différence</h2>
+      <h2>Qui sommes-nous ?</h2>
       <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris édite chaque saison une sélection soigneusement construite : des pièces alliant tendance, finition et accessibilité. Des vêtements qui séduisent en rayon, qui se vendent en quelques jours — et pour lesquels vos clientes reviennent. livraison rapide depuis notre stock parisien.</p>
     </div>
     <div class="intro-stats">
@@ -873,7 +877,7 @@
     <div class="feat-grad"></div>
     <div class="feat-content">
       <div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-      <h3>Collectionnez<br>ce qui se vend.</h3>
+      <h3>Vêtir les boutiques<br>qui font la différence.</h3>
       <p>Des pièces sélectionnées pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant — et qui veulent des marges réelles.</p>
       <a class="btn-hero-p" href="#contact">Contacter notre équipe</a>
     </div>
@@ -1221,7 +1225,7 @@
         <span class="logo-g" style="color:white;font-size:1.4rem">GIORGIA</span>
         <span class="logo-p" style="color:#C5A36A">paris</span>
       </div>
-      <h2 class="contact-title">Prêt à passer<br>votre <span>commande</span> ?</h2>
+      <h2 class="contact-title">Prêt à passer votre <span>commande</span> ?<br>Une <span>question</span> ?</h2>
       <p class="contact-body">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance, une collection qui tourne — c'est ça, GIORGIA paris.</p>
       <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Packs disponibles par modèle</p>
     </div>
@@ -1229,44 +1233,7 @@
     <div>
       <ul class="cinfo">
 
-        <!-- Showroom -->
-        <li>
-          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#2A2724"/>
-            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
-          </svg>
-          <div>
-            <span class="ci-label">Notre showroom</span>
-            <div class="ci-val">70 rue de la Haie Coq<br>93300 Aubervilliers, France</div>
-          </div>
-        </li>
-
-        <!-- WhatsApp -->
-        <li>
-          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#25D366"/>
-            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
-          </svg>
-          <div>
-            <span class="ci-label">Commander sur WhatsApp</span>
-            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">+33 6 86 72 93 11</a></div>
-          </div>
-        </li>
-
-        <!-- Email — logo doré unifié -->
-        <li>
-          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
-            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
-          </svg>
-          <div>
-            <span class="ci-label">Email</span>
-            <div class="ci-val"><a href="/cdn-cgi/l/email-protection#dbbcb2b4a9bcb2bae2e8e8ebeb9bbcb6bab2b7f5b8b4b6"><span class="__cf_email__" data-cfemail="2d4a44425f4a444c141e1e1d1d6d4a404c4441034e4240">[email&#160;protected]</span></a></div>
-          </div>
-        </li>
-
-        <!-- Site web -->
+        <!-- Notre site -->
         <li>
           <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#C5A36A"/>
@@ -1279,6 +1246,31 @@
           <div>
             <span class="ci-label">Notre site</span>
             <div class="ci-val"><a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">parisfashionshops.com</a></div>
+          </div>
+        </li>
+
+        <!-- Email -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div>
+            <span class="ci-label">Email</span>
+            <div class="ci-val"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
+          </div>
+        </li>
+
+        <!-- WhatsApp -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div>
+            <span class="ci-label">Commander sur WhatsApp</span>
+            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">+33 6 86 72 93 11</a></div>
           </div>
         </li>
 
@@ -1319,6 +1311,18 @@
           </div>
         </li>
 
+        <!-- Showroom -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div>
+            <span class="ci-label">Notre showroom</span>
+            <div class="ci-val">70 rue de la Haie Coq<br>93300 Aubervilliers, France</div>
+          </div>
+        </li>
+
       </ul>
     </div>
   </section>
@@ -1326,7 +1330,7 @@
 
   <!-- ==================== FOOTER ==================== -->
   <footer>
-    <div class="foot-top">
+    <div class="foot-top" style="grid-template-columns: auto 1fr;">
 
       <!-- Logo -->
       <div class="logo">
@@ -1334,71 +1338,11 @@
         <span class="logo-p" style="color:#5a4e45">paris</span>
       </div>
 
-      <!-- Réseaux sociaux avec logos officiels -->
-      <div class="foot-socials">
-
-        <!-- Instagram officiel -->
-        <a class="foot-soc" href="https://instagram.com/giorgia.auber" target="_blank" title="Instagram @giorgia.auber">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="ig-footer" cx="30%" cy="107%" r="150%">
-                <stop offset="0%"  stop-color="#fdf497"/>
-                <stop offset="5%"  stop-color="#fdf497"/>
-                <stop offset="45%" stop-color="#fd5949"/>
-                <stop offset="60%" stop-color="#d6249f"/>
-                <stop offset="90%" stop-color="#285AEB"/>
-              </radialGradient>
-            </defs>
-            <rect width="24" height="24" rx="6" fill="url(#ig-footer)"/>
-            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
-            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
-            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
-          </svg>
-          <span class="foot-soc-lbl">@giorgia.auber</span>
-        </a>
-
-        <!-- TikTok officiel -->
-        <a class="foot-soc" href="https://tiktok.com/@giorgia.paris56" target="_blank" title="TikTok @giorgia.paris56">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="6" fill="#010101"/>
-            <!-- Ombre cyan -->
-            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
-            <!-- Ombre rouge -->
-            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
-            <!-- Blanc principal -->
-            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
-          </svg>
-          <span class="foot-soc-lbl">@giorgia.paris56</span>
-        </a>
-
-        <!-- WhatsApp officiel -->
-        <a class="foot-soc" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20plus%20d%27informations%20sur%20votre%20collection%20PE%202026." target="_blank" title="WhatsApp +33 6 86 72 93 11">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="6" fill="#25D366"/>
-            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
-          </svg>
-          <span class="foot-soc-lbl">WhatsApp Pro</span>
-        </a>
-
-        <!-- Email — logo doré unifié -->
-        <a class="foot-soc" href="/cdn-cgi/l/email-protection#ddbab4b2afbab4bce4eeeeeded9dbab0bcb4b1f3beb2b0" title="giorgia93300@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="6" fill="#C5A36A"/>
-            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
-          </svg>
-          <span class="foot-soc-lbl">Email</span>
-        </a>
-
-      </div>
-
       <!-- Adresse -->
       <div class="foot-right">
         <div class="foot-addr">
-          <p>70 rue de la Haie Coq</p>
-          <p>93300 Aubervilliers, France</p>
-          <p style="margin-top:.4rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a5d5355485d535b0309090a0a7a5d575b535614595557">[email&#160;protected]</a></p>
-          <p>+33 6 86 72 93 11</p>
+          <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
+          <p>giorgia93300@gmail.com · +33 6 86 72 93 11</p>
         </div>
       </div>
 
@@ -1408,8 +1352,7 @@
     </div>
   </footer>
 
-
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     /* ---- SCROLL ANIMATIONS ---- */
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
