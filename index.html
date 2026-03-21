@@ -522,23 +522,29 @@
       filter: drop-shadow(-4px 0 18px rgba(0,0,0,.18));
     }
 
-    /* Onglet vertical — ultra-compact enroulé */
+    /* Onglet vertical — compact enroulé, icône conservée */
     #sticky-tab {
       writing-mode: vertical-rl;
       text-orientation: mixed;
       transform: rotate(180deg);
       background: var(--black); color: var(--white);
       font-family: var(--ff-logo);
-      font-size: .52rem; letter-spacing: .2em; text-transform: uppercase;
-      /* padding: haut/bas (= largeur visuelle) | gauche/droite (= hauteur visuelle) */
-      padding: .6rem .3rem;
+      font-size: .52rem; letter-spacing: .06em; text-transform: uppercase;
+      /* .5rem = largeur (haut/bas en CSS) | .3rem = hauteur des bords (gauche/droite en CSS) */
+      padding: .5rem .3rem;
       cursor: pointer; user-select: none;
       border-radius: 6px 0 0 6px;
       transition: background .3s;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
       white-space: nowrap;
     }
     #sticky-tab:hover { background: var(--gold); color: var(--black); }
+    #sticky-tab .tab-icon {
+      writing-mode: horizontal-tb;
+      transform: rotate(90deg);
+      font-size: .72rem;
+      line-height: 1;
+    }
 
     /* Panneau dépliable — inchangé quand ouvert */
     #sticky-panel {
@@ -593,6 +599,76 @@
     .soc-link { display: inline-flex; align-items: center; gap: .55rem; }
     .soc-link svg { width: 18px; height: 18px; }
 
+    /* ===================== HERO VIDEO ===================== */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(.55);
+      transform: scale(1.02);
+    }
+
+    /* ===================== CARROUSEL PRODUITS ===================== */
+    /*
+      GUIDE CARROUSEL :
+      - Ajouter une carte  → copier un bloc .prod-card dans .carousel-track
+      - Supprimer une carte → supprimer le bloc .prod-card concerné
+      - Modifier une photo  → changer src="..." dans la carte
+    */
+    .carousel-outer {
+      position: relative;
+    }
+    /* Les flèches sont hors du clip, on gère ça avec padding */
+    .carousel-clip {
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1.4rem;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+      will-change: transform;
+      cursor: grab;
+    }
+    .carousel-track.dragging { cursor: grabbing; transition: none; }
+    .carousel-track .prod-card {
+      flex: 0 0 calc(25% - 1.05rem);
+      min-width: 0;
+    }
+    /* Boutons flèche — dans le flux, au dessus */
+    .car-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      z-index: 10; background: var(--black); color: var(--white);
+      border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; transition: background .3s, opacity .3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    .car-btn:hover { background: var(--gold); color: var(--black); }
+    .car-btn.disabled { opacity: .2; pointer-events: none; }
+    .car-btn-prev { left: 6px; }
+    .car-btn-next { right: 6px; }
+    /* Dots */
+    .car-dots {
+      display: flex; justify-content: center; gap: .5rem;
+      margin-top: 1.6rem;
+    }
+    .car-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      padding: 0; transition: background .3s, transform .3s;
+    }
+    .car-dot.active { background: var(--black); transform: scale(1.4); }
+
+    @media(max-width:900px) {
+      .carousel-track .prod-card { flex: 0 0 calc(50% - .7rem); }
+      .car-btn { display: none; }
+    }
+    @media(max-width:600px) {
+      .carousel-track .prod-card { flex: 0 0 78%; }
+      .carousel-track { gap: 1rem; }
+    }
+
     /* ===================== SCROLL ANIMATIONS ===================== */
     .fade-up {
       opacity: 0; transform: translateY(28px);
@@ -631,7 +707,7 @@
         </a>
 
         <!-- Email -->
-        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+        <a class="sp-row" href="/cdn-cgi/l/email-protection#f7909e9885909e96cec4c4c7c7b7909a969e9bd994989a">
           <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#C5A36A"/>
             <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
@@ -639,7 +715,7 @@
           </svg>
           <div class="sp-info">
             <span class="sp-lbl">Email</span>
-            <span class="sp-val">giorgia93300@gmail.com</span>
+            <span class="sp-val"><span class="__cf_email__" data-cfemail="13747a7c61747a722a2020232353747e727a7f3d707c7e">[email&#160;protected]</span></span>
           </div>
         </a>
 
@@ -707,6 +783,7 @@
       </div>
     </div>
     <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
       Contact
     </div>
   </div>
@@ -744,7 +821,18 @@
   <!-- ========== HERO ========== -->
   <section id="top">
     <div id="hero">
-      <div class="hero-bg"></div>
+      <!--
+        VIDÉO HERO — Pour changer la vidéo :
+        1. Télécharger une vidéo gratuite sur pexels.com/search/videos/fashion
+        2. Uploader dans votre repo GitHub dans un dossier /videos/
+        3. Remplacer src="..." ci-dessous par le chemin : videos/votre-video.mp4
+        Vidéo de démonstration : Pexels ID 3795393 (femme robe élégante)
+      -->
+      <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&h=1000&fit=crop">
+        <source src="https://videos.pexels.com/video-files/3795393/3795393-hd_1280_720_25fps.mp4" type="video/mp4">
+        <!-- Fallback : image si la vidéo ne charge pas -->
+        <div class="hero-bg"></div>
+      </video>
       <div class="hero-grad"></div>
       <div class="hero-content">
         <p class="hero-eyebrow">Collection Printemps-Été 2026</p>
@@ -801,73 +889,23 @@
         <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
         <h2 class="sec-title">Summer Vibes</h2>
         <span class="sec-sub">Légèreté, couleur &amp; féminité solaire</span>
-        <p class="sec-desc">Des pièces qui capturent l'essence de l'été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente pour les boutiques prêt-à-porter, concept stores et boutiques de plage. Les best-sellers de votre devanture de juin à septembre.</p>
+        <p class="sec-desc">Des pièces qui capturent l'essence de l'été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente pour les boutiques prêt-à-porter, concept stores et boutiques de plage.</p>
       </div>
       <div class="sec-line"></div>
     </div>
-
-    <div class="prod-grid">
-
-      <!-- PHOTO-PRODUIT 1 — Remplacer src par photo Giorgia -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=660&fit=crop&crop=top"
-               alt="Robe légère broderie perles — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe légère broderie &amp; perles</h3>
-          <p class="prod-desc">Broderies florales et perles nacrées sur robe d'été fluide. Féminité absolue, finition premium.</p>
+    <div class="carousel-outer" data-carousel="summer">
+      <button class="car-btn car-btn-prev" onclick="carMove('summer',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="car-btn car-btn-next" onclick="carMove('summer', 1)" aria-label="Suivant">&#8594;</button>
+      <div class="carousel-clip">
+        <div class="carousel-track" id="track-summer">
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=660&fit=crop&crop=top" alt="Robe légère broderie perles" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe légère broderie &amp; perles</h3><p class="prod-desc">Broderies florales et perles nacrées. Féminité absolue, finition premium.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1496747611176-843222cd1bd0?w=500&h=660&fit=crop&crop=top" alt="Ensemble crochet été" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Ensemble été crochet zigzag</h3><p class="prod-desc">Haut bralette + jupe courte crochet. Le duo incontournable de la saison.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1539008835657-9e8e9680d956?w=500&h=660&fit=crop&crop=top" alt="Robe longue léopard" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe longue léopard</h3><p class="prod-desc">Imprimé animal sur coupe longue fluide. Pièce audacieuse et structurée.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1485968579580-ee4090fbe7e0?w=500&h=660&fit=crop&crop=top" alt="Robe bodycon col V" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe longue bodycon col V</h3><p class="prod-desc">Viscose stretch, coupe moulante. Beige, bleu, fuchsia. Rotation rapide.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&h=660&fit=crop&crop=top" alt="Robe dos nu fluide" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe dos nu fluide</h3><p class="prod-desc">Dos ouvert raffiné, matière légère drapée. Élégance naturelle pour l'été.</p></div></div>
         </div>
       </div>
-
-      <!-- PHOTO-PRODUIT 2 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1496747611176-843222cd1bd0?w=500&h=660&fit=crop&crop=top"
-               alt="Ensemble crochet été — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Ensemble été crochet zigzag</h3>
-          <p class="prod-desc">Haut bralette + jupe courte en crochet artisanal motif zigzag. Le duo incontournable de la saison.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 3 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680d956?w=500&h=660&fit=crop&crop=top"
-               alt="Robe longue léopard — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe longue léopard</h3>
-          <p class="prod-desc">Imprimé animal intemporel sur coupe longue fluide. La pièce audacieuse et structurée de l'été.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 4 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1485968579580-ee4090fbe7e0?w=500&h=660&fit=crop&crop=top"
-               alt="Robe bodycon col V — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe longue bodycon col V</h3>
-          <p class="prod-desc">Viscose stretch, coupe moulante flatteuse. Disponible en beige, bleu, fuchsia. Rotation rapide garantie.</p>
-        </div>
-      </div>
-
+      <div class="car-dots" id="dots-summer"></div>
     </div>
   </section>
 
@@ -883,7 +921,6 @@
     </div>
   </div>
 
-
   <!-- ==================== WORKING GIRL ==================== -->
   <section class="univ-sec" id="working">
     <div class="sec-hdr fade-up">
@@ -892,76 +929,25 @@
         <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
         <h2 class="sec-title">Working Girl</h2>
         <span class="sec-sub">Pouvoir, structure &amp; élégance moderne</span>
-        <p class="sec-desc">Pour la femme active qui refuse de choisir entre style et professionnalisme. Des pièces qui habillent avec autorité : tailleurs, corsages structurés, vestes soignées. Fort potentiel commercial pour les boutiques urbaines, concept stores et e-shops mode professionnelle.</p>
+        <p class="sec-desc">Pour la femme active qui refuse de choisir entre style et professionnalisme. Des pièces qui habillent avec autorité : tailleurs, corsages structurés, vestes soignées.</p>
       </div>
       <div class="sec-line"></div>
     </div>
-
-    <div class="prod-grid">
-
-      <!-- PHOTO-PRODUIT 6 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=500&h=660&fit=crop&crop=top"
-               alt="Corsage jacquard floral laçage — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Corsage jacquard floral laçage dos</h3>
-          <p class="prod-desc">Tissu jacquard floral soigné, laçage sophistiqué dans le dos. L'alliance parfaite du chic et du caractère.</p>
+    <div class="carousel-outer" data-carousel="working">
+      <button class="car-btn car-btn-prev" onclick="carMove('working',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="car-btn car-btn-next" onclick="carMove('working', 1)" aria-label="Suivant">&#8594;</button>
+      <div class="carousel-clip">
+        <div class="carousel-track" id="track-working">
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=500&h=660&fit=crop&crop=top" alt="Corsage jacquard floral" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Corsage jacquard floral laçage dos</h3><p class="prod-desc">Tissu jacquard floral, laçage sophistiqué dans le dos. Chic et caractère.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c37?w=500&h=660&fit=crop&crop=top" alt="Veste jean bi-matière" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Veste en jean bi-matière</h3><p class="prod-desc">Denim et matière contrastante, coupe ajustée. La veste bureau revisitée.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500&h=660&fit=crop&crop=top" alt="Robe mi-longue col bardot" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe mi-longue col bardot froncée</h3><p class="prod-desc">Moulante, fendue, col bardot intemporel. Du bureau au dîner.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1551537773-b646b7c4c38a?w=500&h=660&fit=crop&crop=top" alt="Veste casual structurée" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Veste casual structurée</h3><p class="prod-desc">Allure décontractée, silhouette professionnelle. Pièce polyvalente du dressing.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&h=660&fit=crop&crop=top" alt="Tailleur pantalon lin" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Tailleur pantalon lin</h3><p class="prod-desc">Lin premium deux pièces, coupe droite moderne. Autorité sans ostentation.</p></div></div>
         </div>
       </div>
-
-      <!-- PHOTO-PRODUIT 7 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4c37?w=500&h=660&fit=crop&crop=top"
-               alt="Veste jean bi-matière — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Veste en jean bi-matière</h3>
-          <p class="prod-desc">Association denim et matière contrastante. Coupe ajustée, finitions soignées — la veste bureau revisitée.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 8 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500&h=660&fit=crop&crop=top"
-               alt="Robe mi-longue col bardot — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe mi-longue col bardot froncée</h3>
-          <p class="prod-desc">Moulante, fendue, froncée avec classe. Col bardot intemporel. Du bureau au dîner en un seul vêtement.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 9 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1551537773-b646b7c4c38a?w=500&h=660&fit=crop&crop=top"
-               alt="Veste casual structurée — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Veste casual structurée</h3>
-          <p class="prod-desc">Allure décontractée, silhouette professionnelle. La pièce polyvalente indispensable de tout dressing moderne.</p>
-        </div>
-      </div>
-
+      <div class="car-dots" id="dots-working"></div>
     </div>
   </section>
-
 
   <!-- ==================== CHIC & SOIRÉE ==================== -->
   <section class="univ-sec" id="chic">
@@ -971,73 +957,23 @@
         <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
         <h2 class="sec-title">Chic &amp; Soirée</h2>
         <span class="sec-sub">Glamour, strass &amp; dentelle précieuse</span>
-        <p class="sec-desc">Quand l'élégance s'habille de nuit. Strass, satin, dentelle, bijoux floraux — des pièces à fort impact visuel pour les boutiques de soirée, de mariage et d'événementiel. Des robes qui racontent une histoire, et qui déclenchent l'achat au premier regard.</p>
+        <p class="sec-desc">Quand l'élégance s'habille de nuit. Strass, satin, dentelle, bijoux floraux — des pièces à fort impact visuel pour les boutiques de soirée, de mariage et d'événementiel.</p>
       </div>
       <div class="sec-line"></div>
     </div>
-
-    <div class="prod-grid">
-
-      <!-- PHOTO-PRODUIT 10 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1566479179817-c0a5a4ce5be3?w=500&h=660&fit=crop&crop=top"
-               alt="Robe longue asymétrique anneau doré — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe longue asymétrique anneau doré</h3>
-          <p class="prod-desc">Silhouette asymétrique, bas en dentelle raffinée, anneau doré signature. Chic absolu pour grandes occasions.</p>
+    <div class="carousel-outer" data-carousel="chic">
+      <button class="car-btn car-btn-prev" onclick="carMove('chic',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="car-btn car-btn-next" onclick="carMove('chic', 1)" aria-label="Suivant">&#8594;</button>
+      <div class="carousel-clip">
+        <div class="carousel-track" id="track-chic">
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1566479179817-c0a5a4ce5be3?w=500&h=660&fit=crop&crop=top" alt="Robe longue asymétrique anneau doré" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe longue asymétrique anneau doré</h3><p class="prod-desc">Dentelle raffinée, anneau doré signature. Chic absolu pour grandes occasions.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1544441893-675173072602?w=500&h=660&fit=crop&crop=top" alt="Combinaison flare bijou fleur" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Combinaison flare bijou fleur</h3><p class="prod-desc">Col bénitier, jambes évasées, bijou floral. Alternative chic à la robe soirée.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1503342217-1afd0b09b2cc?w=500&h=660&fit=crop&crop=top" alt="Robe mini dentelle col licou" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe mini noire dentelle col licou</h3><p class="prod-desc">Dentelle noire, col licou boutonné. Sensualité et sophistication maximale.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=500&h=660&fit=crop&crop=top" alt="Bustier crop top strass" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Bustier &amp; crop top strass</h3><p class="prod-desc">Strass full coverage, coupe courte structurée. Soirée tendance et cocktails.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1495385794356-15371f348c31?w=500&h=660&fit=crop&crop=top" alt="Robe mini sequin argenté" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe mini sequin argenté</h3><p class="prod-desc">Sequins scintillants, coupe courte évasée. L'éclat du soir pour boutiques fête.</p></div></div>
         </div>
       </div>
-
-      <!-- PHOTO-PRODUIT 11 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1544441893-675173072602?w=500&h=660&fit=crop&crop=top"
-               alt="Combinaison flare bijou fleur — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Combinaison flare bijou fleur</h3>
-          <p class="prod-desc">Col bénitier, jambes évasées, bijou floral en accent. L'alternative chic à la robe de soirée classique.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 12 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1503342217-1afd0b09b2cc?w=500&h=660&fit=crop&crop=top"
-               alt="Robe mini dentelle col licou — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe mini noire dentelle col licou</h3>
-          <p class="prod-desc">Dentelle noire, col licou boutonné devant. Sensualité contenue et sophistication maximale pour les soirées.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 13 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=500&h=660&fit=crop&crop=top"
-               alt="Bustier crop top strass — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Bustier &amp; crop top strass</h3>
-          <p class="prod-desc">Strass full coverage, coupe courte structurée. Pour les tenues soirée tendance, festival et cocktails.</p>
-        </div>
-      </div>
-
+      <div class="car-dots" id="dots-chic"></div>
     </div>
   </section>
 
@@ -1047,18 +983,14 @@
       <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top" alt="GIORGIA paris — Editorial">
     </div>
     <div class="ed-txt">
-      <div class="logo">
-        <span class="logo-g">GIORGIA</span>
-        <span class="logo-p">paris</span>
-      </div>
+      <div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
       <span class="sec-eye">Grossiste B2B · Partenaire depuis 2007</span>
       <h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>
-      <p>Basés à Aubervilliers, au cœur du triangle d'or du prêt-à-porter grossiste parisien, nous accompagnons les boutiques de mode partout en France et à l'international. Chaque collection est pensée pour la performance commerciale : des pièces qui tournent, des looks qui séduisent, des prix qui permettent de dégager de vraies marges.</p>
+      <p>Basés à Aubervilliers, au cœur du triangle d'or du prêt-à-porter grossiste parisien, nous accompagnons les boutiques de mode partout en France et à l'international. Chaque collection est pensée pour la performance commerciale.</p>
       <p>Rejoignez les centaines de revendeurs qui font confiance à GIORGIA paris chaque saison.</p>
       <a class="btn-ed" href="#contact">Devenir revendeur</a>
     </div>
   </div>
-
 
   <!-- ==================== BOHÈME ==================== -->
   <section class="univ-sec" id="boheme">
@@ -1068,76 +1000,25 @@
         <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
         <h2 class="sec-title">Bohème</h2>
         <span class="sec-sub">Fluidité, crochet &amp; âme libre</span>
-        <p class="sec-desc">L'esprit free spirit rencontre l'artisanat délicat : crochet, matières naturelles, silhouettes aériennes. Un univers riche qui attire une clientèle sensible au fait main, au naturel et à l'authenticité. Fort potentiel pour les boutiques lifestyle, concept stores et marchés premium.</p>
+        <p class="sec-desc">L'esprit free spirit rencontre l'artisanat délicat : crochet, matières naturelles, silhouettes aériennes. Fort potentiel pour les boutiques lifestyle, concept stores et marchés premium.</p>
       </div>
       <div class="sec-line"></div>
     </div>
-
-    <div class="prod-grid">
-
-      <!-- PHOTO-PRODUIT 14 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&h=660&fit=crop&crop=top"
-               alt="Robe maille crochet col V — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe maille crochet col V ajustée</h3>
-          <p class="prod-desc">Crochet artisanal, col V profond, coupe ajustée. L'essence du bohème chic revisité avec une élégance actuelle.</p>
+    <div class="carousel-outer" data-carousel="boheme">
+      <button class="car-btn car-btn-prev" onclick="carMove('boheme',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="car-btn car-btn-next" onclick="carMove('boheme', 1)" aria-label="Suivant">&#8594;</button>
+      <div class="carousel-clip">
+        <div class="carousel-track" id="track-boheme">
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&h=660&fit=crop&crop=top" alt="Robe maille crochet col V" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe maille crochet col V ajustée</h3><p class="prod-desc">Crochet artisanal, col V profond, coupe ajustée. Bohème chic revisité.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1514995428455-447d4443fa7f?w=500&h=660&fit=crop&crop=top" alt="La Robe Ondulée" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">La Robe Ondulée</h3><p class="prod-desc">Silhouette fluide en vague, tombé parfait. De jour comme de soir avec naturel.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1583396618422-a55c5e87f92f?w=500&h=660&fit=crop&crop=top" alt="Robe skater taille basse" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe skater taille basse ceinturée</h3><p class="prod-desc">Sans manches, ceinture assortie. La robe du quotidien à l'esprit libre.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500&h=660&fit=crop&crop=top" alt="Corset bohème" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Corset modèle bohème</h3><p class="prod-desc">Structure corset avec laçage, esprit bohémien revisité. Statement entre romantisme et modernité.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&h=660&fit=crop&crop=entropy" alt="Robe longue imprimée voile" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe longue imprimée voile</h3><p class="prod-desc">Voile de coton léger, imprimé ethnique. La robe de voyage qui traverse les saisons.</p></div></div>
         </div>
       </div>
-
-      <!-- PHOTO-PRODUIT 15 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1514995428455-447d4443fa7f?w=500&h=660&fit=crop&crop=top"
-               alt="La Robe Ondulée — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">La Robe Ondulée</h3>
-          <p class="prod-desc">Silhouette fluide en vague, tombé parfait. Une pièce poétique qui se porte de jour comme de soir avec naturel.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 16 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1583396618422-a55c5e87f92f?w=500&h=660&fit=crop&crop=top"
-               alt="Robe skater taille basse ceinturée — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe skater taille basse ceinturée</h3>
-          <p class="prod-desc">Sans manches, taille basse avec ceinture assortie. La robe du quotidien à l'esprit libre et légèrement coloré.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 17 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500&h=660&fit=crop&crop=top"
-               alt="Corset bohème — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Corset modèle bohème</h3>
-          <p class="prod-desc">Structure corset avec laçage, esprit bohémien revisité. La pièce statement entre romantisme et modernité.</p>
-        </div>
-      </div>
-
+      <div class="car-dots" id="dots-boheme"></div>
     </div>
   </section>
-
 
   <!-- ==================== CASUAL ==================== -->
   <section class="univ-sec" id="casual">
@@ -1147,75 +1028,26 @@
         <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
         <h2 class="sec-title">Casual Chic</h2>
         <span class="sec-sub">L'attitude au quotidien, sans effort apparent</span>
-        <p class="sec-desc">Le quotidien stylé : vestes en cuir à caractère, tops ornementés, looks urban-cool qui tournent en boutique. Ces pièces sont les moteurs de votre chiffre d'affaires — accessibles, désirables, polyvalentes. Elles habillent la cliente qui veut se sentir stylée à toute heure.</p>
+        <p class="sec-desc">Le quotidien stylé : vestes à caractère, tops ornementés, looks urban-cool qui tournent en boutique. Ces pièces sont les moteurs de votre chiffre d'affaires.</p>
       </div>
       <div class="sec-line"></div>
     </div>
-
-    <div class="prod-grid">
-
-      <!-- PHOTO-PRODUIT 18 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1551537773-b646b7c4c38a?w=500&h=660&fit=crop&crop=top"
-               alt="Veste motard cuir — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Veste de motard en cuir</h3>
-          <p class="prod-desc">Cuir souple, coupe moto structurée. La veste iconique qui donne du caractère à n'importe quelle tenue.</p>
+    <div class="carousel-outer" data-carousel="casual">
+      <button class="car-btn car-btn-prev" onclick="carMove('casual',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="car-btn car-btn-next" onclick="carMove('casual', 1)" aria-label="Suivant">&#8594;</button>
+      <div class="carousel-clip">
+        <div class="carousel-track" id="track-casual">
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1551537773-b646b7c4c38a?w=500&h=660&fit=crop&crop=top" alt="Veste motard cuir" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Veste de motard en cuir</h3><p class="prod-desc">Cuir souple, coupe moto structurée. La veste iconique qui caractérise chaque tenue.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&h=660&fit=crop&crop=top" alt="Débardeur côtelé franges strass" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Débardeur côtelé franges &amp; strass</h3><p class="prod-desc">Col carré, franges et strass. Confort côtelé avec touche glamour.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&h=660&fit=crop&crop=top" alt="Robe tube encolure cœur" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe longue tube encolure cœur</h3><p class="prod-desc">Tube moulant, encolure cœur graphique. Minimalisme chic et tendance.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1474941580058-66f5e1669e9a?w=500&h=660&fit=crop&crop=top" alt="Ensemble ciel de dentelle" loading="lazy"><div class="prod-badge">Pack</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Ensemble ciel de dentelle</h3><p class="prod-desc">Set deux pièces dentelle, tonalités douces et aériennes. Casual-romantique.</p></div></div>
+          <div class="prod-card"><div class="prod-img"><img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=500&h=660&fit=crop&crop=top" alt="Robe chemise oversize" loading="lazy"><div class="prod-badge">Nouveau</div><div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-info"><p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p><h3 class="prod-name">Robe chemise oversize tie-dye</h3><p class="prod-desc">Coupe oversized, motif tie-dye tendance. La robe casual de la saison.</p></div></div>
         </div>
       </div>
-
-      <!-- PHOTO-PRODUIT 19 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&h=660&fit=crop&crop=top"
-               alt="Débardeur côtelé franges strass — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Débardeur côtelé franges &amp; strass</h3>
-          <p class="prod-desc">Col carré, détails franges et strass. Confort côtelé avec touche glamour — casual et festif à la fois.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 20 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&h=660&fit=crop&crop=top"
-               alt="Robe tube encolure cœur — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Nouveau</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Robe longue tube encolure cœur</h3>
-          <p class="prod-desc">Tube moulant avec encolure cœur graphique. Minimalisme chic pour la femme confiante et tendance.</p>
-        </div>
-      </div>
-
-      <!-- PHOTO-PRODUIT 21 -->
-      <div class="prod-card fade-up">
-        <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1474941580058-66f5e1669e9a?w=500&h=660&fit=crop&crop=top"
-               alt="Ensemble ciel de dentelle — GIORGIA paris" loading="lazy">
-          <div class="prod-badge">Pack</div>
-          <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-        </div>
-        <div class="prod-info">
-          <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-          <h3 class="prod-name">Ensemble ciel de dentelle</h3>
-          <p class="prod-desc">Set deux pièces en dentelle délicate, tonalités douces et aériennes. L'ensemble casual-romantique de la saison.</p>
-        </div>
-      </div>
-
+      <div class="car-dots" id="dots-casual"></div>
     </div>
   </section>
+
 
 
   <!-- ==================== CONTACT ==================== -->
@@ -1258,7 +1090,7 @@
           </svg>
           <div>
             <span class="ci-label">Email</span>
-            <div class="ci-val"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
+            <div class="ci-val"><a href="/cdn-cgi/l/email-protection#d0b7b9bfa2b7b9b1e9e3e3e0e090b7bdb1b9bcfeb3bfbd"><span class="__cf_email__" data-cfemail="81e6e8eef3e6e8e0b8b2b2b1b1c1e6ece0e8edafe2eeec">[email&#160;protected]</span></a></div>
           </div>
         </li>
 
@@ -1342,7 +1174,7 @@
       <div class="foot-right">
         <div class="foot-addr">
           <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
-          <p>giorgia93300@gmail.com · +33 6 86 72 93 11</p>
+          <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d1a14120f1a141c444e4e4d4d3d1a101c1411531e1210">[email&#160;protected]</a> · +33 6 86 72 93 11</p>
         </div>
       </div>
 
@@ -1353,51 +1185,127 @@
   </footer>
 
   <script>
-    /* ---- SCROLL ANIMATIONS ---- */
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const cards = [...document.querySelectorAll('.prod-card')];
-          const delay = e.target.classList.contains('prod-card')
-            ? (cards.indexOf(e.target) % 4) * 90 : 0;
-          setTimeout(() => e.target.classList.add('vis'), delay);
-          io.unobserve(e.target);
-        }
+    /* =====================================================
+       CARROUSEL — logique partagée
+       Ajouter une carte  : copier un bloc .prod-card dans .carousel-track
+       Supprimer une carte: supprimer le bloc .prod-card
+       Changer une photo  : modifier src="..." dans la carte
+    ===================================================== */
+    const carState = {};
+
+    function visibleCards() {
+      if (window.innerWidth >= 900) return 4;
+      if (window.innerWidth >= 600) return 2;
+      return 1;
+    }
+
+    function initCarousel(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      if (!track) return;
+      const cards = track.querySelectorAll('.prod-card');
+      const total = cards.length;
+      const vc = visibleCards();
+      carState[id] = { pos: 0, total };
+
+      /* Dots */
+      const pages = Math.ceil(total / vc);
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'car-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => carGoTo(id, i));
+        dotsEl.appendChild(d);
+      }
+      carRender(id);
+
+      /* Swipe touch */
+      let startX = 0;
+      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50) carMove(id, dx < 0 ? 1 : -1);
       });
+      /* Mouse drag */
+      let mStartX = 0, dragging = false, mMoved = 0;
+      track.addEventListener('mousedown', e => { mStartX = e.clientX; dragging = true; mMoved = 0; track.classList.add('dragging'); });
+      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
+      window.addEventListener('mouseup', () => {
+        if (dragging) { if (Math.abs(mMoved) > 50) carMove(id, mMoved < 0 ? 1 : -1); dragging = false; track.classList.remove('dragging'); }
+      });
+    }
+
+    function carMove(id, dir) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(Math.max(0, s.pos + dir), Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carGoTo(id, page) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(page * vc, Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carRender(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!track || !s) return;
+      const vc = visibleCards();
+      const gap = 22;
+      const wrapW = track.parentElement.offsetWidth;
+      const cardW = (wrapW - gap * (vc - 1)) / vc;
+      track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
+
+      const wrap = track.closest('.carousel-wrap');
+      if (wrap) {
+        const btnPrev = wrap.querySelector('.car-btn-prev');
+        const btnNext = wrap.querySelector('.car-btn-next');
+        if (btnPrev) btnPrev.classList.toggle('disabled', s.pos <= 0);
+        if (btnNext) btnNext.classList.toggle('disabled', s.pos >= s.total - vc);
+      }
+      if (dotsEl) {
+        const curPage = Math.min(Math.floor(s.pos / vc), dotsEl.children.length - 1);
+        [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === curPage));
+      }
+    }
+
+    const carouselIds = ['summer', 'working', 'chic', 'boheme', 'casual'];
+    window.addEventListener('load', () => carouselIds.forEach(initCarousel));
+    window.addEventListener('resize', () => carouselIds.forEach(id => { if (carState[id]) { carState[id].pos = 0; initCarousel(id); } }));
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.fade-up, .prod-card').forEach(el => io.observe(el));
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 
     /* ---- ACTIVE UNIVERS TAB ---- */
     const sections = document.querySelectorAll('section[id]');
     const tabs = document.querySelectorAll('.utab');
-    const secIO = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id));
-        }
-      });
+    const secIO = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
     }, { threshold: 0.3 });
     sections.forEach(s => secIO.observe(s));
 
     /* ---- NAVBAR SCROLL ---- */
     const nav = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    });
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
 
     /* ---- MOBILE MENU ---- */
     function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
     function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
 
     /* ---- STICKY CONTACT PANEL ---- */
-    function toggleSticky() {
-      document.getElementById('sticky-contact').classList.toggle('open');
-    }
-    document.addEventListener('click', (e) => {
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
       const sc = document.getElementById('sticky-contact');
-      if (sc.classList.contains('open') && !sc.contains(e.target)) {
-        sc.classList.remove('open');
-      }
+      if (sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
   </script>
 </body>
