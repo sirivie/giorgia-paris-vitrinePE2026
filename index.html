@@ -1187,7 +1187,7 @@
   <script>
     /* =====================================================
        CARROUSEL — logique partagée
-       Ajouter une carte  : copier un bloc .prod-card dans .carousel-track
+       Ajouter une carte  : copier un .prod-card dans .carousel-track
        Supprimer une carte: supprimer le bloc .prod-card
        Changer une photo  : modifier src="..." dans la carte
     ===================================================== */
@@ -1199,17 +1199,50 @@
       return 1;
     }
 
+    /* initCarousel — appelé UNE seule fois par carrousel au chargement */
     function initCarousel(id) {
       const track = document.getElementById('track-' + id);
       const dotsEl = document.getElementById('dots-' + id);
       if (!track) return;
-      const cards = track.querySelectorAll('.prod-card');
-      const total = cards.length;
-      const vc = visibleCards();
+
+      const total = track.querySelectorAll('.prod-card').length;
       carState[id] = { pos: 0, total };
 
-      /* Dots */
-      const pages = Math.ceil(total / vc);
+      buildDots(id);
+      carRender(id);
+
+      /* Touch — listeners attachés une seule fois */
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        /* Seuil 40px, avance d'UNE carte à la fois */
+        if (Math.abs(dx) > 40) carMove(id, dx < 0 ? 1 : -1);
+      }, { passive: true });
+
+      /* Mouse drag (desktop) */
+      let mStartX = 0, dragging = false, mMoved = 0;
+      track.addEventListener('mousedown', e => {
+        mStartX = e.clientX; dragging = true; mMoved = 0;
+        track.classList.add('dragging'); e.preventDefault();
+      });
+      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
+      window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        if (Math.abs(mMoved) > 40) carMove(id, mMoved < 0 ? 1 : -1);
+        dragging = false; track.classList.remove('dragging');
+      });
+    }
+
+    /* buildDots — reconstruit les dots (appelé aussi sur resize) */
+    function buildDots(id) {
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!dotsEl || !s) return;
+      const pages = Math.ceil(s.total / visibleCards());
       dotsEl.innerHTML = '';
       for (let i = 0; i < pages; i++) {
         const d = document.createElement('button');
@@ -1217,24 +1250,9 @@
         d.addEventListener('click', () => carGoTo(id, i));
         dotsEl.appendChild(d);
       }
-      carRender(id);
-
-      /* Swipe touch */
-      let startX = 0;
-      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-      track.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - startX;
-        if (Math.abs(dx) > 50) carMove(id, dx < 0 ? 1 : -1);
-      });
-      /* Mouse drag */
-      let mStartX = 0, dragging = false, mMoved = 0;
-      track.addEventListener('mousedown', e => { mStartX = e.clientX; dragging = true; mMoved = 0; track.classList.add('dragging'); });
-      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
-      window.addEventListener('mouseup', () => {
-        if (dragging) { if (Math.abs(mMoved) > 50) carMove(id, mMoved < 0 ? 1 : -1); dragging = false; track.classList.remove('dragging'); }
-      });
     }
 
+    /* carMove — avance ou recule d'UNE seule carte */
     function carMove(id, dir) {
       const s = carState[id];
       if (!s) return;
@@ -1262,12 +1280,10 @@
       const cardW = (wrapW - gap * (vc - 1)) / vc;
       track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
 
-      const wrap = track.closest('.carousel-wrap');
+      const wrap = track.closest('.carousel-outer');
       if (wrap) {
-        const btnPrev = wrap.querySelector('.car-btn-prev');
-        const btnNext = wrap.querySelector('.car-btn-next');
-        if (btnPrev) btnPrev.classList.toggle('disabled', s.pos <= 0);
-        if (btnNext) btnNext.classList.toggle('disabled', s.pos >= s.total - vc);
+        wrap.querySelector('.car-btn-prev')?.classList.toggle('disabled', s.pos <= 0);
+        wrap.querySelector('.car-btn-next')?.classList.toggle('disabled', s.pos >= s.total - vc);
       }
       if (dotsEl) {
         const curPage = Math.min(Math.floor(s.pos / vc), dotsEl.children.length - 1);
@@ -1275,9 +1291,20 @@
       }
     }
 
-    const carouselIds = ['summer', 'working', 'chic', 'boheme', 'casual'];
-    window.addEventListener('load', () => carouselIds.forEach(initCarousel));
-    window.addEventListener('resize', () => carouselIds.forEach(id => { if (carState[id]) { carState[id].pos = 0; initCarousel(id); } }));
+    /* Resize : recalcule sans réattacher les listeners */
+    function onResize() {
+      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+        if (!carState[id]) return;
+        carState[id].pos = 0;
+        buildDots(id);
+        carRender(id);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(initCarousel);
+    });
+    window.addEventListener('resize', onResize);
 
     /* ---- SCROLL ANIMATIONS ---- */
     const io = new IntersectionObserver(entries => {
