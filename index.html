@@ -144,12 +144,9 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&h=1000&fit=crop&crop=center') center top / cover no-repeat;
-      filter: brightness(.65);
-      transform: scale(1.04);
-      transition: transform 10s var(--ease);
+      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg') center center / cover no-repeat;
+      filter: brightness(.62);
     }
-    #hero:hover .hero-bg { transform: scale(1.0); }
     .hero-grad {
       position: absolute; inset: 0;
       background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
@@ -157,21 +154,38 @@
     .hero-content {
       position: relative; z-index: 2;
       padding: 0 4rem; max-width: 680px;
+      /* Empêche tout débordement horizontal sur mobile */
+      box-sizing: border-box;
+      width: 100%;
     }
     .hero-eyebrow {
       font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
       color: var(--gold-lt); margin-bottom: 1.4rem;
     }
-    .hero-logo .logo-g { font-size: clamp(2.8rem,7vw,5.5rem); color: var(--white); letter-spacing: .5em; padding-left: .25em; }
-    .hero-logo .logo-p { font-size: clamp(.9rem,1.6vw,1.4rem); color: var(--gold-lt); letter-spacing: .9em; }
+    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
+    .hero-logo .logo-g {
+      font-size: clamp(2rem, 10vw, 5.5rem);
+      color: var(--white);
+      letter-spacing: clamp(.15em, 1.5vw, .5em);
+      padding-left: clamp(.05em, .8vw, .25em);
+      display: block; word-break: keep-all; white-space: nowrap;
+      overflow: visible;
+    }
+    .hero-logo .logo-p {
+      font-size: clamp(.7rem, 2vw, 1.4rem);
+      color: var(--gold-lt);
+      letter-spacing: clamp(.3em, 2vw, .9em);
+    }
     .hero-tagline {
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: clamp(1.1rem,2vw,1.5rem); color: rgba(255,255,255,.82);
+      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
       line-height: 1.65; margin: 1.3rem 0 .5rem;
     }
     .hero-sub {
-      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      font-size: clamp(.56rem, 1.5vw, .68rem); letter-spacing: .12em; text-transform: uppercase;
       color: rgba(255,255,255,.48); margin-bottom: 2.2rem;
+      /* Autorise le retour à la ligne sur mobile */
+      white-space: normal; line-height: 1.7;
     }
     .btn-hero-p {
       display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
@@ -211,7 +225,7 @@
     }
 
     @media(max-width:768px) {
-      .hero-content { padding: 0 1.5rem; }
+      .hero-content { padding: 0 1.4rem; }
     }
 
     /* ===================== INTRO STRIP ===================== */
@@ -611,15 +625,25 @@
     /* ===================== CARROUSEL PRODUITS ===================== */
     /*
       GUIDE CARROUSEL :
-      - Ajouter une carte  → copier un bloc .prod-card dans .carousel-track
-      - Supprimer une carte → supprimer le bloc .prod-card concerné
-      - Modifier une photo  → changer src="..." dans la carte
+      - Ajouter une carte  → copier un .prod-card dans .carousel-track
+      - Supprimer une carte: supprimer le bloc .prod-card
+      - Changer une photo  : modifier src="..." dans la carte
     */
     .carousel-outer {
       position: relative;
     }
-    /* Les flèches sont hors du clip, on gère ça avec padding */
+    /* Sur desktop : on laisse dépasser ~60px à droite pour le peek du 5e bloc */
     .carousel-clip {
+      overflow: hidden;
+      /* Masque à gauche/haut/bas mais laisse voir un aperçu à droite */
+      clip-path: inset(0 -1px 0 0); /* annulé — on utilise le padding-right trick */
+    }
+    /* Le clip réel : on déborde légèrement à droite */
+    .univ-sec .carousel-outer {
+      margin-right: -3.5rem; /* annule le padding de la section côté droit */
+    }
+    .univ-sec .carousel-clip {
+      padding-right: 3.5rem; /* rétablit l'espace pour que les cartes soient bien alignées */
       overflow: hidden;
     }
     .carousel-track {
@@ -630,11 +654,12 @@
       cursor: grab;
     }
     .carousel-track.dragging { cursor: grabbing; transition: none; }
+    /* Desktop : 4 cartes + peek du 5e (~60px visible) */
     .carousel-track .prod-card {
-      flex: 0 0 calc(25% - 1.05rem);
+      flex: 0 0 calc(25% - 1.4rem * 3/4 - 15px);
       min-width: 0;
     }
-    /* Boutons flèche — dans le flux, au dessus */
+    /* Boutons flèche */
     .car-btn {
       position: absolute; top: 38%; transform: translateY(-50%);
       z-index: 10; background: var(--black); color: var(--white);
@@ -661,11 +686,19 @@
     .car-dot.active { background: var(--black); transform: scale(1.4); }
 
     @media(max-width:900px) {
+      /* Sur tablette/mobile : on annule l'effet peek desktop */
+      .univ-sec .carousel-outer { margin-right: 0; }
+      .univ-sec .carousel-clip { padding-right: 0; overflow: hidden; }
+      /* 2 cartes visibles sur tablette */
       .carousel-track .prod-card { flex: 0 0 calc(50% - .7rem); }
       .car-btn { display: none; }
     }
     @media(max-width:600px) {
-      .carousel-track .prod-card { flex: 0 0 78%; }
+      /* Mobile : 1 carte pleine largeur, calée à gauche à chaque slide */
+      .carousel-track .prod-card {
+        flex: 0 0 calc(100% - 2.8rem); /* laisse 2.8rem visible à droite = hint de la carte suivante */
+        scroll-snap-align: start;
+      }
       .carousel-track { gap: 1rem; }
     }
 
@@ -822,17 +855,11 @@
   <section id="top">
     <div id="hero">
       <!--
-        VIDÉO HERO — Pour changer la vidéo :
-        1. Télécharger une vidéo gratuite sur pexels.com/search/videos/fashion
-        2. Uploader dans votre repo GitHub dans un dossier /videos/
-        3. Remplacer src="..." ci-dessous par le chemin : videos/votre-video.mp4
-        Vidéo de démonstration : Pexels ID 3795393 (femme robe élégante)
+        IMAGE HERO — Pour changer l'image :
+        Remplacer l'URL dans .hero-bg (dans le CSS en haut)
+        ou uploader une photo dans /images/ sur GitHub et écrire : url('images/votre-photo.jpg')
       -->
-      <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&h=1000&fit=crop">
-        <source src="https://videos.pexels.com/video-files/3795393/3795393-hd_1280_720_25fps.mp4" type="video/mp4">
-        <!-- Fallback : image si la vidéo ne charge pas -->
-        <div class="hero-bg"></div>
-      </video>
+      <div class="hero-bg"></div>
       <div class="hero-grad"></div>
       <div class="hero-content">
         <p class="hero-eyebrow">Collection Printemps-Été 2026</p>
@@ -1275,9 +1302,15 @@
       const s = carState[id];
       if (!track || !s) return;
       const vc = visibleCards();
-      const gap = 22;
-      const wrapW = track.parentElement.offsetWidth;
-      const cardW = (wrapW - gap * (vc - 1)) / vc;
+
+      /* Mesure la vraie largeur d'une carte + gap depuis le DOM */
+      const firstCard = track.querySelector('.prod-card');
+      if (!firstCard) return;
+      const cardW  = firstCard.getBoundingClientRect().width;
+      const styles = getComputedStyle(track);
+      const gap    = parseFloat(styles.gap) || 22;
+
+      /* translateX : la carte de gauche doit toujours être calée au bord gauche du clip */
       track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
 
       const wrap = track.closest('.carousel-outer');
