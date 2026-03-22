@@ -550,7 +550,7 @@
       writing-mode: vertical-rl;
       text-orientation: mixed;
       transform: rotate(180deg);
-      background: var(--black); color: var(--white);
+      background: var(--gold); color: var(--black);
       font-family: var(--ff-logo);
       font-size: .52rem; letter-spacing: .06em; text-transform: uppercase;
       /* .5rem = largeur (haut/bas en CSS) | .3rem = hauteur des bords (gauche/droite en CSS) */
@@ -561,7 +561,7 @@
       display: flex; align-items: center; justify-content: center; gap: .35rem;
       white-space: nowrap;
     }
-    #sticky-tab:hover { background: var(--gold); color: var(--black); }
+    #sticky-tab:hover { background: var(--black); color: var(--white); }
     #sticky-tab .tab-icon {
       writing-mode: horizontal-tb;
       transform: rotate(90deg);
@@ -655,7 +655,8 @@
 
     /* 4 cartes visibles sur desktop */
     .carousel-track .prod-card {
-      flex: 0 0 calc((100% - 1.4rem * 3) / 4);
+      /* 4 cartes visibles + ~60px de peek sur la 5e à droite */
+      flex: 0 0 calc((100% - 1.4rem * 3) / 4 - 15px);
       min-width: 0;
     }
 
