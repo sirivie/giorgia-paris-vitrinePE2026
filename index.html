@@ -569,15 +569,6 @@
       line-height: 1;
     }
 
-    /* Desktop uniquement : onglet un peu plus large */
-    @media(min-width:769px) {
-      #sticky-tab {
-        padding: .5rem .55rem;
-        font-size: .72rem;
-        letter-spacing: .1em;
-      }
-    }
-
     /* Panneau dépliable — inchangé quand ouvert */
     #sticky-panel {
       background: var(--charcoal);
@@ -747,7 +738,7 @@
         </a>
 
         <!-- Email -->
-        <a class="sp-row" href="/cdn-cgi/l/email-protection#d0b7b9bfa2b7b9b1e9e3e3e0e090b7bdb1b9bcfeb3bfbd">
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
           <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#C5A36A"/>
             <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
@@ -755,7 +746,7 @@
           </svg>
           <div class="sp-info">
             <span class="sp-lbl">Email</span>
-            <span class="sp-val"><span class="__cf_email__" data-cfemail="f4939d9b86939d95cdc7c7c4c4b49399959d98da979b99">[email&#160;protected]</span></span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
           </div>
         </a>
 
@@ -1393,7 +1384,7 @@
           </svg>
           <div>
             <span class="ci-label">Email</span>
-            <div class="ci-val"><a href="/cdn-cgi/l/email-protection#3057595f42575951090303000070575d51595c1e535f5d"><span class="__cf_email__" data-cfemail="a5c2cccad7c2ccc49c96969595e5c2c8c4ccc98bc6cac8">[email&#160;protected]</span></a></div>
+            <div class="ci-val"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
           </div>
         </li>
 
@@ -1477,7 +1468,7 @@
       <div class="foot-right">
         <div class="foot-addr">
           <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
-          <p><a href="/cdn-cgi/l/email-protection#7a1d1315081d131b4349494a4a3a1d171b131654191517"><span class="__cf_email__" data-cfemail="bbdcd2d4c9dcd2da8288888b8bfbdcd6dad2d795d8d4d6">[email&#160;protected]</span></a> · +33 6 86 72 93 11</p>
+          <p><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a> · +33 6 86 72 93 11</p>
         </div>
       </div>
 
@@ -1487,7 +1478,7 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     /* =====================================================
        CARROUSEL — logique partagée
        Ajouter une carte  : copier un .prod-card dans .carousel-track
@@ -1634,4 +1625,15 @@
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
 
     /* ---- MOBILE MENU ---- */
-    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.sty
+    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    /* ---- STICKY CONTACT PANEL ---- */
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
+      const sc = document.getElementById('sticky-contact');
+      if (sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
