@@ -1637,4 +1637,15 @@
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
 
     /* ---- MOBILE MENU ---- */
-    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.sty
+    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    /* ---- STICKY CONTACT PANEL ---- */
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
+      const sc = document.getElementById('sticky-contact');
+      if (sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
