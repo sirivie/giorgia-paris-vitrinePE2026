@@ -644,12 +644,7 @@
     }
 
     /* ===================== CARROUSEL PRODUITS ===================== */
-    /*
-      GUIDE CARROUSEL :
-      - Ajouter une carte  → copier un .prod-card dans .carousel-track
-      - Supprimer une carte: supprimer le bloc .prod-card
-      - Changer une photo  : modifier src="..." dans la carte
-    */
+    /* Les cartes sont injectées depuis Airtable (script en bas de page). */
     .carousel-outer {
       position: relative;
     }
@@ -709,8 +704,30 @@
       .carousel-track { gap: 1rem; }
     }
 
-      .carousel-track { gap: 1rem; }
+    /* Grille Airtable : les cartes restent des flex items du .carousel-track */
+    .catalog-grid-root { display: contents; }
+
+    .catalog-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      background: rgba(246,241,234,.88);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      transition: opacity .35s var(--ease), visibility .35s;
     }
+    .catalog-loading.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .carousel-clip { position: relative; }
 
     /* ===================== SCROLL ANIMATIONS ===================== */
     .fade-up {
@@ -732,22 +749,6 @@
           <span class="logo-p">paris</span>
         </div>
         <p class="sp-title">Contactez notre équipe B2B</p>
-
-        <!-- Notre site -->
-        <a class="sp-row" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
-            <circle cx="12" cy="12" r="7" stroke="white" stroke-width="1.5" fill="none"/>
-            <ellipse cx="12" cy="12" rx="3.5" ry="7" stroke="white" stroke-width="1.2" fill="none"/>
-            <line x1="5" y1="12" x2="19" y2="12" stroke="white" stroke-width="1.3"/>
-            <line x1="6.5" y1="8" x2="17.5" y2="8" stroke="white" stroke-width="1.1"/>
-            <line x1="6.5" y1="16" x2="17.5" y2="16" stroke="white" stroke-width="1.1"/>
-          </svg>
-          <div class="sp-info">
-            <span class="sp-lbl">Notre site</span>
-            <span class="sp-val">parisfashionshops.com</span>
-          </div>
-        </a>
 
         <!-- Email -->
         <a class="sp-row" href="mailto:giorgia93300@gmail.com">
@@ -934,139 +935,9 @@
       <button class="car-btn car-btn-prev" onclick="carMove('summer',-1)" aria-label="Précédent">&#8592;</button>
       <button class="car-btn car-btn-next" onclick="carMove('summer', 1)" aria-label="Suivant">&#8594;</button>
       <div class="carousel-clip">
+        <p class="catalog-loading" id="loading-summer" role="status">Chargement du catalogue…</p>
         <div class="carousel-track" id="track-summer">
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://github.com/sirivie/giorgia-paris-vitrinePE2026/blob/images/Body%20type%20corset%20ceinture%20longue.jpg?raw=true" alt="Body bustier ceinture longue — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Body bustier ceinture longue</h3>
-              <p class="prod-desc">Ce body bustier donnera son meilleur effet le long des plage avec sa ceinture longue.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_381dd24f4c4179f53e158baf9cab/robe-longue-asymetrique-a-volants_jaune_69c10737eed95.jpg" alt="Robe Longue Asymétrique à Volants — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe Longue Asymétrique à Volants</h3>
-              <p class="prod-desc">Robe Longue Asymétrique à Volants, idéale pour la saison printemps/été.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://raw.githubusercontent.com/sirivie/giorgia-paris-vitrinePE2026/refs/heads/images/D%C3%A9bardeur%20rose%20type%20corset.jpg" alt="Débardeur rose type corset — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Débardeur rose type corset</h3>
-              <p class="prod-desc">Débardeur rose type corset, pour un style chic en été.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_8936b61e0033593b223d05c0cfc6/robe_jaune-clair_69b030619b269.jpg" alt="Sortie de Bain à Volants — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Sortie de Bain à Volants</h3>
-              <p class="prod-desc">Sortie de Bain à Volants, légère et respirante, idéale pour les beaux jours.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/tops/pro_f70411c439e95ce2bc85248db8d9/haut-de-maillot-body-en-dentelle-avec-decoration-central_noir_69c14f8b35e1f.jpg" alt="Body en Dentelle avec Décoration Central — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Body en Dentelle avec Décoration Central</h3>
-              <p class="prod-desc">Une pièce séduisante pour vos clientes avec ce haut-body en dentelle, parfait pour la saison estivale. </p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://raw.githubusercontent.com/sirivie/giorgia-paris-vitrinePE2026/refs/heads/images/Top%20sans%20manche%20fermeture%20noeud%20papillon%20dos%20nus.jpg" alt="Top sans manche fermeture noeud papillon dos nus — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Top sans manche fermeture noeud papillon dos nus</h3>
-              <p class="prod-desc">Ce top sans manchera vous donnera le meilleur effet avec sa fermeture noeud papillon au cou et un dos ouvert.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://raw.githubusercontent.com/sirivie/giorgia-paris-vitrinePE2026/refs/heads/images/D%C3%A9bardeur%20jaune%20%C3%A0%20pois%20et%20dentelle.jpg" alt="Débardeur jaune à pois et dentelle — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Débardeur jaune à pois et dentelle</h3>
-              <p class="prod-desc">Débardeur jaune à pois et dentelle, léger et confortable, parfait pour les sorties printanières.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/ensembles/pro_ab3878c00e150b194bff7988c44c/ensemble-ete-femme-en-crochet-haut-bralette-et-jupe-courte-motif-zigza_bleu-roi_69a94bee227c7.jpg" alt="Ensemble crochet été — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Ensemble été crochet </h3>
-              <p class="prod-desc">Haut bralette + jupe courte crochet en motif zigzag. Le duo incontournable de la saison.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/tops/pro_964809fb848497174febf0933513/top_dore_69bd0c5da1c9f.jpg" alt="Top Bustier Corset Jacquard Marbré — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Top Bustier Corset Jacquard Marbré</h3>
-              <p class="prod-desc">Ce top bustier accompagnera les meilleurs balades estivales avec style grâce à son laçage dorsal élégant.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_3906cd42c7c8238693c7a58b3ad2/robe_brun-fonce_699ebd2dc4b93.jpg" alt="Robe de plage longue au crochet — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe de plage longue au crochet</h3>
-              <p class="prod-desc">Robe longue en crochet 100% coton, idéale pour les plages printanières, collection Été 2026.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_45ba17f191b004be1a99c222e1ee/robe_noir_69bbca4c01a6f.jpg" alt="Robe longue asymétrique — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe longue asymétrique</h3>
-              <p class="prod-desc">Robe longue asymétrique chic, avec anneau doré et dentelle élégante.</p>
-            </div>
-          </a>
+          <div id="grid-summer" class="catalog-grid-root"></div>
         </div>
       </div>
       <div class="car-dots" id="dots-summer"></div>
@@ -1100,91 +971,9 @@
       <button class="car-btn car-btn-prev" onclick="carMove('working',-1)" aria-label="Précédent">&#8592;</button>
       <button class="car-btn car-btn-next" onclick="carMove('working', 1)" aria-label="Suivant">&#8594;</button>
       <div class="carousel-clip">
+        <p class="catalog-loading" id="loading-working" role="status">Chargement du catalogue…</p>
         <div class="carousel-track" id="track-working">
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/vestes/pro_b01a1773493c7928c514037733cd/veste-courte-en-suedine_kaki_69a07a00cbc7f.jpg" alt="Veste Courte en Suédine — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Veste Courte en Suédine</h3>
-              <p class="prod-desc">Veste Courte en Suédine, légère et élégante, idéale pour les soirées fraîches.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_3ef3b1b1524ee3f07e1b3f4cdd8d/robe-longue-en-maille-cotelee_brun-fonce_69b566d46e998.jpg" alt="Robe Longue en Maille Côtelée — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe Longue en Maille Côtelée</h3>
-              <p class="prod-desc">Robe féminine printanière, légère et fluide pour un confort optimal.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/tops/pro_5135a565d7e37297303cbc02cee7/huat_noir_69c118982f9b0.jpg" alt="Top Débardeur Chic — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Top Débardeur Chic</h3>
-              <p class="prod-desc">Ce top débardeur chic à imprimé en chaînes géométriques de style parisien saura plaire et incarné parfaitement le style à la française.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://github.com/sirivie/giorgia-paris-vitrinePE2026/blob/images/Body%20velour%20bretelle%20dentelle.jpg?raw=true" alt="Body velour bretelle dentelle — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Body velour bretelle dentelle</h3>
-              <p class="prod-desc">Ce body en velour avec ces bretelle en dentelle allie confort et séduction, avec une touche de féminité raffinée.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/pulls/pro_6b1bf0a788147e96b911abd74272/pull-cardigan-femme_noir_6990fbf4800bf.jpg" alt="Pull Cardigan — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Pull Cardigan</h3>
-              <p class="prod-desc">Cardigan doux et chaud. Idéal en toute circonstance, du bureau au dîner.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://raw.githubusercontent.com/sirivie/giorgia-paris-vitrinePE2026/refs/heads/images/Ensemble%20tshirt%20et%20robe%20longue%20noire.jpg" alt="Ensemble t-shirt et robe longue noire — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Ensemble t-shirt et robe longue noire</h3>
-              <p class="prod-desc">Cet ensemble t-shirt et robe longue offrira un style affirmé et décontracté pour une allure féminine en toute circonstance.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/vestes/pro_f1de9ef7c6f614b7936193970f03/veste_brun-fonce_69a06ded8efec.jpg" alt="Veste mi-saison — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Veste mi-saison</h3>
-              <p class="prod-desc">Veste de mi-saison élégante pour un style urbain au quotidien.</p>
-            </div>
-          </a>
+          <div id="grid-working" class="catalog-grid-root"></div>
         </div>
       </div>
       <div class="car-dots" id="dots-working"></div>
@@ -1206,102 +995,9 @@
       <button class="car-btn car-btn-prev" onclick="carMove('chic',-1)" aria-label="Précédent">&#8592;</button>
       <button class="car-btn car-btn-next" onclick="carMove('chic', 1)" aria-label="Suivant">&#8594;</button>
       <div class="carousel-clip">
+        <p class="catalog-loading" id="loading-chic" role="status">Chargement du catalogue…</p>
         <div class="carousel-track" id="track-chic">
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://github.com/sirivie/giorgia-paris-vitrinePE2026/blob/images/Robe%20motif%20dentelle%20floral%20blanc.jpg?raw=true" alt="Robe motif dentelle florale — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe motif dentelle floral</h3>
-              <p class="prod-desc">Robe blanche avec motif en dentelle florale, pour un style léger et décontracté lors des soirées estivales.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_339d400645e61a8424b9c6626bbd/robe-longue-de-soiree-drapee-avec-anneau-dore-style-riviera_noir_69bd501806cc3.jpg" alt="Robe Longue de Soirée Drapée avec Anneau Doré - Style Riviera — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe Longue de Soirée Drapée avec Anneau Doré - Style Riviera</h3>
-              <p class="prod-desc">Robe longue drapée détail anneau doré, idéale pour les soirées élégantes d'été.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_f4c0df2ffb4e27936332434cee93/robe_blush_69b0356302d9a.jpg" alt="La Robe Ondulée — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">La Robe Ondulée</h3>
-              <p class="prod-desc">Robe Ondulée, légère pour l'été, parfaite pour la saison chaude.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://github.com/sirivie/giorgia-paris-vitrinePE2026/blob/images/Robe%20pliss%C3%A9e%20beige%20triple%20ceinture%20ventral.jpg?raw=true" alt="Robe plissée beige triple ceinture ventral — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouvelle Collection</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe plissée beige triple ceinture ventral</h3>
-              <p class="prod-desc">Robe Ondulée, légère pour l'été, parfaite pour la saison chaude.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_38df41e5ff0eeb84da6db394fad8/robe_bordeaux_69a05f18be29d.jpg" alt="Robe skater sans manches à taille basse ceinturée — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe skater sans manches à taille basse ceinturée</h3>
-              <p class="prod-desc">Robe skater légère, sans manche ceinturée à la taille, parfait pour une allure chic et confortable.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/robes/pro_15d43ce8bdd61ef767a03f200f13/robe_noir_69989a0507a38.jpg" alt="Robe Noire Courte Froncée Col Bardot — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Robe Noire Courte Froncée Col Bardot</h3>
-              <p class="prod-desc">Robe noire courte et froncée, col Bardot, idéale pour les soirée tendance et cocktails printaniers.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://raw.githubusercontent.com/sirivie/giorgia-paris-vitrinePE2026/refs/heads/images/Body%20avec%20manches%20motif%20carreaux%20damier%20et%20losange.jpg" alt="Body manche longue motif damier — GIORGIA paris" loading="lazy">
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Body manche longue motif damier</h3>
-              <p class="prod-desc">Body manche longue avec un motif damier chic pour la saison printemps été.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/ensembles/pro_656d90dc81aa94c38e7612617340/ensemble-noir-sans-manches-elegant-et-decontracte_noir_69b29af07ce22.jpg" alt="Ensemble Noir Sans Manches Élégant et Décontracté — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Ensemble Noir Sans Manches Élégant et Décontracté</h3>
-              <p class="prod-desc">Ensemble noir sans manches, pour un style élégant et décontracté en soirée.</p>
-            </div>
-          </a>
+          <div id="grid-chic" class="catalog-grid-root"></div>
         </div>
       </div>
       <div class="car-dots" id="dots-chic"></div>
@@ -1338,84 +1034,15 @@
       <button class="car-btn car-btn-prev" onclick="carMove('boheme',-1)" aria-label="Précédent">&#8592;</button>
       <button class="car-btn car-btn-next" onclick="carMove('boheme', 1)" aria-label="Suivant">&#8594;</button>
       <div class="carousel-clip">
+        <p class="catalog-loading" id="loading-boheme" role="status">Chargement du catalogue…</p>
         <div class="carousel-track" id="track-boheme">
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/tops/pro_c5530c5bc8944017730d4a9311b5/veste-en-crochrt_brun-fonce_699590f92eeca.jpg" alt="VESTE EN CROCHET — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Veste en crochet</h3>
-              <p class="prod-desc">Veste en crochet 100% coton, pour un look moderne et décontracté.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/ensembles/pro_b4820cd82b5c7af09b84f7f91a24/ensemble_noir_699d712a4af07.jpg" alt="Ensemble Chemise et Short en Broderie Anglaise Noir — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Ensemble Chemise et Short en Broderie</h3>
-              <p class="prod-desc">Ensemble Chemise et Short en Broderie Anglaise Noir.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/ensembles/pro_95b9f91089aed93e7ca86a458635/ensemble_blanc_69b418ea9a068.jpg" alt="Set de Plage en Crochet Boho — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Set de Plage en Crochet Boho</h3>
-              <p class="prod-desc">Parfait pour l'été, ce set de plage boho, léger et respirant, apporte une touche chic à vos sorties estivales.</p>
-            </div>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/gilets/pro_dec612d14d1672d0020f4b24ff4c/gilet-en-crochet-a-fleurs_rose-fluo_6992d3843cdc9.jpg" alt="Gilet en Crochet à Fleurs — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Gilet en Crochet à Fleurs</h3>
-              <p class="prod-desc">Gilet en Crochet à Fleurs. Douceur, style féminin, allure décontractée et silhouette professionnelle.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/ensembles/pro_b87655af3332772c598e5884b495/ensemble_blanc_69aa9ed15e310.jpg" alt="Ensemble Top Licou & Jupe à Franges — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Ensemble Top Licou & Jupe à Franges</h3>
-              <p class="prod-desc">Ensemble Top Licou & Jupe à Franges. Composition élégante, parfait pour les soirées estivales.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/pantalons/pro_08007363bd64776f1255c4e7d256/pantalon-boheme-chic-ajoure_brun-fonce_6993232188f88.jpg" alt="Pantalon 'Bohème-Chic' — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Pantalon 'Bohème-Chic'</h3>
-              <p class="prod-desc">Pantalon ajouré Bohème-Chic, léger pour un style confortable et élégant sur les plages.</p>
-            </div>
-          </a>
+          <div id="grid-boheme" class="catalog-grid-root"></div>
         </div>
       </div>
       <div class="car-dots" id="dots-boheme"></div>
     </div>
   </section>
-  <!-- ==================== CASUAL CHIC ==================== -->
+  <!-- ==================== CASUAL ==================== -->
   <section class="univ-sec" id="casual">
     <div class="sec-hdr fade-up">
       <div class="sec-line"></div>
@@ -1431,67 +1058,9 @@
       <button class="car-btn car-btn-prev" onclick="carMove('casual',-1)" aria-label="Précédent">&#8592;</button>
       <button class="car-btn car-btn-next" onclick="carMove('casual', 1)" aria-label="Suivant">&#8594;</button>
       <div class="carousel-clip">
+        <p class="catalog-loading" id="loading-casual" role="status">Chargement du catalogue…</p>
         <div class="carousel-track" id="track-casual">
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/vestes/pro_d26f0ddcc48feb9b103e551ff01b/veste-perfecto-en-suedine_beige_69a567743013c.jpg" alt="Veste Perfecto en Suédine — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Veste Perfecto en Suédine</h3>
-              <p class="prod-desc">Veste Perfecto en suédine légère et tendance.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/vestes/pro_bd1f33111e2a25da6aef36a2f30b/veste-en-cuir_noir_6990e8ea45f11.jpg" alt="Veste en cuir — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Veste en cuir</h3>
-              <p class="prod-desc">Cette veste en cuir allie un style contemporain et confortable, idéal pour les sorties quotidiennes.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/pulls/pro_cd18eaadb7b372688df11f8a3329/haut-polo-manches-longues_noir_698c4ec0a94f2.jpg" alt="Haut polo manches longues — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Haut polo manches longues</h3>
-              <p class="prod-desc">Polo manche longue pour femme, mix coton, nylon et polyester pour un quotidien avec style et simplicité.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/bodys/pro_aa57a73d21ba6bea56c6b3874fa2/bodysuit_blanc_699595b7270b2.jpg" alt="Bodysuit — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Pack</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Bodysuit</h3>
-              <p class="prod-desc">Body élégant femme en viscose, idéal pour les beaux jours.</p>
-            </div>
-          </a>
-          <a class="prod-card" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">
-            <div class="prod-img">
-              <img src="https://static.parisfashionshops.com/paris/images/femme/giorgia/pulls/pro_a9cbf3e6a5143b1e979b9ce94ed0/pull-palace_bleu-ciel_698dd7404d44f.jpg" alt="Pull Palace oversize — GIORGIA paris" loading="lazy">
-              <div class="prod-badge">Nouveau</div>
-              <div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-            </div>
-            <div class="prod-info">
-              <p class="prod-ref">GIORGIA paris — Collection Printemps-Été 2026</p>
-              <h3 class="prod-name">Pull Palace oversize</h3>
-              <p class="prod-desc">Pull Palace coupe oversized pour un style casual chic moderne.</p>
-            </div>
-          </a>
+          <div id="grid-casual" class="catalog-grid-root"></div>
         </div>
       </div>
       <div class="car-dots" id="dots-casual"></div>
@@ -1512,22 +1081,6 @@
 
     <div>
       <ul class="cinfo">
-
-        <!-- Notre site -->
-        <li>
-          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
-            <circle cx="12" cy="12" r="7" stroke="white" stroke-width="1.5" fill="none"/>
-            <ellipse cx="12" cy="12" rx="3.5" ry="7" stroke="white" stroke-width="1.2" fill="none"/>
-            <line x1="5" y1="12" x2="19" y2="12" stroke="white" stroke-width="1.3"/>
-            <line x1="6.5" y1="8" x2="17.5" y2="8" stroke="white" stroke-width="1.1"/>
-            <line x1="6.5" y1="16" x2="17.5" y2="16" stroke="white" stroke-width="1.1"/>
-          </svg>
-          <div>
-            <span class="ci-label">Notre site</span>
-            <div class="ci-val"><a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">parisfashionshops.com</a></div>
-          </div>
-        </li>
 
         <!-- Email -->
         <li>
@@ -1634,10 +1187,33 @@
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     /* =====================================================
-       CARROUSEL — logique partagée
-       Ajouter une carte  : copier un .prod-card dans .carousel-track
-       Supprimer une carte: supprimer le bloc .prod-card
-       Changer une photo  : modifier src="..." dans la carte
+       AIRTABLE — collez vos identifiants ci-dessous
+       ⚠️ Exposer une clé API dans une page publique présente un risque :
+       préférez un jeton à permissions limitées ou un proxy serveur en production.
+    ===================================================== */
+    const AIRTABLE_API_KEY = 'pat189snSvcDw5mVJ.4eadeb319259e2422cb49e7aef167ed8ba68bc1a352c39b811baf2c37fe9eae9';
+    const AIRTABLE_BASE_ID = 'appXLBhHlXD2MCMUj';
+    const AIRTABLE_TABLE_NAME = 'Catalogue';
+
+    const DEFAULT_PRODUCT_LINK = 'https://parisfashionshops.com/fr/femme/marque/giorgia';
+    const PROD_REF_LINE = 'GIORGIA paris — Collection Printemps-Été 2026';
+
+    /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
+    const CATEGORY_TO_CAROUSEL = {
+      'Summer Vibes': 'summer',
+      'Urban Woman': 'working',
+      'Chic & Soirée': 'chic',
+      'Chic & Soiree': 'chic',
+      'Bohème': 'boheme',
+      'Boheme': 'boheme',
+      'Casual Chic': 'casual',
+      'Casual': 'casual'
+    };
+
+    const CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+
+    /* =====================================================
+       CARROUSEL — logique partagée (cartes injectées par Airtable)
     ===================================================== */
     const carState = {};
 
@@ -1724,9 +1300,17 @@
       if (!track || !s) return;
       const vc = visibleCards();
 
-      /* Mesure la vraie largeur d'une carte + gap depuis le DOM */
+      const wrap = track.closest('.carousel-outer');
       const firstCard = track.querySelector('.prod-card');
-      if (!firstCard) return;
+      if (!firstCard) {
+        track.style.transform = 'translateX(0)';
+        if (wrap) {
+          wrap.querySelector('.car-btn-prev')?.classList.add('disabled');
+          wrap.querySelector('.car-btn-next')?.classList.add('disabled');
+        }
+        return;
+      }
+
       const cardW  = firstCard.getBoundingClientRect().width;
       const styles = getComputedStyle(track);
       const gap    = parseFloat(styles.gap) || 22;
@@ -1734,7 +1318,6 @@
       /* translateX : la carte de gauche doit toujours être calée au bord gauche du clip */
       track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
 
-      const wrap = track.closest('.carousel-outer');
       if (wrap) {
         wrap.querySelector('.car-btn-prev')?.classList.toggle('disabled', s.pos <= 0);
         wrap.querySelector('.car-btn-next')?.classList.toggle('disabled', s.pos >= s.total - vc);
@@ -1755,10 +1338,153 @@
       });
     }
 
-    window.addEventListener('load', () => {
-      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(initCarousel);
-    });
     window.addEventListener('resize', onResize);
+
+    function airtableCategoryValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      return String(raw).trim();
+    }
+
+    function firstPhotoUrl(fields) {
+      const p = fields.Photos;
+      if (!p) return '';
+      if (Array.isArray(p) && p.length && p[0].url) return p[0].url;
+      if (typeof p === 'string' && p.trim()) return p.trim();
+      return '';
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    function buildProductCard(fields) {
+      const nom = fields.Nom != null ? String(fields.Nom) : '';
+      const desc = fields.Description != null ? String(fields.Description) : '';
+      let href = fields.Lien != null ? String(fields.Lien).trim() : '';
+      if (!href) href = DEFAULT_PRODUCT_LINK;
+      const imgSrc = firstPhotoUrl(fields);
+      const alt = nom ? nom + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
+
+      const imgHtml = imgSrc
+        ? '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(alt) + '" loading="lazy">'
+        : '';
+
+      const a = document.createElement('a');
+      a.className = 'prod-card';
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML =
+        '<div class="prod-img">' +
+          imgHtml +
+          '<div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+        '</div>' +
+        '<div class="prod-info">' +
+          '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
+          '<h3 class="prod-name">' + escapeHtml(nom) + '</h3>' +
+          '<p class="prod-desc">' + escapeHtml(desc) + '</p>' +
+        '</div>';
+      return a;
+    }
+
+    function waitForImages(root) {
+      const imgs = root.querySelectorAll('img[src]');
+      if (!imgs.length) return Promise.resolve();
+      return Promise.all(
+        [...imgs].map(
+          img =>
+            new Promise(resolve => {
+              if (img.complete) return resolve();
+              img.addEventListener('load', resolve, { once: true });
+              img.addEventListener('error', resolve, { once: true });
+            })
+        )
+      );
+    }
+
+    async function fetchAllAirtableRecords() {
+      const keyMissing =
+        !AIRTABLE_API_KEY || AIRTABLE_API_KEY.includes('COLLEZ_VOTRE') ||
+        !AIRTABLE_BASE_ID || AIRTABLE_BASE_ID.includes('COLLEZ_VOTRE');
+      if (keyMissing) {
+        throw new Error('Configurez AIRTABLE_API_KEY et AIRTABLE_BASE_ID (et si besoin AIRTABLE_TABLE_NAME) en haut du script.');
+      }
+      const base = 'https://api.airtable.com/v0/' + encodeURIComponent(AIRTABLE_BASE_ID) + '/' + encodeURIComponent(AIRTABLE_TABLE_NAME);
+      const all = [];
+      let offset = '';
+      do {
+        const url = base + '?pageSize=100' + (offset ? '&offset=' + encodeURIComponent(offset) : '');
+        const res = await fetch(url, { headers: { Authorization: 'Bearer ' + AIRTABLE_API_KEY } });
+        if (!res.ok) {
+          const t = await res.text();
+          throw new Error('Airtable ' + res.status + ': ' + t);
+        }
+        const data = await res.json();
+        if (data.records) all.push(...data.records);
+        offset = data.offset || '';
+      } while (offset);
+      return all;
+    }
+
+    async function loadCatalogFromAirtable() {
+      try {
+        const records = await fetchAllAirtableRecords();
+        const unmatched = [];
+
+        records.forEach(rec => {
+          const f = rec.fields || {};
+          const cat = airtableCategoryValue(f.Categorie != null ? f.Categorie : f['Catégorie']);
+          const key = CATEGORY_TO_CAROUSEL[cat];
+          const grid = key ? document.getElementById('grid-' + key) : null;
+          if (!grid) {
+            if (cat) unmatched.push(cat);
+            return;
+          }
+          grid.appendChild(buildProductCard(f));
+        });
+
+        if (unmatched.length) {
+          const uniq = [...new Set(unmatched)];
+          console.warn('[GIORGIA] Catégories non reconnues (vérifiez l’orthographe dans Airtable) :', uniq);
+        }
+
+        await Promise.all(
+          CAROUSEL_IDS.map(async cid => {
+            const grid = document.getElementById('grid-' + cid);
+            const loadEl = document.getElementById('loading-' + cid);
+            if (grid) await waitForImages(grid);
+            if (loadEl) loadEl.classList.add('done');
+          })
+        );
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            CAROUSEL_IDS.forEach(initCarousel);
+          });
+        });
+      } catch (err) {
+        console.error(err);
+        CAROUSEL_IDS.forEach(cid => {
+          const loadEl = document.getElementById('loading-' + cid);
+          if (loadEl) {
+            loadEl.textContent = 'Impossible de charger le catalogue.';
+            loadEl.style.color = '#6b2a2a';
+            loadEl.style.pointerEvents = 'auto';
+          }
+        });
+        requestAnimationFrame(() => {
+          CAROUSEL_IDS.forEach(initCarousel);
+        });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      loadCatalogFromAirtable();
+    });
 
     /* ---- SCROLL ANIMATIONS ---- */
     const io = new IntersectionObserver(entries => {
