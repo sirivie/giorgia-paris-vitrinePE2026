@@ -1191,11 +1191,15 @@
        ⚠️ Exposer une clé API dans une page publique présente un risque :
        préférez un jeton à permissions limitées ou un proxy serveur en production.
     ===================================================== */
-    const AIRTABLE_API_KEY = 'pat189snSvcDw5mVJ.4eadeb319259e2422cb49e7aef167ed8ba68bc1a352c39b811baf2c37fe9eae9';
+    const AIRTABLE_API_KEY = 'patwPcDQ6ENm1ddqA.3b1ba38cb29b99833ac8335a7fc6afae4807c75e73b67a699fb6f5050297f39f';
     const AIRTABLE_BASE_ID = 'appXLBhHlXD2MCMUj';
     const AIRTABLE_TABLE_NAME = 'Catalogue';
 
-    const DEFAULT_PRODUCT_LINK = 'https://parisfashionshops.com/fr/femme/marque/giorgia';
+    const DEFAULT_WHATSAPP_LINK =
+      'https://wa.me/33686729311?text=' +
+      encodeURIComponent(
+        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+      );
     const PROD_REF_LINE = 'GIORGIA paris — Collection Printemps-Été 2026';
 
     /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
@@ -1361,11 +1365,46 @@
       return d.innerHTML;
     }
 
+    /** Extrait une URL/texte utilisable depuis une cellule Airtable (texte, URL, formule, lookup…). */
+    function normalizeLinkValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'number' && !Number.isNaN(raw)) return String(raw).trim();
+      if (Array.isArray(raw) && raw.length) return normalizeLinkValue(raw[0]);
+      if (typeof raw === 'object' && raw.url) return String(raw.url).trim();
+      const s = String(raw).trim();
+      return s === '[object Object]' ? '' : s;
+    }
+
+    /**
+     * Utilise fields.Lien (ou un champ dont le nom correspond à « lien », sans tenir compte de la casse / espaces).
+     * Si vide : lien WhatsApp général du site.
+     */
+    function resolveProductHref(fields) {
+      if (!fields || typeof fields !== 'object') return DEFAULT_WHATSAPP_LINK;
+
+      const explicitKeys = ['Lien', 'LIEN', 'lien', 'Link', 'URL', 'Url'];
+      for (let i = 0; i < explicitKeys.length; i++) {
+        const v = normalizeLinkValue(fields[explicitKeys[i]]);
+        if (v) return v;
+      }
+
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'lien' || nk.startsWith('lien ')) {
+          const v = normalizeLinkValue(fields[keys[k]]);
+          if (v) return v;
+        }
+      }
+
+      return DEFAULT_WHATSAPP_LINK;
+    }
+
     function buildProductCard(fields) {
       const nom = fields.Nom != null ? String(fields.Nom) : '';
       const desc = fields.Description != null ? String(fields.Description) : '';
-      let href = fields.Lien != null ? String(fields.Lien).trim() : '';
-      if (!href) href = DEFAULT_PRODUCT_LINK;
+      const href = resolveProductHref(fields);
       const imgSrc = firstPhotoUrl(fields);
       const alt = nom ? nom + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
 
@@ -1375,7 +1414,6 @@
 
       const a = document.createElement('a');
       a.className = 'prod-card';
-      a.href = href;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.innerHTML =
@@ -1388,6 +1426,7 @@
           '<h3 class="prod-name">' + escapeHtml(nom) + '</h3>' +
           '<p class="prod-desc">' + escapeHtml(desc) + '</p>' +
         '</div>';
+      a.setAttribute('href', href);
       return a;
     }
 
