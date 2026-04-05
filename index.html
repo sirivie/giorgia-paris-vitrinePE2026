@@ -1421,12 +1421,43 @@
       return '';
     }
 
+    /** Référence article (colonne « Reference » ou variantes de nom). */
+    function resolveProductReference(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Reference', 'REFERENCE', 'reference', 'Référence', 'Ref', 'REF'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'reference' || nk === 'référence' || nk === 'ref') {
+          const v = fields[keys[k]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    /** Titre sous la photo : « REF: xxx - Nom » ou seulement le nom si pas de référence. */
+    function formatProductTitleHtml(ref, nom) {
+      const r = ref && String(ref).trim();
+      const n = nom != null ? String(nom).trim() : '';
+      if (r && n) return 'REF: ' + escapeHtml(r) + ' - ' + escapeHtml(n);
+      if (n) return escapeHtml(n);
+      if (r) return 'REF: ' + escapeHtml(r);
+      return '';
+    }
+
     function buildProductCard(fields) {
       const nom = resolveProductName(fields);
+      const reference = resolveProductReference(fields);
       const desc = fields.Description != null ? String(fields.Description) : '';
       const href = resolveProductHref(fields);
       const imgSrc = firstPhotoUrl(fields);
-      const alt = nom ? nom + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
+      const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
+      const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
 
       /* Pas de loading="lazy" ici : les cartes sont souvent hors viewport (carrousel masqué) ;
          sinon load/error ne partent pas et waitForImages() bloque le catalogue indéfiniment. */
@@ -1445,7 +1476,7 @@
         '</div>' +
         '<div class="prod-info">' +
           '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
-          '<h3 class="prod-name">' + escapeHtml(nom) + '</h3>' +
+          '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
           '<p class="prod-desc">' + escapeHtml(desc) + '</p>' +
         '</div>';
       a.setAttribute('href', href);
@@ -1470,6 +1501,32 @@
       return Promise.race([allLoaded, timeout]);
     }
 
+    /** Valeur numérique du champ Ordre, ou null si absent / non numérique. */
+    function ordreValueFromRecord(rec) {
+      const f = rec.fields || {};
+      const v = f.Ordre;
+      if (v == null || v === '') return null;
+      const n = typeof v === 'number' ? v : Number(String(v).trim().replace(',', '.'));
+      if (Number.isNaN(n)) return null;
+      return n;
+    }
+
+    /**
+     * Trie côté client : par Ordre croissant ; sans numéro d’ordre à la fin
+     * (l’API Airtable peut laisser les vides en tête en asc).
+     */
+    function sortRecordsByOrdre(records) {
+      return records.slice().sort(function (a, b) {
+        const oa = ordreValueFromRecord(a);
+        const ob = ordreValueFromRecord(b);
+        if (oa == null && ob == null) return 0;
+        if (oa == null) return 1;
+        if (ob == null) return -1;
+        if (oa === ob) return 0;
+        return oa < ob ? -1 : 1;
+      });
+    }
+
     async function fetchAllAirtableRecords() {
       const keyMissing =
         !AIRTABLE_API_KEY || AIRTABLE_API_KEY.includes('COLLEZ_VOTRE') ||
@@ -1481,7 +1538,12 @@
       const all = [];
       let offset = '';
       do {
-        const url = base + '?pageSize=100' + (offset ? '&offset=' + encodeURIComponent(offset) : '');
+        const params = new URLSearchParams();
+        params.set('pageSize', '100');
+        params.append('sort[0][field]', 'Ordre');
+        params.append('sort[0][direction]', 'asc');
+        if (offset) params.set('offset', offset);
+        const url = base + '?' + params.toString();
         const res = await fetch(url, { headers: { Authorization: 'Bearer ' + AIRTABLE_API_KEY } });
         if (!res.ok) {
           const t = await res.text();
@@ -1491,7 +1553,7 @@
         if (data.records) all.push(...data.records);
         offset = data.offset || '';
       } while (offset);
-      return all;
+      return sortRecordsByOrdre(all);
     }
 
     async function loadCatalogFromAirtable() {
