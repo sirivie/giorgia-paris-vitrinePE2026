@@ -339,15 +339,55 @@
     }
     .prod-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); }
 
+    .prod-media { display: block; }
     .prod-img {
       position: relative; overflow: hidden;
       aspect-ratio: 3/4; background: var(--cream-dark);
     }
-    .prod-img img {
+    .prod-img img.prod-img-primary {
       width: 100%; height: 100%; object-fit: cover;
+      display: block;
       transition: transform .75s var(--ease);
     }
-    .prod-card:hover .prod-img img { transform: scale(1.08); }
+    .prod-card:hover .prod-img img.prod-img-primary { transform: scale(1.08); }
+
+    .prod-thumbs {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: .35rem;
+      margin-top: .45rem;
+      flex-wrap: wrap;
+    }
+    .prod-thumb {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--cream-dark);
+      padding: 0;
+      margin: 0;
+      display: block;
+      box-sizing: border-box;
+      transition: border-color .2s, opacity .2s;
+    }
+    .prod-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+    .prod-thumb:hover,
+    .prod-thumb.is-active { border-color: var(--black); }
+    .prod-thumb:focus { outline: none; }
+    .prod-thumb:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
 
     .prod-badge {
       position: absolute; top: .9rem; left: .9rem;
@@ -360,6 +400,18 @@
       background: #8f3336;
       color: #fff;
       box-shadow: 0 1px 0 rgba(0,0,0,.12);
+    }
+    .prod-badge2 {
+      position: absolute; top: .9rem; right: .9rem; left: auto;
+      background: rgba(253, 250, 246, .96);
+      color: var(--black);
+      border: 1px solid rgba(22, 22, 22, .1);
+      font-size: .52rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: .26rem .55rem; z-index: 2;
+      line-height: 1.2;
+      max-width: calc(100% - 5.5rem);
+      text-align: right;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
     }
     .prod-wm {
       position: absolute; bottom: .7rem; right: .7rem;
@@ -1357,12 +1409,29 @@
       return String(raw).trim();
     }
 
-    function firstPhotoUrl(fields) {
-      const p = fields.Photos;
-      if (!p) return '';
-      if (Array.isArray(p) && p.length && p[0].url) return p[0].url;
-      if (typeof p === 'string' && p.trim()) return p.trim();
+    function firstAttachmentUrl(field) {
+      if (!field) return '';
+      if (Array.isArray(field) && field.length && field[0] && field[0].url) return String(field[0].url).trim();
+      if (typeof field === 'string' && field.trim()) return field.trim();
       return '';
+    }
+
+    function firstPhotoUrl(fields) {
+      return fields && fields.Photos ? firstAttachmentUrl(fields.Photos) : '';
+    }
+
+    /** URLs Photos, Photos2, Photos3 dans l’ordre, sans doublon (pour miniatures + sélection). */
+    function buildGallerySlots(p1, p2, p3) {
+      const raw = [p1, p2, p3].filter(Boolean);
+      const seen = new Set();
+      const slots = [];
+      for (let i = 0; i < raw.length; i++) {
+        if (!seen.has(raw[i])) {
+          seen.add(raw[i]);
+          slots.push({ url: raw[i] });
+        }
+      }
+      return slots;
     }
 
     function escapeHtml(s) {
@@ -1472,6 +1541,24 @@
       return '';
     }
 
+    function resolveProductBadge2(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge2', 'BADGE2', 'badge2'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge2') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
     /**
      * Fond noir par défaut et si le texte contient « nouvelle ».
      * Rouge discret uniquement si le texte contient « promo » sans « nouvelle ».
@@ -1494,42 +1581,154 @@
       return '';
     }
 
+    function setupProductGallery(card, uniqueSlots, photos2Url, altBase) {
+      const mainImg = card.querySelector('img.prod-img-primary');
+      if (!mainImg || !uniqueSlots.length) return;
+
+      let selectedIdx = 0;
+
+      function applyMain(i) {
+        const slot = uniqueSlots[i];
+        if (!slot) return;
+        mainImg.src = slot.url;
+        mainImg.alt = altBase;
+        card.querySelectorAll('.prod-thumb').forEach(function (el, j) {
+          el.classList.toggle('is-active', j === i);
+        });
+      }
+
+      if (photos2Url) {
+        mainImg.addEventListener('mouseenter', function () {
+          mainImg.setAttribute('data-giorgia-swap', '1');
+          mainImg.src = photos2Url;
+        });
+        mainImg.addEventListener('mouseleave', function () {
+          if (!mainImg.hasAttribute('data-giorgia-swap')) return;
+          mainImg.removeAttribute('data-giorgia-swap');
+          applyMain(selectedIdx);
+        });
+      }
+
+      card.querySelectorAll('.prod-thumb').forEach(function (btn, i) {
+        btn.addEventListener('mouseenter', function () {
+          applyMain(i);
+        });
+        btn.addEventListener('mouseleave', function () {
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedIdx = i;
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            selectedIdx = i;
+            applyMain(selectedIdx);
+          }
+        });
+      });
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.prod-thumb')) e.preventDefault();
+      });
+    }
+
     function buildProductCard(fields) {
       const nom = resolveProductName(fields);
       const reference = resolveProductReference(fields);
       const desc = fields.Description != null ? String(fields.Description) : '';
       const href = resolveProductHref(fields);
-      const imgSrc = firstPhotoUrl(fields);
+      const p1 = firstAttachmentUrl(fields.Photos);
+      const p2 = firstAttachmentUrl(fields.Photos2);
+      const p3 = firstAttachmentUrl(fields.Photos3);
+      const uniqueSlots = buildGallerySlots(p1, p2, p3);
+      const mainSrc = p1 || p2 || p3;
       const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
       const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
 
-      /* Pas de loading="lazy" ici : les cartes sont souvent hors viewport (carrousel masqué) ;
-         sinon load/error ne partent pas et waitForImages() bloque le catalogue indéfiniment. */
-      const imgHtml = imgSrc
-        ? '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(alt) + '" loading="eager" decoding="async">'
-        : '';
-
       const badgeText = resolveProductBadge(fields);
-      const badgeHtml = badgeText
-        ? '<div class="' + badgeClassForText(badgeText) + '">' + escapeHtml(badgeText) + '</div>'
-        : '';
+      const badge2Text = resolveProductBadge2(fields);
 
       const a = document.createElement('a');
       a.className = 'prod-card';
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
-      a.innerHTML =
-        '<div class="prod-img">' +
-          imgHtml +
-          badgeHtml +
-          '<div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
-        '</div>' +
-        '<div class="prod-info">' +
-          '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
-          '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
-          '<p class="prod-desc">' + escapeHtml(desc) + '</p>' +
-        '</div>';
+
+      const media = document.createElement('div');
+      media.className = 'prod-media';
+
+      const imgBox = document.createElement('div');
+      imgBox.className = 'prod-img';
+
+      if (mainSrc) {
+        const mainImg = document.createElement('img');
+        mainImg.className = 'prod-img-primary';
+        mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
+        mainImg.alt = alt;
+        mainImg.loading = 'eager';
+        mainImg.decoding = 'async';
+        imgBox.appendChild(mainImg);
+      }
+
+      if (badgeText) {
+        const b = document.createElement('div');
+        b.className = badgeClassForText(badgeText);
+        b.textContent = badgeText;
+        imgBox.appendChild(b);
+      }
+
+      if (badge2Text) {
+        const b2 = document.createElement('div');
+        b2.className = 'prod-badge2';
+        b2.textContent = badge2Text;
+        imgBox.appendChild(b2);
+      }
+
+      const wm = document.createElement('div');
+      wm.className = 'prod-wm logo';
+      wm.innerHTML = '<span class="logo-g">GIORGIA</span><span class="logo-p">paris</span>';
+      imgBox.appendChild(wm);
+
+      media.appendChild(imgBox);
+
+      if (uniqueSlots.length > 1) {
+        const thumbs = document.createElement('div');
+        thumbs.className = 'prod-thumbs';
+        for (let i = 0; i < uniqueSlots.length; i++) {
+          const sp = document.createElement('span');
+          sp.className = 'prod-thumb' + (i === 0 ? ' is-active' : '');
+          sp.setAttribute('role', 'button');
+          sp.setAttribute('tabindex', '0');
+          const tim = document.createElement('img');
+          tim.src = uniqueSlots[i].url;
+          tim.alt = '';
+          tim.loading = 'eager';
+          sp.appendChild(tim);
+          thumbs.appendChild(sp);
+        }
+        media.appendChild(thumbs);
+      }
+
+      a.appendChild(media);
+
+      const info = document.createElement('div');
+      info.className = 'prod-info';
+      info.innerHTML =
+        '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
+        '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
+        '<p class="prod-desc">' + escapeHtml(desc) + '</p>';
+      a.appendChild(info);
+
       a.setAttribute('href', href);
+
+      if (mainSrc && (uniqueSlots.length > 1 || p2)) {
+        setupProductGallery(a, uniqueSlots, p2 || '', alt);
+      }
+
       return a;
     }
 
