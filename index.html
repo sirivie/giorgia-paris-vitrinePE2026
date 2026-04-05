@@ -1416,22 +1416,63 @@
       return '';
     }
 
-    function firstPhotoUrl(fields) {
-      return fields && fields.Photos ? firstAttachmentUrl(fields.Photos) : '';
+    /** Toutes les URLs d’un champ pièces jointes (plusieurs photos dans « Photos »). */
+    function allAttachmentUrls(field) {
+      if (!field) return [];
+      if (Array.isArray(field)) {
+        const out = [];
+        for (let i = 0; i < field.length; i++) {
+          if (field[i] && field[i].url) out.push(String(field[i].url).trim());
+        }
+        return out;
+      }
+      if (typeof field === 'string' && field.trim()) return [field.trim()];
+      return [];
     }
 
-    /** URLs Photos, Photos2, Photos3 dans l’ordre, sans doublon (pour miniatures + sélection). */
-    function buildGallerySlots(p1, p2, p3) {
-      const raw = [p1, p2, p3].filter(Boolean);
+    function firstUrlFromFieldKeys(fields, keys) {
+      if (!fields) return '';
+      for (let i = 0; i < keys.length; i++) {
+        const u = firstAttachmentUrl(fields[keys[i]]);
+        if (u) return u;
+      }
+      return '';
+    }
+
+    /**
+     * Ordre : toutes les images de « Photos », puis Photos2, puis Photos3 (sans doublon).
+     * Permet plusieurs fichiers dans la colonne Photos + colonnes séparées.
+     */
+    function buildGallerySlotsFromFields(fields) {
+      if (!fields) return [];
+      const fromPhotos = allAttachmentUrls(fields.Photos);
+      const p2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      const p3 = firstUrlFromFieldKeys(fields, ['Photos3', 'Photos 3', 'Photo 3', 'photos3']);
+      const ordered = fromPhotos.slice();
+      if (p2 && ordered.indexOf(p2) === -1) ordered.push(p2);
+      if (p3 && ordered.indexOf(p3) === -1) ordered.push(p3);
       const seen = new Set();
       const slots = [];
-      for (let i = 0; i < raw.length; i++) {
-        if (!seen.has(raw[i])) {
-          seen.add(raw[i]);
-          slots.push({ url: raw[i] });
+      for (let i = 0; i < ordered.length; i++) {
+        if (!seen.has(ordered[i])) {
+          seen.add(ordered[i]);
+          slots.push({ url: ordered[i] });
         }
       }
       return slots;
+    }
+
+    /**
+     * Image affichée au survol de la grande photo : colonne Photos2 si remplie,
+     * sinon 2e pièce jointe de « Photos » (cas le plus fréquent si tout est dans Photos).
+     */
+    function hoverSecondImageUrl(fields) {
+      if (!fields) return '';
+      const fromPhotos2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      if (fromPhotos2) return fromPhotos2;
+      const list = allAttachmentUrls(fields.Photos);
+      if (list.length >= 2) return list[1];
+      return '';
     }
 
     function escapeHtml(s) {
@@ -1543,7 +1584,7 @@
 
     function resolveProductBadge2(fields) {
       if (!fields || typeof fields !== 'object') return '';
-      const tryKeys = ['Badge2', 'BADGE2', 'badge2'];
+      const tryKeys = ['Badge2', 'BADGE2', 'badge2', 'Badge 2', 'BADGE 2', 'badge 2'];
       for (let i = 0; i < tryKeys.length; i++) {
         const t = airtableBadgeString(fields[tryKeys[i]]);
         if (t) return t;
@@ -1597,7 +1638,7 @@
         });
       }
 
-      if (photos2Url) {
+      if (photos2Url && photos2Url !== (uniqueSlots[0] && uniqueSlots[0].url)) {
         mainImg.addEventListener('mouseenter', function () {
           mainImg.setAttribute('data-giorgia-swap', '1');
           mainImg.src = photos2Url;
@@ -1640,13 +1681,18 @@
     function buildProductCard(fields) {
       const nom = resolveProductName(fields);
       const reference = resolveProductReference(fields);
-      const desc = fields.Description != null ? String(fields.Description) : '';
+      const desc = (function() {
+        const tryDescKeys = ['Description', 'DESCRIPTION', 'description', 'Desc', 'DESC', 'desc'];
+        for (let i = 0; i < tryDescKeys.length; i++) {
+          const v = fields[tryDescKeys[i]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+        return '';
+      })();
       const href = resolveProductHref(fields);
-      const p1 = firstAttachmentUrl(fields.Photos);
-      const p2 = firstAttachmentUrl(fields.Photos2);
-      const p3 = firstAttachmentUrl(fields.Photos3);
-      const uniqueSlots = buildGallerySlots(p1, p2, p3);
-      const mainSrc = p1 || p2 || p3;
+      const uniqueSlots = buildGallerySlotsFromFields(fields);
+      const mainSrc = uniqueSlots.length ? uniqueSlots[0].url : '';
+      const hoverUrl = hoverSecondImageUrl(fields);
       const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
       const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
 
@@ -1725,8 +1771,8 @@
 
       a.setAttribute('href', href);
 
-      if (mainSrc && (uniqueSlots.length > 1 || p2)) {
-        setupProductGallery(a, uniqueSlots, p2 || '', alt);
+      if (mainSrc && (uniqueSlots.length > 1 || hoverUrl)) {
+        setupProductGallery(a, uniqueSlots, hoverUrl, alt);
       }
 
       return a;
@@ -1887,7 +1933,7 @@
     function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
     document.addEventListener('click', e => {
       const sc = document.getElementById('sticky-contact');
-      if (sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+      if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
   </script>
 </body>
