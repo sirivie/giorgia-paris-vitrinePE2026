@@ -352,8 +352,14 @@
     .prod-badge {
       position: absolute; top: .9rem; left: .9rem;
       background: var(--black); color: var(--white);
-      font-size: .57rem; letter-spacing: .14em; text-transform: uppercase;
+      font-size: .57rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
       padding: .28rem .65rem; z-index: 2;
+      line-height: 1.25;
+    }
+    .prod-badge--promo {
+      background: #8f3336;
+      color: #fff;
+      box-shadow: 0 1px 0 rgba(0,0,0,.12);
     }
     .prod-wm {
       position: absolute; bottom: .7rem; right: .7rem;
@@ -1440,6 +1446,44 @@
       return '';
     }
 
+    /** Texte du badge Airtable (champ Badge, liste ou texte). */
+    function airtableBadgeString(raw) {
+      if (raw == null || raw === '') return '';
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      const s = String(raw).trim();
+      return s;
+    }
+
+    function resolveProductBadge(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge', 'BADGE', 'badge'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
+    /**
+     * Fond noir par défaut et si le texte contient « nouvelle ».
+     * Rouge discret uniquement si le texte contient « promo » sans « nouvelle ».
+     */
+    function badgeClassForText(text) {
+      if (!text) return 'prod-badge';
+      const lower = text.toLowerCase();
+      if (lower.indexOf('nouvelle') !== -1) return 'prod-badge';
+      if (lower.indexOf('promo') !== -1) return 'prod-badge prod-badge--promo';
+      return 'prod-badge';
+    }
+
     /** Titre sous la photo : « REF: xxx - Nom » ou seulement le nom si pas de référence. */
     function formatProductTitleHtml(ref, nom) {
       const r = ref && String(ref).trim();
@@ -1465,6 +1509,11 @@
         ? '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(alt) + '" loading="eager" decoding="async">'
         : '';
 
+      const badgeText = resolveProductBadge(fields);
+      const badgeHtml = badgeText
+        ? '<div class="' + badgeClassForText(badgeText) + '">' + escapeHtml(badgeText) + '</div>'
+        : '';
+
       const a = document.createElement('a');
       a.className = 'prod-card';
       a.target = '_blank';
@@ -1472,6 +1521,7 @@
       a.innerHTML =
         '<div class="prod-img">' +
           imgHtml +
+          badgeHtml +
           '<div class="prod-wm logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
         '</div>' +
         '<div class="prod-info">' +
