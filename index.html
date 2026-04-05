@@ -1401,8 +1401,28 @@
       return DEFAULT_WHATSAPP_LINK;
     }
 
+    /** Nom affiché : colonne « Nom » ou « Name » (Airtable utilise le nom exact du champ). */
+    function resolveProductName(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Nom', 'NOM', 'nom', 'Name', 'NAME', 'name', 'Titre', 'title'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const key = keys[k];
+        const nk = key.trim().toLowerCase();
+        if (nk === 'nom' || nk === 'name') {
+          const v = fields[key];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
     function buildProductCard(fields) {
-      const nom = fields.Nom != null ? String(fields.Nom) : '';
+      const nom = resolveProductName(fields);
       const desc = fields.Description != null ? String(fields.Description) : '';
       const href = resolveProductHref(fields);
       const imgSrc = firstPhotoUrl(fields);
