@@ -857,7 +857,7 @@
       <li><a href="#casual">Casual</a></li>
     </ul>
     <div class="nav-right">
-      <a class="btn-nav" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">Commander</a>
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Commander</a>
       <div class="hamburger" onclick="openMob()"><span></span><span></span><span></span></div>
     </div>
   </nav>
@@ -882,7 +882,7 @@
         <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
         <div class="hero-btns">
           <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
-          <a class="btn-hero-s" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">Passer commande</a>
+          <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
         </div>
       </div>
       <div class="hero-scroll">Scroll</div>
@@ -1185,13 +1185,13 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     /* =====================================================
        AIRTABLE — collez vos identifiants ci-dessous
        ⚠️ Exposer une clé API dans une page publique présente un risque :
        préférez un jeton à permissions limitées ou un proxy serveur en production.
     ===================================================== */
-    const AIRTABLE_API_KEY = 'pat189snSvcDw5mVJ.4eadeb319259e2422cb49e7aef167ed8ba68bc1a352c39b811baf2c37fe9eae9';
+    const AIRTABLE_API_KEY = 'patwPcDQ6ENm1ddqA.3b1ba38cb29b99833ac8335a7fc6afae4807c75e73b67a699fb6f5050297f39f';
     const AIRTABLE_BASE_ID = 'appXLBhHlXD2MCMUj';
     const AIRTABLE_TABLE_NAME = 'Catalogue';
 
@@ -1408,8 +1408,10 @@
       const imgSrc = firstPhotoUrl(fields);
       const alt = nom ? nom + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
 
+      /* Pas de loading="lazy" ici : les cartes sont souvent hors viewport (carrousel masqué) ;
+         sinon load/error ne partent pas et waitForImages() bloque le catalogue indéfiniment. */
       const imgHtml = imgSrc
-        ? '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(alt) + '" loading="lazy">'
+        ? '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(alt) + '" loading="eager" decoding="async">'
         : '';
 
       const a = document.createElement('a');
@@ -1430,19 +1432,22 @@
       return a;
     }
 
-    function waitForImages(root) {
+    function waitForImages(root, timeoutMs) {
+      timeoutMs = timeoutMs == null ? 25000 : timeoutMs;
       const imgs = root.querySelectorAll('img[src]');
       if (!imgs.length) return Promise.resolve();
-      return Promise.all(
-        [...imgs].map(
-          img =>
-            new Promise(resolve => {
-              if (img.complete) return resolve();
-              img.addEventListener('load', resolve, { once: true });
-              img.addEventListener('error', resolve, { once: true });
-            })
-        )
-      );
+      const each = function (img) {
+        return new Promise(function (resolve) {
+          if (img.complete) return resolve();
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        });
+      };
+      const allLoaded = Promise.all([].map.call(imgs, each));
+      const timeout = new Promise(function (resolve) {
+        setTimeout(resolve, timeoutMs);
+      });
+      return Promise.race([allLoaded, timeout]);
     }
 
     async function fetchAllAirtableRecords() {
