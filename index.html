@@ -182,9 +182,9 @@
       line-height: 1.65; margin: 1.3rem 0 .5rem;
     }
     .hero-sub {
-      font-size: clamp(.56rem, 1.5vw, .68rem); letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.48); margin-bottom: 2.2rem;
-      /* Autorise le retour à la ligne sur mobile */
+      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.92); font-weight: 500;
+      margin-bottom: 2.2rem;
       white-space: normal; line-height: 1.7;
     }
     .btn-hero-p {
@@ -389,11 +389,16 @@
       outline-offset: 2px;
     }
 
+    /* Conteneur des badges — colonne en haut à gauche de l'image */
+    .prod-badges {
+      position: absolute; top: .9rem; left: .9rem; right: .9rem;
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
+    }
     .prod-badge {
-      position: absolute; top: .9rem; left: .9rem;
       background: var(--black); color: var(--white);
       font-size: .57rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-      padding: .28rem .65rem; z-index: 2;
+      padding: .28rem .65rem;
       line-height: 1.25;
     }
     .prod-badge--promo {
@@ -402,15 +407,12 @@
       box-shadow: 0 1px 0 rgba(0,0,0,.12);
     }
     .prod-badge2 {
-      position: absolute; top: .9rem; right: .9rem; left: auto;
       background: rgba(253, 250, 246, .96);
       color: var(--black);
       border: 1px solid rgba(22, 22, 22, .1);
       font-size: .52rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      padding: .26rem .55rem; z-index: 2;
+      padding: .26rem .55rem;
       line-height: 1.2;
-      max-width: calc(100% - 5.5rem);
-      text-align: right;
       box-shadow: 0 1px 3px rgba(0,0,0,.06);
     }
     .prod-wm {
@@ -425,6 +427,7 @@
       font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
       color: var(--gold); margin-bottom: .25rem;
     }
+    .prod-ref:empty { display: none; }
     .prod-name {
       font-family: var(--ff-display); font-size: .98rem; font-weight: 500;
       color: var(--black); line-height: 1.3; margin-bottom: .25rem;
@@ -579,14 +582,16 @@
     }
 
     .foot-right { text-align: right; }
-    .foot-addr { font-size: .63rem; color: rgba(255,255,255,.28); line-height: 1.8; }
+    .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .foot-addr a:hover { color: var(--white); }
 
     .foot-bottom {
       padding: 1rem 3.5rem 1.5rem;
       border-top: 1px solid rgba(255,255,255,.05);
       text-align: center;
     }
-    .foot-copy { font-size: .62rem; color: rgba(255,255,255,.22); letter-spacing: .05em; }
+    .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
 
     @media(max-width:900px) {
       .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
@@ -718,10 +723,9 @@
     }
     .carousel-track.dragging { cursor: grabbing; transition: none; }
 
-    /* 4 cartes visibles sur desktop */
+    /* 5 cartes visibles sur desktop */
     .carousel-track .prod-card {
-      /* 4 cartes visibles + ~60px de peek sur la 5e à droite */
-      flex: 0 0 calc((100% - 1.4rem * 3) / 4 - 15px);
+      flex: 0 0 calc((100% - 1.4rem * 4) / 5);
       min-width: 0;
     }
 
@@ -936,7 +940,7 @@
           <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
           <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
         </div>
-        <p class="hero-tagline">Votre grossiste en prêt-à-porter féminin,<br>Giorgia vous accompagne pour proposer les plus belles pièces à vos clientes.</p>
+        <p class="hero-tagline">Votre grossiste en prêt-à-porter féminin,<br>vous accompagne pour proposer les plus belles pièces à vos clientes.</p>
         <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
         <div class="hero-btns">
           <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
@@ -966,164 +970,24 @@
   </div>
 
   <!-- ========== UNIVERS NAV ========== -->
+  <!--
+    ╔══════════════════════════════════════════════════════╗
+    ║  ORDRE DES CATÉGORIES — modifiez ICI uniquement      ║
+    ║  Le menu, le slider et la page suivront              ║
+    ╚══════════════════════════════════════════════════════╝
+    Chaque ligne = { id, emoji, label, sub, desc }
+    • Pour remonter une catégorie : déplacez sa ligne vers le haut
+    • Pour la descendre : déplacez-la vers le bas
+    • Pour la renommer dans l'interface : changez "label"
+    ⚠️  Ne changez PAS l'id (summer/working/chic/boheme/casual)
+        car il correspond au mapping Airtable dans CATEGORY_TO_CAROUSEL
+  -->
   <div class="univers-nav">
-    <div class="univers-nav-inner">
-      <a href="#summer" class="utab">🌊 Summer Vibes</a>
-      <a href="#working" class="utab">👔 Urban Woman</a>
-      <a href="#chic"    class="utab">✨ Chic &amp; Soirée</a>
-      <a href="#boheme"  class="utab">🌿 Bohème</a>
-      <a href="#casual"  class="utab">🤍 Casual</a>
-    </div>
+    <div class="univers-nav-inner" id="js-univers-nav"></div>
   </div>
 
+  <div id="js-univers-sections"></div>
 
-  <!-- ==================== SUMMER VIBES ==================== -->
-  <section class="univ-sec" id="summer">
-    <div class="sec-hdr fade-up">
-      <div class="sec-line"></div>
-      <div class="sec-center">
-        <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
-        <h2 class="sec-title">Summer Vibes</h2>
-        <span class="sec-sub">Légèreté, couleur &amp; féminité solaire</span>
-        <p class="sec-desc">Des pièces qui capturent l'essence de l'été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente.</p>
-      </div>
-      <div class="sec-line"></div>
-    </div>
-    <div class="carousel-outer" data-carousel="summer">
-      <button class="car-btn car-btn-prev" onclick="carMove('summer',-1)" aria-label="Précédent">&#8592;</button>
-      <button class="car-btn car-btn-next" onclick="carMove('summer', 1)" aria-label="Suivant">&#8594;</button>
-      <div class="carousel-clip">
-        <p class="catalog-loading" id="loading-summer" role="status">Chargement du catalogue…</p>
-        <div class="carousel-track" id="track-summer">
-          <div id="grid-summer" class="catalog-grid-root"></div>
-        </div>
-      </div>
-      <div class="car-dots" id="dots-summer"></div>
-    </div>
-  </section>
-  <!-- ===== FEATURED BANNER 1 ===== -->
-  <div class="feat-banner">
-    <div class="feat-bg" style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center')"></div>
-    <div class="feat-grad"></div>
-    <div class="feat-content">
-      <div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-      <h3>Vêtir les boutiques<br>qui font la différence.</h3>
-      <p>Des pièces sélectionnées pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant — et qui veulent des marges réelles.</p>
-      <a class="btn-hero-p" href="#contact">Contacter notre équipe</a>
-    </div>
-  </div>
-
-  <!-- ==================== URBAN WOMAN ==================== -->
-  <section class="univ-sec" id="working">
-    <div class="sec-hdr fade-up">
-      <div class="sec-line"></div>
-      <div class="sec-center">
-        <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
-        <h2 class="sec-title">Urban Woman</h2>
-        <span class="sec-sub">Élégance, confiance & polyvalence au quotidien.</span>
-        <p class="sec-desc">Une sélection conçue pour la femme active contemporaine. Du bureau au week-end, découvrez des basiques surélevés et des pièces fluides qui s'adaptent à toutes ses vies.</p>
-      </div>
-      <div class="sec-line"></div>
-    </div>
-    <div class="carousel-outer" data-carousel="working">
-      <button class="car-btn car-btn-prev" onclick="carMove('working',-1)" aria-label="Précédent">&#8592;</button>
-      <button class="car-btn car-btn-next" onclick="carMove('working', 1)" aria-label="Suivant">&#8594;</button>
-      <div class="carousel-clip">
-        <p class="catalog-loading" id="loading-working" role="status">Chargement du catalogue…</p>
-        <div class="carousel-track" id="track-working">
-          <div id="grid-working" class="catalog-grid-root"></div>
-        </div>
-      </div>
-      <div class="car-dots" id="dots-working"></div>
-    </div>
-  </section>
-  <!-- ==================== CHIC &AMP; SOIRÉE ==================== -->
-  <section class="univ-sec" id="chic">
-    <div class="sec-hdr fade-up">
-      <div class="sec-line"></div>
-      <div class="sec-center">
-        <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
-        <h2 class="sec-title">Chic &amp; Soirée</h2>
-        <span class="sec-sub">Glamour, strass &amp; dentelle précieuse</span>
-        <p class="sec-desc">Quand l'élégance s'habille de nuit. Strass, satin, dentelle — des pièces à fort impact visuel pour les boutiques de soirée et d'événementiel.</p>
-      </div>
-      <div class="sec-line"></div>
-    </div>
-    <div class="carousel-outer" data-carousel="chic">
-      <button class="car-btn car-btn-prev" onclick="carMove('chic',-1)" aria-label="Précédent">&#8592;</button>
-      <button class="car-btn car-btn-next" onclick="carMove('chic', 1)" aria-label="Suivant">&#8594;</button>
-      <div class="carousel-clip">
-        <p class="catalog-loading" id="loading-chic" role="status">Chargement du catalogue…</p>
-        <div class="carousel-track" id="track-chic">
-          <div id="grid-chic" class="catalog-grid-root"></div>
-        </div>
-      </div>
-      <div class="car-dots" id="dots-chic"></div>
-    </div>
-  </section>
-  <!-- ===== EDITORIAL SPLIT ===== -->
-  <div class="editorial">
-    <div class="ed-img">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top" alt="GIORGIA paris — Editorial">
-    </div>
-    <div class="ed-txt">
-      <div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>
-      <span class="sec-eye">Grossiste B2B · Partenaire depuis 2007</span>
-      <h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>
-      <p>Basé à Aubervilliers, au cœur du triangle d'or du prêt-à-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et à l'international.</p>
-      <p>Rejoignez les centaines de revendeurs qui font confiance à GIORGIA paris chaque saison.</p>
-      <a class="btn-ed" href="#contact">Devenir revendeur</a>
-    </div>
-  </div>
-
-  <!-- ==================== BOHÈME ==================== -->
-  <section class="univ-sec" id="boheme">
-    <div class="sec-hdr fade-up">
-      <div class="sec-line"></div>
-      <div class="sec-center">
-        <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
-        <h2 class="sec-title">Bohème</h2>
-        <span class="sec-sub">Fluidité, crochet &amp; âme libre</span>
-        <p class="sec-desc">L'esprit free spirit rencontre l'artisanat délicat : crochet, matières naturelles, silhouettes aériennes. Fort potentiel pour les boutiques lifestyle.</p>
-      </div>
-      <div class="sec-line"></div>
-    </div>
-    <div class="carousel-outer" data-carousel="boheme">
-      <button class="car-btn car-btn-prev" onclick="carMove('boheme',-1)" aria-label="Précédent">&#8592;</button>
-      <button class="car-btn car-btn-next" onclick="carMove('boheme', 1)" aria-label="Suivant">&#8594;</button>
-      <div class="carousel-clip">
-        <p class="catalog-loading" id="loading-boheme" role="status">Chargement du catalogue…</p>
-        <div class="carousel-track" id="track-boheme">
-          <div id="grid-boheme" class="catalog-grid-root"></div>
-        </div>
-      </div>
-      <div class="car-dots" id="dots-boheme"></div>
-    </div>
-  </section>
-  <!-- ==================== CASUAL ==================== -->
-  <section class="univ-sec" id="casual">
-    <div class="sec-hdr fade-up">
-      <div class="sec-line"></div>
-      <div class="sec-center">
-        <span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>
-        <h2 class="sec-title">Casual Chic</h2>
-        <span class="sec-sub">L'attitude au quotidien, sans effort apparent</span>
-        <p class="sec-desc">Le quotidien stylé : vestes à caractère, tops ornementés, looks urban-cool qui tournent en boutique.</p>
-      </div>
-      <div class="sec-line"></div>
-    </div>
-    <div class="carousel-outer" data-carousel="casual">
-      <button class="car-btn car-btn-prev" onclick="carMove('casual',-1)" aria-label="Précédent">&#8592;</button>
-      <button class="car-btn car-btn-next" onclick="carMove('casual', 1)" aria-label="Suivant">&#8594;</button>
-      <div class="carousel-clip">
-        <p class="catalog-loading" id="loading-casual" role="status">Chargement du catalogue…</p>
-        <div class="carousel-track" id="track-casual">
-          <div id="grid-casual" class="catalog-grid-root"></div>
-        </div>
-      </div>
-      <div class="car-dots" id="dots-casual"></div>
-    </div>
-  </section>
 
   <!-- ==================== CONTACT ==================== -->
   <section id="contact">
@@ -1134,7 +998,7 @@
       </div>
       <h2 class="contact-title">Prêt à passer votre <span>commande</span> ?<br>Une <span>question</span> ?</h2>
       <p class="contact-body">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance, une collection qui tourne — c'est ça, GIORGIA paris.</p>
-      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Packs disponibles par modèle</p>
+      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Produits disponibles par pack de 6, tailles S/M ou M/L</p>
     </div>
 
     <div>
@@ -1258,9 +1122,259 @@
       encodeURIComponent(
         'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
       );
-    const PROD_REF_LINE = 'GIORGIA paris — Collection Printemps-Été 2026';
+    const PROD_REF_LINE = '';
 
-    /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
+    /*
+     * ╔══════════════════════════════════════════════════════════════╗
+     * ║  ORDRE DES CATÉGORIES — modifiez ce tableau pour réordonner ║
+     * ║  Le menu navbar, le slider et les sections page suivront     ║
+     * ╚══════════════════════════════════════════════════════════════╝
+     *
+     *  Chaque objet = une catégorie.
+     *  - Déplacer une ligne = changer l'ordre d'affichage partout
+     *  - Changer "label"   = renommer dans la nav, le slider et le titre
+     *  - Changer "emoji"   = changer l'icône dans la nav et le slider
+     *  - Ne PAS changer "id" ni "airtableKey" → mappés avec Airtable
+     */
+    const UNIVERS = [
+      {
+        id:          'summer',
+        airtableKey: 'Summer Vibes',
+        emoji:       '\u{1F30A}',
+        label:       'Summer Vibes',
+        sub:         'L\u00E9g\u00E8ret\u00E9, couleur & f\u00E9minit\u00E9 solaire',
+        desc:        'Des pi\u00E8ces qui capturent l\u2019essence de l\u2019\u00E9t\u00E9\u00A0: mati\u00E8res fluides, imprim\u00E9s vivants, silhouettes libres. Un univers \u00E0 fort potentiel de vente.',
+        insertBannerAfter: true
+      },
+      {
+        id:          'working',
+        airtableKey: 'Urban Woman',
+        emoji:       '\u{1F454}',
+        label:       'Urban Woman',
+        sub:         '\u00C9l\u00E9gance, confiance & polyvalence au quotidien.',
+        desc:        'Une s\u00E9lection con\u00E7ue pour la femme active contemporaine. Du bureau au week-end, d\u00E9couvrez des basiques sur\u00E9lev\u00E9s et des pi\u00E8ces fluides qui s\u2019adaptent \u00E0 toutes ses vies.'
+      },
+      {
+        id:          'chic',
+        airtableKey: 'Chic & Soir\u00E9e',
+        emoji:       '\u2728',
+        label:       'Chic & Soir\u00E9e',
+        sub:         'Glamour, strass & dentelle pr\u00E9cieuse',
+        desc:        'Quand l\u2019\u00E9l\u00E9gance s\u2019habille de nuit. Strass, satin, dentelle \u2014 des pi\u00E8ces \u00E0 fort impact visuel pour les boutiques de soir\u00E9e et d\u2019\u00E9v\u00E9nementiel.',
+        insertEditorialAfter: true
+      },
+      {
+        id:          'boheme',
+        airtableKey: 'Boh\u00E8me',
+        emoji:       '\u{1F33F}',
+        label:       'Boh\u00E8me',
+        sub:         'Fluidit\u00E9, crochet & \u00E2me libre',
+        desc:        'L\u2019esprit free spirit rencontre l\u2019artisanat d\u00E9licat\u00A0: crochet, mati\u00E8res naturelles, silhouettes a\u00E9riennes. Fort potentiel pour les boutiques lifestyle.'
+      },
+      {
+        id:          'casual',
+        airtableKey: 'Casual Chic',
+        emoji:       '\u{1F90D}',
+        label:       'Casual',
+        sub:         'L\u2019attitude au quotidien, sans effort apparent',
+        desc:        'Le quotidien styl\u00E9\u00A0: vestes \u00E0 caract\u00E8re, tops orn\u00E9ment\u00E9s, looks urban-cool qui tournent en boutique.'
+      }
+    ];
+
+    /** Construit le menu, le slider et les sections à partir de UNIVERS[] */
+    function buildUniversFromConfig() {
+      const nav = document.getElementById('js-univers-nav');
+      const sectionsContainer = document.getElementById('js-univers-sections');
+      if (!nav || !sectionsContainer) return;
+
+      /* ── Navbar mobile : vide les liens catégories existants ── */
+      const mobMenu = document.getElementById('mob-menu');
+      if (mobMenu) {
+        Array.from(mobMenu.querySelectorAll('a[href^="#"]')).forEach(function(a) {
+          if (a.getAttribute('href') !== '#contact') a.remove();
+        });
+      }
+
+      /* ── Navbar desktop : vide les liens ── */
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) navLinks.innerHTML = '';
+
+      UNIVERS.forEach(function(u) {
+
+        /* ── 1. Tab slider ── */
+        var tab = document.createElement('a');
+        tab.href = '#' + u.id;
+        tab.className = 'utab';
+        tab.textContent = u.emoji + ' ' + u.label.replace(/&amp;/g, '&');
+        nav.appendChild(tab);
+
+        /* ── 2. Navbar desktop ── */
+        if (navLinks) {
+          var li = document.createElement('li');
+          var aNav = document.createElement('a');
+          aNav.href = '#' + u.id;
+          aNav.innerHTML = u.label;
+          li.appendChild(aNav);
+          navLinks.appendChild(li);
+        }
+
+        /* ── 3. Menu mobile ── */
+        if (mobMenu) {
+          var mobLink = document.createElement('a');
+          mobLink.href = '#' + u.id;
+          mobLink.setAttribute('onclick', 'closeMob()');
+          mobLink.innerHTML = u.label;
+          var cmdLink = mobMenu.querySelector('a[href="#contact"]');
+          mobMenu.insertBefore(mobLink, cmdLink);
+        }
+
+        /* ── 4. Section univers ── */
+        var section = document.createElement('section');
+        section.className = 'univ-sec';
+        section.id = u.id;
+        section.setAttribute('style', 'scroll-margin-top:130px');
+
+        /* En-tête section */
+        var hdr = document.createElement('div');
+        hdr.className = 'sec-hdr';
+
+        var lineL = document.createElement('div'); lineL.className = 'sec-line';
+        var center = document.createElement('div'); center.className = 'sec-center';
+
+        var eye = document.createElement('span'); eye.className = 'sec-eye';
+        eye.textContent = 'GIORGIA paris — Collection Printemps-Été 2026';
+
+        var title = document.createElement('h2'); title.className = 'sec-title';
+        title.innerHTML = u.label;
+
+        var sub = document.createElement('span'); sub.className = 'sec-sub';
+        sub.innerHTML = u.sub;
+
+        var desc = document.createElement('p'); desc.className = 'sec-desc';
+        desc.innerHTML = u.desc;
+
+        center.appendChild(eye);
+        center.appendChild(title);
+        center.appendChild(sub);
+        center.appendChild(desc);
+
+        var lineR = document.createElement('div'); lineR.className = 'sec-line';
+        hdr.appendChild(lineL);
+        hdr.appendChild(center);
+        hdr.appendChild(lineR);
+        section.appendChild(hdr);
+
+        /* Carrousel */
+        var outer = document.createElement('div');
+        outer.className = 'carousel-outer';
+        outer.setAttribute('data-carousel', u.id);
+
+        var btnPrev = document.createElement('button');
+        btnPrev.className = 'car-btn car-btn-prev';
+        btnPrev.setAttribute('aria-label', 'Précédent');
+        btnPrev.innerHTML = '&#8592;';
+        btnPrev.setAttribute('onclick', "carMove('" + u.id + "',-1)");
+
+        var btnNext = document.createElement('button');
+        btnNext.className = 'car-btn car-btn-next';
+        btnNext.setAttribute('aria-label', 'Suivant');
+        btnNext.innerHTML = '&#8594;';
+        btnNext.setAttribute('onclick', "carMove('" + u.id + "', 1)");
+
+        var clip = document.createElement('div');
+        clip.className = 'carousel-clip';
+
+        var loading = document.createElement('p');
+        loading.className = 'catalog-loading';
+        loading.id = 'loading-' + u.id;
+        loading.setAttribute('role', 'status');
+        loading.textContent = 'Chargement du catalogue…';
+
+        var track = document.createElement('div');
+        track.className = 'carousel-track';
+        track.id = 'track-' + u.id;
+
+        var grid = document.createElement('div');
+        grid.id = 'grid-' + u.id;
+        grid.className = 'catalog-grid-root';
+
+        track.appendChild(grid);
+        clip.appendChild(loading);
+        clip.appendChild(track);
+
+        var dots = document.createElement('div');
+        dots.className = 'car-dots';
+        dots.id = 'dots-' + u.id;
+
+        outer.appendChild(btnPrev);
+        outer.appendChild(btnNext);
+        outer.appendChild(clip);
+        outer.appendChild(dots);
+        section.appendChild(outer);
+
+        sectionsContainer.appendChild(section);
+
+        /* ── 5. Featured banner après Summer Vibes ── */
+        if (u.insertBannerAfter) {
+          var banner = document.createElement('div');
+          banner.className = 'feat-banner';
+
+          var bg = document.createElement('div');
+          bg.className = 'feat-bg';
+          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center')";
+
+          var grad = document.createElement('div');
+          grad.className = 'feat-grad';
+
+          var fc = document.createElement('div');
+          fc.className = 'feat-content';
+          fc.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<h3>V\u00EAtir les boutiques<br>qui font la diff\u00E9rence.</h3>' +
+            '<p>Des pi\u00E8ces s\u00E9lectionn\u00E9es pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant \u2014 et qui veulent des marges r\u00E9elles.</p>' +
+            '<a class="btn-hero-p" href="#contact">Contacter notre \u00E9quipe</a>';
+
+          banner.appendChild(bg);
+          banner.appendChild(grad);
+          banner.appendChild(fc);
+          sectionsContainer.appendChild(banner);
+        }
+
+        /* ── 6. Editorial après Chic & Soirée ── */
+        if (u.insertEditorialAfter) {
+          var ed = document.createElement('div');
+          ed.className = 'editorial';
+
+          var edImg = document.createElement('div');
+          edImg.className = 'ed-img';
+          var edImgEl = document.createElement('img');
+          edImgEl.src = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top';
+          edImgEl.alt = 'GIORGIA paris \u2014 Editorial';
+          edImg.appendChild(edImgEl);
+
+          var edTxt = document.createElement('div');
+          edTxt.className = 'ed-txt';
+          edTxt.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<span class="sec-eye">Grossiste B2B \u00B7 Partenaire depuis 2007</span>' +
+            '<h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>' +
+            '<p>Bas\u00E9 \u00E0 Aubervilliers, au c\u0153ur du triangle d\u2019or du pr\u00EAt-\u00E0-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et \u00E0 l\u2019international.</p>' +
+            '<p>Rejoignez les centaines de revendeurs qui font confiance \u00E0 GIORGIA paris chaque saison.</p>' +
+            '<a class="btn-ed" href="#contact">Devenir revendeur</a>';
+
+          ed.appendChild(edImg);
+          ed.appendChild(edTxt);
+          sectionsContainer.appendChild(ed);
+        }
+
+      }); /* fin UNIVERS.forEach */
+
+      /* Synchronise CAROUSEL_IDS avec l'ordre de UNIVERS */
+      CAROUSEL_IDS.length = 0;
+      UNIVERS.forEach(function(u) { CAROUSEL_IDS.push(u.id); });
+    }
+
+        /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
     const CATEGORY_TO_CAROUSEL = {
       'Summer Vibes': 'summer',
       'Urban Woman': 'working',
@@ -1272,7 +1386,7 @@
       'Casual': 'casual'
     };
 
-    const CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+    let CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
 
     /* =====================================================
        CARROUSEL — logique partagée (cartes injectées par Airtable)
@@ -1280,7 +1394,7 @@
     const carState = {};
 
     function visibleCards() {
-      if (window.innerWidth >= 900) return 4;
+      if (window.innerWidth >= 900) return 5;
       if (window.innerWidth >= 600) return 2;
       return 1;
     }
@@ -1720,18 +1834,22 @@
         imgBox.appendChild(mainImg);
       }
 
-      if (badgeText) {
-        const b = document.createElement('div');
-        b.className = badgeClassForText(badgeText);
-        b.textContent = badgeText;
-        imgBox.appendChild(b);
-      }
-
-      if (badge2Text) {
-        const b2 = document.createElement('div');
-        b2.className = 'prod-badge2';
-        b2.textContent = badge2Text;
-        imgBox.appendChild(b2);
+      if (badgeText || badge2Text) {
+        const badgeWrap = document.createElement('div');
+        badgeWrap.className = 'prod-badges';
+        if (badgeText) {
+          const b = document.createElement('div');
+          b.className = badgeClassForText(badgeText);
+          b.textContent = badgeText;
+          badgeWrap.appendChild(b);
+        }
+        if (badge2Text) {
+          const b2 = document.createElement('div');
+          b2.className = 'prod-badge2';
+          b2.textContent = badge2Text;
+          badgeWrap.appendChild(b2);
+        }
+        imgBox.appendChild(badgeWrap);
       }
 
       const wm = document.createElement('div');
@@ -1904,6 +2022,18 @@
     }
 
     window.addEventListener('load', () => {
+      buildUniversFromConfig();
+
+      /* Observer les sections dynamiques pour la nav active */
+      const tabs = document.querySelectorAll('.utab');
+      const secIO = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('section[id]').forEach(s => secIO.observe(s));
+
+      /* Observer les fade-up statiques */
+      document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
       loadCatalogFromAirtable();
     });
 
@@ -1911,15 +2041,10 @@
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+    /* Les .fade-up sont observés dans le load event ci-dessous */
 
     /* ---- ACTIVE UNIVERS TAB ---- */
-    const sections = document.querySelectorAll('section[id]');
-    const tabs = document.querySelectorAll('.utab');
-    const secIO = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
-    }, { threshold: 0.3 });
-    sections.forEach(s => secIO.observe(s));
+    /* NB: setup décalé au load event pour capter les sections créées dynamiquement */
 
     /* ---- NAVBAR SCROLL ---- */
     const nav = document.getElementById('navbar');
