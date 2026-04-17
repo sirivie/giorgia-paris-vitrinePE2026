@@ -1,4 +1,153 @@
 {
-  "generatedAt": "2026-04-17T20:22:48.176Z",
-  "count": 57
+  "generatedAt": "2026-04-17T20:23:28.476Z",
+  "count": 57,
+  "imageAudit": {
+    "totalImages": 108,
+    "measured": 108,
+    "totalKB": 17943,
+    "avgKB": 166,
+    "heavyCount": 21,
+    "top20Heavy": [
+      {
+        "ref": "recU6zkMiViMYPYLH",
+        "nom": "Robe à pois",
+        "field": "Photos",
+        "sizeKB": 782,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/sMj_we8ivLIJfCBw0-9mUw/okzYSe0WLVDz7BwzEqg5XKXdKREzAuvWyHX6g9GZ63-q94zID6-gxtI06wJV_wLn0b69SOQmh38uZkLV6W4aCgzIzIQM9rQqtoFVpeXRLUcFPLApHYi62dWW8Qe2e3Hn2oFOCeaghOWDdX0ylHCn3A/TSol7t-Cn6l79_8k4lQcEEQrObg8640SlUJzUcoRMgg"
+      },
+      {
+        "ref": "recU6zkMiViMYPYLH",
+        "nom": "Robe à pois",
+        "field": "Photos 3",
+        "sizeKB": 750,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/z7niu5VHQ3uGwviBSneI0g/AWeMykes9ONEn2QSrzJA0JuPuMfpOnKocWr3ENBTodH5AExAekltAPqF2aWtxlZl1o3ILYhe9biRyux06Dnfx60V1QTiYH_iELcFFHr1utOVVIqnEyApJXVfMwePIR1oHBJMqiFvtLQQrmBV2ftVsg/K_uOJkyDBPTdQc19-W4TJuBknO-0nvdqKJ0i7bKZA4s"
+      },
+      {
+        "ref": "26310",
+        "nom": "Top épaules dénudées",
+        "field": "Photos",
+        "sizeKB": 725,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/Z8pSAe1BrcbqGk8yIqfZSA/Z4VRq7_37DU0cLCr0SK4yEjaLFa5pOt2BsI74eQ7Y97zYU6v9wJEfDqjy9wRjl5gPL5LAeDRz_7EcMJudXXCR68j_H9wP3CBp1jahuaghyKFk3OwvH_qYOPlXmpPaMfzhJfmbbW2SJvZI3ObgesBFw/QjAxbnakyZ3ZAN-dHZl1antgbBZWQcJxlQ5FPNrsBSQ"
+      },
+      {
+        "ref": "rec5qq7TWqcnPQaEO",
+        "nom": "Top à pois",
+        "field": "Photos 3",
+        "sizeKB": 708,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/fTiTSVFNmlNqSzsqbIc3jg/OSftylk5xWIHvmD4abnMC76PU6Y80HKWmofozrhv94YlYRPsAfiaEQDeRCnkI_HAPYTmy_dd6J0Z6mb8bnrpPn8AvOFEfTF4ACyk_ME0KammoFrg-mvUTD9jxZlfQGbvb9Mp-gR8OhJh6S94vmFzjQ/TvxgV2D9YWcd5jiyNUD8rjdWTWNgr7rPvlFgdQh4e54"
+      },
+      {
+        "ref": "26310",
+        "nom": "Top épaules dénudées",
+        "field": "Photos 3",
+        "sizeKB": 686,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/FfZjwcIRbYFvOJPoJSQkZg/nsFHcoc1k-2oUk755psBm1rUCUcoT5bpq6AYAUTPCr5KbBg4q7DMjPoc8KRanC-Vxl12EjOvvUTyfVZ9gKebFEw4rPTKkHWeTePScdgw0c05tGGAecdsvNEs0tQlzOcI7An_oWzp1HqB8qsbyCxYEg/GsabV_rZCkAAQ9J9aoPEixgojfPmhQNhj2qJ4GyKLHI"
+      },
+      {
+        "ref": "recU6zkMiViMYPYLH",
+        "nom": "Robe à pois",
+        "field": "Photos 2",
+        "sizeKB": 685,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/1zZjna59_IWVHdnK64_aFg/E2FZn0-M_A2zEBX7fNL0bjlZq8xGGOlS3fl06Lfgg0GwbHzCcbxlpE18Tmufzgz4yEjztLA5bvfMNU39vYEr6cLlZrfC8luxdVMthHjZ1PNpj4LB1aM9sQVBuBshlNfjZTUCK260vRlcXZhdZGY3aQ/L7rpx3q-3dpiFLpT-sXQGjwiSoxAwDzMnECe3XkOwv0"
+      },
+      {
+        "ref": "recwvAriiksqoSavV",
+        "nom": "Top bustier satin avec cravate",
+        "field": "Photos",
+        "sizeKB": 636,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/FXzlXnvXEKcQw_0KhS6bUA/OWW7_VY_BEKvRtQD3Xo-zDDjoef_3p5l4w_8Uins6Avi7t8bcxo8L6n9v56xnFYXsHJVdkKNJJxuHjHTInfjvm4S60RqY5nN0WIayihzau81Nilp2gvpUq0pdT8azNqAqsRq_JT9E1xiAdPW8fsYcQ/PIZ8T2n1u5Fg4KCVyx1rXivlTom6FNkkyZHkKXfVT4w"
+      },
+      {
+        "ref": "recqULneyd0siis64",
+        "nom": "Body velour bretelle dentelle",
+        "field": "Photos",
+        "sizeKB": 616,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/hrIaJUgeAWtPQnX-SbnSaA/CW2uu6SbZZ4oBX4BFH9QnUz97n-8-VB_Yej-B_AE_nS4lHmaA9tpSM9pM2pldkg98dpiCkyPJoItBagUg4BQ9khc9TVKYSIcoz5w8OAnzeASIZmmNXHoFKXAQ5fL42DWbyAc-AjM9nDZhC_koMbFcA/SpzapMg2aLP_rmtOu6_JgXghB-ziV3B0OBfyZPg1hp8"
+      },
+      {
+        "ref": "recQJOOwROg7fKHjK",
+        "nom": "Body manche longue motif damier",
+        "field": "Photos",
+        "sizeKB": 599,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/EfQR0T21Dlgv5R5OkemcBQ/Lq_nQ18ZXzSdHS_D_wt6Yl1cnZcVfIFcOx4i415tQwytxSI9MjVkIzZrKbxwv-Ow-26RBnpnvLvHUqNtYpPO5xdKBjI3IoR_wtzvr18khNk50Rd9rkGdK4vrX0VWwkbmQ8UrkV8IPRzQNBjRetPnSw/QZkb1qBLWlbs0Wix1lEj_XoOBOrz_L-nQPp8Lii_x0E"
+      },
+      {
+        "ref": "recEw7aZ8985T3im4",
+        "nom": "Débardeur type corset",
+        "field": "Photos",
+        "sizeKB": 575,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/ySBSaKGSpjxw3y3DqZfCng/OMJHWLyPxipI6We-oght7D54pMkv-8Asf4wS5LRAzPIEGQ4YOJKnybnjEi5WQG5_lMHzE91qDEnnudOuB89qHNj-vEYLF9TV8JnRWT9DhFLUzv3EhDfbtVOT2Mw3fW6SdaO1JVCbq1k5v4lm6qt3iA/wGaQZkAyAZZKqwIIzq9haSGVcSfkTB6qLg1DfN-2Low"
+      },
+      {
+        "ref": "recQJOOwROg7fKHjK",
+        "nom": "Body manche longue motif damier",
+        "field": "Photos 2",
+        "sizeKB": 556,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/qhm4goQCQCzgjv8M6ECR0A/egDSvmqM9-ZeEBlTmpmnrHae8iuyzkbzrrBnm9KaVBRfdYGeHYflbae7XTebd0cDYbnH9GJuHVsjuifhrAFd8UV7BU8Qr-z5N94DQv6jzwIfXFnsYxrfR0YgE6doEMXDu6jszZcugABo4YLooG8XBg/e0CRurKv4eas8eRIoLE6s64ghzffcIff8RRva_g95MM"
+      },
+      {
+        "ref": "recwZcPsmjkQAvGdJ",
+        "nom": "Pantalon large effiloché en cascade",
+        "field": "Photos",
+        "sizeKB": 545,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/ExgXzT4TNiLk4UV4kEvd6w/rAAe-c7oS3KrmdYABZWC7mSuSLYB55eXSDjKDlmaDfuSyzUgE_Zmq4fUVrZjtWtdDI2J4lWSOfWRTtxRmegvitphRdiO_L2B0LxMH-WH-JLBPfeQwZwS1vGKHL4HjfAmjsact7ywDqMMjHlS2TaqTQ/EsFzsBKW36w4UllYrJmJfH7I_WIwqW_lnzXf5tlvM9w"
+      },
+      {
+        "ref": "26310",
+        "nom": "Top épaules dénudées",
+        "field": "Photos 2",
+        "sizeKB": 541,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/O9aoT4IbYD0UnVc2mEgL9A/JhcBOWiatLsRUOZyNhK52gTNp7BnEKKo9laQ6t_-JHGoUIppHXRs8e5QMe_cuJ1wulXHL3d1PUDru6qV8-MBwT8YdK5FVJf2tDuEEzWxj56nh-rqxN6fPpP9P07Ailnim4ffPP-F0AD2rm2ygxkkBg/3yYEEe6_pKBrltIyccyuH1yGb7GezdIN3wooQt3enoA"
+      },
+      {
+        "ref": "26238",
+        "nom": "Top Bustier Corset Jacquard Marbré",
+        "field": "Photos",
+        "sizeKB": 530,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/zN27ULQF0QqceiHFRMTajQ/51oK7EOoxJMpze4rLHG9zmEOhppKD8N8u7bWOtcp4_2Qz0w2arRrsNxEJGIC8v-xgFGQGsIGfD68aqq9KDHITFDg4XVyRysdxDaRIXHbNm6G95v_9mdEh57kHdZ21wMWOqY3sT_By4tE2NN9tlq47A/Z7AphYDM2_dcP3JtYAuzpylZUKAs2iOfJcpeI5b2Av4"
+      },
+      {
+        "ref": "rec5qq7TWqcnPQaEO",
+        "nom": "Top à pois",
+        "field": "Photos",
+        "sizeKB": 521,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/qSWfOza2e8Z0tPlJ9Os2eA/5jZCyouCHbo3Nvk_UUESV7oGMpHk1k0waEY1Y9cPFmG9DYo6R0Mdru-PZ-RbAS7CQU5Y1Y86KfGBYuc6LSn0mNOLM1dAsemy5gCHvwg2SpK8S0HTnq-Wpbjf1wMhBpPlMFWyq3uB-G5VekQF7prPlQ/4_PfjJRl1OPyGwrL3_WwJx5zzPXCzhzdoEtbtnnlUlE"
+      },
+      {
+        "ref": "rec5qq7TWqcnPQaEO",
+        "nom": "Top à pois",
+        "field": "Photos 2",
+        "sizeKB": 521,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/edPmwcqhASBltFZRXgMzvA/Deht-Pqe9hX8T43bcTz2KYv5XKfqUPhy7y26VOh9gt_r_5rrdjRbFNMFrhqd8BohV6rosX6PINetO10hxz9XCc8qrz9RBSGTghuPS9YNs5NCQjRYl9C2N9cYJSccSDuFfLF3G61kqL4-MJdAcNoRbw/4teB1LKW4J1ujXshKoXKwa9QTvlk-cjmOP9cKdIo9w8"
+      },
+      {
+        "ref": "recXeJ0fLtBlLRJjo",
+        "nom": "Top Halter à Nœud Satiné",
+        "field": "Photos",
+        "sizeKB": 512,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/IpO41MDndDQ1Cg6LUDoiDg/7XEQ-AWU6pQD9h4rQYeJ537fv-gAgUuQTzb5hCrVdZaaoJWM9HomSJBpe80u0MmbA9oRdfdthuYMvvdp9L0UG0_I15aXtMiDVutyAjoH58Vm24jU74ZhYZdy1nkxasii0w1vkWONg2mgd_IQhL8U_w/DIqOjeS5sjz480HDnadCkGbUE8bdV9amBoSBPWVMDHY"
+      },
+      {
+        "ref": "recggAAJh6hM90KX0",
+        "nom": "Débardeur jaune à pois et dentelle",
+        "field": "Photos",
+        "sizeKB": 511,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/RQNYJj8nBczIKUkWOESo1A/MkrI0XXD2Ao8RxPm5WJpaCXpIWIATH_xXC3jAE9LYnoVVIErtWopwTvQBa-VIk-ImZugf9AaW-ZY2rD9_wrEphgdBJ4ApddoBAPUPrroSg9Q31216d1QR78DzKwj5RzE_AX-8X2rdPgnEliTEDR0-Q/B_LRXnZBkfw1F23X9Qwg_9jDm5YNNJaJUfv0EPiA4Fw"
+      },
+      {
+        "ref": "rect7S63lKjswRKM4",
+        "nom": "Top corset élégant en satin avec lacets",
+        "field": "Photos",
+        "sizeKB": 496,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/IIk5P2Mym3iZ5_Df-lKnxA/PL2D7y6a-NQUKL-RMObypZadJXnzbJMX-BCkkqB3TedcSkgVcedwnNWWibbc5Nkjy6BTaRAQgLe5f7sSZ7Axxgk12mMl9E3P6ZYQCql9tacsFAAJuGyURgU5qwYMRp6181mCQBSze-eVtsSJJFPCzQ/ReIKcVRk-RhLTPVFPGsDxlgeWBrjJ0IKLPBEo2a4y8s"
+      },
+      {
+        "ref": "26286",
+        "nom": "Robe dos nu \"L'iconique\"",
+        "field": "Photos",
+        "sizeKB": 482,
+        "url": "https://v5.airtableusercontent.com/v3/u/52/52/1776470400000/HbXWPhHfMpCw5PZJFPlb0w/8OkXL1xcHedpuwygQthgQQSvPugOIJHHgoXv6uCBiY0lLRHduBc1cTyFezSVUficiO4nsAjhGU0yurxfQFvf6qHbCFmu-Cr1YlfcHq9I8j-rJMJ1u5PTkmn_ABZOPi1dosSGn_iImo1mT1POn5_nWA/liAyKGFwoZaaLrVq7VpQ0V6zYq2cmYz5gz6ko4uXm6k"
+      }
+    ]
+  }
 }
