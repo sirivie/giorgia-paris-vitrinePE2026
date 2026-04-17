@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIORGIA paris — Catalogue Collection Printemps-Été 2026</title>
+  <meta name="description" content="GIORGIA paris — Grossiste prêt-à-porter féminin basé à Aubervilliers. Collection Printemps-Été 2026. Casual chic, Summer Vibes, Urban Woman, Bohème & Soirée. Minimum 100€ HT.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
+    @font-face {
+      font-family: 'Century Gothic';
+      src: local('Century Gothic'), local('CenturyGothic');
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    /* =====================================================
+       GIORGIA paris — Catalogue PE 2026
+       =====================================================
+       GUIDE MISE À JOUR :
+       • Remplacer les photos produits : chercher "PHOTO-PRODUIT"
+       • Modifier les noms / descriptions : dans chaque .product-info
+       • Nouvelle saison : dupliquer ce fichier, renommer en AH2026 etc.
+       ===================================================== */
+
+    :root {
+      --cream:      #F6F1EA;
+      --cream-dark: #EDE6DB;
+      --black:      #161616;
+      --charcoal:   #2A2724;
+      --gold:       #C5A36A;
+      --gold-lt:    #E2CFA8;
+      --taupe:      #8C7B6A;
+      --white:      #FDFAF6;
+      --border:     rgba(22,22,22,0.10);
+
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-logo:    'Century Gothic', 'Josefin Sans', 'Trebuchet MS', 'Futura', sans-serif;
+      --ff-body:    'DM Sans', system-ui, sans-serif;
+      --ease:       cubic-bezier(.25,.46,.45,.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ---- LOGO TYPOGRAPHIQUE — Century Gothic ---- */
+    .logo {
+      display: flex; flex-direction: column; align-items: center;
+      line-height: 1; text-decoration: none; color: inherit; user-select: none;
+    }
+    .logo-g {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      letter-spacing: .42em;
+      text-transform: uppercase;
+    }
+    .logo-p {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 300;
+      font-size: clamp(.45rem,.7vw,.62rem);
+      letter-spacing: .65em;
+      color: var(--taupe);
+      text-transform: lowercase;
+      margin-top: 2px;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    #navbar {
+      position: fixed; inset: 0 0 auto;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3.5rem;
+      background: rgba(246,241,234,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.07); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+    .btn-nav {
+      font-size: .68rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: var(--black);
+      padding: .55rem 1.4rem; transition: background .3s;
+    }
+    .btn-nav:hover { background: var(--gold); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 4.5px;
+      cursor: pointer; padding: .3rem;
+    }
+    .hamburger span { width: 20px; height: 1.5px; background: var(--black); display: block; }
+
+    @media(max-width:900px) {
+      #navbar { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ===================== MOBILE MENU ===================== */
+    #mob-menu {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: var(--black); flex-direction: column;
+      align-items: center; justify-content: center; gap: 2rem;
+    }
+    #mob-menu.open { display: flex; }
+    #mob-menu a {
+      font-family: var(--ff-display); font-size: 2rem; font-weight: 300;
+      color: var(--white); text-decoration: none; letter-spacing: .05em;
+    }
+    #mob-menu a:hover { color: var(--gold); }
+    .mob-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: var(--white);
+      font-size: 1.6rem; cursor: pointer;
+    }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg') center center / cover no-repeat;
+      filter: brightness(.62);
+    }
+    .hero-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; max-width: 680px;
+      /* Empêche tout débordement horizontal sur mobile */
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold-lt); margin-bottom: 1.4rem;
+    }
+    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
+    .hero-logo .logo-g {
+      font-size: clamp(2rem, 10vw, 5.5rem);
+      color: var(--white);
+      letter-spacing: clamp(.15em, 1.5vw, .5em);
+      padding-left: clamp(.05em, .8vw, .25em);
+      display: block; word-break: keep-all; white-space: nowrap;
+      overflow: visible;
+    }
+    .hero-logo .logo-p {
+      font-size: clamp(.7rem, 2vw, 1.4rem);
+      color: var(--gold-lt);
+      letter-spacing: clamp(.3em, 2vw, .9em);
+    }
+    .hero-tagline {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
+      line-height: 1.65; margin: 1.3rem 0 .5rem;
+    }
+    .hero-sub {
+      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.92); font-weight: 500;
+      margin-bottom: 2.2rem;
+      white-space: normal; line-height: 1.7;
+    }
+    .btn-hero-p {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--black); background: var(--gold-lt);
+      padding: .85rem 2.2rem;
+      transition: all .3s;
+    }
+    .btn-hero-p:hover { background: var(--white); transform: translateY(-2px); }
+    .btn-hero-s {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--white); background: var(--black);
+      padding: .85rem 2.2rem; transition: all .3s;
+    }
+    .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+    .hero-btns {
+      display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: .4rem; color: rgba(255,255,255,.5);
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 38px;
+      background: rgba(255,255,255,.35);
+      animation: scrollAnim 2.4s ease infinite;
+    }
+    @keyframes scrollAnim {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      49%  { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @media(max-width:768px) {
+      .hero-content { padding: 0 1.4rem; }
+    }
+
+    /* ===================== INTRO STRIP ===================== */
+    .intro-strip {
+      background: var(--charcoal); color: var(--white);
+      padding: 4rem 3.5rem;
+      display: grid; grid-template-columns: 1fr 2.2fr 1fr;
+      gap: 3rem; align-items: center;
+    }
+    .intro-strip .logo-g { color: var(--white); }
+    .intro-strip .logo-p { color: var(--gold); }
+
+    .intro-text { text-align: center; }
+    .intro-text h2 {
+      font-family: var(--ff-display); font-size: clamp(1.3rem,2.5vw,1.9rem);
+      font-weight: 300; font-style: italic; color: var(--gold-lt);
+      margin-bottom: .9rem;
+    }
+    .intro-text p {
+      font-size: .82rem; line-height: 1.85;
+      color: rgba(255,255,255,.68); max-width: 560px; margin: 0 auto;
+    }
+    .intro-stats {
+      display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-end;
+    }
+    .stat-num {
+      font-family: var(--ff-display); font-size: 1.9rem; font-weight: 700;
+      color: var(--gold); display: block; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.42);
+    }
+
+    @media(max-width:900px) {
+      .intro-strip { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .intro-stats { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ===================== UNIVERS NAV ===================== */
+    .univers-nav {
+      background: var(--cream); border-bottom: 1px solid var(--border);
+      position: sticky; top: 67px; z-index: 80; overflow-x: auto;
+    }
+    .univers-nav::-webkit-scrollbar { display: none; }
+    .univers-nav-inner {
+      display: flex; justify-content: center;
+      padding: 0 3.5rem; min-width: max-content; margin: 0 auto;
+    }
+    .utab {
+      font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      padding: 1.05rem 1.8rem;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all .3s;
+    }
+    .utab:hover, .utab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ===================== SECTIONS ===================== */
+    .univ-sec {
+      padding: 5rem 3.5rem;
+      /* Décale l'ancre sous les deux barres fixes : navbar (~67px) + univers-nav (~46px) + marge */
+      scroll-margin-top: 130px;
+    }
+    .univ-sec:nth-child(even) { background: var(--white); }
+
+    .sec-hdr {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem; align-items: center; margin-bottom: 3.5rem;
+    }
+    .sec-line { height: 1px; background: var(--border); }
+    .sec-center { text-align: center; }
+    .sec-eye {
+      font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: .4rem;
+    }
+    .sec-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 600; line-height: .95;
+      letter-spacing: .02em;
+    }
+    .sec-sub {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(.85rem,1.4vw,1rem);
+      color: var(--taupe); display: block; margin-top: .5rem;
+    }
+    .sec-desc {
+      font-size: .8rem; line-height: 1.85; color: var(--taupe);
+      max-width: 620px; margin: 1.3rem auto 0; text-align: center;
+    }
+
+    @media(max-width:768px) {
+      .univ-sec { padding: 3.5rem 1.5rem; }
+      .sec-hdr { grid-template-columns: 1fr; gap: .5rem; }
+      .sec-line { display: none; }
+    }
+
+    /* ===================== PRODUCT GRID ===================== */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    /* Cartes produits cliquables */
+    .prod-card {
+      overflow: hidden; cursor: pointer;
+      text-decoration: none; color: inherit; display: block;
+      transition: box-shadow .3s;
+    }
+    .prod-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); }
+
+    .prod-media { display: block; }
+    .prod-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 3/4; background: var(--cream-dark);
+    }
+    .prod-img img.prod-img-primary {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform .75s var(--ease);
+    }
+    .prod-card:hover .prod-img img.prod-img-primary { transform: scale(1.08); }
+
+    .prod-thumbs {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: .35rem;
+      margin-top: .45rem;
+      flex-wrap: wrap;
+    }
+    .prod-thumb {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--cream-dark);
+      padding: 0;
+      margin: 0;
+      display: block;
+      box-sizing: border-box;
+      transition: border-color .2s, opacity .2s;
+    }
+    .prod-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+    .prod-thumb:hover,
+    .prod-thumb.is-active { border-color: var(--black); }
+    .prod-thumb:focus { outline: none; }
+    .prod-thumb:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* Conteneur des badges — colonne en haut à gauche de l'image */
+    .prod-badges {
+      position: absolute; top: .9rem; left: .9rem; right: .9rem;
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
+    }
+    .prod-badge {
+      background: var(--black); color: var(--white);
+      font-size: .57rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      padding: .28rem .65rem;
+      line-height: 1.25;
+    }
+    .prod-badge--promo {
+      background: #8f3336;
+      color: #fff;
+      box-shadow: 0 1px 0 rgba(0,0,0,.12);
+    }
+    .prod-badge2 {
+      background: rgba(253, 250, 246, .96);
+      color: var(--black);
+      border: 1px solid rgba(22, 22, 22, .1);
+      font-size: .52rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: .26rem .55rem;
+      line-height: 1.2;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .prod-wm {
+      position: absolute; bottom: .7rem; right: .7rem;
+      background: rgba(246,241,234,.9); padding: .3rem .55rem; z-index: 2;
+    }
+    .prod-wm .logo-g { font-size: .6rem; }
+    .prod-wm .logo-p { font-size: .26rem; }
+
+    .prod-info { padding: .9rem 0 .4rem; }
+    .prod-ref {
+      font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .25rem;
+    }
+    .prod-ref:empty { display: none; }
+    .prod-name {
+      font-family: var(--ff-display); font-size: .98rem; font-weight: 500;
+      color: var(--black); line-height: 1.3; margin-bottom: .25rem;
+    }
+    .prod-desc { font-size: .74rem; color: var(--taupe); line-height: 1.65; }
+
+    @media(max-width:600px) {
+      .prod-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+    }
+
+    /* ===================== FEATURED BANNER ===================== */
+    .feat-banner {
+      position: relative; height: 58vh; min-height: 360px;
+      overflow: hidden; display: flex; align-items: center;
+    }
+    .feat-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      filter: brightness(.6);
+    }
+    .feat-grad { position: absolute; inset: 0; background: linear-gradient(to right, rgba(22,22,22,.72) 0%, transparent 65%); }
+    .feat-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; color: var(--white); max-width: 520px;
+    }
+    .feat-content h3 {
+      font-family: var(--ff-display); font-size: clamp(1.7rem,3.5vw,2.8rem);
+      font-weight: 300; font-style: italic; margin: 1rem 0; line-height: 1.2;
+    }
+    .feat-content p { font-size: .82rem; line-height: 1.82; color: rgba(255,255,255,.76); margin-bottom: 1.5rem; }
+    .feat-content .logo-g { color: var(--white); font-size: 1rem; }
+    .feat-content .logo-p { color: var(--gold-lt); font-size: .42rem; }
+
+    @media(max-width:768px) { .feat-content { padding: 0 1.5rem; } }
+
+    /* ===================== EDITORIAL SPLIT ===================== */
+    .editorial {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .ed-img { overflow: hidden; aspect-ratio: 3/2; }
+    .ed-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+    .editorial:hover .ed-img img { transform: scale(1.05); }
+    .ed-txt {
+      padding: 2.2rem 3.5rem;
+      background: var(--black); color: var(--white);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .ed-txt .logo-g { color: var(--white); font-size: .95rem; }
+    .ed-txt .logo-p { font-size: .4rem; }
+    .ed-txt .sec-eye { color: var(--gold); margin-top: 1rem; }
+    .ed-txt .sec-title { color: var(--white); font-size: clamp(1.7rem,2.8vw,2.4rem); }
+    .ed-txt p {
+      font-size: .82rem; line-height: 1.9;
+      color: rgba(255,255,255,.67); margin-top: .8rem;
+    }
+    .btn-ed {
+      display: inline-block; margin-top: 1.4rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: .9rem 2.2rem; transition: all .3s;
+    }
+    .btn-ed:hover { background: var(--white); }
+
+    @media(max-width:900px) {
+      .editorial { grid-template-columns: 1fr; }
+      .ed-img { aspect-ratio: 16/9; }
+      .ed-txt { padding: 2rem 1.5rem; }
+    }
+
+    /* ===================== CONTACT ===================== */
+    #contact {
+      background: var(--charcoal); padding: 6rem 3.5rem;
+      display: grid; grid-template-columns: 1.3fr .9fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-title {
+      font-family: var(--ff-display); font-size: clamp(2rem,4vw,3.4rem);
+      font-weight: 300; font-style: italic; color: var(--white);
+      line-height: 1.2; margin-bottom: 1.3rem;
+    }
+    .contact-title span { color: var(--gold); font-style: normal; font-weight: 600; }
+    .contact-body {
+      font-size: .82rem; line-height: 1.88;
+      color: rgba(255,255,255,.62); margin-bottom: 1.5rem;
+    }
+    .contact-note {
+      font-size: .72rem; color: rgba(255,255,255,.35); margin-bottom: 2rem;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: .7rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: 1rem 2.4rem; transition: all .3s;
+    }
+    .btn-wa:hover { background: var(--white); }
+    .social-row {
+      display: flex; gap: .8rem; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .soc-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.2); padding: .5rem 1rem;
+      transition: all .3s;
+    }
+    .soc-link:hover { color: var(--white); border-color: var(--gold); }
+
+    .cinfo { list-style: none; }
+    .cinfo li {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: 1.1rem 0; border-bottom: 1px solid rgba(255,255,255,.09);
+    }
+    .ci-icon { font-size: 1rem; width: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
+    .ci-svg { width: 28px; height: 28px; flex-shrink: 0; display: block; }
+    .ci-label {
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold);
+    }
+    .ci-val { font-size: .82rem; color: rgba(255,255,255,.82); margin-top: .15rem; }
+    .ci-val a { color: inherit; text-decoration: none; }
+    .ci-val a:hover { color: var(--gold); }
+
+    @media(max-width:900px) {
+      #contact { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: #0D0D0D;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .foot-top {
+      padding: 2.8rem 3.5rem 2rem;
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 2rem; align-items: center;
+    }
+    footer .logo-g { color: var(--white); font-size: .9rem; }
+    footer .logo-p { color: var(--taupe); }
+
+    .foot-socials {
+      display: flex; justify-content: center;
+      align-items: center; gap: 1.2rem;
+    }
+    .foot-soc {
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      text-decoration: none; opacity: .72; transition: opacity .3s, transform .3s;
+    }
+    .foot-soc:hover { opacity: 1; transform: translateY(-3px); }
+    .foot-soc svg { width: 32px; height: 32px; display: block; }
+    .foot-soc-lbl {
+      font-size: .52rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+
+    .foot-right { text-align: right; }
+    .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .foot-addr a:hover { color: var(--white); }
+
+    .foot-bottom {
+      padding: 1rem 3.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      text-align: center;
+    }
+    .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
+
+    @media(max-width:900px) {
+      .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .foot-right { text-align: center; }
+      .foot-bottom { padding: 1rem 1.5rem; }
+    }
+
+    /* ===================== STICKY CONTACT TAB ===================== */
+    #sticky-contact {
+      position: fixed;
+      right: 0; top: 50%; transform: translateY(-50%);
+      z-index: 200;
+      display: flex; align-items: stretch;
+      filter: drop-shadow(-4px 0 18px rgba(0,0,0,.18));
+    }
+
+    /* Onglet vertical — compact enroulé, icône conservée */
+    #sticky-tab {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      background: var(--gold); color: var(--black);
+      font-family: var(--ff-logo);
+      font-size: .52rem; letter-spacing: .06em; text-transform: uppercase;
+      font-weight: 700;
+      padding: .5rem .3rem;
+      cursor: pointer; user-select: none;
+      border-radius: 6px 0 0 6px;
+      transition: background .3s;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      white-space: nowrap;
+    }
+    #sticky-tab:hover { background: var(--black); color: var(--white); }
+    #sticky-tab .tab-icon {
+      writing-mode: horizontal-tb;
+      transform: rotate(90deg);
+      font-size: .72rem;
+      line-height: 1;
+    }
+
+    /* Desktop uniquement : onglet plus grand et plus visible */
+    @media(min-width:769px) {
+      #sticky-tab {
+        padding: .7rem .65rem;
+        font-size: .82rem;
+        letter-spacing: .14em;
+        font-weight: 700;
+        gap: .5rem;
+      }
+      #sticky-tab .tab-icon { font-size: .95rem; }
+    }
+
+    /* Panneau dépliable — inchangé quand ouvert */
+    #sticky-panel {
+      background: var(--charcoal);
+      width: 0; overflow: hidden;
+      transition: width .42s var(--ease);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    #sticky-contact.open #sticky-panel { width: 260px; }
+    .sp-inner {
+      padding: 1.4rem 1.3rem; min-width: 260px;
+    }
+    .sp-logo { margin-bottom: 1rem; }
+    .sp-logo .logo-g { color: white; font-size: .85rem; }
+    .sp-logo .logo-p { font-size: .36rem; color: var(--gold); }
+
+    .sp-title {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: .88rem; color: var(--gold-lt); margin-bottom: 1rem;
+      line-height: 1.3; white-space: nowrap;
+    }
+    .sp-row {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      text-decoration: none;
+    }
+    .sp-row:last-child { border-bottom: none; }
+    .sp-icon { width: 26px; height: 26px; flex-shrink: 0; }
+    .sp-info { display: flex; flex-direction: column; }
+    .sp-lbl { font-size: .52rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .1rem; }
+    .sp-val { font-size: .7rem; color: rgba(255,255,255,.8); }
+    .sp-row:hover .sp-val { color: var(--gold); }
+
+    .sp-close {
+      position: absolute; top: .5rem; right: .5rem;
+      background: none; border: none; color: rgba(255,255,255,.4);
+      font-size: .9rem; cursor: pointer; padding: .2rem;
+      line-height: 1;
+    }
+    .sp-close:hover { color: white; }
+
+    @media(max-width:768px) {
+      #sticky-contact { top: auto; bottom: 5rem; transform: none; }
+      #sticky-tab { font-size: .48rem; padding: .5rem .28rem; }
+      #sticky-contact.open #sticky-panel { width: 220px; }
+      .sp-inner { min-width: 220px; padding: 1.1rem 1rem; }
+      .sp-title { font-size: .8rem; }
+    }
+
+    /* ---- Social SVG icons ---- */
+    .soc-link { display: inline-flex; align-items: center; gap: .55rem; }
+    .soc-link svg { width: 18px; height: 18px; }
+
+    /* ===================== HERO VIDEO ===================== */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(.55);
+      transform: scale(1.02);
+    }
+
+    /* ===================== CARROUSEL PRODUITS ===================== */
+    /* Les cartes sont injectées depuis Airtable (script en bas de page). */
+    .carousel-outer {
+      position: relative;
+    }
+    .carousel-clip {
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1.4rem;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+      will-change: transform;
+      cursor: grab;
+    }
+    .carousel-track.dragging { cursor: grabbing; transition: none; }
+
+    /* 5 cartes visibles sur desktop */
+    .carousel-track .prod-card {
+      flex: 0 0 calc((100% - 1.4rem * 4) / 5);
+      min-width: 0;
+    }
+
+    /* Boutons flèche */
+    .car-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      z-index: 10; background: var(--black); color: var(--white);
+      border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; transition: background .3s, opacity .3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    .car-btn:hover { background: var(--gold); color: var(--black); }
+    .car-btn.disabled { opacity: .2; pointer-events: none; }
+    .car-btn-prev { left: 6px; }
+    .car-btn-next { right: 6px; }
+
+    /* Dots */
+    .car-dots {
+      display: flex; justify-content: center; gap: .5rem;
+      margin-top: 1.6rem;
+    }
+    .car-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      padding: 0; transition: background .3s, transform .3s;
+    }
+    .car-dot.active { background: var(--black); transform: scale(1.4); }
+
+    @media(max-width:900px) {
+      .carousel-track .prod-card { flex: 0 0 calc((100% - 1.4rem) / 2); }
+      .car-btn { display: none; }
+    }
+    @media(max-width:600px) {
+      /* Mobile : carte large + hint de la suivante sur la droite */
+      .carousel-track .prod-card { flex: 0 0 calc(100% - 2.5rem); }
+      .carousel-track { gap: 1rem; }
+    }
+
+    /* Grille Airtable : les cartes restent des flex items du .carousel-track */
+    .catalog-grid-root { display: contents; }
+
+    .catalog-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      background: rgba(246,241,234,.88);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      transition: opacity .35s var(--ease), visibility .35s;
+    }
+    .catalog-loading.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .carousel-clip { position: relative; }
+
+    /* ===================== SCROLL ANIMATIONS ===================== */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s var(--ease), transform .65s var(--ease);
+    }
+    .fade-up.vis { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== STICKY CONTACT TAB ========== -->
+  <div id="sticky-contact">
+    <div id="sticky-panel">
+      <div class="sp-inner" style="position:relative">
+        <button class="sp-close" onclick="toggleSticky()">✕</button>
+        <div class="sp-logo logo">
+          <span class="logo-g">GIORGIA</span>
+          <span class="logo-p">paris</span>
+        </div>
+        <p class="sp-title">Contactez notre équipe B2B</p>
+
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Commander sur WhatsApp</span>
+            <span class="sp-val">+33 6 86 72 93 11</span>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sp-row" href="https://instagram.com/giorgia.auber" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-sticky" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-sticky)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Instagram</span>
+            <span class="sp-val">@giorgia.auber</span>
+          </div>
+        </a>
+
+        <!-- TikTok -->
+        <a class="sp-row" href="https://tiktok.com/@giorgia.paris56" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">TikTok</span>
+            <span class="sp-val">@giorgia.paris56</span>
+          </div>
+        </a>
+
+        <!-- Showroom -->
+        <a class="sp-row" href="#contact">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">NOTRE SHOWROOM</span>
+            <span class="sp-val">70 rue de la Haie Coq, Aubervilliers</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
+      Contact
+    </div>
+  </div>
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()">✕</button>
+    <a href="#summer" onclick="closeMob()">Summer Vibes</a>
+    <a href="#working" onclick="closeMob()">Urban Woman</a>
+    <a href="#chic"    onclick="closeMob()">Chic &amp; Soirée</a>
+    <a href="#boheme"  onclick="closeMob()">Bohème</a>
+    <a href="#casual"  onclick="closeMob()">Casual</a>
+    <a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar">
+    <a class="logo" href="#top">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#summer">Summer Vibes</a></li>
+      <li><a href="#working">Urban Woman</a></li>
+      <li><a href="#chic">Chic &amp; Soirée</a></li>
+      <li><a href="#boheme">Bohème</a></li>
+      <li><a href="#casual">Casual</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Commander</a>
+      <div class="hamburger" onclick="openMob()"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section id="top">
+    <div id="hero">
+      <!--
+        IMAGE HERO — Pour changer l'image :
+        Remplacer l'URL dans .hero-bg (dans le CSS en haut)
+        ou uploader une photo dans /images/ sur GitHub et écrire : url('images/votre-photo.jpg')
+      -->
+      <div class="hero-bg"></div>
+      <div class="hero-grad"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Collection Printemps-Été 2026</p>
+        <div class="hero-logo logo" style="margin-bottom:.8rem">
+          <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
+          <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
+        </div>
+        <p class="hero-tagline">Votre grossiste en prêt-à-porter féminin,<br>Giorgia vous accompagne pour proposer les plus belles pièces à vos clientes.</p>
+        <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
+        <div class="hero-btns">
+          <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
+          <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
+        </div>
+      </div>
+      <div class="hero-scroll">Scroll</div>
+    </div>
+  </section>
+
+  <!-- ========== INTRO STRIP ========== -->
+  <div class="intro-strip">
+    <div class="logo">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </div>
+    <div class="intro-text">
+      <h2>Qui sommes-nous ?</h2>
+      <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris propose chaque saison une sélection soigneusement construite : des pièces alliant tendance, finition et accessibilité. Des vêtements qui séduiront dans vos rayons — et pour lesquels vos clientes reviendront. Livraison rapide depuis notre stock parisien.</p>
+    </div>
+    <div class="intro-stats">
+      <div>
+        <span class="stat-num">+18</span>
+        <span class="stat-lbl">ans d'expérience</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== UNIVERS NAV ========== -->
+  <!--
+    ╔══════════════════════════════════════════════════════╗
+    ║  ORDRE DES CATÉGORIES — modifiez ICI uniquement      ║
+    ║  Le menu, le slider et la page suivront              ║
+    ╚══════════════════════════════════════════════════════╝
+    Chaque ligne = { id, emoji, label, sub, desc }
+    • Pour remonter une catégorie : déplacez sa ligne vers le haut
+    • Pour la descendre : déplacez-la vers le bas
+    • Pour la renommer dans l'interface : changez "label"
+    ⚠️  Ne changez PAS l'id (summer/working/chic/boheme/casual)
+        car il correspond au mapping Airtable dans CATEGORY_TO_CAROUSEL
+  -->
+  <div class="univers-nav">
+    <div class="univers-nav-inner" id="js-univers-nav"></div>
+  </div>
+
+  <div id="js-univers-sections"></div>
+
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact">
+    <div>
+      <div class="logo" style="margin-bottom:2rem">
+        <span class="logo-g" style="color:white;font-size:1.4rem">GIORGIA</span>
+        <span class="logo-p" style="color:#C5A36A">paris</span>
+      </div>
+      <h2 class="contact-title">Prêt à passer votre <span>commande</span> ?<br>Une <span>question</span> ?</h2>
+      <p class="contact-body">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance, une collection qui tourne — c'est ça, GIORGIA paris.</p>
+      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Produits disponibles par pack de 6, tailles S/M ou M/L</p>
+    </div>
+
+    <div>
+      <ul class="cinfo">
+
+        <!-- Email -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div>
+            <span class="ci-label">Email</span>
+           <div class="ci-val"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
+          </div>
+        </li>
+
+        <!-- WhatsApp -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div>
+            <span class="ci-label">Commander sur WhatsApp</span>
+            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">+33 6 86 72 93 11</a></div>
+          </div>
+        </li>
+
+        <!-- Instagram -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-cinfo" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-cinfo)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div>
+            <span class="ci-label">Instagram</span>
+            <div class="ci-val"><a href="https://instagram.com/giorgia.auber" target="_blank">@giorgia.auber</a></div>
+          </div>
+        </li>
+
+        <!-- TikTok -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div>
+            <span class="ci-label">TikTok</span>
+            <div class="ci-val"><a href="https://tiktok.com/@giorgia.paris56" target="_blank">@giorgia.paris56</a></div>
+          </div>
+        </li>
+
+        <!-- Showroom -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div>
+            <span class="ci-label">Notre showroom</span>
+            <div class="ci-val">70 rue de la Haie Coq<br>93300 Aubervilliers, France</div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="foot-top" style="grid-template-columns: auto 1fr;">
+
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-g" style="color:white">GIORGIA</span>
+        <span class="logo-p" style="color:#5a4e45">paris</span>
+      </div>
+
+      <!-- Adresse -->
+      <div class="foot-right">
+        <div class="foot-addr">
+          <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
+          <p><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a> · +33 6 86 72 93 11</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 GIORGIA paris · Grossiste Prêt-à-Porter Féminin · Catalogue Collection Printemps-Été 2026</p>
+    </div>
+  </footer>
+
+  <!-- CATALOG_DATA -->
+
+  <script>
+    /* =====================================================
+       DONNÉES CATALOGUE — injectées au build par scripts/build.mjs
+       via window.__GIORGIA_CATALOG__. Aucun appel réseau à Airtable
+       ne se fait depuis le navigateur : la clé API n'est jamais exposée.
+    ===================================================== */
+
+    const DEFAULT_WHATSAPP_LINK =
+      'https://wa.me/33686729311?text=' +
+      encodeURIComponent(
+        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+      );
+    const PROD_REF_LINE = '';
+
+    /*
+     * ╔══════════════════════════════════════════════════════════════╗
+     * ║  ORDRE DES CATÉGORIES — modifiez ce tableau pour réordonner ║
+     * ║  Le menu navbar, le slider et les sections page suivront     ║
+     * ╚══════════════════════════════════════════════════════════════╝
+     *
+     *  Chaque objet = une catégorie.
+     *  - Déplacer une ligne = changer l'ordre d'affichage partout
+     *  - Changer "label"   = renommer dans la nav, le slider et le titre
+     *  - Changer "emoji"   = changer l'icône dans la nav et le slider
+     *  - Ne PAS changer "id" ni "airtableKey" → mappés avec Airtable
+     */
+    const UNIVERS = [
+      {
+        id:          'summer',
+        airtableKey: 'Summer Vibes',
+        emoji:       '\u{1F30A}',
+        label:       'Summer Vibes',
+        sub:         'L\u00E9g\u00E8ret\u00E9, couleur & f\u00E9minit\u00E9 solaire',
+        desc:        'Des pi\u00E8ces qui capturent l\u2019essence de l\u2019\u00E9t\u00E9\u00A0: mati\u00E8res fluides, imprim\u00E9s vivants, silhouettes libres. Un univers \u00E0 fort potentiel de vente.',
+        insertBannerAfter: true
+      },
+      {
+        id:          'working',
+        airtableKey: 'Urban Woman',
+        emoji:       '\u{1F454}',
+        label:       'Urban Woman',
+        sub:         '\u00C9l\u00E9gance, confiance & polyvalence au quotidien.',
+        desc:        'Une s\u00E9lection con\u00E7ue pour la femme active contemporaine. Du bureau au week-end, d\u00E9couvrez des basiques sur\u00E9lev\u00E9s et des pi\u00E8ces fluides qui s\u2019adaptent \u00E0 toutes ses vies.'
+      },
+      {
+        id:          'chic',
+        airtableKey: 'Chic & Soir\u00E9e',
+        emoji:       '\u2728',
+        label:       'Chic & Soir\u00E9e',
+        sub:         'Glamour, strass & dentelle pr\u00E9cieuse',
+        desc:        'Quand l\u2019\u00E9l\u00E9gance s\u2019habille de nuit. Strass, satin, dentelle \u2014 des pi\u00E8ces \u00E0 fort impact visuel pour les boutiques de soir\u00E9e et d\u2019\u00E9v\u00E9nementiel.',
+        insertEditorialAfter: true
+      },
+      {
+        id:          'boheme',
+        airtableKey: 'Boh\u00E8me',
+        emoji:       '\u{1F33F}',
+        label:       'Boh\u00E8me',
+        sub:         'Fluidit\u00E9, crochet & \u00E2me libre',
+        desc:        'L\u2019esprit free spirit rencontre l\u2019artisanat d\u00E9licat\u00A0: crochet, mati\u00E8res naturelles, silhouettes a\u00E9riennes. Fort potentiel pour les boutiques lifestyle.'
+      },
+      {
+        id:          'casual',
+        airtableKey: 'Casual Chic',
+        emoji:       '\u{1F90D}',
+        label:       'Casual',
+        sub:         'L\u2019attitude au quotidien, sans effort apparent',
+        desc:        'Le quotidien styl\u00E9\u00A0: vestes \u00E0 caract\u00E8re, tops orn\u00E9ment\u00E9s, looks urban-cool qui tournent en boutique.'
+      }
+    ];
+
+    /** Construit le menu, le slider et les sections à partir de UNIVERS[] */
+    function buildUniversFromConfig() {
+      const nav = document.getElementById('js-univers-nav');
+      const sectionsContainer = document.getElementById('js-univers-sections');
+      if (!nav || !sectionsContainer) return;
+
+      /* ── Navbar mobile : vide les liens catégories existants ── */
+      const mobMenu = document.getElementById('mob-menu');
+      if (mobMenu) {
+        Array.from(mobMenu.querySelectorAll('a[href^="#"]')).forEach(function(a) {
+          if (a.getAttribute('href') !== '#contact') a.remove();
+        });
+      }
+
+      /* ── Navbar desktop : vide les liens ── */
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) navLinks.innerHTML = '';
+
+      UNIVERS.forEach(function(u) {
+
+        /* ── 1. Tab slider ── */
+        var tab = document.createElement('a');
+        tab.href = '#' + u.id;
+        tab.className = 'utab';
+        tab.textContent = u.emoji + ' ' + u.label.replace(/&amp;/g, '&');
+        nav.appendChild(tab);
+
+        /* ── 2. Navbar desktop ── */
+        if (navLinks) {
+          var li = document.createElement('li');
+          var aNav = document.createElement('a');
+          aNav.href = '#' + u.id;
+          aNav.innerHTML = u.label;
+          li.appendChild(aNav);
+          navLinks.appendChild(li);
+        }
+
+        /* ── 3. Menu mobile ── */
+        if (mobMenu) {
+          var mobLink = document.createElement('a');
+          mobLink.href = '#' + u.id;
+          mobLink.setAttribute('onclick', 'closeMob()');
+          mobLink.innerHTML = u.label;
+          var cmdLink = mobMenu.querySelector('a[href="#contact"]');
+          mobMenu.insertBefore(mobLink, cmdLink);
+        }
+
+        /* ── 4. Section univers ── */
+        var section = document.createElement('section');
+        section.className = 'univ-sec';
+        section.id = u.id;
+        section.setAttribute('style', 'scroll-margin-top:130px');
+
+        /* En-tête section */
+        var hdr = document.createElement('div');
+        hdr.className = 'sec-hdr';
+
+        var lineL = document.createElement('div'); lineL.className = 'sec-line';
+        var center = document.createElement('div'); center.className = 'sec-center';
+
+        var eye = document.createElement('span'); eye.className = 'sec-eye';
+        eye.textContent = 'GIORGIA paris — Collection Printemps-Été 2026';
+
+        var title = document.createElement('h2'); title.className = 'sec-title';
+        title.innerHTML = u.label;
+
+        var sub = document.createElement('span'); sub.className = 'sec-sub';
+        sub.innerHTML = u.sub;
+
+        var desc = document.createElement('p'); desc.className = 'sec-desc';
+        desc.innerHTML = u.desc;
+
+        center.appendChild(eye);
+        center.appendChild(title);
+        center.appendChild(sub);
+        center.appendChild(desc);
+
+        var lineR = document.createElement('div'); lineR.className = 'sec-line';
+        hdr.appendChild(lineL);
+        hdr.appendChild(center);
+        hdr.appendChild(lineR);
+        section.appendChild(hdr);
+
+        /* Carrousel */
+        var outer = document.createElement('div');
+        outer.className = 'carousel-outer';
+        outer.setAttribute('data-carousel', u.id);
+
+        var btnPrev = document.createElement('button');
+        btnPrev.className = 'car-btn car-btn-prev';
+        btnPrev.setAttribute('aria-label', 'Précédent');
+        btnPrev.innerHTML = '&#8592;';
+        btnPrev.setAttribute('onclick', "carMove('" + u.id + "',-1)");
+
+        var btnNext = document.createElement('button');
+        btnNext.className = 'car-btn car-btn-next';
+        btnNext.setAttribute('aria-label', 'Suivant');
+        btnNext.innerHTML = '&#8594;';
+        btnNext.setAttribute('onclick', "carMove('" + u.id + "', 1)");
+
+        var clip = document.createElement('div');
+        clip.className = 'carousel-clip';
+
+        var loading = document.createElement('p');
+        loading.className = 'catalog-loading';
+        loading.id = 'loading-' + u.id;
+        loading.setAttribute('role', 'status');
+        loading.textContent = 'Chargement du catalogue…';
+
+        var track = document.createElement('div');
+        track.className = 'carousel-track';
+        track.id = 'track-' + u.id;
+
+        var grid = document.createElement('div');
+        grid.id = 'grid-' + u.id;
+        grid.className = 'catalog-grid-root';
+
+        track.appendChild(grid);
+        clip.appendChild(loading);
+        clip.appendChild(track);
+
+        var dots = document.createElement('div');
+        dots.className = 'car-dots';
+        dots.id = 'dots-' + u.id;
+
+        outer.appendChild(btnPrev);
+        outer.appendChild(btnNext);
+        outer.appendChild(clip);
+        outer.appendChild(dots);
+        section.appendChild(outer);
+
+        sectionsContainer.appendChild(section);
+
+        /* ── 5. Featured banner après Summer Vibes ── */
+        if (u.insertBannerAfter) {
+          var banner = document.createElement('div');
+          banner.className = 'feat-banner';
+
+          var bg = document.createElement('div');
+          bg.className = 'feat-bg';
+          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center')";
+
+          var grad = document.createElement('div');
+          grad.className = 'feat-grad';
+
+          var fc = document.createElement('div');
+          fc.className = 'feat-content';
+          fc.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<h3>V\u00EAtir les boutiques<br>qui font la diff\u00E9rence.</h3>' +
+            '<p>Des pi\u00E8ces s\u00E9lectionn\u00E9es pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant \u2014 et qui veulent des marges r\u00E9elles.</p>' +
+            '<a class="btn-hero-p" href="#contact">Contacter notre \u00E9quipe</a>';
+
+          banner.appendChild(bg);
+          banner.appendChild(grad);
+          banner.appendChild(fc);
+          sectionsContainer.appendChild(banner);
+        }
+
+        /* ── 6. Editorial après Chic & Soirée ── */
+        if (u.insertEditorialAfter) {
+          var ed = document.createElement('div');
+          ed.className = 'editorial';
+
+          var edImg = document.createElement('div');
+          edImg.className = 'ed-img';
+          var edImgEl = document.createElement('img');
+          edImgEl.src = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top';
+          edImgEl.alt = 'GIORGIA paris \u2014 Editorial';
+          edImg.appendChild(edImgEl);
+
+          var edTxt = document.createElement('div');
+          edTxt.className = 'ed-txt';
+          edTxt.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<span class="sec-eye">Grossiste B2B \u00B7 Partenaire depuis 2007</span>' +
+            '<h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>' +
+            '<p>Bas\u00E9 \u00E0 Aubervilliers, au c\u0153ur du triangle d\u2019or du pr\u00EAt-\u00E0-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et \u00E0 l\u2019international.</p>' +
+            '<p>Rejoignez les centaines de revendeurs qui font confiance \u00E0 GIORGIA paris chaque saison.</p>' +
+            '<a class="btn-ed" href="#contact">Devenir revendeur</a>';
+
+          ed.appendChild(edImg);
+          ed.appendChild(edTxt);
+          sectionsContainer.appendChild(ed);
+        }
+
+      }); /* fin UNIVERS.forEach */
+
+      /* Synchronise CAROUSEL_IDS avec l'ordre de UNIVERS */
+      CAROUSEL_IDS.length = 0;
+      UNIVERS.forEach(function(u) { CAROUSEL_IDS.push(u.id); });
+    }
+
+        /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
+    const CATEGORY_TO_CAROUSEL = {
+      'Summer Vibes': 'summer',
+      'Urban Woman': 'working',
+      'Chic & Soirée': 'chic',
+      'Chic & Soiree': 'chic',
+      'Bohème': 'boheme',
+      'Boheme': 'boheme',
+      'Casual Chic': 'casual',
+      'Casual': 'casual'
+    };
+
+    let CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+
+    /* =====================================================
+       CARROUSEL — logique partagée (cartes injectées par Airtable)
+    ===================================================== */
+    const carState = {};
+
+    function visibleCards() {
+      if (window.innerWidth >= 900) return 5;
+      if (window.innerWidth >= 600) return 2;
+      return 1;
+    }
+
+    /* initCarousel — appelé UNE seule fois par carrousel au chargement */
+    function initCarousel(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      if (!track) return;
+
+      const total = track.querySelectorAll('.prod-card').length;
+      carState[id] = { pos: 0, total };
+
+      buildDots(id);
+      carRender(id);
+
+      /* Touch — listeners attachés une seule fois */
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        /* Seuil 40px, avance d'UNE carte à la fois */
+        if (Math.abs(dx) > 40) carMove(id, dx < 0 ? 1 : -1);
+      }, { passive: true });
+
+      /* Mouse drag (desktop) */
+      let mStartX = 0, dragging = false, mMoved = 0;
+      track.addEventListener('mousedown', e => {
+        mStartX = e.clientX; dragging = true; mMoved = 0;
+        track.classList.add('dragging'); e.preventDefault();
+      });
+      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
+      window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        if (Math.abs(mMoved) > 40) carMove(id, mMoved < 0 ? 1 : -1);
+        dragging = false; track.classList.remove('dragging');
+      });
+    }
+
+    /* buildDots — reconstruit les dots (appelé aussi sur resize) */
+    function buildDots(id) {
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!dotsEl || !s) return;
+      const pages = Math.ceil(s.total / visibleCards());
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'car-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => carGoTo(id, i));
+        dotsEl.appendChild(d);
+      }
+    }
+
+    /* carMove — avance ou recule d'UNE seule carte */
+    function carMove(id, dir) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(Math.max(0, s.pos + dir), Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carGoTo(id, page) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(page * vc, Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carRender(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!track || !s) return;
+      const vc = visibleCards();
+
+      const wrap = track.closest('.carousel-outer');
+      const firstCard = track.querySelector('.prod-card');
+      if (!firstCard) {
+        track.style.transform = 'translateX(0)';
+        if (wrap) {
+          wrap.querySelector('.car-btn-prev')?.classList.add('disabled');
+          wrap.querySelector('.car-btn-next')?.classList.add('disabled');
+        }
+        return;
+      }
+
+      const cardW  = firstCard.getBoundingClientRect().width;
+      const styles = getComputedStyle(track);
+      const gap    = parseFloat(styles.gap) || 22;
+
+      /* translateX : la carte de gauche doit toujours être calée au bord gauche du clip */
+      track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
+
+      if (wrap) {
+        wrap.querySelector('.car-btn-prev')?.classList.toggle('disabled', s.pos <= 0);
+        wrap.querySelector('.car-btn-next')?.classList.toggle('disabled', s.pos >= s.total - vc);
+      }
+      if (dotsEl) {
+        const curPage = Math.min(Math.floor(s.pos / vc), dotsEl.children.length - 1);
+        [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === curPage));
+      }
+    }
+
+    /* Resize : recalcule sans réattacher les listeners */
+    function onResize() {
+      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+        if (!carState[id]) return;
+        carState[id].pos = 0;
+        buildDots(id);
+        carRender(id);
+      });
+    }
+
+    window.addEventListener('resize', onResize);
+
+    function airtableCategoryValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      return String(raw).trim();
+    }
+
+    /**
+     * Retourne la meilleure URL possible pour une pièce jointe Airtable :
+     * priorité à thumbnails.large.url (beaucoup plus léger que l’original),
+     * fallback sur l’URL originale si le thumbnail n’est pas encore généré.
+     */
+    function attachmentBestUrl(att) {
+      if (!att) return '';
+      if (att.thumbnails && att.thumbnails.large && att.thumbnails.large.url) {
+        return String(att.thumbnails.large.url).trim();
+      }
+      if (att.url) return String(att.url).trim();
+      return '';
+    }
+
+    function firstAttachmentUrl(field) {
+      if (!field) return '';
+      if (Array.isArray(field) && field.length) {
+        const u = attachmentBestUrl(field[0]);
+        if (u) return u;
+      }
+      if (typeof field === 'string' && field.trim()) return field.trim();
+      return '';
+    }
+
+    /** Toutes les URLs d’un champ pièces jointes (plusieurs photos dans « Photos »). */
+    function allAttachmentUrls(field) {
+      if (!field) return [];
+      if (Array.isArray(field)) {
+        const out = [];
+        for (let i = 0; i < field.length; i++) {
+          const u = attachmentBestUrl(field[i]);
+          if (u) out.push(u);
+        }
+        return out;
+      }
+      if (typeof field === 'string' && field.trim()) return [field.trim()];
+      return [];
+    }
+
+    function firstUrlFromFieldKeys(fields, keys) {
+      if (!fields) return '';
+      for (let i = 0; i < keys.length; i++) {
+        const u = firstAttachmentUrl(fields[keys[i]]);
+        if (u) return u;
+      }
+      return '';
+    }
+
+    /**
+     * Ordre : toutes les images de « Photos », puis Photos2, puis Photos3 (sans doublon).
+     * Permet plusieurs fichiers dans la colonne Photos + colonnes séparées.
+     */
+    function buildGallerySlotsFromFields(fields) {
+      if (!fields) return [];
+      const fromPhotos = allAttachmentUrls(fields.Photos);
+      const p2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      const p3 = firstUrlFromFieldKeys(fields, ['Photos3', 'Photos 3', 'Photo 3', 'photos3']);
+      const ordered = fromPhotos.slice();
+      if (p2 && ordered.indexOf(p2) === -1) ordered.push(p2);
+      if (p3 && ordered.indexOf(p3) === -1) ordered.push(p3);
+      const seen = new Set();
+      const slots = [];
+      for (let i = 0; i < ordered.length; i++) {
+        if (!seen.has(ordered[i])) {
+          seen.add(ordered[i]);
+          slots.push({ url: ordered[i] });
+        }
+      }
+      return slots;
+    }
+
+    /**
+     * Image affichée au survol de la grande photo : colonne Photos2 si remplie,
+     * sinon 2e pièce jointe de « Photos » (cas le plus fréquent si tout est dans Photos).
+     */
+    function hoverSecondImageUrl(fields) {
+      if (!fields) return '';
+      const fromPhotos2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      if (fromPhotos2) return fromPhotos2;
+      const list = allAttachmentUrls(fields.Photos);
+      if (list.length >= 2) return list[1];
+      return '';
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    /** Extrait une URL/texte utilisable depuis une cellule Airtable (texte, URL, formule, lookup…). */
+    function normalizeLinkValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'number' && !Number.isNaN(raw)) return String(raw).trim();
+      if (Array.isArray(raw) && raw.length) return normalizeLinkValue(raw[0]);
+      if (typeof raw === 'object' && raw.url) return String(raw.url).trim();
+      const s = String(raw).trim();
+      return s === '[object Object]' ? '' : s;
+    }
+
+    /**
+     * Utilise fields.Lien (ou un champ dont le nom correspond à « lien », sans tenir compte de la casse / espaces).
+     * Si vide : lien WhatsApp général du site.
+     */
+    function resolveProductHref(fields) {
+      if (!fields || typeof fields !== 'object') return DEFAULT_WHATSAPP_LINK;
+
+      const explicitKeys = ['Lien', 'LIEN', 'lien', 'Link', 'URL', 'Url'];
+      for (let i = 0; i < explicitKeys.length; i++) {
+        const v = normalizeLinkValue(fields[explicitKeys[i]]);
+        if (v) return v;
+      }
+
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'lien' || nk.startsWith('lien ')) {
+          const v = normalizeLinkValue(fields[keys[k]]);
+          if (v) return v;
+        }
+      }
+
+      return DEFAULT_WHATSAPP_LINK;
+    }
+
+    /** Nom affiché : colonne « Nom » ou « Name » (Airtable utilise le nom exact du champ). */
+    function resolveProductName(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Nom', 'NOM', 'nom', 'Name', 'NAME', 'name', 'Titre', 'title'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const key = keys[k];
+        const nk = key.trim().toLowerCase();
+        if (nk === 'nom' || nk === 'name') {
+          const v = fields[key];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    /** Référence article (colonne « Reference » ou variantes de nom). */
+    function resolveProductReference(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Reference', 'REFERENCE', 'reference', 'Référence', 'Ref', 'REF'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'reference' || nk === 'référence' || nk === 'ref') {
+          const v = fields[keys[k]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    /** Texte du badge Airtable (champ Badge, liste ou texte). */
+    function airtableBadgeString(raw) {
+      if (raw == null || raw === '') return '';
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      const s = String(raw).trim();
+      return s;
+    }
+
+    function resolveProductBadge(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge', 'BADGE', 'badge'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
+    function resolveProductBadge2(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge2', 'BADGE2', 'badge2', 'Badge 2', 'BADGE 2', 'badge 2'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge2') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
+    /**
+     * Fond noir par défaut et si le texte contient « nouvelle ».
+     * Rouge discret uniquement si le texte contient « promo » sans « nouvelle ».
+     */
+    function badgeClassForText(text) {
+      if (!text) return 'prod-badge';
+      const lower = text.toLowerCase();
+      if (lower.indexOf('nouvelle') !== -1) return 'prod-badge';
+      if (lower.indexOf('promo') !== -1) return 'prod-badge prod-badge--promo';
+      return 'prod-badge';
+    }
+
+    /** Titre sous la photo : « REF: xxx - Nom » ou seulement le nom si pas de référence. */
+    function formatProductTitleHtml(ref, nom) {
+      const r = ref && String(ref).trim();
+      const n = nom != null ? String(nom).trim() : '';
+      if (r && n) return 'REF: ' + escapeHtml(r) + ' - ' + escapeHtml(n);
+      if (n) return escapeHtml(n);
+      if (r) return 'REF: ' + escapeHtml(r);
+      return '';
+    }
+
+    function setupProductGallery(card, uniqueSlots, photos2Url, altBase) {
+      const mainImg = card.querySelector('img.prod-img-primary');
+      if (!mainImg || !uniqueSlots.length) return;
+
+      let selectedIdx = 0;
+
+      function applyMain(i) {
+        const slot = uniqueSlots[i];
+        if (!slot) return;
+        mainImg.src = slot.url;
+        mainImg.alt = altBase;
+        card.querySelectorAll('.prod-thumb').forEach(function (el, j) {
+          el.classList.toggle('is-active', j === i);
+        });
+      }
+
+      if (photos2Url && photos2Url !== (uniqueSlots[0] && uniqueSlots[0].url)) {
+        mainImg.addEventListener('mouseenter', function () {
+          mainImg.setAttribute('data-giorgia-swap', '1');
+          mainImg.src = photos2Url;
+        });
+        mainImg.addEventListener('mouseleave', function () {
+          if (!mainImg.hasAttribute('data-giorgia-swap')) return;
+          mainImg.removeAttribute('data-giorgia-swap');
+          applyMain(selectedIdx);
+        });
+      }
+
+      card.querySelectorAll('.prod-thumb').forEach(function (btn, i) {
+        btn.addEventListener('mouseenter', function () {
+          applyMain(i);
+        });
+        btn.addEventListener('mouseleave', function () {
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedIdx = i;
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            selectedIdx = i;
+            applyMain(selectedIdx);
+          }
+        });
+      });
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.prod-thumb')) e.preventDefault();
+      });
+    }
+
+    function buildProductCard(fields) {
+      const nom = resolveProductName(fields);
+      const reference = resolveProductReference(fields);
+      const desc = (function() {
+        const tryDescKeys = ['Description', 'DESCRIPTION', 'description', 'Desc', 'DESC', 'desc'];
+        for (let i = 0; i < tryDescKeys.length; i++) {
+          const v = fields[tryDescKeys[i]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+        return '';
+      })();
+      const href = resolveProductHref(fields);
+      const uniqueSlots = buildGallerySlotsFromFields(fields);
+      const mainSrc = uniqueSlots.length ? uniqueSlots[0].url : '';
+      const hoverUrl = hoverSecondImageUrl(fields);
+      const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
+      const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
+
+      const badgeText = resolveProductBadge(fields);
+      const badge2Text = resolveProductBadge2(fields);
+
+      const a = document.createElement('a');
+      a.className = 'prod-card';
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      const media = document.createElement('div');
+      media.className = 'prod-media';
+
+      const imgBox = document.createElement('div');
+      imgBox.className = 'prod-img';
+
+      if (mainSrc) {
+        const mainImg = document.createElement('img');
+        mainImg.className = 'prod-img-primary';
+        mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
+        mainImg.alt = alt;
+        mainImg.loading = 'lazy';
+        mainImg.decoding = 'async';
+        imgBox.appendChild(mainImg);
+      }
+
+      if (badgeText || badge2Text) {
+        const badgeWrap = document.createElement('div');
+        badgeWrap.className = 'prod-badges';
+        if (badgeText) {
+          const b = document.createElement('div');
+          b.className = badgeClassForText(badgeText);
+          b.textContent = badgeText;
+          badgeWrap.appendChild(b);
+        }
+        if (badge2Text) {
+          const b2 = document.createElement('div');
+          b2.className = 'prod-badge2';
+          b2.textContent = badge2Text;
+          badgeWrap.appendChild(b2);
+        }
+        imgBox.appendChild(badgeWrap);
+      }
+
+      const wm = document.createElement('div');
+      wm.className = 'prod-wm logo';
+      wm.innerHTML = '<span class="logo-g">GIORGIA</span><span class="logo-p">paris</span>';
+      imgBox.appendChild(wm);
+
+      media.appendChild(imgBox);
+
+      if (uniqueSlots.length > 1) {
+        const thumbs = document.createElement('div');
+        thumbs.className = 'prod-thumbs';
+        for (let i = 0; i < uniqueSlots.length; i++) {
+          const sp = document.createElement('span');
+          sp.className = 'prod-thumb' + (i === 0 ? ' is-active' : '');
+          sp.setAttribute('role', 'button');
+          sp.setAttribute('tabindex', '0');
+          const tim = document.createElement('img');
+          tim.src = uniqueSlots[i].url;
+          tim.alt = '';
+          tim.loading = 'lazy';
+          tim.decoding = 'async';
+          sp.appendChild(tim);
+          thumbs.appendChild(sp);
+        }
+        media.appendChild(thumbs);
+      }
+
+      a.appendChild(media);
+
+      const info = document.createElement('div');
+      info.className = 'prod-info';
+      info.innerHTML =
+        '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
+        '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
+        '<p class="prod-desc">' + escapeHtml(desc) + '</p>';
+      a.appendChild(info);
+
+      a.setAttribute('href', href);
+
+      if (mainSrc && (uniqueSlots.length > 1 || hoverUrl)) {
+        setupProductGallery(a, uniqueSlots, hoverUrl, alt);
+      }
+
+      return a;
+    }
+
+    function waitForImages(root, timeoutMs) {
+      timeoutMs = timeoutMs == null ? 25000 : timeoutMs;
+      const imgs = root.querySelectorAll('img[src]');
+      if (!imgs.length) return Promise.resolve();
+      const each = function (img) {
+        return new Promise(function (resolve) {
+          if (img.complete) return resolve();
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        });
+      };
+      const allLoaded = Promise.all([].map.call(imgs, each));
+      const timeout = new Promise(function (resolve) {
+        setTimeout(resolve, timeoutMs);
+      });
+      return Promise.race([allLoaded, timeout]);
+    }
+
+    /** Valeur numérique du champ Ordre, ou null si absent / non numérique. */
+    function ordreValueFromRecord(rec) {
+      const f = rec.fields || {};
+      const v = f.Ordre;
+      if (v == null || v === '') return null;
+      const n = typeof v === 'number' ? v : Number(String(v).trim().replace(',', '.'));
+      if (Number.isNaN(n)) return null;
+      return n;
+    }
+
+    /**
+     * Trie côté client : par Ordre croissant ; sans numéro d’ordre à la fin
+     * (l’API Airtable peut laisser les vides en tête en asc).
+     */
+    function sortRecordsByOrdre(records) {
+      return records.slice().sort(function (a, b) {
+        const oa = ordreValueFromRecord(a);
+        const ob = ordreValueFromRecord(b);
+        if (oa == null && ob == null) return 0;
+        if (oa == null) return 1;
+        if (ob == null) return -1;
+        if (oa === ob) return 0;
+        return oa < ob ? -1 : 1;
+      });
+    }
+
+    /* =====================================================
+       LECTURE DU CATALOGUE — les données sont embarquées dans la page
+       par le build statique (window.__GIORGIA_CATALOG__).
+       Plus aucun appel réseau à Airtable depuis le navigateur.
+    ===================================================== */
+    async function fetchAllAirtableRecords() {
+      const payload = window.__GIORGIA_CATALOG__;
+      if (payload && Array.isArray(payload.products)) {
+        return payload.products;
+      }
+      throw new Error(
+        'Catalogue non disponible : les données n’ont pas été injectées dans la page. ' +
+        'Vérifiez que le build GitHub Actions a bien tourné.'
+      );
+    }
+
+    async function loadCatalogFromAirtable() {
+      try {
+        const records = await fetchAllAirtableRecords();
+        const unmatched = [];
+
+        records.forEach(rec => {
+          const f = rec.fields || {};
+          const cat = airtableCategoryValue(f.Categorie != null ? f.Categorie : f['Catégorie']);
+          const key = CATEGORY_TO_CAROUSEL[cat];
+          const grid = key ? document.getElementById('grid-' + key) : null;
+          if (!grid) {
+            if (cat) unmatched.push(cat);
+            return;
+          }
+          grid.appendChild(buildProductCard(f));
+        });
+
+        if (unmatched.length) {
+          const uniq = [...new Set(unmatched)];
+          console.warn('[GIORGIA] Catégories non reconnues (vérifiez l’orthographe dans Airtable) :', uniq);
+        }
+
+        await Promise.all(
+          CAROUSEL_IDS.map(async cid => {
+            const grid = document.getElementById('grid-' + cid);
+            const loadEl = document.getElementById('loading-' + cid);
+            if (grid) await waitForImages(grid);
+            if (loadEl) loadEl.classList.add('done');
+          })
+        );
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            CAROUSEL_IDS.forEach(initCarousel);
+          });
+        });
+      } catch (err) {
+        console.error(err);
+        CAROUSEL_IDS.forEach(cid => {
+          const loadEl = document.getElementById('loading-' + cid);
+          if (loadEl) {
+            loadEl.textContent = 'Impossible de charger le catalogue.';
+            loadEl.style.color = '#6b2a2a';
+            loadEl.style.pointerEvents = 'auto';
+          }
+        });
+        requestAnimationFrame(() => {
+          CAROUSEL_IDS.forEach(initCarousel);
+        });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      buildUniversFromConfig();
+
+      /* Observer les sections dynamiques pour la nav active */
+      const tabs = document.querySelectorAll('.utab');
+      const secIO = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('section[id]').forEach(s => secIO.observe(s));
+
+      /* Observer les fade-up statiques */
+      document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+      loadCatalogFromAirtable();
+    });
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    /* Les .fade-up sont observés dans le load event ci-dessous */
+
+    /* ---- ACTIVE UNIVERS TAB ---- */
+    /* NB: setup décalé au load event pour capter les sections créées dynamiquement */
+
+    /* ---- NAVBAR SCROLL ---- */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    /* ---- MOBILE MENU ---- */
+    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    /* ---- STICKY CONTACT PANEL ---- */
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
+      const sc = document.getElementById('sticky-contact');
+      if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
