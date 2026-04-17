@@ -1,0 +1,13 @@
+{
+  "name": "giorgia-paris-vitrine-pe2026",
+  "version": "1.0.0",
+  "description": "Catalogue statique GIORGIA paris — collection Printemps-Été 2026",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}
