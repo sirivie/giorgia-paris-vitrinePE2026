@@ -5,8 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GIORGIA paris — Catalogue Collection Printemps-Été 2026</title>
   <meta name="description" content="GIORGIA paris — Grossiste prêt-à-porter féminin basé à Aubervilliers. Collection Printemps-Été 2026. Casual chic, Summer Vibes, Urban Woman, Bohème & Soirée. Minimum 100€ HT.">
+  <!-- PATCH WEBPERF : preload de l'image hero (la première chose vue).
+       On force aussi un resize à 1600px pour éviter de télécharger l'original
+       de plusieurs Mo. Pexels supporte les query params ?w=...&auto=compress. -->
+  <link rel="preload" as="image"
+        href="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        fetchpriority="high">
+  <link rel="preconnect" href="https://images.pexels.com" crossorigin>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- PATCH WEBPERF : preconnect vers les CDN Airtable qui servent les images.
+       Économise DNS+TCP+TLS (200-400 ms) avant la première image produit.
+       dl.airtable.com est utilisé pour les originaux, v5.airtableusercontent.com
+       pour les thumbnails. -->
+  <link rel="preconnect" href="https://v5.airtableusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://dl.airtable.com" crossorigin>
+  <link rel="dns-prefetch" href="https://v5.airtableusercontent.com">
+  <link rel="dns-prefetch" href="https://dl.airtable.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
@@ -144,7 +160,10 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg') center center / cover no-repeat;
+      /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
+         télécharger l'original full-resolution. L'URL doit matcher celle
+         du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
+      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600') center center / cover no-repeat;
       filter: brightness(.62);
     }
     .hero-grad {
@@ -1320,7 +1339,9 @@
 
           var bg = document.createElement('div');
           bg.className = 'feat-bg';
-          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center')";
+          /* PATCH WEBPERF : &auto=format → WebP si le navigateur supporte,
+             &q=75 → compression plus agressive. Typiquement -60% de poids. */
+          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center&auto=format&q=75')";
 
           var grad = document.createElement('div');
           grad.className = 'feat-grad';
@@ -1809,7 +1830,7 @@
       });
     }
 
-    function buildProductCard(fields) {
+    function buildProductCard(fields, isPriority) {
       const nom = resolveProductName(fields);
       const reference = resolveProductReference(fields);
       const desc = (function() {
@@ -1846,7 +1867,17 @@
         mainImg.className = 'prod-img-primary';
         mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
         mainImg.alt = alt;
-        mainImg.loading = 'lazy';
+        /* --- PATCH WEBPERF ---
+           Les 4 premières cards de Summer Vibes sont prioritaires : elles
+           sont au-dessus de la ligne de flottaison et doivent être peintes
+           le plus tôt possible. Le reste reste lazy pour économiser la
+           bande passante. */
+        if (isPriority) {
+          mainImg.loading = 'eager';
+          mainImg.setAttribute('fetchpriority', 'high');
+        } else {
+          mainImg.loading = 'lazy';
+        }
         mainImg.decoding = 'async';
         imgBox.appendChild(mainImg);
       }
@@ -1979,6 +2010,11 @@
         const records = await fetchAllAirtableRecords();
         const unmatched = [];
 
+        /* --- PATCH WEBPERF ---
+           On compte les cards ajoutées à "summer" pour marquer les 4
+           premières comme prioritaires (chargement eager + fetchpriority
+           high). Ce sont celles visibles au premier scroll. */
+        let summerCount = 0;
         records.forEach(rec => {
           const f = rec.fields || {};
           const cat = airtableCategoryValue(f.Categorie != null ? f.Categorie : f['Catégorie']);
@@ -1988,7 +2024,9 @@
             if (cat) unmatched.push(cat);
             return;
           }
-          grid.appendChild(buildProductCard(f));
+          const isPriority = (key === 'summer' && summerCount < 4);
+          if (key === 'summer') summerCount++;
+          grid.appendChild(buildProductCard(f, isPriority));
         });
 
         if (unmatched.length) {
@@ -1996,14 +2034,17 @@
           console.warn('[GIORGIA] Catégories non reconnues (vérifiez l’orthographe dans Airtable) :', uniq);
         }
 
-        await Promise.all(
-          CAROUSEL_IDS.map(async cid => {
-            const grid = document.getElementById('grid-' + cid);
-            const loadEl = document.getElementById('loading-' + cid);
-            if (grid) await waitForImages(grid);
-            if (loadEl) loadEl.classList.add('done');
-          })
-        );
+        /* --- PATCH WEBPERF ---
+           On n'attend PLUS que les images soient chargées pour initialiser les
+           carrousels. Les images se chargent en asynchrone (loading="lazy"),
+           attendre provoquait un blocage de 25s (timeout) car les images hors
+           viewport ne se téléchargent jamais.
+           On masque simplement les "loading-XXX" immédiatement, et on init
+           les carrousels au prochain frame. */
+        CAROUSEL_IDS.forEach(cid => {
+          const loadEl = document.getElementById('loading-' + cid);
+          if (loadEl) loadEl.classList.add('done');
+        });
 
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
