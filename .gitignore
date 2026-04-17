@@ -1,0 +1,14 @@
+# Sortie du build — régénérée à chaque exécution, jamais commit sur main.
+dist/
+
+# Dépendances locales (on n'en a pas pour l'instant, mais au cas où).
+node_modules/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
