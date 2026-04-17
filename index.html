@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIORGIA paris — Catalogue Collection Printemps-Été 2026</title>
+  <meta name="description" content="GIORGIA paris — Grossiste prêt-à-porter féminin basé à Aubervilliers. Collection Printemps-Été 2026. Casual chic, Summer Vibes, Urban Woman, Bohème & Soirée. Minimum 100€ HT.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
+    @font-face {
+      font-family: 'Century Gothic';
+      src: local('Century Gothic'), local('CenturyGothic');
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    /* =====================================================
+       GIORGIA paris — Catalogue PE 2026
+       =====================================================
+       GUIDE MISE À JOUR :
+       • Remplacer les photos produits : chercher "PHOTO-PRODUIT"
+       • Modifier les noms / descriptions : dans chaque .product-info
+       • Nouvelle saison : dupliquer ce fichier, renommer en AH2026 etc.
+       ===================================================== */
+
+    :root {
+      --cream:      #F6F1EA;
+      --cream-dark: #EDE6DB;
+      --black:      #161616;
+      --charcoal:   #2A2724;
+      --gold:       #C5A36A;
+      --gold-lt:    #E2CFA8;
+      --taupe:      #8C7B6A;
+      --white:      #FDFAF6;
+      --border:     rgba(22,22,22,0.10);
+
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-logo:    'Century Gothic', 'Josefin Sans', 'Trebuchet MS', 'Futura', sans-serif;
+      --ff-body:    'DM Sans', system-ui, sans-serif;
+      --ease:       cubic-bezier(.25,.46,.45,.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ---- LOGO TYPOGRAPHIQUE — Century Gothic ---- */
+    .logo {
+      display: flex; flex-direction: column; align-items: center;
+      line-height: 1; text-decoration: none; color: inherit; user-select: none;
+    }
+    .logo-g {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      letter-spacing: .42em;
+      text-transform: uppercase;
+    }
+    .logo-p {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 300;
+      font-size: clamp(.45rem,.7vw,.62rem);
+      letter-spacing: .65em;
+      color: var(--taupe);
+      text-transform: lowercase;
+      margin-top: 2px;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    #navbar {
+      position: fixed; inset: 0 0 auto;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3.5rem;
+      background: rgba(246,241,234,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.07); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+    .btn-nav {
+      font-size: .68rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: var(--black);
+      padding: .55rem 1.4rem; transition: background .3s;
+    }
+    .btn-nav:hover { background: var(--gold); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 4.5px;
+      cursor: pointer; padding: .3rem;
+    }
+    .hamburger span { width: 20px; height: 1.5px; background: var(--black); display: block; }
+
+    @media(max-width:900px) {
+      #navbar { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ===================== MOBILE MENU ===================== */
+    #mob-menu {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: var(--black); flex-direction: column;
+      align-items: center; justify-content: center; gap: 2rem;
+    }
+    #mob-menu.open { display: flex; }
+    #mob-menu a {
+      font-family: var(--ff-display); font-size: 2rem; font-weight: 300;
+      color: var(--white); text-decoration: none; letter-spacing: .05em;
+    }
+    #mob-menu a:hover { color: var(--gold); }
+    .mob-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: var(--white);
+      font-size: 1.6rem; cursor: pointer;
+    }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg') center center / cover no-repeat;
+      filter: brightness(.62);
+    }
+    .hero-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; max-width: 680px;
+      /* Empêche tout débordement horizontal sur mobile */
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold-lt); margin-bottom: 1.4rem;
+    }
+    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
+    .hero-logo .logo-g {
+      font-size: clamp(2rem, 10vw, 5.5rem);
+      color: var(--white);
+      letter-spacing: clamp(.15em, 1.5vw, .5em);
+      padding-left: clamp(.05em, .8vw, .25em);
+      display: block; word-break: keep-all; white-space: nowrap;
+      overflow: visible;
+    }
+    .hero-logo .logo-p {
+      font-size: clamp(.7rem, 2vw, 1.4rem);
+      color: var(--gold-lt);
+      letter-spacing: clamp(.3em, 2vw, .9em);
+    }
+    .hero-tagline {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
+      line-height: 1.65; margin: 1.3rem 0 .5rem;
+    }
+    .hero-sub {
+      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.92); font-weight: 500;
+      margin-bottom: 2.2rem;
+      white-space: normal; line-height: 1.7;
+    }
+    .btn-hero-p {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--black); background: var(--gold-lt);
+      padding: .85rem 2.2rem;
+      transition: all .3s;
+    }
+    .btn-hero-p:hover { background: var(--white); transform: translateY(-2px); }
+    .btn-hero-s {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--white); background: var(--black);
+      padding: .85rem 2.2rem; transition: all .3s;
+    }
+    .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+    .hero-btns {
+      display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: .4rem; color: rgba(255,255,255,.5);
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 38px;
+      background: rgba(255,255,255,.35);
+      animation: scrollAnim 2.4s ease infinite;
+    }
+    @keyframes scrollAnim {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      49%  { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @media(max-width:768px) {
+      .hero-content { padding: 0 1.4rem; }
+    }
+
+    /* ===================== INTRO STRIP ===================== */
+    .intro-strip {
+      background: var(--charcoal); color: var(--white);
+      padding: 4rem 3.5rem;
+      display: grid; grid-template-columns: 1fr 2.2fr 1fr;
+      gap: 3rem; align-items: center;
+    }
+    .intro-strip .logo-g { color: var(--white); }
+    .intro-strip .logo-p { color: var(--gold); }
+
+    .intro-text { text-align: center; }
+    .intro-text h2 {
+      font-family: var(--ff-display); font-size: clamp(1.3rem,2.5vw,1.9rem);
+      font-weight: 300; font-style: italic; color: var(--gold-lt);
+      margin-bottom: .9rem;
+    }
+    .intro-text p {
+      font-size: .82rem; line-height: 1.85;
+      color: rgba(255,255,255,.68); max-width: 560px; margin: 0 auto;
+    }
+    .intro-stats {
+      display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-end;
+    }
+    .stat-num {
+      font-family: var(--ff-display); font-size: 1.9rem; font-weight: 700;
+      color: var(--gold); display: block; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.42);
+    }
+
+    @media(max-width:900px) {
+      .intro-strip { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .intro-stats { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ===================== UNIVERS NAV ===================== */
+    .univers-nav {
+      background: var(--cream); border-bottom: 1px solid var(--border);
+      position: sticky; top: 67px; z-index: 80; overflow-x: auto;
+    }
+    .univers-nav::-webkit-scrollbar { display: none; }
+    .univers-nav-inner {
+      display: flex; justify-content: center;
+      padding: 0 3.5rem; min-width: max-content; margin: 0 auto;
+    }
+    .utab {
+      font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      padding: 1.05rem 1.8rem;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all .3s;
+    }
+    .utab:hover, .utab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ===================== SECTIONS ===================== */
+    .univ-sec {
+      padding: 5rem 3.5rem;
+      /* Décale l'ancre sous les deux barres fixes : navbar (~67px) + univers-nav (~46px) + marge */
+      scroll-margin-top: 130px;
+    }
+    .univ-sec:nth-child(even) { background: var(--white); }
+
+    .sec-hdr {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem; align-items: center; margin-bottom: 3.5rem;
+    }
+    .sec-line { height: 1px; background: var(--border); }
+    .sec-center { text-align: center; }
+    .sec-eye {
+      font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: .4rem;
+    }
+    .sec-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 600; line-height: .95;
+      letter-spacing: .02em;
+    }
+    .sec-sub {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(.85rem,1.4vw,1rem);
+      color: var(--taupe); display: block; margin-top: .5rem;
+    }
+    .sec-desc {
+      font-size: .8rem; line-height: 1.85; color: var(--taupe);
+      max-width: 620px; margin: 1.3rem auto 0; text-align: center;
+    }
+
+    @media(max-width:768px) {
+      .univ-sec { padding: 3.5rem 1.5rem; }
+      .sec-hdr { grid-template-columns: 1fr; gap: .5rem; }
+      .sec-line { display: none; }
+    }
+
+    /* ===================== PRODUCT GRID ===================== */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    /* Cartes produits cliquables */
+    .prod-card {
+      overflow: hidden; cursor: pointer;
+      text-decoration: none; color: inherit; display: block;
+      transition: box-shadow .3s;
+    }
+    .prod-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); }
+
+    .prod-media { display: block; }
+    .prod-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 3/4; background: var(--cream-dark);
+    }
+    .prod-img img.prod-img-primary {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform .75s var(--ease);
+    }
+    .prod-card:hover .prod-img img.prod-img-primary { transform: scale(1.08); }
+
+    .prod-thumbs {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: .35rem;
+      margin-top: .45rem;
+      flex-wrap: wrap;
+    }
+    .prod-thumb {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--cream-dark);
+      padding: 0;
+      margin: 0;
+      display: block;
+      box-sizing: border-box;
+      transition: border-color .2s, opacity .2s;
+    }
+    .prod-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+    .prod-thumb:hover,
+    .prod-thumb.is-active { border-color: var(--black); }
+    .prod-thumb:focus { outline: none; }
+    .prod-thumb:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* Conteneur des badges — colonne en haut à gauche de l'image */
+    .prod-badges {
+      position: absolute; top: .9rem; left: .9rem; right: .9rem;
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
+    }
+    .prod-badge {
+      background: var(--black); color: var(--white);
+      font-size: .57rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      padding: .28rem .65rem;
+      line-height: 1.25;
+    }
+    .prod-badge--promo {
+      background: #8f3336;
+      color: #fff;
+      box-shadow: 0 1px 0 rgba(0,0,0,.12);
+    }
+    .prod-badge2 {
+      background: rgba(253, 250, 246, .96);
+      color: var(--black);
+      border: 1px solid rgba(22, 22, 22, .1);
+      font-size: .52rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: .26rem .55rem;
+      line-height: 1.2;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .prod-wm {
+      position: absolute; bottom: .7rem; right: .7rem;
+      background: rgba(246,241,234,.9); padding: .3rem .55rem; z-index: 2;
+    }
+    .prod-wm .logo-g { font-size: .6rem; }
+    .prod-wm .logo-p { font-size: .26rem; }
+
+    .prod-info { padding: .9rem 0 .4rem; }
+    .prod-ref {
+      font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .25rem;
+    }
+    .prod-ref:empty { display: none; }
+    .prod-name {
+      font-family: var(--ff-display); font-size: .98rem; font-weight: 500;
+      color: var(--black); line-height: 1.3; margin-bottom: .25rem;
+    }
+    .prod-desc { font-size: .74rem; color: var(--taupe); line-height: 1.65; }
+
+    @media(max-width:600px) {
+      .prod-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+    }
+
+    /* ===================== FEATURED BANNER ===================== */
+    .feat-banner {
+      position: relative; height: 58vh; min-height: 360px;
+      overflow: hidden; display: flex; align-items: center;
+    }
+    .feat-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      filter: brightness(.6);
+    }
+    .feat-grad { position: absolute; inset: 0; background: linear-gradient(to right, rgba(22,22,22,.72) 0%, transparent 65%); }
+    .feat-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; color: var(--white); max-width: 520px;
+    }
+    .feat-content h3 {
+      font-family: var(--ff-display); font-size: clamp(1.7rem,3.5vw,2.8rem);
+      font-weight: 300; font-style: italic; margin: 1rem 0; line-height: 1.2;
+    }
+    .feat-content p { font-size: .82rem; line-height: 1.82; color: rgba(255,255,255,.76); margin-bottom: 1.5rem; }
+    .feat-content .logo-g { color: var(--white); font-size: 1rem; }
+    .feat-content .logo-p { color: var(--gold-lt); font-size: .42rem; }
+
+    @media(max-width:768px) { .feat-content { padding: 0 1.5rem; } }
+
+    /* ===================== EDITORIAL SPLIT ===================== */
+    .editorial {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .ed-img { overflow: hidden; aspect-ratio: 3/2; }
+    .ed-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+    .editorial:hover .ed-img img { transform: scale(1.05); }
+    .ed-txt {
+      padding: 2.2rem 3.5rem;
+      background: var(--black); color: var(--white);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .ed-txt .logo-g { color: var(--white); font-size: .95rem; }
+    .ed-txt .logo-p { font-size: .4rem; }
+    .ed-txt .sec-eye { color: var(--gold); margin-top: 1rem; }
+    .ed-txt .sec-title { color: var(--white); font-size: clamp(1.7rem,2.8vw,2.4rem); }
+    .ed-txt p {
+      font-size: .82rem; line-height: 1.9;
+      color: rgba(255,255,255,.67); margin-top: .8rem;
+    }
+    .btn-ed {
+      display: inline-block; margin-top: 1.4rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: .9rem 2.2rem; transition: all .3s;
+    }
+    .btn-ed:hover { background: var(--white); }
+
+    @media(max-width:900px) {
+      .editorial { grid-template-columns: 1fr; }
+      .ed-img { aspect-ratio: 16/9; }
+      .ed-txt { padding: 2rem 1.5rem; }
+    }
+
+    /* ===================== CONTACT ===================== */
+    #contact {
+      background: var(--charcoal); padding: 6rem 3.5rem;
+      display: grid; grid-template-columns: 1.3fr .9fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-title {
+      font-family: var(--ff-display); font-size: clamp(2rem,4vw,3.4rem);
+      font-weight: 300; font-style: italic; color: var(--white);
+      line-height: 1.2; margin-bottom: 1.3rem;
+    }
+    .contact-title span { color: var(--gold); font-style: normal; font-weight: 600; }
+    .contact-body {
+      font-size: .82rem; line-height: 1.88;
+      color: rgba(255,255,255,.62); margin-bottom: 1.5rem;
+    }
+    .contact-note {
+      font-size: .72rem; color: rgba(255,255,255,.35); margin-bottom: 2rem;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: .7rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: 1rem 2.4rem; transition: all .3s;
+    }
+    .btn-wa:hover { background: var(--white); }
+    .social-row {
+      display: flex; gap: .8rem; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .soc-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.2); padding: .5rem 1rem;
+      transition: all .3s;
+    }
+    .soc-link:hover { color: var(--white); border-color: var(--gold); }
+
+    .cinfo { list-style: none; }
+    .cinfo li {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: 1.1rem 0; border-bottom: 1px solid rgba(255,255,255,.09);
+    }
+    .ci-icon { font-size: 1rem; width: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
+    .ci-svg { width: 28px; height: 28px; flex-shrink: 0; display: block; }
+    .ci-label {
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold);
+    }
+    .ci-val { font-size: .82rem; color: rgba(255,255,255,.82); margin-top: .15rem; }
+    .ci-val a { color: inherit; text-decoration: none; }
+    .ci-val a:hover { color: var(--gold); }
+
+    @media(max-width:900px) {
+      #contact { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: #0D0D0D;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .foot-top {
+      padding: 2.8rem 3.5rem 2rem;
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 2rem; align-items: center;
+    }
+    footer .logo-g { color: var(--white); font-size: .9rem; }
+    footer .logo-p { color: var(--taupe); }
+
+    .foot-socials {
+      display: flex; justify-content: center;
+      align-items: center; gap: 1.2rem;
+    }
+    .foot-soc {
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      text-decoration: none; opacity: .72; transition: opacity .3s, transform .3s;
+    }
+    .foot-soc:hover { opacity: 1; transform: translateY(-3px); }
+    .foot-soc svg { width: 32px; height: 32px; display: block; }
+    .foot-soc-lbl {
+      font-size: .52rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+
+    .foot-right { text-align: right; }
+    .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .foot-addr a:hover { color: var(--white); }
+
+    .foot-bottom {
+      padding: 1rem 3.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      text-align: center;
+    }
+    .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
+
+    @media(max-width:900px) {
+      .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .foot-right { text-align: center; }
+      .foot-bottom { padding: 1rem 1.5rem; }
+    }
+
+    /* ===================== STICKY CONTACT TAB ===================== */
+    #sticky-contact {
+      position: fixed;
+      right: 0; top: 50%; transform: translateY(-50%);
+      z-index: 200;
+      display: flex; align-items: stretch;
+      filter: drop-shadow(-4px 0 18px rgba(0,0,0,.18));
+    }
+
+    /* Onglet vertical — compact enroulé, icône conservée */
+    #sticky-tab {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      background: var(--gold); color: var(--black);
+      font-family: var(--ff-logo);
+      font-size: .52rem; letter-spacing: .06em; text-transform: uppercase;
+      font-weight: 700;
+      padding: .5rem .3rem;
+      cursor: pointer; user-select: none;
+      border-radius: 6px 0 0 6px;
+      transition: background .3s;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      white-space: nowrap;
+    }
+    #sticky-tab:hover { background: var(--black); color: var(--white); }
+    #sticky-tab .tab-icon {
+      writing-mode: horizontal-tb;
+      transform: rotate(90deg);
+      font-size: .72rem;
+      line-height: 1;
+    }
+
+    /* Desktop uniquement : onglet plus grand et plus visible */
+    @media(min-width:769px) {
+      #sticky-tab {
+        padding: .7rem .65rem;
+        font-size: .82rem;
+        letter-spacing: .14em;
+        font-weight: 700;
+        gap: .5rem;
+      }
+      #sticky-tab .tab-icon { font-size: .95rem; }
+    }
+
+    /* Panneau dépliable — inchangé quand ouvert */
+    #sticky-panel {
+      background: var(--charcoal);
+      width: 0; overflow: hidden;
+      transition: width .42s var(--ease);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    #sticky-contact.open #sticky-panel { width: 260px; }
+    .sp-inner {
+      padding: 1.4rem 1.3rem; min-width: 260px;
+    }
+    .sp-logo { margin-bottom: 1rem; }
+    .sp-logo .logo-g { color: white; font-size: .85rem; }
+    .sp-logo .logo-p { font-size: .36rem; color: var(--gold); }
+
+    .sp-title {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: .88rem; color: var(--gold-lt); margin-bottom: 1rem;
+      line-height: 1.3; white-space: nowrap;
+    }
+    .sp-row {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      text-decoration: none;
+    }
+    .sp-row:last-child { border-bottom: none; }
+    .sp-icon { width: 26px; height: 26px; flex-shrink: 0; }
+    .sp-info { display: flex; flex-direction: column; }
+    .sp-lbl { font-size: .52rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .1rem; }
+    .sp-val { font-size: .7rem; color: rgba(255,255,255,.8); }
+    .sp-row:hover .sp-val { color: var(--gold); }
+
+    .sp-close {
+      position: absolute; top: .5rem; right: .5rem;
+      background: none; border: none; color: rgba(255,255,255,.4);
+      font-size: .9rem; cursor: pointer; padding: .2rem;
+      line-height: 1;
+    }
+    .sp-close:hover { color: white; }
+
+    @media(max-width:768px) {
+      #sticky-contact { top: auto; bottom: 5rem; transform: none; }
+      #sticky-tab { font-size: .48rem; padding: .5rem .28rem; }
+      #sticky-contact.open #sticky-panel { width: 220px; }
+      .sp-inner { min-width: 220px; padding: 1.1rem 1rem; }
+      .sp-title { font-size: .8rem; }
+    }
+
+    /* ---- Social SVG icons ---- */
+    .soc-link { display: inline-flex; align-items: center; gap: .55rem; }
+    .soc-link svg { width: 18px; height: 18px; }
+
+    /* ===================== HERO VIDEO ===================== */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(.55);
+      transform: scale(1.02);
+    }
+
+    /* ===================== CARROUSEL PRODUITS ===================== */
+    /* Les cartes sont injectées depuis Airtable (script en bas de page). */
+    .carousel-outer {
+      position: relative;
+    }
+    .carousel-clip {
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1.4rem;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+      will-change: transform;
+      cursor: grab;
+    }
+    .carousel-track.dragging { cursor: grabbing; transition: none; }
+
+    /* 5 cartes visibles sur desktop */
+    .carousel-track .prod-card {
+      flex: 0 0 calc((100% - 1.4rem * 4) / 5);
+      min-width: 0;
+    }
+
+    /* Boutons flèche */
+    .car-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      z-index: 10; background: var(--black); color: var(--white);
+      border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; transition: background .3s, opacity .3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    .car-btn:hover { background: var(--gold); color: var(--black); }
+    .car-btn.disabled { opacity: .2; pointer-events: none; }
+    .car-btn-prev { left: 6px; }
+    .car-btn-next { right: 6px; }
+
+    /* Dots */
+    .car-dots {
+      display: flex; justify-content: center; gap: .5rem;
+      margin-top: 1.6rem;
+    }
+    .car-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      padding: 0; transition: background .3s, transform .3s;
+    }
+    .car-dot.active { background: var(--black); transform: scale(1.4); }
+
+    @media(max-width:900px) {
+      .carousel-track .prod-card { flex: 0 0 calc((100% - 1.4rem) / 2); }
+      .car-btn { display: none; }
+    }
+    @media(max-width:600px) {
+      /* Mobile : carte large + hint de la suivante sur la droite */
+      .carousel-track .prod-card { flex: 0 0 calc(100% - 2.5rem); }
+      .carousel-track { gap: 1rem; }
+    }
+
+    /* Grille Airtable : les cartes restent des flex items du .carousel-track */
+    .catalog-grid-root { display: contents; }
+
+    .catalog-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      background: rgba(246,241,234,.88);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      transition: opacity .35s var(--ease), visibility .35s;
+    }
+    .catalog-loading.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .carousel-clip { position: relative; }
+
+    /* ===================== SCROLL ANIMATIONS ===================== */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s var(--ease), transform .65s var(--ease);
+    }
+    .fade-up.vis { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== STICKY CONTACT TAB ========== -->
+  <div id="sticky-contact">
+    <div id="sticky-panel">
+      <div class="sp-inner" style="position:relative">
+        <button class="sp-close" onclick="toggleSticky()">✕</button>
+        <div class="sp-logo logo">
+          <span class="logo-g">GIORGIA</span>
+          <span class="logo-p">paris</span>
+        </div>
+        <p class="sp-title">Contactez notre équipe B2B</p>
+
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Commander sur WhatsApp</span>
+            <span class="sp-val">+33 6 86 72 93 11</span>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sp-row" href="https://instagram.com/giorgia.auber" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-sticky" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-sticky)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Instagram</span>
+            <span class="sp-val">@giorgia.auber</span>
+          </div>
+        </a>
+
+        <!-- TikTok -->
+        <a class="sp-row" href="https://tiktok.com/@giorgia.paris56" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">TikTok</span>
+            <span class="sp-val">@giorgia.paris56</span>
+          </div>
+        </a>
+
+        <!-- Showroom -->
+        <a class="sp-row" href="#contact">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">NOTRE SHOWROOM</span>
+            <span class="sp-val">70 rue de la Haie Coq, Aubervilliers</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
+      Contact
+    </div>
+  </div>
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()">✕</button>
+    <a href="#summer" onclick="closeMob()">Summer Vibes</a>
+    <a href="#working" onclick="closeMob()">Urban Woman</a>
+    <a href="#chic"    onclick="closeMob()">Chic &amp; Soirée</a>
+    <a href="#boheme"  onclick="closeMob()">Bohème</a>
+    <a href="#casual"  onclick="closeMob()">Casual</a>
+    <a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar">
+    <a class="logo" href="#top">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#summer">Summer Vibes</a></li>
+      <li><a href="#working">Urban Woman</a></li>
+      <li><a href="#chic">Chic &amp; Soirée</a></li>
+      <li><a href="#boheme">Bohème</a></li>
+      <li><a href="#casual">Casual</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Commander</a>
+      <div class="hamburger" onclick="openMob()"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section id="top">
+    <div id="hero">
+      <!--
+        IMAGE HERO — Pour changer l'image :
+        Remplacer l'URL dans .hero-bg (dans le CSS en haut)
+        ou uploader une photo dans /images/ sur GitHub et écrire : url('images/votre-photo.jpg')
+      -->
+      <div class="hero-bg"></div>
+      <div class="hero-grad"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Collection Printemps-Été 2026</p>
+        <div class="hero-logo logo" style="margin-bottom:.8rem">
+          <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
+          <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
+        </div>
+        <p class="hero-tagline">Votre grossiste en prêt-à-porter féminin,<br>Giorgia vous accompagne pour proposer les plus belles pièces à vos clientes.</p>
+        <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
+        <div class="hero-btns">
+          <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
+          <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
+        </div>
+      </div>
+      <div class="hero-scroll">Scroll</div>
+    </div>
+  </section>
+
+  <!-- ========== INTRO STRIP ========== -->
+  <div class="intro-strip">
+    <div class="logo">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </div>
+    <div class="intro-text">
+      <h2>Qui sommes-nous ?</h2>
+      <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris propose chaque saison une sélection soigneusement construite : des pièces alliant tendance, finition et accessibilité. Des vêtements qui séduiront dans vos rayons — et pour lesquels vos clientes reviendront. Livraison rapide depuis notre stock parisien.</p>
+    </div>
+    <div class="intro-stats">
+      <div>
+        <span class="stat-num">+18</span>
+        <span class="stat-lbl">ans d'expérience</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== UNIVERS NAV ========== -->
+  <!--
+    ╔══════════════════════════════════════════════════════╗
+    ║  ORDRE DES CATÉGORIES — modifiez ICI uniquement      ║
+    ║  Le menu, le slider et la page suivront              ║
+    ╚══════════════════════════════════════════════════════╝
+    Chaque ligne = { id, emoji, label, sub, desc }
+    • Pour remonter une catégorie : déplacez sa ligne vers le haut
+    • Pour la descendre : déplacez-la vers le bas
+    • Pour la renommer dans l'interface : changez "label"
+    ⚠️  Ne changez PAS l'id (summer/working/chic/boheme/casual)
+        car il correspond au mapping Airtable dans CATEGORY_TO_CAROUSEL
+  -->
+  <div class="univers-nav">
+    <div class="univers-nav-inner" id="js-univers-nav"></div>
+  </div>
+
+  <div id="js-univers-sections"></div>
+
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact">
+    <div>
+      <div class="logo" style="margin-bottom:2rem">
+        <span class="logo-g" style="color:white;font-size:1.4rem">GIORGIA</span>
+        <span class="logo-p" style="color:#C5A36A">paris</span>
+      </div>
+      <h2 class="contact-title">Prêt à passer votre <span>commande</span> ?<br>Une <span>question</span> ?</h2>
+      <p class="contact-body">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance, une collection qui tourne — c'est ça, GIORGIA paris.</p>
+      <p class="contact-note">Minimum de commande : 100€ HT · Livraison rapide depuis Paris · Produits disponibles par pack de 6, tailles S/M ou M/L</p>
+    </div>
+
+    <div>
+      <ul class="cinfo">
+
+        <!-- Email -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div>
+            <span class="ci-label">Email</span>
+           <div class="ci-val"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
+          </div>
+        </li>
+
+        <!-- WhatsApp -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div>
+            <span class="ci-label">Commander sur WhatsApp</span>
+            <div class="ci-val"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank">+33 6 86 72 93 11</a></div>
+          </div>
+        </li>
+
+        <!-- Instagram -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-cinfo" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-cinfo)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div>
+            <span class="ci-label">Instagram</span>
+            <div class="ci-val"><a href="https://instagram.com/giorgia.auber" target="_blank">@giorgia.auber</a></div>
+          </div>
+        </li>
+
+        <!-- TikTok -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div>
+            <span class="ci-label">TikTok</span>
+            <div class="ci-val"><a href="https://tiktok.com/@giorgia.paris56" target="_blank">@giorgia.paris56</a></div>
+          </div>
+        </li>
+
+        <!-- Showroom -->
+        <li>
+          <svg class="ci-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div>
+            <span class="ci-label">Notre showroom</span>
+            <div class="ci-val">70 rue de la Haie Coq<br>93300 Aubervilliers, France</div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="foot-top" style="grid-template-columns: auto 1fr;">
+
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-g" style="color:white">GIORGIA</span>
+        <span class="logo-p" style="color:#5a4e45">paris</span>
+      </div>
+
+      <!-- Adresse -->
+      <div class="foot-right">
+        <div class="foot-addr">
+          <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
+          <p><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a> · +33 6 86 72 93 11</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 GIORGIA paris · Grossiste Prêt-à-Porter Féminin · Catalogue Collection Printemps-Été 2026</p>
+    </div>
+  </footer>
+
+  <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={"version":1,"generatedAt":"2026-04-17T15:41:57.502Z","count":57,"products":[{"id":"recU6zkMiViMYPYLH","fields":{"Name":"Robe à pois","Description":"Cette robe à pois sera parfaitement adaptée pour les sorties et les balades estivales.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Gz461RFcoj5hEcNdCf3rGg/xudl3QkwGWUDle9jMn9Zy0WF5EDnSSGmwT9PNevzNBCQ4bxtn1I1PfqoAGbXqCqukHKMIIR-y7bphLTyddn6Umi9Bio0qJMukVh-qYtHUpym4bHbxCiyhLHxg1abFZyd9_-Q-J_sjqmm0D8iwn_G9jr8kCXdaeV7ea4o1b7yEfk/7FxMrqRmUni5suWqq5sQ78h8s3ZfyiS6T-SmOya5ze0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/UsCMbCuBG9gEaRhOPaG9hg/RmAA2C4ORsmd67-HO-Yvb8L9spITddpbF4yJUvp4xnLPo9wq4LPGrkrEBcuNiI_mCfvczSBd5P2_O9rzniBo9CvOalWieX4xbFMdDA8yJS5Hf0hiP_3bBtB6AC84Que6MX1r0UZAthhKInXVwN8_QQ/MrXy5FPv5H9viaUBWwrq4EvYRA4uJk2BDlsC9qEMtMo"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/d9JX9z8R-pQH_gmDd4goWg/41rFXRCwYoMaFtPHFQcMmK20TyswzXkedgarv7uOkKcnCKOe-DnEnmnPPdXDfHdbA1gbqW6ZNT8t0nS3GFMgFV4izLh5ptP2ZBI3eMNEt1uf7-cWaBHt5Yffksp0uli5JeQ6xSu5ssdNmfs4kqzGN4IrYHMjKZk7G43n5okhOtc/RpZEVnpBDF0OdxYDdK90OtYTTmLC5bkqBWvuANcqilQ","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/RBjjckoV8Hs9CWOmKJmhOg/SWYW8-BAr7lj8vJIzINfhFoUKrpwaicu61nugQnRUIyO_lxkZe9mnXXtagvIemGXdbeotw8GcbFGOR2A-QF0WJnzztuLXDfnl_JCrdQkwzlHDjEn5QB-07DAhJF1DOuVSWkHAubS7MbjLWjFbB-9Tw/_jwCUISbLaf47RsKjVJm0KvtMrtX3MDLBnC6qpXLa44"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/6ZzSfQi6WdHKwbtUWn681w/81BVwVBqkJ0_q08Q1ci0s08CoNzIsVyF52hR6uZGz-8RX8N9QLZzOv0MVAdWEQAODddABGgldKGol8K8-qOsFmOI2CL2M5Qg6lGNWM4AhpWQtmVyDB2wY6m7H6uTwBjxTOf9i6hbz-6A2dkInDIR6XL-gAQCFZ5gPaa0QLws5rw/-dVUbh-JMTyTThhjNM_aTgZG0lCzfA2dbSLURxKA7Ak","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qhrQrToFexB3GcInSMw7Qg/JOaO8AVPUKyis5R5eSXBUnIWTIZH7fkKEW2UxyMVuJea3EUiiKy0uY96QBtjkOq-Obro0c5egbDK7VH65FrDs6WrkcmBKT-XlKFNwwuazYe6Br2Vgh7LO-BCEDP2l7QSaQlFZ38q4D5dDX74q3mhew/iQ-Us7k4wAfuQ4ipAWVfzXmJoEKRpEtsxVR0ApfseTo"}}}],"Badge 2":"Pack de 6 - S/M - M/L"}},{"id":"rec5qq7TWqcnPQaEO","fields":{"Name":"Top à pois","Description":"Confort et légèreté, ce top conviendra au quotidien pendant la saison chaude. ","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2djv9ZUltO1g1Y_Lol22TQ/PCjTwYopgILSSwKSRN1mgP2zlPRqTjQauIkzQdpPhAVVwDcriAZyArNwYlxXfQlYy7M5zFOxCwmEXdcfanT8YKQ1QwbwDN2tUqbrWAKqGag42EPIqc0j4q49089HiSOTKax-F_B37TvROHlZh2u121gvRpPm5RVZ9YAaV95VGs8/VKtOdaUe3J_UuU8pEzRqHnCs8PdsDWJkdqMA0uU0S2Q","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Re4dKgm8D5LGvjrCfWONqw/h5-9U9YOaWQqCAxJbxOetuRLaXm-z0s7L2qnEATFph6PYgT6-8R9bfZcixGwSbe4HaXUcte_pWYONfYBInYzc9YbSx3FH8RrB1awqEB0uHA2pgfCapidzqLjtqADLBzPSlHTKbX6kEJLmqHeVjB2SA/3ZYHYWnY-lYmVy2USfjo02dsJauv39ygBG3jST6Vcmw"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/L1p5PRH7GccOLo1DtTRaUg/hpgtvQdmyGzG1EC80m77qQFCgIPGXrKhoOLIG2DfrAIO1faBCh-5T7xFJ4_1QJkf5vhlVC35BHXt_Oe6XqMlnLiyhXdGK8GPClZqXM42HGV9FpVPLPBf_x48EFtZ8BA7dv-oKMVe5yjK-qGDq7A2o1CJSe2Dr2IVY9-wm6Fcezw/SzXI2Evkjj17AI8Wxo0ywZaw_a-d84pVMoJ3mLT2dhM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Usd9HvMr7mBFHUBdChd4LA/R0gkrLcV1qo-roQh4OFABjgSODKtTTXveGHnd0iGLExFa4SMDbuBhOD6B3JOxC68lz3RCRKHbdXoUIxMdOoVBujVM46tDe1OCW9nZEvKH-955ZMma7ehVmIVwUcdP3bmXKzgUBXEfI8qzyI7xyQouw/kblaaKu18_lk0cMUieXRMQQf2iTWkxDOVSWEPFsWkcw"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Ckd-Jjd7enlHzEuQUXelBg/pzfn_WIi-RBNRwxFhD3MVV9lwroHHDmkdC02dLCVuezwCAha-qIxqbgmImVSUdsrgVD4l2HOZm6hMmboDKQnKkfDVvf-m4rRTjrlFcAMQ-pIbm8vi4KbFRLwvNIXYcY61YseE3UrCqcWjxpqy7haBYL_aCA2rx0Uq-NTeF8z81A/Zdr5Pu2lGejEPgSrCVyGReYmFjS9P_TPgpyfqXeboIA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/D7pX5gru4aWQHNxFoq7NuA/r_I51iM5xcBg3KG0K5ssgTBlnW2ZwNLkt7bPS8wPL203XdC_k30t8IWQ4hIPjlK7w0v28fJi_Z9SyWZ_dyIJsLclLq5M_CIMmX8F71b5IEA6yzgri2YlBKUviN836AvBl7tyPN_dM6fOuj8dgG3kRg/pqyB85jXcbH2FWKupfj-xfQjfaFdMXz4tkoKMKnMFkU"}}}]}},{"id":"recyx0SUlbx6E5PTf","fields":{"Name":"Body en Dentelle avec Décoration Central","Description":"Une pièce séduisante pour vos clientes avec ce haut-body en dentelle, parfait pour la saison estivale.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/4t4W9IVHnUudsGtTo-x2aA/3WGdDcDYt1Q5Dz3h5acwwfv3_Yyg_R7sKjqrvKst8DKKgE2b9t1WAsgn2BsNdPgSmvHWdHIV1HOIeY7u5LaJI7QOPD31crzkHQrkH0hxHyw9JxMfukrQRDNFkXHDXFxe2CDs-hcr_YpQiKmw31yNDcbefJ2NqiZMRcZbClp3xunYioCC43OZn_ImilGkhY4tIE8bKraPLmv6VRnpd8FRyuwcr6Sa9Xvr516c4PQVXoMtgOQ2s6z9uNiGSC8YLcA3/iPQXJZkWCvYhkTVNASmkFBeViGQf4myq66KHeUBhP6I","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/52rBiw7u3ZWyCShaSCRDzQ/p_t1L0PsZ5tTMKZqtcwa3OAhUXXJpRIWDef_g8ZUiUoVpi1ZLfimkzE5lmYHAXis9iE34mETLZ5He1dtRpDi2A6a9W9ZMgwbVXpzL7mfCfwoQ0S1RMockgV-PzHPZgz4_SKiQgyhTdfFpdOLS7rxLA/NNkMBkL549c0_OvUb5MtoGTqhDAIsU6i5QCsKWg9Evw"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":5,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/TeQ9wwi_31YeAEYv4a5wTQ/rIuJ0-LHDAOUsCRQQEsRdS6-etCkBjY2oQnAY5igZkWlswXragMWfprboE4mVEN6Ra-F62GcL7Tpx8tyHM-JoTI5-7-GItZMrAcglOLVNHUU_LX95v3Ly46LH65PDn8NlaqC7eTD-Q3X4ipxcsR7ZL-YfOVNCurI-oLENhGvQHZmw3iOz7mqBpwnvD-j4eAwXxE-kxgwy6H7MHKa_0blkQ/lDZqR0V0Km2OBWbhAl3a6IDIN9LV7C7MEzCSL2LSloM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/KTkYQb_1uRWfMBDilnVc1A/Kh5yq7CKjulGxaph9oUkb16FFMe5OmCS3se0SX21ppHpM0r_ItzJR7anK7mYkryLYvI5zWys1idxhmHJiXO_mqUygfOGE3gTkIVTUQGid-7ytSuWAsYg1LaIQqDOtMp2kAT9_Cr4TkbzGogSw3tW1w/lsa10mhUOjtsHyGn45oel_8pht_HRtUOchxOGfZ2sgM"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/lC-joNn7qX_qtoxwzAlSmA/HUcMRBdTFmtOhVYjKzUc0M8ft7A0b2klOJ2Wr3Ju0se4PrHYkfnEuCqLts6yzASXpRClBJv6YQwP81pQv5yuLWswJj_E_x7HmuV6dF3oiVnACXCYlctM80XcgDcjjoABaTqipWaSqaXkUnEcfSOkVK02fLGxAX4NdwwVOCBzDfDxJ10YlZdwM4eIdRBTd192PJGkaD0rSTUVnYU16prXuQ/9kvjJnkaQBbrbkh47cVKP8syFv3_u5QN6n06GG7bjC0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/jxhxBiqj4Isd184kVT_6Nw/q82Kvdb8PKkJcBjVb6R4GkkOHv-Se0OmWTfRJ_rQ7md-PEpFDkVfBtn_xxHamhqkrfdt8MwnEiRGl411d1f_SS5KD6_CNqn6wYfdh670XjjsMFY_W2m1A6loDPnpFskhAEnQx1teD-5TXgKtgz3eoQ/a50k58Ltf3PLLyEjS1IbHZFnfRLpQl9cjB1StskhEjc"}}}]}},{"id":"recJPmLGJC56J41DA","fields":{"Name":"Robe Longue Asymétrique à Volants","Description":"Robe Longue Asymétrique à Volants, idéale pour la saison printemps/été.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/kG8WX-Vt6hngcAaubd5EVw/XnodgzlawE7U3P2iZMv1XTD1y7ZNoZpETq2k1q9E3mybRWh8x23FOOcExW_2wkk9WFtqtnl49ie23HNCqVG0FAf27AHQE6vd1fN7timObg57s7GpbNPbtPcxZ0VP7_x_V-djXISjY46rLbbDcKkht2KKM8AqnbiuVCbthouMyGj_WUGCGxpRgnGqeLUBEu65ijckLb3U9bSbTuBuimVRnJDTmElNIrOQshmwmlWS4jo/Xx_YinVZZbotzp1kn7MIczy-G6mUVmwSqdk2yCYLFnA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/jnOih-MCUCp_vM3vSRFs1w/vBMhmnnP-rBnVVZJXk9vVKF6spob7LdFEBG_YQfYAlsqz0bqxwOaQR95QSiK7NKPKDrNtWw9c7F43im_yx4YeHp1uLG9fOZ0Z9_nhq2TumoJivG6vxWVsguwVbOZe1c4ktxg9omAwmFfkFDMTwPQyQ/MR20gM0Ki9EhZCNCqxt5-ATcSoUq8hAcHTSftPnZHVE"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":10,"Badge":"Nouvelle Collection","Badge 2":"Pack de 6 - S/M - M/L"}},{"id":"recEw7aZ8985T3im4","fields":{"Name":"Débardeur type corset","Description":"Débardeur type corset, pour un style chic en été.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/FZPffPf17AO5avSuZUO_xQ/gkk_eq0kSa_AtDPUH-Cxej1b794xk4kPRKjEENImc1XtTpOoWEPWca-DT2BHKidrOc00aDSR32p6JCZfbuYNdNle-FwfG8j73M7cpcxPvQix0UU_vPUEMF_hbSrpFD4s9ZE0cCZOqYGzEb7SUgSNCDc3S5Wv4_mU_MHgu-NhYnDC9mz1DAzTh0r01MQMQ3cp/1ier5vkReniFDL_GgEWdUXg4QIWExEOfu-S3sbls744","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/O3cMs9hg99F9mtipz-_czw/tn-8Cb0_7NAk2p3J0BHxT3RKmEMjL0QoAcnn9V0i9rlbwdpqutlN80U3_-aiMkDGPgDDgU0TwCVMNpLDMC8M5q3XxaEx7k-YFN0OhMkh4jYfmH_2Xf5yzAnz7IyKTfWDg2mD2GIQ6VZkQzDWlvZCAA/YZowCarmhibHtK5Z1dgndckxtzxyviAYw5eBjXuTmwc"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":20,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/GIY4buTsfJsNo-uB7L27XA/poxd5ABDk2HWXB_laG6QuyHA4deBQs7FfvTK6rgTUGT9UbkctC958ATYVEwZS5Kbpm0AA1ThNWzMPoKuLAosx-pCdJb8XxIKMTQTwmHTFjKpwBhAxZKrxomDDUvYAzRTQzOFZelIPRV2NsOUM8F1HvlP-miHHyzxYQ6aZpXD04sCsFX-4dls6PQlQmpk7nMc/ZxlQFzKHpnD0roug92EGGV8psI3TNKdGchZhlui6uTs","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/IdrXBuOinI66pqH9uFBu_w/Nlv4BRy8gAmLo2a_l_0bTJ5FWZwCLr9lY73GnHlQ-jKAzRGYAmqcA6Sg5_CauLjcGVcjZdvPGq0uzuPRrzYFLdVKj2tp_3niPUW7lYQBUo01aM-K4CSeJzyl1sXV3yR0MRAaVlPZg0ZCq7lX4IZ2aw/wMu4nKSK1Ft7nkH7rctTcLvrUvLL_slhRvdJt80cpjI"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2JIbkS2aPhEFQgdlHGYbIA/ID3LAYQ1WBgkCUp0A9xNY9dzClxSNLp7L-vIxFrKFPFCDhuOaMH0Le6irVvgyhaP1tfy_weHx6uBTusUCRU9KAhxRt01stwxnSjFSYuUzW_9i_wXeX84S7S-C1G92Y6K4N8n58ys6ZQk1lloEuPIcqg6g84XcUwWMyk42Ylfvt5opKTkdG-p9IXRgul3XPuv/O6I-krnerW5IkCjLVgnP8ZAumxVflwd0DTXkxRl0d3s","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/UmZH-KdNXGhQflCbKKZPiA/cSVGzuJcOq9mOjaYSknpokKti5h-f8lu6cJHAyJ9FvhYOkrWAhbskWa2Lq7B8rBCpOTDFFga3aKBYLolyF3HmE-QNc2FNJTIYIoUjsHxrsjSnReHhjjjLd_6GaauKC_T3lcXESAOtzjOEZn_C-DrwA/af-pmJ9dNPnDuYYvPonOrprUAZcTbw0JzWjJWQVkHXs"}}}]}},{"id":"reci7DWXoiAURvecv","fields":{"Name":"Top épaules dénudées","Description":"Effet garantie pour ce top épaules dénudées, et fermetures lacets.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/SwnZwHEmTKCiSE051rRp6w/omjI028rEC500BFIFUGo6Gg9y84DNSwhHOr2hmGW501mruFLmP6lmrbfVQtUet7xx7o9gZxZEuECnm_EoBZTqOxIvhAKnWb_8bmJEc0GCjnGQtBD3q3nF9BCM6i1I7u9kf4-0ccPrZuj_tT1MqmriZLkFww3WCY000nv0Kv494E/W4osX_PGaq_C_j2iUMkU7VeM8FpDItUhiMcfTrOEKvc","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/EdxPYQMjBWnt262kKJgP7w/wfsB4G9GYYAVRyUG2H_zl1tib7QezTrgWquwFtGtu9Gd4wfhtAvMTTiL3UXYFZc92tf21op8zgJVYQySwEFhr6XEsQgnsFMHVHJYJYVxD26tb4Qd7eVaHpRr2oRXdOdZxpk5aMlOAXyS1plaQBe3nw/pIvqFFE5G-bULusU92zYZET_yLfrVMxaz7pAfcq4vns"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":25,"Reference":"26310","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/IPPZszpBeKmh3ICU1J9oRw/6_urxr7cXpj7_V5VNUv0uje1BNTqMTTd4MwVO729ZHFeXsxaDVxZNYddimOlXH9za-jzfhJpaOPtDevH-Pk_7YGuBpq6SRhfCtHKYT9k6jHmimfH89PBaBtStuop_QRV95nh3ESTLmYe320zDPDpvia3eF9oWnf2c1OvjKN9jJw/mQZpQlqXqF54cbeQGciiixLmjqLOeh3cDC_a0w0YinY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/yXSm6zaHYCZBPoQKAJQbFg/z0MHTh8t3hmMIrmSGG47d52fKtzejuCSGzdKrYuJumfdgZ2LAWTabi4cpdSNku41xBS3-czCGG0zPC3AfW6T3OLS2HbKb5yxzZR276ilhfbDblr3I8I5cNyWT5twcm-VEiypUtblA5DxKLuoWT4b4Q/8mpA3d1mUOvsStXpgwAWcnjsnCbGODmXwYcqgCPiR3M"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/3HvF68bLByRuhzq2KkzYMg/uagiGs134DSuo4tVAcQiKF8-dymr7l_D3V87aG8OLuZxYRR_uCUu_Iqo3tHDIq208ZYmZjmnnoTpfFndwKlN-qAtkGGCzOK-Hxbviy8yFVK9zD_A-gtS20lHU9-tnEI-oV8FZ0iiCRJXuhySzYSDxC-TZaF27bKDvwEdc3XjgxI/pFF-t6JpDfZSoTuYXocZToMLFJ72ep_IjuaDLLrSi_Q","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/rGeEpcrHeZuCqRWcKPZ90Q/6TWBpD_cebMG3J_pG7JdBCKY49Wh0VCiBH7vndIKfwb2wx75hGdDMmzx3k_QoJzGmr6OJwFUv1SvGuR20begTQC3gjWOF6cXyx8ng1Q1ML2xqPdxUtXAhj9qyEA8Qw_AixuzSN3Ex_5591S0GOVpmA/DtidL8Y_SGl_3qw3V8K_QwH4CM0O5Yk4jRsJIQNjKys"}}}]}},{"id":"recxnr88wOQRaMdBe","fields":{"Name":"Sortie de Bain à Volants","Description":"Sortie de Bain à Volants, légère et respirante, idéale pour les beaux jours.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/LNr-KaTKdhVZMI2iPQJwAw/AQzAyx8r2UVDikeHkTXbcYNEXPqhFDHT5tC_kpCqA5kct7wR-S5wL8ysQJSYopbwQvN0-baigPPvnumWGnBO0jAGhoTkJVAbzP3DLTtA7kSF0cFnWFTnmThJXYpBcS3OfyER1kQ5KydLSGyVvysAhOQWWt9F9J0t0qeVb4rTuxvH9EfcZ32EzkmEyZbBqCqi/W3Er0WJKkd1x3xxCJxxM_6ALZ4jnt9Vwjizj-yzZ5R4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/FEz40BxFe2RUBXZ6mcHL-A/-TdCKOB7pruoFUR-8Od2MqsjF_KrWd69dpicF0UDhXcK6hi4OU6Zj66Nyr57r_IMsKsbCfdwCKzvcS6fR6GkFVVum2vlYXVAv9aJluWr9dKJdydMdOT_8Z4jNLro4JaK4Mh7Uifbpg1mwsYF2-Fugw/SF_gJTR_9Phac5UCT9PrsJaDu8X72ES8QKawyaKc_74"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":30,"Reference":"25860","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/FlPrIoJDAs6URQ5iKQMBfw/jC6tBhw2ByaN7JjLxJmxzZZsDpSDtgKHQpAM3SzytliijBxIIiGGkoLyxupy92MQOxMyFbm1vZdp5yvFm4it8pOBpbauNs-vRgL9mPZX4nS9C_d-A1JgyA4vBUdbm2w7f0iv47VzzLolNTcS7ZlFvBRHMl7yLAsUPqwkXtgZ3l8/yfKaKrFTrmgc4TMTEuXeZSdBh61-7XjwwiVPH2ekKW4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qdcJ-US0ugaxIu1kvth2JA/txOW-hfNupVe4_erruvM_WAWSdPCStjX1cgJhYLEb-lp5yhuaxm33MN7_NikbXlgxwMoeLueMrnXSFz4PUhI3xvKd3fpT-EPaK5Okj_xyLmAxfxKJW5yRMzIX3c0BxpECiJwvdobDJBUhHpjXdGzTA/uunqUk8vGr3GLdcqiEMvC98GcQeRQAvirBs83gojaL8"}}}],"Badge 2":"+ Couleurs"}},{"id":"recadgJwLBOejN8Ti","fields":{"Name":"Body bustier ceinture longue","Description":"Ce body bustier donnera son meilleur effet le long des plages avec sa ceinture longue.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Xpvh5Ofci9-cs9fabD9hLw/TYxAWC5EvHfpqhdV10oH_DKtGtHknqhJk5lQdilyBeoDDas_wuQ6TshiP1BsbkYTZFFi8PYl1hkQZgH0WUTyV6gJVDS_UnUJTsPo-dPW1rh2ZYaaophspDbo82k9nlNeXV7vdt-W-T8YyMJIp5RHXXSuzCF3UrRUmegsRGZNZE2cgb-Jg_54vuKoFdq3IE1y/wK-UtO6fTJrHqwwrQ_18DTpnY1dSKBN37ZJftw_J6ts","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/SWjWWKkHJOFxR5zx5kBsuQ/voNYe70GDGkshGjshzuPuuG5kUU71WXwddufI7y3kbLiWjDt5YGqMLRWTByCYRUUGRWJzYGWs1IzAR2f4zm0KDPn5Mo6GSoHSQljog55nXpLnJ9ynGu9Vwa_skjPiJhD_zUg99NdYl6Khi3Pi9TQJA/Vs3BVg23VJ-5JYK8C1twQuiEWh9pbvsxggW4M5FMNJA"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":40,"Badge":"Nouvelle Collection","Badge 2":"Pack de 6 - S/M - M/L"}},{"id":"recXeJ0fLtBlLRJjo","fields":{"Name":"Top Halter à Nœud Satiné","Description":"Ce top sans manche vous donnera le meilleur effet avec sa fermeture noeud papillon au cou et un dos ouvert.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/LmkVUFYRuRLA87Sd1Vj7Nw/hZe2NkwAeGu07MfpIIicyoAwkz-h11ybxN5PXKwwvLpbMXl5fgDUpEyR3IEVcH8v4Vm_3hbYtG0bU4Ymyq1l4VB37F9IUmRN-Fcj3bRtiUDegHwoWHsF5egscSlkUJr-gEOyMnvtC8IGiMH_LwXBfnh9aEVJECYohUArtuXdxXVxCsPA59mCV3GWwbH2w4SLYjjBhsoxmWyrmxK2BPXfhA/yoBsAu_Pn85N13Ehhk57XD3GZ7CeIPZedEKG_yUWjWY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/rt_Edm0-W9L0g0weyNwh0Q/ZpkWK2mVkn8nmO8VbEg9ndjg59n3sTVMZkmJVyv9LVmKl9rZVfC7WFNWy7mozENBrLHDdL7eYwzaWEqG31TmuEez3eP_HUFWukaucnTO9-xglx8ZnyEXCXu3zT-cAsrfVfU43kBGrIyIe1CFhf1ckA/9iQ0KY6GkofP-I9h6UCBtDIhTs0SJBa0fV-Vcu4HUgc"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":50,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/FtJu1ur7rjRTNgsi_VKj1w/BMjX-6lfK0X87XxBc9HHaVEbJDyHhPN4a608r4BGigzPFitizS06SMdXN2-Ex3P6lvI7FULUxGp2IOTqIqoS2EsBHS0GeyhNvBcQouQxx-E9PSUZRd3byVvRQbvSUr8goDzfP3jjRJakvWd5fHqp89ogCger0_yyPVX-zQ9TzbacMe0xEuMfv20r1v4kcApb/A1k8ITvNQNS-oZ73rMPuDkAmaauwgCvbTalpC5aRvZs","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/jN_r1m2v0nY96kMdhuHQ_g/XiuhacZu34SvNN7m8jGJ6Zgv9mmZ8670OimvX5jmKtwVfGCPAgiD64YhjTARHHCS5tE1-PQKwtXjyPADS8dMEW5PYaJdSPi4ChyN9Z6gDGhpmFKvzAVIC2my2iTJpX3e6F7bTMmNP2_dmXMfu1UhPA/G_T5GXbvRuTQ1-VLpwGz9QuwRA2ezV_Bz5WbSECyb7s"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/E9_sO_PgRSNY_En1RGO2gw/XRImg0e5iz6AseB1suFNmnKu1ZswLp1EBy863W5xZayq9ULtmtHy80MSPgttV4l5lA2XLw_oyulRiOBsmQK9QQuEG52cmrJlCcwc9_H0yd2sfCbK741OfjL4CzzWuZFDwfg6AOWNWY5jWkp0zR5Rvs-jjGGm5gMddR4bSWlw7YaKLiEt_pqPIqQU2EnZwsRy/DU5WpVCaAuiR_dLwjFdakmN-gBibUdTAqNwYXddEk7s","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/6TdnOHED_Prpr7ZoqBU5zA/rQObOBGykTjegJhRcH4OQuP_TBGmf2HsYZCyK-FEfqsejcq1G6bOckvqyuPb0PrILw056CLUg77Xq6epJaHo0wGIUj6UUJ0yJOqzo3kFal-9-pqjeC0pxaalFCisJxr4hyq2SE2O3VkIkcoIkkWggg/HQ5I4jrGVaUhLcWWzi7_YIfvxxya4QAYogmo__NhjCg"}}}]}},{"id":"recggAAJh6hM90KX0","fields":{"Name":"Débardeur jaune à pois et dentelle","Description":"Débardeur jaune à pois et dentelle, léger et confortable, parfait pour les sorties printanières.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Smd6UEli-6i5jQalROBz9Q/BVMcsKVzFL4s92DDyA_aHdQqOPP3vDzzaJ8Qa7WToZC9au6uxaUmZI8ILktKkICKa69GLhBt2r7ezayvktOZOjht-swr6_NwrbFIR0eL4pJ5NtOzEqH4W4oiC56mEEe035-MMuTbNujGpy5omcZ6Tccl5zv_TMb9Uwme5QONlv3piAW98jviz26vsH_FuYGN/6hbKXGilfC-Q2x0pulhFxySkFwNsdJm10-RUtVYlA5k","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/RH6-efigt0Uqoi0FHQn-Xw/LE-f_DYJ32fT5Mk_7NWIplXoPQC4ePRaHNTZki91MCTdg9vC7DHBA1d34Iv8OHBdQ6qMoWJEuggnxwjCvSvOnfioZZHyx3wER-6HbzGD6ZV3YBhZGkfSSmvK1ATHfwPi_9OoKmmVwQV-6N7O9ftDLA/lWtzXAguQm2jGWA817PLuWqaAY8GhrHmp-HdTMMcJ3A"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":60,"Badge":"Nouvelle Collection"}},{"id":"reczdepJSEHJeP4Ri","fields":{"Name":"Top Bustier Corset Jacquard Marbré","Description":"Ce top bustier accompagnera les meilleurs balades estivales avec style grâce à son laçage dorsal élégant.","Categorie":"Summer Vibes","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/R5m0O7Y-qIEUpsOPP5LFxg/b2-2d_czfCTOAREv3E7GCuSKLNTmiv22yL49X1lZDt58gAxphwrFnURodWinm_W0qVcFhmKBPXOlfCqnKriMGsPtD1iHcuvQmkFKP7lumIYndPffdpS11P5G3e_IWAPW1FUIn_YZ4F_GRfTaoR8W6PYBXur3hSV4WFl9YR1ovHU/mDIV6fsSZtnAIPOuUT7onGnG4cpzLcNZljEendjLox8","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XPUEPTKiV-TsjTuTCJf8CA/6Nl01MbCvIhqJo9hdqBjStqgvu7DpexPxNKWz2dGm0R4ZsocJzecApBQhHWH8QtgjURu3qegGZjQ-aCBvZy2B3qIQqbeIgKLttVg9ZSqWmb2BBfeUzsHPkKQavaJ82dLd67boxad6CePDFuykbKPIQ/G2nDOTSw9sYVGbv7xBmY5w9mx6Umu5miT4-w7LrmLKQ"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":70,"Reference":"26238","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/9wplHWo0WcrMH9xyQ3Jufw/7R85zG6zJb8hPP_3I4PrWferwf0AjKihbMREjGdjM3C45Nbtal9JarfouRpos0QB6ZikN_94wvLt8PrXhd8tlKDAInqKF8wqjg-uoZp6NqWRB7nXe-X7cs5oROfyrtw-6Y69gz12OY9Lb6QTJp2uz-wHlSzzAufMoWIz29zR0Bc/PpKJn99D5I2Y-l91hFtJBxtAAKPP-P6mGtDFFq8w6z8","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/W62OVP-QbqUL8EEJb0Ditg/5WLO9FHt-r84pHHdEiyZju6kbPsiXMSKjrVYZYEgnKXfIos1RO5g_Ks57LiCgWhA8Txp-_jShh50howCaAc-JWPpE-Dji3Px_AMwzKZqdiEufGQiBgwIB-g73nzN5sHa_JXBA9uz32yH8yZ6UElJfA/FK_hzHuzXrSZUXtdMqTW2U87QG-56s6Wk7C_GfzuYzA"}}}],"Badge 2":"+ Couleurs"}},{"id":"recAonpfLd72nNFWx","fields":{"Name":"Ensemble t-shirt et robe longue noire","Description":"Cet ensemble t-shirt et robe longue offrira un style affirmé et décontracté pour une allure féminine en toute circonstance.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/SOEQvAL7b6wVcehCKaoDSA/eajH8QyMTs-oXynLwsyLMUk1WX7qHtpMu5-A2kCwnw3-30MCUW5rYyIq15uGMWJrvWj7mdcNF3yPmGKPxDvsTF3MqPB4U11MQVhuqQeTx9gMZIo_iqJN9RvYgcM0vFbTrfA14CV-tW59MVoSEYaugEBefQlRpziFaDDZ1Bm888uXPMCZt5K15bGwBfHTmcRV/Ey84gtYnanlSIrdVdMu1iaH0LXT4E4z3UzmrV3nir-8","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/3ssY1pnUEnlEhGuoaIp-JA/YGADh4F6hEMWFe7sr9p3KuE7sokxlUBnvNxPc23vJO4y0LxPZNnfSSyOx7Zm-tv-zJccAR6pq7a5B4NRteTYugQ43FQATX_zY7zSmKrXncvOEMv_T1B7URdXwn3ZXgKh9uzFyiyhkTABZNqxYYdX3A/bu9g36IIRFPKf9T8E9WZMfIatBk2iVqrwerwP0kZwFM"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1001,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/SvyWF3VqN96X0t9chP280w/1oIC_gDmO-qcRM5-2ABOPYSdMKCKVC2xrgK6EVTDy6S95zCHAKfDBR0MkNkNDoSnKD9VyNFPjdfSOI0K6_5rqN41RCCl9_nrzIA51KtGGWLyZkh-xNTNUL-kFIGkj_0p8DCimxY7cy8kW1ewBJM9o5dHnouQmphV73uUtQ1d7ZX3x78Twz1TvJxqWmA-mLoZ/Tr_1iw_uHqPa-ucGlIqz2NQmy2hFDcE2poOOmr4uKbw","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/9Rk1VChdwQzse13f6BUBHw/wGzWcPmDEtNX4rCnPkIUCK4aSi6Me8LyzuKnUZSy6YOLpCyYo1WKtAzJZazGftfSS8-HMzitrMEY1uPxeZch7fe5s88Z1FqAtutPK0IkDHprwdLo5iU2CC351hPpBXAHKGAxBCXYzJs-EfZUmLC4cw/bpw04T_HAw32PCLFl3DPvs5uH2BKAO6PY5A8rT3oNOo"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/fnZiYA3W2dkQdVLOupcmDg/i0woJJ6H2c9efGXxVjCggzrht6nMPWhOcDn03DrvFTGWNy0ShderIsd68fP3a-uZrXsto6ArXGJ8ZKHza9v8YqpLM0NhqnR42jRUZsCp7ztLeVEUXP2IqkSkhW47azGn5XyEJjbzo-xiteBQ7qRH2J2obZSN6Lq1nsLj6F2YkMJlq1qVfEd6qEjLZUsJo-uT/tOISZy_oEgAD7e9CO1FYbcQW--wQgnV6eu8jaW45nUk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/zOvDZhsbrSfL1oYvBmi2jw/iQQ8e4sqsEtJ713UdkdwZWhWYPrkc3W20W6YI0e3np0bT9LOBhXUxIfLfvU-GdZ42amh6FP2nESBXiANRn6Wm036IWiG72UGvrfaZHeTNFseb9XsScFtaEvC68vJk13UWPh4a-d1N8_D14smW68UbQ/Zzt70j1lEbw46f_VkywctXHH29Fozf1ToF7tA55fkwk"}}}]}},{"id":"recqULneyd0siis64","fields":{"Name":"Body velour bretelle dentelle","Description":"Ce body en velour avec ces bretelle en dentelle allie confort et séduction, avec une touche de féminité raffinée.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/1sJVhCrfovXNeTr5GXq3Ww/rDiKPcEjyd9uPscbmVd7_YU_R1t0H0PNNjmNY89rcmYXSoUsBB-6OW57LIjH5wYy2VHegaFMzCW1-aEzMMWRnEFl8zLFrgXTm09O_0aX3QIPybTJ01HeQyuaajr07iruOU9Nqh-u-MELdGvo06oxpY6Wy8A8jOFGkU7LTcm35ivu9_JC5QC-V1HkrJXL1zlt/dsyV9gwhuyDnD9WxIKyX3F3_CUy4WNkOey606axnM7k","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/f-72qvd8iQ04t3Mrw1BmmQ/DqoxckxjXOpUP35DDa2G4hSgOu2GIA4rwDy-4MgdNS29GvdCLccVlEPtyjUySJUpSzZ4UVahDGXMgAZ1iOjAAcfaB0McHIEDbvWsX0ONZrzO7-Rdead4YPwqxG4-QlK-1X-os7n2AIiPKWgjSqwwug/20BKdkwBR1jq9cR1JHI3tOOZnWd9b3L6hQxGtOIxgFY"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1010,"Badge":"Nouvelle Collection"}},{"id":"recSvCLwAZGbVbtRI","fields":{"Name":"Robe courte bouffante","Description":"Robe \"Chloé\" courte et bouffante, parfaite pour le printemps. Idéale pour les soirées estivales.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/lU05Gmeo1lY-iC9xAOxwPg/zu9IUGw0uGaxJX8EsM6lm5Hz7lb_ZU-Hyd6SchCsR5thYCxtXBJfp-f0UuIIQVu5NtSQnXIp5R91hil0blsWzYQVtpj6zRpwb-PA_upDWwlwNXsfgIRxQRt59KVwT8kiPr2dKPblk7IApHW5LDO0g8YzeGX0EV6IEwCP79UTPxhFTDwsa7OnmVuQuNoaaH-k/uYyM1MV1SwLleLYofj48_A53mYmkf8nHwgErbKNpAZg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/MluTgjlx9yxLX_KBCB8eJg/R9PSJv22ZqErssP3UkNrUWEkLXiTI0Ii3NTjAnZXpV8_sioOat5ZVs5W8O-gGLwuaWESEsxZ0_oxurJPfeBaq-LgGe9KSOjfelPt8hCE7wXJKlRWgsQOWNgpHKLuAB7tyoZu-FjwSST2-uOnJGGrJg/JUId-D9IOPCZKKbBgWIGmJrtJHWEsrLUCM9l0i2yPq8"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1020,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Fn7kWvXM-KwOosUmDLfptQ/NIN7DwbKOlH606D5YXREnhWmNegw9lql3HSzQKdrKxso2ral4A5nJpj7pu6GxdkuqyCuNp1JLTl4FIjwJljCm25YEVijzYtTc4HiBQhQUnrEnu1sxiOLdHKWPIy-yhaLkfO-laAulNXRxLVq7CQuhQtFsxucbnt01x8UBGL6lkv7np0t2rzW4tAjKWHgkdot/eiXMEUfwGqzV43PfpeCYKg74Tf3cucTuMPP4TW_DgIY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/b0htLW2H17WAvE4FPK36MQ/SoRZ8V6oEtu0FUtCY0O3JNt-UEeIM2VRDqB8YRcFUwrUcw-3SPUl9_ccNue9seLDwfmxWECquKttcgV0ZehN5qcn1tZIvUOZ45dYURT-hAlVYrTD7aAlS-bPpJuIuTh1ED3AJmGPPMPEupJpl7TXOw/vtOt2Cv8nuQeVQQOo9xd1OoxjJrUDID20RuXWS5x7qw"}}}]}},{"id":"rec4wme6YEsuRZE9a","fields":{"Name":"Jupe culotte en simili cuir","Description":"Jupe-culotte accentuée d'une élégante boucle dorée en similicuir, 55% coton, sera idéale pour le printemps.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/1XK_ylGRuXEZ6vKbViD57w/hj_SKpeF31lBbFSjpFKW1WLwLWiQlKzWYPYMcgRAndR4GLeNxhGWqRIGZbQLZfegrzEz70H07q3nHH_S8AIgt30mlndSJlTDoiTquQJAszo7zo2z0RWRNosK58dA3huSnqZRtScCi1FmWT_e2o8-sJtZk8trxzrh--luEMoI3TOWoydlxSDZDe4W09dJBD-n/Qg8lkC4kIvqx-rcJfedZeb8k7BFb3zTK4aqclgYnsDI","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/eQlPU43vrHtiGWcyf3Xwfw/Sbus9Ct_SMZu-aiTWAIw0bQuE-OaYD-2iFXZpH2wkAvh3UI2KuroRfLgx42dOjw3rJV09xfR_1gVPKscK8jdoxzc7b2eoZMjUtB5X6txT5g1aEAf6WBFTlJ-dWhdfj-BXTcgFxlyUvqd2tPaS3cO2w/FvC6hc3TcduzFjpptvmWcu9NqQmtvmSt1IGdQnksOCs"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1030,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/AM9euge6tU_OpsOKV2OfWQ/z9GMIsoJKcN2AqNBaM0pHGF95jFMmgaMkrC3DBQU6l2bI7EMA_zjHhZJZ1FBiWVG7ZNSaNrHE1xPWs67utkW9WXa0i2OMJXUYSdx-M8tgcvBS8AO7ityEaWn7ZCtBA2dRCtGm6iWPs2T2TDk1mMiTq7sTyfta9BIUNAN315pIVZ_SJgqSF41o2TJH_QYhmx8/34h0SymfgrCh0d2mQPCwMPkEGqJ8avQql23UeiFuaW4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/xLzjSKwYJOcXpp_HlFFhiw/GVFgfqXlcEz8_kcLf86d8_LkdHQIt4buIYdeui7jojGb_X7f-8arL1NkpdtUr61NueuRUV6v9w9RxKpBL2qqGEqRetzHvQXOmj1sBztHCqqhhzumXyOomQz2pbXsYuyMWigGXg_4MioD4LJHih_98g/Ek1TXtLhek4wOl9t2J_eqWsgQkTi8Jix8ro4YoJwDiQ"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/oKjqEwF10YWKr6Zq-Vjgbg/3W8HalJj5vQQBXZpqfI5WknfR6tmiStXqHX5FzoGJFS6WMQqH4jpg2UOFwK4609KIujO2Vq5LZ2-_nzgco6j_Arf30W187FxfRtvZVh4Bml-bbhdgvK2BQ8ui1DJwQypQ6zQZrnTmwiYuvYyBWvTR47uxU9MeUKRFlyCdqbu2c2M0DwAWEFlikLXawlGXeAZ/x78Ayaey1QPIcbV0YamfETZJeJvb89gxWNoq5feKQ40","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/xomZA3RcwpJnL7xtUqr29w/3VydKj48cZKc4yHoFjw2lydPRqSLYC2YwgXNpHjUiGCuKa9FDpPtL1wzT31rwg1reg4Og-cJRFor2hNlmSrHGsxmDVDr37npGKKoaczPXHLXD9gJRyiQHoXr_xGW2BbiYBDtZEIvO6whAUz8-4PRXA/ENmFR-Vzrognw01FZjMN-3cWe9vahdHi3g_4KqOWaSc"}}}]}},{"id":"recJwtiIMIBVkgcGW","fields":{"Name":"Top Débardeur Chic","Description":"Ce top débardeur chic à imprimé en chaînes géométriques de style parisien saura plaire et incarné parfaitement le style à la française.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/cywzETzboV3Nw_D50IXmJQ/dyUmrixntr7tVevjoC7b6F7YXZflFn4YhfzOctEo27LW2J2GOOmo6ZfHAiTnEE6ynefT1Ycyt7bbW1gbG9BU6WWpBe1RuIhRvF1ioBSe2nsBqkE5AtshwAEnh87oJJFiRd6gk6lY_XvTGs6yAvE2FzgveCFsx6ETTJqkpzI25ae1k2l8_oj7aQN5uODNACkI/QWsg-kNMy-IpihfnAEa4-25DD0aMIbrGgiEt2C87i80","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/9X7pcolEnvUIIbqpH66_MA/0Ozzy1ll4hj7tfL_lf_ekNd8RprRdbU8tBh9NIpr8f9W6oPvjNQ6Tq9WeILQlE-dKYgAoAkyiStC8F8v7h1Tv_Fbf-LCDLSgINdGBANzvy9WkWIU5-OWHTBEGPT43mUC6HRzMU0AoKxA_BmQwIOcSQ/Domj_OtAjZM98YZxRiOov-oo317BxAHxT9KJNCsDazA"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1040,"Badge":"Nouvelle Collection"}},{"id":"rectgPAdQCk8pKqgC","fields":{"Name":"Pantalon Slim Taille Haute Simili Cuir","Description":"Pantalon slim taille haute en simili cuir, boutons officiers élégants, 55% P.U., 45% polyester.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/RhVMqjFce70ynR8LfS3k7g/6jLv7tEurPJVziFeMZ7lRzOz6C5vBKRvt6ducopNIfAEj90Gm_00DrZnQ6Boa8jlCcc23uJ3ND8A2d5T27bcdSkvGCqvbgD_AloTs8KDwA8hTEm23dZcy75GVTOzGJ9C1Kw5lL-Pt2zh3ErSSfcbn1QLonB4wxeUXgIoWAyLTOP2XVru9jqyZTZgUorUbZiQHBWWmLvk-Jlme4iTs7fhzqx9T5mq4PHaVhExBUe6z5g/l_PyTKxWV7nKn2nXDlmB14Z6POfukYXOeMOybkVhTmo","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XIc82A8VqlHfA2_sHSaUyQ/_Iqsukel18KmaRMdfBvSbZqyKaYBuIvoBMotccfD_9QeAaKjdfirfY1iFeZKYMLe_5eP167OIM-OH5YAl_4o5FKhl8L0UvprfVGkWlJAZC4j0zHuLlMk3hIhvTfTDOrxVZ3hnYFpxjI-PbsC8xNRDQ/DMpMIZyOfwcBzTlMVe_K0hG5lh8OX2cVYuqbW1uyWS0"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1045,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/T7_OfiNz8FRlW32me3iYiA/6s_dFrx_lszvGcN89Llml_ifslbVdOhYZcHQwpiOROYFUhqMDV5jD173TZeXLASO-fYvR7gH9QptfBd7gqJK_5jSI2oypmqmn01WHI-2Rve4p98LVz_HqmSfxbxrPuliuIhaWuUBYWv6FXtLXmppYUarF_7LTiP5jp0hjtNCLUmN_Adjy-wvCxcIBIWJ6I5NN3rvtd2lfpM_qQ-VsaNvepH3ifUi-SHdcd5mtX8X1P4/faTQ3hd7KLDHB8k23jmi4D5VyX1Evdi9xUzWrx-TN5E","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/HJbp_pkPlQ4GUdrAYK6hAg/8VSW3yPTGrzm7rVMf90qB8lWdo3aDkEQRcWBZOExGTIkaV3eB7fJp3JQzQNKfOrscDDB2kbLLRxkZMWO3Ok2Hz8AuPKetvoGAkcrygjJxq94sDy1wlW6MEtbHy6r-cSJMgDlY6yegGjxu9W1wJDRiw/UFq5r5j46GCkWS-mPcSJCPDQFYZbkgt7SMAhvjrUIuk"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/nIQOmPz-eLEYRO2OxgXC3A/oVnsWFYWuWDp4wjrtHZin__unU_8XL0jy0GmttIaHTTDL6r_sqnamfDrnwnS358_oaPjWLuumtY59eRCfa9bZfvFCv5pVMeeKPip3yqSo2tJItOn5P-iGpSHHOIz4Im6WJPGUQ9zVypurnfNIkZjcLLhARsjgEKxO9q--w9WJ0UowUEuyrRS88SE7jMk_VtKKhZbTd05JiQuGrghLuNPHa3fsR4gBIt-2xcGPe-dfNM/2nNjWwch1oOCVyZMAHu-BfFfXjWPaMYQVQlYdrH5K5A","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/hFker5AT7EjGMTcqktaQAQ/91Z2o2vlNj40yoIeYpThQ8ZA1j6YSfVzqlT1GL8Z7jErJfPTYq6W2UozMwREdO9fp1s2351ceNTRSgrsAUWS3UcpxmQNsmeKRYK1kJNQV5-uJ9TiNVip4_6QWKGEADBTFxU11AZ-2FZpRguQVE8gfA/lbtSc2fwzcZ69xZXyF_irJbP-ky9AJPeO_p3a-Sn05k"}}}]}},{"id":"recIRsA0LqLb9OXwy","fields":{"Name":"Veste Courte en Suédine","Description":"Veste Courte en Suédine, légère et élégante, idéale pour les soirées fraîches.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ePT7kaRT6TE5Ww_eJ5HU6A/XJeO-uueJSVY8aNqgkgbyONGHtV3NgqAYrxKGDULRqhm967ohb3kuMvO-KuKiO8w2ycfpOJz4N_GQO4eoUVvOV3pXTAG1Yq2P4brLhmID5yntHwlA7kzs3BGrlrTLDRKoP6nd43TkZ9kktwsxh3tDXTerbzwx1EbTNI3w9RiPUHWzSG_mbC6cpnMupNiZhIGQyzO4vo8u6VwETDGCATJkw/tOv-Tr7BsUygVjT0DWxttR8bgUvVRS21D6iKVAE_ERY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XY1mZ5MAQ24Li91jghSgUg/N6rGf0rnNJ-mtnWCsoJ3BJKgkfb22tpiqKF_5xKx5R2yxeGMrkhS9js-Z8b7s33shNeFH0pdRsloJh9RxXC2PPlsNaHyms7x1gZnq11su3Aeh8WbM-t4n3f3uFwx26OFG61COwzo2Mdi1Vc-8nOYwA/2nrb7vAJOFeVB81rTr3EPD4g7bHU65Zvvn0vpqm6M4s"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1050,"Badge":"Nouvelle Collection"}},{"id":"recdIHvg5DzYRC2KO","fields":{"Name":"Pantalon \"Vision V\" en Simili-Cuir à Taille Rabattue","Description":"Ce pantalon en simili-cuir conviendra à toutes les femmes modernes dans l'air du temps.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/T3Rt70r1KKd8U7XDxhIHtQ/UycCQZdEAKpGclpSTHKgqyfBZ4tIjcFgCbAwrG-J4sSCCabkQD_nzfZarSbjgSDJIdpr2wYoDLRkz9K-GuIT9-5w-Y5wX1ZS5LtHKimYHjI33qHkph_5kCWkwKynk5lMr495OiPArnwDiOozC-oHE0EG-rMB56hQNlCYHvXmuTViOeITQZg5NxiKEHxzNMQgn0-o0vNZyusBjytUnrZfSYi_BMtGzMNIAoej7r0xLARoinjUOQ39qeYtjfrys6-d/QFRV4hjkBCIMJfEuptwlwLrmMgVZDanFL9z4oIPAaSI","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/vIJ9rncltmlcVdtUX-2u2w/tcDE67ApB79cPp_9VJyecse7Immn-VsJAMSPGlpFSacWyjzOYxeRfQBgxVLnAc3ziTwYFWoeyNiSoM35vDYO-vqLAf8PqmlHFkk2BqfKTd4KAkcf22oB31jH_Q21VaWR3F0pfmyIwS8QEA0JEftXNw/jn2q4zLZnhd_NngH3GAjv9uQmflRrP5vd9zt3T3rZZs"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1060,"Badge":"Nouvelle Collection"}},{"id":"recYuEN1DbJIsDrkL","fields":{"Name":"Veste mi-saison","Description":"Veste de mi-saison élégante pour un style urbain au quotidien.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/pR3ZiMp_40qBgUIaii1EBQ/H1gqgb2L8Gkrdqw4ezeOsQUmk35l3QyGXBJMjmeOjKBAru4OtCfNaG2aS6uNkxPp4_OHdPu-jQHORcsfwwYl2HgRSMdFhiVKOXEsINA6M-460UiMaM0o7iKxiZCU3e4PD5rO7i5H1Ox9asVksQqPmvjmufd0ReoQDPp2QKzf_7vsUFjMA-tXAJTWKKEifYb4/FiSWp7IatII3kUzzVrrFjwCUdDPP2rW0IhFYGGqnOd4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/-cZeXiPKsEpYkZr5Ttvgpw/afI2azw_dBZ4WpnrQQXlpbPvD3ZFX6g-1LdTzzoL4Bh0OYV1fezvN2AoPkOkzqyVEFmknZ2Fca555TiJOHYVpBz9ZK8Rexm_dUBQPYSq8VgmhB8_HM7IhsvcJHx91cKjAeZHwLs36A204K1yUG4HEg/UJstUbZ5dYJ9ZOIBH46ps_j7pTWDvR6AHZ9nGQJICCE"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1070}},{"id":"recXqHAGBX6npilNJ","fields":{"Name":"Pull Cardigan","Description":"Cardigan doux et chaud. Idéal en toute circonstance, du bureau au dîner.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/E9Tn9ShodzNEVBMLsjGj0A/aVoHmHBZcVb78qjDPPMCv4F4tVBiwOq8MBORGGC5GOE54mTvuXgFVAl-5FnHO2sSsiYWqw59FIe8E6M_TNe5xfMNb_QjZy8fSND3gbTELAZjZ0T1R32hUI5ewpYoQfix0WNMp3ZLGsjjgixzNw1KG4GkQGQprzcemDCEKujto52mfpIjoSG84miy5Fwd1HXDkvF__zeVZXirlSGXd4hMbg/e6TsnztwRzbrOii0NjuG94LI1oWKSGZjMdQwVIsYlQk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/gpq_bj9rVzHtYbGZMm0maA/OEfYEmU6SDktHcUMKFScqsQNAwaA3Dw7Bp-BfejpPK_3xQGqxpjPj1TvzSEvNOyUMEqG5lRcmzvtV3F0J6DCU7hKkj3Wi76I5wYQEUr5__khKD1UHU8MIM0KGbP1FWFzsdyoquVrnKB0z8a8YMkPxA/BzNf5JSjtogbWrzjjSGkhqKz0-JoEMC4wgu8uMEm_SM"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1080}},{"id":"recRHwazl8oKqXSx3","fields":{"Name":"Robe Longue en Maille Côtelée","Description":"Robe féminine printanière, légère et fluide pour un confort optimal.","Categorie":"Urban Woman","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/gtkibfWbuqtMyhcWcoEf8Q/ssETBIL9cP98W0UJz2v4HKyh-zc-KCCXh1UY2Xkoayd2gDuO9bQissJIWAq4mA0oO384fYrJYKZ8US4q1qQmElh01Qwu2tUsKJsUuZnl1JObSUqpIRTqoDIcbLYADwTbG6kxb2XJLq8M8pmYVdJbLEbwB43w3ZCHfezjJavC5Fb3wozm2tRCk7HAKgrvzh3xSEf9Tke8k4KVdJX8bnMrdBH7oaCrO-NozeAu-4e1qBc/skLKCWBknSvHMCCeSPagC1ipTQyApL8Sfu25nTbpEiY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2ZoaDJtZJ5MOfccZrlqNlw/V5dgxlFne7Ow9TNTj9SCC7SxZUEVS7xM9_fII55DX89-eLurvGNom2vIjsHj8sJEBgSdE9c2Oe0n_Ha1hFPmBfAsKlBPK1XwrOhmp21yctqEAMUA5lteFlGWvqaQwoyILc21uNzxlCo0ghe-MtWAgw/X9r0O8veTaEaAEUpD3BXdlJvXL0p_Ijb4gAvLyWee0o"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":1090}},{"id":"recVcnmSj5sF9Qucr","fields":{"Name":"Robe dos nu \"L'iconique\"","Description":"Robe dos nu avec motif en dentelle florale, pour un style léger et décontracté lors des soirées estivales.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/VeY1JBj_Ny26kIZnM2iE2g/L7cC2Kal0qP0JsHuCZuMC7Y3dQExtSjzX1M9guOsXMsLaz6OEoc1a17K1N1YtBKg9aQMfQ_oEx1uq-DEBO-W0Jp4lzAKOQb59gkaTGysjlK5-X74zlvHGvD6eje2USABv9TOsnmLf2Bn41LIG-J2vQH7gzM2uE2hRNPZRPtFobG9v-5P0I_A6gJrGwu_Mvi0/GRZQwsM01Rj5AJ1V0bSBgcYlezWSd2ru001qs6YASVM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/fRf3z5SettU_5p5UekR1cg/Bv0NyGSo1Op50ygJwSqG-W9haAjfN86-D6tn_6TVEcz_QVhoVWEds66WFPFhPVO-3W493oq6gjMSL2wlcDYdXCRjV-OsDFrOTQKabxVcHFlHfp-Cm2NklMTPo4N6IYWwNE9UBt51RSAflgZ8sbFkvA/2ldcIL_NgHLzlDiQZuhmqiasQ8r7WUpPrR_9bwMfp9A"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2001,"Reference":"26286","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/1XmcaXvJg82Dcmr6JSgDhg/4vo_ViWL0-RYSdpSMj0D9HOFaiTCPikZGT-b7EfpMevCk8VI4Jx1QJmkkR0KgwiHZuTzOYX_gOkFDNGGse0W3aX7_G0R74SFUATk2tkDO1OZduEdPOyGOzdqilQDO0hENkrycZflOyVbymzvrmFnWROsrYTEtV-7gAiAyWb9NpIfqD1xiitguDzqBrL2oCE7/EYpnvIGrBtfMoHCeN3mbU1tAIr0ikRim0y7N5_JFqXM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/OT3WS_aEZAogMfTOiwdoyg/w8JUZHEPqjuvNIKBmZAFCYqdiEizByVTHGt6asFjlrNo1vkFgHnE5eHg7uIHHZyPWZuFE8jq966OrqsE-FNFwkPSHvK2yHTNKHc9i-riCwdTVSYPx5rwtMkxgFgCq69e7hUK1VTicZBipvEhZ23-Gg/bqauzttBK4ToxKI76gKLYPXjDN8D5n23LfIYqW1KDY0"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/UhYg31nlkk7O8iWMO0Isfw/zDv7jJzrXCCB6m-6eIAaPvx9Fy4YZZ5kUQZSXIgyBz5Y1v_wfb_LnrB6NizYgmbOfjUvNXTBXhFQnyezbH5KoPCuKAIrkqPupZnB9pVf2-P9nA9veWVRPp-rRtJ2LrxbaUx30fshFcaTIXUzzFMbB3P4HVE8_RVl1R2MF_NnyBk/iDNbNSMWpfoqwEY5ehcy3CDOGwZmcEqIepOs4opCoc0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/I6upQO6aaC34tpuGTt2LGg/GP87zoYVx0KRC4nUDrsAFdytxw54uX2bhIWiQxtG6lYSd-4GquJscXnW-P5vIkRel6GazsE91gWTYfKtXVYzdWODmso3A8Fqwn0j5a0VlSVbq7qDRzEYxZfRCNWBMYyb1AJc2Yy1x2vrSHTq2N7oWw/ZNrJruHbUovzxt7hol4IeV0mJLY1Moan9Rw39AakaiE"}}}],"Badge 2":"+ Couleurs"}},{"id":"recgXxb8VYqJtABWW","fields":{"Name":"Robe Longue de Soirée Drapée avec Anneau Doré - Style Riviera","Description":"Robe longue drapée détail anneau doré, idéale pour les soirées élégantes d'été.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/U3SRM9Hxqrykk--g1StZRw/ed1coUDJFMS10z9r2OjqYQVRi_XOWa1bLQKvgy0kzzSNKTnsLvlZoO9IvaOesyZ1B5oMdjti02EsMEmSsln81t6HFGGRb5oZ5UfIJveLQMwdXDMpofLmRY199pxjMDiRaDJTM0Bhfuyz9lnbC0OeRvoXsq3UPJwc07ESB2izstiAxyL37DiS4oa8uMYKXwnFrV24HuVzX-rWRvLd26mzvUrsyuFDe5W2IStSKi4YVKdxXm7dRpfaHdYkdjBJsdeI/3dJQE9cL9I4-CvcMyHqAFypGJJEbctvOGX-9_wsQSjE","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/cSePKuIADGw2q_gHcLRiFg/iKQXa7P9_YaR10-gqanD5_N6fAV4hNSK68Sko-bJtp3VzD8Q0lNjecGWBDyqTklchz8tXGywBa6fS4NdCaL6YpJByWTXjq_J7bwBPnvQs75zRbfncpioT5k-1XMcBksfebcNHAoqHMKgf-MWZEMxpQ/cC4dr3NSuXPse6oE9LUj4NADm-Yr1jt5Ue3hiWsqW1Y"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2010,"Reference":"26300","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/n42c5-9jr7E2k-Vbmw9R1Q/bHlewIVpDNY7EajHhLmj25Rvyoaiu_LAvAzzjpl_QuGkbn9QtFYv1iH8cCwMMq7OnmP_hyAkL3WbmzEFuS4rRsTtSJo1n35hA6PD454xPufUoblrycr6k8cgaZtixeq61FCgX12PLe_Wqpe5W8BJXgjoY3R9jk0n8VFnnE508j8/BXh2zsdNXzTw1BLFMVIq5OXac4Mb4ht3hTgQWzsk780","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XdXg0JEJyeMNJj8b0ig_IA/PeoXyO4Uy2QFXpysL-4FtxCAo09kQlbnYfUp0HWRn_FZTUDX6rUjWMmNvbOKaRo2KZ0zRIaQsbtt_mbJLBOGDkubk2SNc9eIEzPGqjRvfxCyUIFszoPRrISCu7vT2yn0pbChAnBeEkv6fwL8bYyxJA/z97kxTVf0eNt0uzuUI5i1r7lMSNG042dEFDT-6FPEVY"}}}],"Badge 2":"+ Couleurs"}},{"id":"recGRgtZSl8ondLtj","fields":{"Name":"La Robe Ondulée","Description":"Robe Ondulée, légère pour l'été, parfaite pour la saison chaude.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XjvBgn_sKLuGinfsT7QWPw/40pRt4kG5ntMMgci_kurvCKM2Or7rX59Ha3G2IZ8srw9gPWeshgr2F2PaTInlZgPbzhUCnhQf5x2Ypw2UAoIK26i88g0D-rNQ1lJ6WZZkpOAMhxE-lzs3_yaS84kJD2RF8JUrJc-YA9YKOG-16ubjDqewdlRTxTy_CTMKxFCrp2XNCHEsAjRCBnE9EPdEoy_/xIhw0v2JN3LCRBLHBqtlpnAnsKt9xe6Cb7jpdwUvrMc","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/95jF8KkZI7zOcfc42as_rQ/g1iBebNhPTwr1W2_q1sIMxM4-9wZUKENKn4BQCf0KG8ofghaVnPeSixz-xIEo4f5mEJJmtmcEdoiDmzh4mjk5sIiZgQOBcwJK83lj2jxyX3Jv4NM0K9WwsfHFgA2Fb6d1pNSFSfqhpxc88pRHcgP3A/NSmbY4EC047MpjqousvyZ8-gyGEYV6p5pEIqD0bMTr4"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2020,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XK2hjtKUQLyV0I34U3B78A/wnENm4JFOHC8GNbpmJD1yNw66l9k_PekO3tHbshK5O_LTzI5fQcxoBb6FPKpLeIFzhOJCg0kS06aDeFLAaLS2nrFKsJgb7cYSPtpi7wKYe0gmftPdU6att_rHXLRPu2LW0Ed93NkDKDH5Uf6_tr5qes254sLXEvgbQTfHeZ4mbgo_0HkBKyXwF92hjvPNmbd/-kosQFog0cL57MC91MZOXS5_iw4m1H7lKqCtVjO9FbQ","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/0Tb9alvOATV8_kld_pqjjw/_JhklGotTKK7ks7eNQxtfHoP1wfXWb2_2ZgNVKVvv4q3C5PKWiTZNFzUNhR6zhdeSPOOS8IQfNmQqDljJr614c7D0h_z7GOpyrRMqfAfrjOAmUsjVwXyin3ovh1jdtkk5pnOr3ahtNn2OmOSlYFh8w/3s2Mks4HgY5tCpGjJCWEJdx9bFp5V-FTPIxD_Kow_N8"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ojfd_5ySumSLKa0irq6Jvw/jh4PkLSfp3R3vz2btqHF0kX1So5OQIl9JVkISDkB2eJiYtTG_NPuSUdgEcHya97Dr8VSJ8hVU6FVF-wiYAIag9_28UuyHEZFlU4aXt7bGfyT3Y0W_w_YOrBSBAfrh6eipShe6AWorFUlB_kdRibjAtXAblkWc-LocO_XrmdTwwI/Z7y2S1IJY1IVD_SKQfJakeFbOewB7m-2aa7ZErXoP48","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/xm1x0QEErnLRlI6urh6U1A/AlpCokkCCu00kVM0W8LWjlG3f8FEOWDhlMvzeGBn2V9NLH-uqz00h3ByVy0uft0sPwLE0Yr2mcu41vxJmKpO3iKl3EcJnNpiSWnXvW2CEtprXD7Ax5t1hDLPztP6qnOgHwe0qr1ssPt9v5TOlbuAdw/-rfUzghJYMSlThncefwrq6eJCMUNJGeYu7molkmGI4U"}}}]}},{"id":"reca0AtqRWQjkz2wk","fields":{"Name":"Robe fourreau à broderies florales en relief","Description":"Cette robe à broderies florales en relief fera son plus bel effet de jour comme de nuit.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/wP6x51ejpGjZ03xpLn_J9Q/aP6fQGP2ogFUhCXS9QLRyEOOt3UvSRl6SVVoykPbLxxFcHOOz6YvYYdQgHM6t_BapTZ6kF0EaRSFXzLK31bBNpfa3phjOLB0uls5IXxI2oKNzfOTHj4w7tKEuTqa8XPlGlstK-_dQ3MV98nHXcxlVniKVJznZtZIBY76xBJnz1bHeUdaxJDhPp-5Xctyd44MCprquV8oYrU5iW1c2U-tfg/mi7NtJO5QWCckRrxgOozrCfmj0wX4BBpaiXWf3q-rY0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/NWvtP2KV-qzrSqZRdLhWJA/rkBPF_Gc5Tsdg5utFdraYE9hvS_lA-X_EHoFqQNTj_gN5FV7kE4j_bDVYuZQ9q8eqgO4y-CLiQAslgh3JEmihAOfCWltwquvRuH22HmXSIEx9ON6j0NN6-PM8xtlev604dAlHTj5L1WR6nlRUswdrQ/8S2Zkpt5orBqkSyGIbT5tq1EEEVchtFJVdLwaR5pJQA"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2030,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/VHIqSBJLP2oo_IbzX8S6Pw/a7p9ZuG77qYLQNh809uqNfihFkeM8WWKQHpgH1PRrSL-nBZ1qfZTnXtq-BpLet6AebDfGYkbTGf_oo9G94si6AOTZx5HWxXbkiFqNHmFagQAUoiKhVLLPz5Ltydr_YNGK2CI2yNXuRlN2w5-x5LuSuoGxdZaaitpszMsepHaO5bXVVd6vqOc2XTqI9U2GoUnRmXQmjxLGJ54ePYbC9FICg/i0qFAIk1s66Foj62UeWculFZ7ZSKdtv4LyZI9_Izzzw","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/UqQD5UNy2tfNI9evGGnzCg/KdmIn1w1hLuC4FBLXlm_ROO0RuBDAyAFfPLNIrMFCo7isUWgknqAW_dDgU1G8I0wie95tZXK39_obbtLR1hRuQrc8BjHk5CJS2iRaymwuH8YQgPI_NIRm1u2M9eKxxECzsKXx_zC9-O__moNwL5S7A/if344D8pUgf50vDyGoFySVVbCqXCOjO4szDyao3Gt5M"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/fx7NuOx56gU7v5p34cFY6w/sdfpyNi4-WVJnJ8Oi6H4RXVDS2vaq4Gztl5ven7FSQ3YhvSt49T_HJ6BNA5p4UKlWOE3lX4dkTr2BafNzun8Cl3MJ7BsEPKDEAF4D-3r4dMW8bdx1II33S_jU-bCRGW_MYDQ8a1QlCpJVeRwVF5gxxqD3NQF5rlGWOHS5-LYlfj69G3Zk9l1UESw__5K0Ij424rMWlsgyfadSlVWJuCjcw/HFiWLk_ngvmm1jBJRDevCENvRGgVjT0__Pxo6ixjbdQ","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2JrN40bEDToV3qDq3KvOmg/wY43aN9TNehhvLRGfZg84GxzHDAd3UynfRHG19vpn3_SvwVRGw4YATM8l7qFQkL-q-qMfhMoSHCHY_1WXbtpqSR0M4j8JIShFYS7buQTW9fwKEKfkFy7x9CBKLOw9WsOyoA4VNKK4bm6Xp2_AEQHRg/JW-lvlkq8fEwXzlRw_V4rViwb5G9xR5z918UQ7v6Poc"}}}]}},{"id":"recxsVhuKNvpvbXgn","fields":{"Name":"Jupe Chic Ruffled Mini","Description":"Mini-jupe volantée chic, en nylon, idéale pour le printemps/été.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/RyQ8dxueukz83HPJ4zdD-A/yUyuwXXGc6rw_uY_3i5Eqe0N3AmCKLSijfri6Eb4bjskMILj05J-J-mYL2zYBm__aVGNtbY3gcRc1Ajf1MJjiY5zgET4aGfjWMNZLw2UDGxS-W1EYmsOe8Tt5d3HC1A8wOuyflYtG8Xfabwqmi56vhefbieyDOKEimej-pLU36uPWjJBNRrda9FJR1foJrty/Uxb0_1d0sMFA23J3P9BQuwBhd2N-JewyV2QIaizij40","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qKZLwnehzsLJ0HjEz6bp0Q/bczsMU826E4x-PKv5Cq_Y9KmCtCIvRu80ZgKqGRmZEp2pE3xcIAWBid6a6ZVsVAfEF-EkulBhnkRznpWeoeJI81DFfNdDIVyaGp1qAGzHVXC4Z2sXDuojbjx3rvcK0qS2BIGx6CXXygWI5lpimJJgg/BSgiDru6wcgkliRgmtxLfeWJKD2emLTIlFd4GcWoDq8"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2035,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/fq20iD7gQ9ZfpTO9VdfuUQ/x-Kq9hR21pVQ-iG2c_7YmeGL2PXDdbHxlzuwu1AJD4VtMfFAUdnylsr2sgUf_rjGAxDA7W3dxr6aoAur2O24oF0s9qiiA6xYSCWqP8-UVS7gLkL6T8ykBiswW7RFvcwLKlHYdqqdXrFz1DAhCB7NcwDeMbq6Uu_bFRw2GbvvC0Or16nYShNYKJXDCkhulp_a/Y29ZOJc38aYAVM33Pnk6loKKfkqH-LjnGrGHW_pJ2DA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ug57FJIGa6wKRej-xDcw7A/imcFls0ZQFU0cQvmdooW3bYy5XRd3D6T4OA8oqH_1WIystzfw2MRK3Y_3C2PHMpzd8vyfIZXTBqe3Ne40IHLOQrOkhGOZOzkeqTOPtFJzlKnhDwB-EyDIDV_CsfUrzPOzC3EjeA56o7k3fhpaLICdA/ndgB1SNH7RRHTRdt4crAT4b2ioEOY1eYDBNKtaBnmss"}}}]}},{"id":"rect7S63lKjswRKM4","fields":{"Name":"Top corset élégant en satin avec lacets","Description":"Ce top corset élégant en satin, avec lacets donnera une allure féminine et audacieuse en soirée.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Aeoe0dfSupl1OPdJDbsE4g/R7vPmMI8XfOhq_0FuPfF4dv8_kEIzDymTUR_lGFWuLRtbn0j6U35ZQ-Ybdq6zH_HoloK1B9GMRSFDtGaBpvoXKs_HY_2TGHRUoIIEYvD36YtJEwvhbVyxuejnrKbr1sZfAQr-LWn3aQfhqxqGnmxXLxPv64wrBMMmR-76fhVYmEVU73UdiF2VRQk7t6-feMq/ijSlKKDdkw7gEkIdAyZDg3-Wcjfq2GkR53kkNz56cqE","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/CMwhxYPUSRlXjGqpcQWb_g/-4c-aIybbBAbDjYyFRXtLVqoorqm17PvHksUCqd1WEEBttIz0PGb_3ZdRRgBlX0wTY5TNYvvvv7aEVzRqImz3sb4AvEpK9NFEgBAvfjE4DCV08zqvNt9MOEk5UYFKOZRlBRncc5UHhwEXbieXHOVuA/0FMer_2IZiIUKzQm0-N19whjeQrGMsfsNtB00LGg_hU"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2040,"Badge":"Nouvelle Collection"}},{"id":"recV55KId26Nl0X1G","fields":{"Name":"Robe longue asymétrique","Description":"Robe longue asymétrique chic, avec anneau doré et dentelle élégante.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/SusHYNIJcAnLwT9scQjkqw/89kY8yU-BXMVEOUIrfjUFYUrPCnYs2QKSSS_dGQlJlMDngzrChSuzt4FshEke4KpkPDQjLidOpfISt3jtrx7ZjYfu1hhwM6CB5b6iUiktnTypsKdcbbF1D466bq-uUR1rwFIoVVJSru2Fc-lPfQ3Gi4QH2T4sTHcJbPvhHM8nvMZT4HEDnUrX1Po7fkS1hzh/ncUwwRhIiOOO54wA6Mlu-wODDCyo5K1yL2fy3FvSikM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Ch8GlUP4kwXrUMngu-zx8g/57FZOlQBDy6OEvr9rHCyCL-DM69-diZHXZy2DkBVxXCd7Ezds8IjOFXBz1LXRqGson7yKWIKdkuJ8Z1RnLQL4sm5-MS-x89UUwp4Vay6qL50fQy74WpgZCEZ2jOTlhFevY0nzbik1bck8Xoye9QPrg/rt2Mujo81suzZBlHrBaqOFj3ew6Ith378Sut3ITVW3g"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2050,"Badge":"Nouvelle Collection"}},{"id":"recwvAriiksqoSavV","fields":{"Name":"Top bustier satin avec cravate","Description":"Top bustier en satin avec cravate, pour un effet chic en soirée.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/IJRtiMemfHXeUL_GcZIbMg/zuZn6XGiAIfO4hSbsL2bx2Aa-A6Bp2V2zxwqkX7Dhyx4Y507cr4QOEz8EB_OhT9V2roaiFPBAbvAVIbws9lgGVBxoznG-zELR8ZgbJWEdn9xHaoh--C5gwpL_F_dx13-i6A2I2bu9n5GaG0aHXnKWyd-gLIRiK7T-0rWEhTDRngHIRSEqXEcm_5WiW9xSQOj/07Gd41sg8uKLlyn3pXe4JxjGQgt48F159LQLCVjszlg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/F1wWc2gws13fSCom6yaeBw/9BqdkMdsqVQAn3k-k9tiG7h1Dx08wJvaBkGGrJ8emtIqYp0odKcwaiwMcORQjE8dKCa8rDIkin57hlH0uC_GMX8sFt0zqdiRmjgXqRx4HuVRxicXbpSg7B7BvB9pB36Q1_Xf4BphGskmT07IVtKDAg/Me8vHnqGyn87uspv35OiEYuJ3IjMB4wrxcrcUOI9eSk"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2060,"Badge":"Nouvelle Collection"}},{"id":"rectSKIBDLBXHyFpu","fields":{"Name":"Robe skater sans manches à taille basse ceinturée","Description":"Robe skater légère, sans manche ceinturée à la taille, parfait pour une allure chic et confortable.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/NSo1vtR-W-XdgYPE2C_olg/hz4SGaTkVS5Ai4dmpqkxekvmV5tGCTrzb7XSqMP8BSDX1g8MIVDs-mcVC3S5jNFhkeG8bw2pIHrVYqW2b1xkqeH1yreEofAXGsBAWgZ3d3Y02s6CZ8qHkdP3hWsQTrk6sCvdoUemZyvM3MY_Azk_TD6sCK6aoEpLBPwo7Q89HhgL6FdYFFjlbQcAxzi8jps0/Pkb25zV-xQmb-RXySoaNJIccBAc0gwKr4iDnd_-5XDM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/g8KBf-FNrKfV0PXru8nsVw/jGvonPSio-VBkK2a62QrV_1K0HaXTR_EDkcWAqBLGiCsdKH6l6Qm3Kp9mQjx-SY5JvgX6vuEc_3AoXLDs2zgXI-J0CN_97AbFBISAmllIEcnoE3GMgEtxgWk0cAsq2gbE9rBynt6-iSzMoI7_fE9wQ/XMTmbCbh1CFIc9MuJnTvkOecOtyFLVIWlvmonh4kUPk"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2070,"Badge":"Nouvelle Collection"}},{"id":"recPSooChtiIHGXSn","fields":{"Name":"Robe Noire Courte Froncée Col Bardot","Description":"Robe noire courte et froncée, col Bardot, idéale pour les soirée tendance et cocktails printaniers.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/l7FlcCPcm9T5A_BlMYIrPg/ao7ZyRDRe8ePAxKHZ6nKWxEdH50j7j4iqb8pWy1CKCmfaMW4xUa1up1ahECIPLt4qm7BVHGXBywqabuKOo2KXLfyHx7WgppIPEWFHPXfV6r6Y70UAFg3aV21XapSdivB7l7FgXKfEV6qF-VnQPwlH-JnbmL2WhvCI6dpmG3DArbzcO1jsyjJhoRjI0HpHaJg/V8ropV-V5hHRtYxJ9YJUtXl2D64Io8uWnLH3-56V0iA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/u0kpeWenD9a01-YRBCwvTQ/y6C4zsS50S7mIbEq3flQ7NvfaYY4DZxNLM6PQgmnD1upBFxWnRQPS95q8HBIA0kBv22PDrN6EYsGeAC9vPQK0UMbFqcZ8ZI3iA2RDTN8B1pOzD4pMbSKn5f7TEWYY-eiQq8_2UyLJUNjd0NdSUK1cA/8Px_RN0UWdSRrauD6yylp0R2fhynrvh1wXR1wrROJks"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2080}},{"id":"recQJOOwROg7fKHjK","fields":{"Name":"Body manche longue motif damier","Description":"Body manche longue avec un motif damier chic pour la saison printemps été.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/27eczx1fokrYfzzMWtA-cw/GMA4LiilPE03R59lccWBnSX-aJvpbmVwDbMdvvjHrLtteAVI4cw8n6UOQwMCpjsSEabzakT7IkoNqg0vpZDEE38PxGh0AZYu05l-dfsOGp3PqIuRlm28XPLNHCLk4VIHxA11xGyy-XoyNTwiIE5b7bb73h0sYyA3FG2b2Mf1dbOGJFtbkEWdbTF9hTS65xGCLJ4SKdu38MaYbnetJkr-BA/ZvQtQZnGOhh8zEOMO8kdjnhn9K-sPREkJdVDhV6XCqg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/9x8LFfAnY7w8AJWfoVGyjw/--_HvhPZubQLEn6pPnvhXrarP6aunC4Coeg0-s-8KufwD_tm8rC26wrlwvH3znF7Egp5b2gPVC0dDKaaEptdh-bEXhqvh7-_M1C1jDBEdlEXimwj7mCxrrLG6FJVfr84NMivzJNeeoxpShxfMHgBTA/iHCC-Ndh-53GGH6SAJzNZip_61349pZqw8XCmIglZxM"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2090,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/nNX9YiwfPFV9EBDB4FYUxQ/-snUdzoFMgVPvCHqHk_EK5MNvfX2VvZuASPuVAD4pl-DEPYMYs1jceqMq9zkSCB15m06K7dx-REJAugKmE73vUmnCCcDZUIxhJsTyh1n07QlxmN4lOij01Szd_zIx7BTGVKsgCjolnaDUFIZKssD7QkOtJeCYdmmsWe3oA7S69pDIjylQg3z0HW5uCXd6bfNgeqZs171pGgxWv2g2LUpUg/grP6TeLBgUC8xH73a6VEs_lXj0Dwsc2i47dRKj7dwj4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/saDAbk0G6aVYD9nQYQeW6g/wqRozeq11KM2GDtYYxJzmt_LW8bbhzzOvrYUTxsUsUSAojWhoG7KG7g3zbd-mjIXPguZXLOxBidO2LjONc1COFj1l6aQziEr5YVVok4Ll_n8v4A3zIW73nEY_4ohD80EwryJHlsJfEZzutiEdQ6WxA/KN-igt3cK3mOTFT77kWVAmNLBXiSPntlAXf-f91J8bM"}}}]}},{"id":"recSeIr2eGcs7Uk13","fields":{"Name":"Ensemble Noir Sans Manches Élégant et Décontracté","Description":"Ensemble noir sans manches, pour un style élégant et décontracté en soirée.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/OoRFnxa4mgbtvxLAcmfQxA/GgL02o7QjR6_vJW3hEhvINxSP_G3c-S8QUSt3vQkUgDArcJuAs3Vub8Crt1-TvedENT0Kim-YYDEnCdmC9S98bnCU9ijxDZmyOsQnpR2yIfxwMMePZcmmGyvbVmnkYN13iZuiTmQlIC89jY06mUV8lcnDFCHTM7vGV0lgehpMYUK2vsqPirytEVwNAlWoJ7ntS7G_O8XqPAJvO2hcRPvpQ8YK35MXKBlJOnR_IXhLTs/24d-Djj1-ZOEWX8RsQ0mVQ5e3f1pfffhhMNbrVn5BC0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/AwtSIqOyB7A2yNgOcMUN2Q/A4G_bq83H7GxpPpC1-o5T6WX9zawDBCSD4K1-_TMe5WjQapVVOQxIx6iEd0hFBf6FZ28qRRABjYgrpvBP_RZ72oZ68Hs5OQaS83M2OjpCACbLFF2iQQrJ7FTqT0uJyzfegjwSgnEb81uFhMa-UCmBQ/H-juaaNthj-rKhDbnudS6uN20-D3bSJcnP-Eb0dJmlY"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2100,"Badge":"Nouvelle Collection"}},{"id":"recAhGrMeVpls3M87","fields":{"Name":"Robe plissée beige triple ceinture ventral","Description":"Robe plissée beige, avec triple ceinture pour les soirées décontractées printanières.","Categorie":"Chic & Soirée","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Jbc4qmnPIn6CHUb8Z5thGA/NFC_xRREllk81sZiBL6T10Xg18gOG5t-6IUw5nwv2e2cSOJL8iBUPzuPTF6ztHKZgidYU1a4Am0ORtzAV-wrQHoB9YMUrNzytJNaGm311rgq7K3aDz4J0QSlsba2PsNo-pNcilphID4ojRjgJ4vts_HkQSlnWt1Yvca0H6flj7swUEWgojQGqh-rfgn4HYfu/y2FlYT8pjDDN7v3T6mdlhckQtD6eutMQkMTbjWqMnzE","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/cRNQYxhM93Q76NvlT7njvQ/XtUi09NZfOY7gr5TG1N30a2Wdw-ZLF3_DFA7iqXQN3c8mdJGR902BVDqnr9LHt6TO_JJChy8epsC84hi0ahhlEuGOZ_SoSm3vM88N_vYyMzzD9JPknDjazZvteysYi0Ow9PV_KfIRxHYe9YwjCrf8g/LmD3NImlI-C3RRtEgCFEm2kDVULYggG5Agqg2SWUX8Q"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":2110,"Badge":"Nouvelle Collection"}},{"id":"recC8epfBh6Ufbrr1","fields":{"Name":"Ensemble été crochet","Description":"Haut bralette + jupe courte crochet en motif zigzag. Le duo incontournable de la saison.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/PnJslNM9eI8oo93bIe74BQ/nPF4ouh6KjgRR-pU_d1zFOeZ-XsTYfuyLn62XX59ih9D75J9-FquggYXLkyL9-ZW1AwCEJ-8NOYuvSXT9oztgcojGCoHp3Q7LXTVAlV7vsUlpG1atmoLGas_JhZFTtartKMXQ_usqB5GrrJVE6Wd0FPNYa0BGJDYyyNwiE0DNL6-fGul6aeqhHuMRuGAMdmw1Mfu6X9p2FNbW3o05pztiDl20PprR3yO71Z42NPXbR6o0OQyrQtEInfGsIKJFdixKyxmId7RjefeWeut_jIkHw/DTeECUffXGYTbfI7iBgMZ30Pz741fVBsq09Y8VIS9N4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/H-vfcZ4tzEW96IwRoa9thg/qkYrtRxuUY-uqMiDRIANfYWpIY3BbyeTo1M7bNjvNXMAFE66y6VuzREp-dv20R2yz3Lhq2-ZWeUaBX8Xoo-013eSoSes6M6LDAfhJ-6PcjfRiSfQfITBaT7eOcNUEM907ZQZLRlGoKfS-l-TbFAG8Q/A6tKJiCaLSbpVUC9F1mm5l29Z9j7CAddyQKINVz_bIs"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3001,"Reference":"JL629","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/6FW3g9dxUmWBj3XtZPLvbw/Xid2-eMy0FrpzRupbpJ1xTt8Nl_dZpzdGrt4AZ2FqoXiY6_G912NIdsDvq4osC3p_9_mDc-PDKZc3dlLCNmsS7Oknuxq2zEv5dKpS72v0BN-11HUHdxcr_O-hBStKo91ZacBvueJp3ggCS39kLIDSs5OLbr_9hYF4V21UvpxKuo/RXTS-AC6R7WxLYJ8nJC57l2Wdu0aQuHYYE2J5OYA81I","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/5NopPLG3qvPuOD7ZVF9Nsg/tzZ7ZrfwRALY7XtJGyaIE_6cr0VrhFor_brcrYT9Mbt_lKZJqjy32BwX6par9GlmVy1dG3gTSEUGKOPozXCiyZV3qa5sZ4GQ37L-JpJM5N3H2hGulaLC-2ejNzrhFAOJM9qlt3MhO_LZ1asmD2z3Qg/FRO86iE7UQrV04wnjGZ53t0SxD95FuZI5lrXkkx-VJs"}}}],"Badge 2":"+ Couleurs"}},{"id":"recPdZqHXW7c1pHjU","fields":{"Name":"Set de Plage en Crochet Boho","Description":"Parfait pour l'été, ce set de plage boho, léger et respirant, apporte une touche chic à vos sorties estivales.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/PBuQ37rR66_l6GDdiAD9hw/Ojr2C6ld6g06giyUPbbUfmjkk6se4nXZFD3rnOllVLaXOE3t4QthNQIXW0XYB5gjeC2qKzltXUPHiF0gH_MCAT_zywaj_DOFg4Qsr8Ev_lwk9DxkTKiJZjYdFFljR1hZV3T7sF42DqTKDlqsbG9d0QyIuGMr-gv9-SSjD10-H8v_WXvU9IW_Cmu6MJkOCaJH/n4-m83K2wrY53apjH9vkjvlDq84UezJUMqZXRWA6dzg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/4ciWEQhbH_pbm_9UigHycQ/tK6EVTM1RtwVsK2iIaJjEv1LiOx9Gt8uzGdZDeIvvxOAqscUBUq_jegceXWCSHj9fb1HG-pzRhOr9gxmZhco9qL9hlJOzAe8RI3TgQwSeSbfvQVnplxo-iRtBriu9TQbboYtWgZ8QI_XamcQVVoROg/i60H36_AS_rJ9ztaDOnMD40fojCyJWfPRfKEWOOULN4"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3010,"Badge":"Nouvelle Collection"}},{"id":"recVrkt4LZ0VYWBAY","fields":{"Name":"Ensemble Chemise et Short en Broderie","Description":"Ensemble Chemise et Short en Broderie Anglaise Noir.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/AH0_j1hbUpWrZlKl6YOYNA/bDgN1McP1AlvJ2Q1rQh7HGazjHPCgK5JM42IiBE-hjPlU23Ly-MeD13nHT5BQp-j52JJ-x0iexL1EO4csQm98KIDOga5-DfBTTusm7k2gaHC2BsORZr3Zs3fM1KP3OW2jjsJJ8lKwQvVmcgdhVa95-F9fQaJVp-lyGNdZoOg2T4YGEcPUdP8wsYXkmh_goXr/vpWP_JPKCUhSKJDxj8rDk9bMXWzxbzo_ERkcB6l-PIY","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2q8qElZStO27-EIbYz_jUg/bG4lW4oUDB1cJvrpJQOt8fcZef3w-pARARAiAq5laYPdW6Wl6Q9tBKP7p0-qHuU7cnI7gNclPkwAHYrPb5xB7Ccw0YGcrNuhs-kNruseLgP1CSnH-fknJLtobQ17ydEtfKVH3Zd1ruYaFFGSFk9L-w/3MyJ3P-eFLjjotrLnCaUxdoedqSWZ_ECTOzm4i7zKUQ"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3020}},{"id":"recCOt45JcNxvlNb7","fields":{"Name":"Gilet en Crochet à Fleurs","Description":"Gilet en Crochet à Fleurs. Douceur, style féminin, allure décontractée et silhouette professionnelle.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/C_gprG5qlobPgySPJpyG1w/wJfKEk-EI1swu1IV0FG5Vqze1v6BpKEMZM-n_0J8SLlUpDT2sGTNOnJWbbgoYHgOJQ6ZQCO3ZvPyCWUVz6iczgOyjxk9S7SJdScalIL2cytDafrPtr_VHgANAB8AtwFtRcrFgHOPaWAJ7i6TUk4Jd2HmDrW3AuKoTHtAFwlgeYZuy0HnROG5Q_OmwUh_HAvb6u_PPPxRbJEwdHQ4WgiQkg/zI1afqbK3dV-bEdxPPS1f827x09iskYZMapQ45wK904","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/TVr4LDoVDqpQ5mMfEqfPYA/3aiRzYMr_zdYXT0vJkk7nNa5as9EiVM0xiwiqNFKqJtTm9-mn8CPmJxuYH4qaf78BImeAL0gb5UACH-OwefUQfaBczbsYv2seJ5jDiIVkNxwoGAOyGkOpJFK7ssUJqNbpR2LvpbgPUw_Ss5gsLSffA/oeEDdHwhum0edHcbslfNcPF58JR1XcqW9qqmvWZ3lds"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3040,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qJr-R17CBe4fnMHWvmqazg/x08ixMDU3KR7q_Os9ebKI2eL2_052EbHptC_aVy5RvgaoPWtVpbLAkO5j9uyAIdRmGplifu8Q7QsQhANR-U7V2RWHFUXyEYlDye7z9PaMQINymZFbthHvCbcA75K6Ebvyn_8L_C9wWvEhKGPLVhunLS_uzTy9USISevDq053Fgk/S7_bigrP3V4CObMdhdpLlHH1VSnNG0DFlSwilnNtnjE","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/7A1Vu0VRXTfJrRSjwjjRsg/Dp_xXxyV8MxtQr30n-hOtse_Pmg4i8BqmS9iONNhW-0f_ccN9QrAFu1RjxiI6SrwuC8JereKxWtFASb1UKE8pbtE-O0dhDDFqDk4ce9D5XC7hXfhnhONklIJ-UZPeCtGB-txt051ZvKIgyVqj7u0xQ/g4YIqasBlOBWRR04RLTntiPKZOZpPGTRWGOVAAtJTR0"}}}],"Badge 2":"+ Couleurs"}},{"id":"rec0J4XqcOoIeRx7r","fields":{"Name":"Robe en Maille Crochet Col V Ajustée","Description":"Robe en maille crochet col V ajustée, idéale pour le printemps/été, composée de coton et polyester. Parfait pour un look frais.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Rk4j0rhizdF-8kKvYZQxsw/TIqdsf5nzhJ7NIlizc2--MhiADf_BKY5m5CpBM4CGpfJhVjKDRDHqiRa-k___aLH0xEnDVEJuwiinQQiAmcxAjfFxkr5g0hPTQnnb6ydTaWHVG3-oPbkgbRnqW_Pfl16z0dZ_lsmSRWAlTAOBb1w50QqW-QN6aMn46aO977UYmvRq6MwxBLdMOIDvZ34Gvq1/FlU7Aai5u7P0pQN9fdNIoX8kZKzKo8s9G5L7qavTrkM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/awd02o-gsODZXqpudV8xDQ/pk7MUPYuYRg_3u0-ouZW04KwwCgI2KJIHAB3tEW0E-3fpE3T-7d4OW24gwFaWdWVBI4qG8S-mkNNPTLUg7HZNGmzNNwoetebEalu9XUQDzYNCvRNgsPjtPncfOP5lK-Po3Y6v9UbHXt9HNsxE4UrTA/18qFiPiDhiMDEjp0_9wZ8910fdOgXzScm_-Lx8c-R_k"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3045,"Reference":"JL10183","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Pb_fxj53H69x_InemvfWhA/toEvm7io9G4w_t_gTiIKMWijFJTug_o2Hu2wTEU4HHfQZmNqPptOxebZ-C4AfZPVfFD6ML7e5pA62tK2vd1RttVIOolk3_eISh_GJBepncQyi23l1gZ_njUkwF6kbs5-SSoGPfm_soGMtP-lUCFCt5B189FDs6U79naZuKhSNFTq42mModiVmIxqlIcgxW4S273dmmvpLs4Rd-zQ6MId3A/rjO5IcTmQZdg0YQ04H_yIVN0blOyME0CiZYB_rem1Ww","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/oqYtIIB9LcnOVf2KqR_6Ng/WTVFUUduG2VcDolxDuz-HyTDPUWEDpTHS4UaLxz4xEYRbJ2VM53GfF1vwf8Y2FHf0BMF3lnPrEeD3w2urDZ29DkgIKa_H7G9GgboTyetUULA9WrAsuxOaB6vne6PGyXJCjvTHkDDE2yqfScFzod4eQ/NwMRs1w1_HfqPW8gmgaOtLpXyMAsQkkX_6nAT_Hbxjk"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/yQpB0kDejJ-mv0SFdDAf8w/VINnZ78l2EUd1rIE2av423_NuXJo3s_CYkScxXO4LwZIjSSKrrA3qtK1SQQgenvjm2eiYIRKbITVpBBuqNAlPOf6tyNjru8wTmT_d9vwSnuSehmpHhBjdWon9K02QtV50GQpaIWTdm2BNBzeB8qrFnjtp92cv2XmphsBNsqh5pKBBiMAqs4PS2mVB-BveF_g14cC2dSzLZrWa2jZSkZq7A/Xzpw1FBuNNHk24y_ioIpQ0sZM6fgSrbYOpytLFTAceA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/X4WS3W7Y0len-8nyw2u1fw/wlCW9G53Fr7-BfJy3Q3zDWn3BLoTpuhDgt4lArqT8eDhA-NafahYIXTjYxMywRiGwzWWY1DI9CSMLSPz9P9yEgMydTYv66qAvKKLuB_s5bIkqCbwESB8areuzpoikvORGOFXi2-_6lqqnxwlfY1AYw/W9I2__5e800b0LHHuiBPvg3kzZTg5dkRLiFpVv_EX28"}}}]}},{"id":"rec7AExH5F3uyj7v6","fields":{"Name":"Ensemble Top Licou & Jupe à Franges","Description":"Ensemble Top Licou & Jupe à Franges. Composition élégante, parfait pour les soirées estivales.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/t_jOF80kht2QU2tP-RqOfg/nTyeurX8PHu3uEXw_r7f43eYHJU0Fymzi-dmtK1tZ-y5EdS1fYfcYq4vzze7cDZO6_E8U6f5HFlJ7LgVzjFbqHGAI5cIJYlz5XXpcrYK17r4WRj3Up1r7o79NXKvAHipjNS_XYRySCLqBJBi7BuJCJQB4pwWO5AK5Bp1Ou_b8GyJjhjzt03DHehKsbuhBS_T/Dnc-g4BwcOpfdLO-LgSS8bfqn0FoMXUGlDsmNzbo3F0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ADu_XAW5dIzbjuudYgisNQ/oeds293ppqbR7G8Z5mLZOs8mmu7A3ZTQFKogGPDg2QOEKef--pPEXIIRHQ0fzIvNS5pSD4BqtHS5ZrcU_31dYTujjqbRxUyRg3efMw3qu-ykLgxVTYJemCur8Dp36YQmBApICpNCmWN5cavCMAB7TQ/lzOusrDq72b0dLJ2EiWpUr3hneGd5kYDYwACD2QVEZE"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3050,"Reference":"JL780-3","Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/1bkQO2c8UxwJNv9nsEsbeQ/JhkreumTgnbqBZLSb3Hc7PKLbQP0RBndw3vZsxPQBswjv8rPipM1J9MMlgtYPb_5LrwAi-u9GWflABgtVwbsV4haFAgo8HOKjDKNIeyWg8il3r3l5GIrrXDoJQJ4KVduywC1TULvG9O4c6J5Xv7l5HFruJsPQPrsblJAmOzwHio/dgmWuimwvF6gnlkGBjW5a2y6TZojGKIgOqyx7xh00nE","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/0gLcXo0-T1mZ5Y_XLyc9Vg/o2OMk3HXUuDXFTiHj842msFeTQM-HmZUOcavwXWXEyMSsNR2gnBcsUDsn-6ecFnEFQxDbatZA0shVl5VBKsbB9EyzKqks5z50LORPG_QIjR4hqkoteqnMxUnEIyHSlbPKpFOZBellOWQN9kRKLpBvQ/q2bRpp_3mULPBWpafZCukYE6Oxhs0m0UYWP3bMZQu8A"}}}],"Badge 2":"+ Couleurs"}},{"id":"recwZcPsmjkQAvGdJ","fields":{"Name":"Pantalon large effiloché en cascade","Description":"Ce pantalon large effiloché sera parfait pour les festivals d'été.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/krOoegndClt_ii5-4dizBg/fv63aVaKrM69x7U12wJt_dQh-Paz8BzvAtbVsCxEyU3jO2ccm2pY7TJ0ZyNN_4y2yF_rQYdmeYwsrF5CWyVhq37mBkGXRkaZ4I8M8nXxiJyvigmOyotGR-Uj_ggl__AivujFSRu_iCtIZjdveXieMr51fLCHpPKZToXDMUz1BH39ZT1RrvGYeq0mkT3clSgv/Ohg58nNprPTV-or3rgfeVxis21bnzQpH8QXO6KmKCio","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/0xiIUOVlxf739_P9eYEFIQ/plhq7wCmBpveA_3BWHnyV5ntHd7wwOIzVSgNsfmL57ABzcROBqg5uOrGeZG8VjqAMm-3q21LoDmKFJXIB2OsV_PSDR195r9RuHIxLkG64qZxBLOdC40RYD1RP9nQaq2b1zeJ-KPRNpGML5oX0LcoVA/D3tzO_CdyGvaaf6ceObKeyuP13t811yytFIOItIH4CU"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3051}},{"id":"recMcUMTt8GtU7BUu","fields":{"Name":"Veste en crochet","Description":"Veste en crochet 100% coton, pour un look moderne et décontracté.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XzEGix_SA9AvvBAURff_iw/frvq9-47VyMx7mUSvXugVt-VD1zO-1uc7hk7rrLBhKj_4X2ivoA0IjZEh8vT9ek8HMtzvx68borOoq40mfoPC-f_Ocid5G4qH9FwwPbyVRrf56uhcme2O3vYOCbiQL1owtzUJa2U3iVz70SPgGCeopjeQBXL3SjaqWf1PNo6xGvrBtzEP9FQ7WdD04ak3eKf6xh9oNuPG_diKQ39f-Vqkw/VH6IPiADeS06gmyykJ0zOYw1-NJsGEM2qGQ06Ilr4lU","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/FkE61GGnXaNhCjtALnSh9A/j_xTj84jlX5Q4HtKaNAPqj2QMD2gtmwfmDdwLTrvuws4OVtJERgJ0qycRdZbVDM7kH2dFlzAenHo5eCxXip6bL83m8BiFpChCY13NZ62-d3liMfU-8dDm4El7YEbRNz8s9QY6vMLIbp3_3GVEdEvXQ/GlqaDnvKZ3edI1BbJWp98g3LuliYIEJu2x8vywARNE8"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3060,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/H0pT03wIHPUCT2K8TlLNKA/2moVsHqzkoi5MOxzT5SB5EXzP8Gtua3Ta2d5B6HwERyQECHSk0i-NPad5-wJpx0mSsBxiWGUHoM8bAvEyYVsNUL0mOo_6XuqPtGdu96wpXNcSbpGVA4HcmtAjEoTfdRNkeJFmKgFvjtIIcFhBme0T7T_tWSteYNmp9IQUpr01as/SddaRK1wUvdQIAGzTPzXWXJQTngM9vpd751yJo4rQMg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Oofd5g8KZtpbsItnt4sqow/PloHMb_zGcv9yYumaz8w_k-XGvlDLBKtylcmP6uGO10f94NfLCstG-I9rW1OOfOCElvuPm2JOo2AaaMCRNarKIh6mLCNIj_sGwJgfrqwTWYt2lV6c9Rg-2G1lor0UvZcj2Xm5JETsWqN5eHIJD-DNw/c1JAfxzZLm3O-z6OCuK5LS5KArdX_mcLhZ_jhkW6vdY"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/-MP7WDAbia6OjSbq_VqM6w/Ny4WdMh1-BpXX1K9oOGsog0DIuu0tItChfTgaOP-VumVuZPjlLmVR01psfKl12BPomZdCsbPtOu06ePH6BdcpLj-bbmN9-NkkzQgVfeTd7KiI0p5OKby6jP-1TuyjW6HSPZHrAtMoQLk5xFNm4EbTbjIgAalpWkwNqSTo7OWggA/JHFSxMDSrGJNaAqyyA_TU8mraWjBGqz1LwIpbWNbC4s","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/67ooU_El5mHSLTQbd6xxSg/3CEabOSmwQTpFM1hjDNzR8nwl0eD6xWdpHTuJhq-aVKQYAHrcYmLJBodS78szfbW7SJ-FksQH8Z82BjPlGx5m0xycfmBE44kC6LuXwRejVfqi3jWhSWFb-_MHJrXnLPXsPpmSiRuMbpu1YT-FjWguQ/OHxhI_kVife7_Dyb3FKVoqPVHoujjl07CKPt3kID2ms"}}}],"Badge 2":"+ Couleurs"}},{"id":"recBSg40qrv3UVyoC","fields":{"Name":"Robe de plage longue au crochet","Description":"Robe longue en crochet 100% coton, idéale pour les plages printanières, collection Été 2026.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/3HSV-rQqTK_vZs2oBvboPw/vfknAAVsIiZsBHR8HecQ4jYan1hchCmmlbNWHr9P6LpURaVsKT-O42pzrzCNqDrgux0FtJBWAw5NdhTR3VECiCbNVIXjhFMxvsVmBQ4cRdPdm4jIPqRlPSY_rQ4y5IaveJ8NtoSy3HlVCGOL6SaNCfPesa-xFwMtibGKAM6XL4XqVtAreiDHD1CCfugYqzaJ/sxvQDxwSHww8EioTfZwLmQX_kMdrGjkgDNwmV6MBT5Y","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/dLNwXABjjUn99ANFyebu3g/IHERftMcvl_-qXxouiGQ_JLPDMMhwVKDGUy4Rd9_uML51td-p_w43nsPEzU6FXhQBbctC2h1wOCzYGKO5AYqxHHGOeyJf3r3FNcFF9_HDDqXiAZk7yKHamCeUE0SWFZbc4XTQYexIDqDg97VFwdqiw/yHLXjQQNsddYs3wG6TkBcaz83LBeChgIiiOA7i_eMMs"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3061}},{"id":"rec92l7KawTt0yF7y","fields":{"Name":"Pantalon 'Bohème-Chic'","Description":"Pantalon ajouré Bohème-Chic, léger pour un style confortable et élégant sur les plages.","Categorie":"Bohème","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Fe52Z9sBJN7GK25n5a5ewg/NE457rkTIhkm1j4DYWIsuf2LTWHk8X05edj7_UGsMXOdYPbXFV4eP4tmDKBrPpnSUwVHurCYPWynmDrHCUgKYGEvFQUjqO9wa71c9y3noantdrXsVGMpy7AKoVmDGmhTrf-_O8Dq1_-cZfpukFHfqQ_juQEEwjXGkVyZaUkqkI8ehJiDSwMf4ArgWS3_AJloBEn2rWBIhSt-miQENgxYoQ/mrKVHgRTvgymFjy7jyHgqhXeYwCg_DGNYjjTC9mLutk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/CiWOC10FK3rJv940Thu1zg/8YBNEcWk4Pw6Wb2PyW8F16x39GKuyThvgqr7rBDOdAi8VtRNjHug9FNqtYmjpETTh95kzpfokCCuGFufhZcvZcSwlPhzdh-COzsp0zoFdpXWFgWmaBSkH8Jtsn7E6R6gNLo8XfEfBvFhdM5k_lezLw/Ja82m3uU_VAAui5wZ5cXRSqCK7v3c-aj4e1M0p6F26U"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":3070}},{"id":"recbLv31n1zXdFAOV","fields":{"Name":"Crop top Caraco décolleté","Description":"Ce caraco alliera style et confort pour les journées ensoleillées.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/f6EZ2zL9MimQGt2qw5EBgg/5xyQn9dXJiqkDszDdVYRoX31tefTlP_LL7cjYZCw_buV7KVJi_yknDFDAJWMN0-GUJgJN7N1DGmU3GnTNgu4EMvuzJFSTce2y4BCTsav_rtXzDWCTagrEHOzghm7Yf0qsIkFkk5EGbUzOz3s7MbyodgV0bMdC-YcoRPuueTSYqQ/kZ0INt-ApwmVmiaIWw-CPjqumyCsu-ZPUQYyuW31CJ4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/A7OyTukw0UVV48Wu0GT4mg/Vz9-QufMVSAxkcfJ0KboevAYn3dFINeV0L7dkxticaSNMKtQ7e9pFDm04KFq5aKWKnFrZwqgaF513RjlUE3q7sK1qrK5N-9jncBM0MxleZ-a2HMEe4KgeIHBb5qT-A44-gLtSc9O_1_T6H1jQF7xTQ/pAR8fyGV_wAiLty2b6aRqEuGfL_IfII4ef1lRgby7Aw"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4001,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/hUh91Ml70-me48ZPtAn-7A/kKDEp5LwL0XBnYGdUFk5CGdQ05D5khXiHEQ9oyAcaZGJl1QBVo4IWgtSNSZRm205rcT0yiOpi-Dnsajo6LLUsZXeOHP2NaREyurmcv4mVVCqsoXb95Rr83-akBxK_rD8D_xjrHxAyuIaGH_gQy3xShJHlaKzyzVAY2YamuEVSrg/x6Rc4eWMFGAvg28Hi05NGuCOi-yWU-_2rOqiWzpbX6Y","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/4rLp1jwyCiLh58HHIT_6uA/WfaTkxdtomhZRjni0jHfAOPWwsP_Aarx0qz0xKbuwRI5XrTHGQSyEMGuM-WCCeOHFd9OdjltWYC88K-WtmqoXzNlQCeCw3XdT591-H6ecqXdqgaoCPMEKEmMtiYA0pgAmYQT-LdO5jmJC12HR8-MvQ/RsEKp577gV-h6F4TEQxH6HIZFTGkOfN5lo9NGFWIr_c"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/3n2l20PF9uj83z9dFfnOFw/mTiMA5I1hKISpxWdf4Gj6T5v38ztI4hdKocuoZ2WKxWJAh-4brhhiBRKzkmMMnCAn6z4Kh6wo9M3clIkRNfq-IS817MOUqMb6bQAKYUFpIE_7U0lzRkRRnqO-ZWUPfU3fI3R1einIL15_4dvYC3pWzc8d2IbUtvKlEEdC9C-8yARfaLrOn9A5TembO93kJFp/JXWuZaaTAcMadZD6GCwZvL5rL-vB9ztCeIih4fQLRTA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/M04g74rD4QnLQQqQgPfdTw/hvEvslxC-O9pSisW33IrJgB__XmnbAXaweOSLRX-uxCs-vVebQB_jJhrFESk-sHKQTm9nYgCsLcKsfrBdaNJKHshzkur2HnV7wImtnUKUN3Lu3Pcl5CsdVkMaMFDCnw5kP8TaGYwMrhRRVGFIoHgkQ/e4VvTHoHWjgzzzCouytlP9Ai787kUr-M9sVF3Xy_E4s"}}}],"Badge 2":"+ Couleurs"}},{"id":"recvbQnO8f5AFXfK9","fields":{"Name":"Polo en maille côtelé","Description":"Ce polo confortable en maille côtelé avec rayures horizontales et boutons dorés conviendra pour les looks de tous les jours.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/kOMRNwpfAFMyIDbdD5eSsw/ZzbLcd8-KNCszSkSIZPfyahUxwzSJaNuBCZkOKnuRBneqEqGdDPScxyUV_KFYfMaFV2VY48Is5jWp8Sbk_VJY38f-YskbGROqGZaeLuv3HQmdCbFJRFXMP-G1vy4ZAN3tplu_-bwOmcRrs9zVMUkuBMlAYTnEmqG6AtQRgaiaAOt23s3kTRh-y2p8RMTxhJo/Sr1gghKnuZ30KsrTJG_MunSu3u189QUGyDrU1Ja9ubQ","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qDwwppiwQMlyTgG6wqveKA/LfjtwpYHPhxSjaJh5-Acr_oQ6GyhcZea2eUog8PGWq2NcPNxahZtnBwcEQ8apxsaVygXHrY94bDVVvdWHNFCUraT9Ubay_xm2Oa1pzRhpJyHgL3PUQAyRDRcipFqZxdfb4bMJU1dXeMuZolHJ6Tqow/mJhnl9SCjsgExfHijBO2E7SZLCNEIm6RhieF5qtjVPQ"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4010,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/RhYDbns5-eOHl-6QbN5SOw/pcBXG1u1Xo-1dqt4_wNNyIwcjbJ4qgWEsYFoEoYU-z3msT49FvDnu8Fua4HnT7xjZiCUEMJQgeqW2aLSdXpZ983-R-_5_xj48k7J3TIug2doi2lnk6yg_jl8wjEb9IY8dBP9sQL24WKImKXarxn4WCKMIx5Wgh5UV1mCMtG4R7xDF05wbmPo2FyEFLXkpwx0/dCHJcAL8DFZq7XlmaoxXsZLIGVDRjB5KZ3BWStZ4aJw","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/gXGvQEn8Se6DoXY2ClWdTw/OfzswITJC2zq5_erPCbhvKnVoqD4wwtBZhImhd0bMX9WvBAz4GLhqBv4gP4nuaka8oKXZefytcqT8hhu0rGR-YOlZEK4b-6w5q2_Ar_150FK34ay5Eznuve4IQ8GrDFVMIBM3XKYoU4GnAjN2XTNfw/DzusxqZuzhynhGeDwEsBuxvOnNMXxSat8tnxyyynzOM"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/2mFVPletkZ7sYvRf-ydLrg/6atRYIEcSrq_i6MMfdECxgNutS06Fn_uSpgaNZH62Jh_qwB5FsHG3x9p90MxTKNYZxR7qWpKY4UI2UfumCh-LNC1HtOedqjPLB6r8R4CDlPzoLk8vxkqdQ4wUHsReAd7c1Sz44YLCYMM3cnOxz_zRWqA5LYx5WTGFcPozV0ulbl9gQHHQH2a6CLByB-f9mCx/t_FFQlDcXR3biDWep1LKSs2cvXKSH9-H-PGAsPASwlM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/zbs1Y0LyNVH3R4CoeClL1g/DsQSnXE9XO3MSNu-7zyS80aXEeDAE7cAhSS8BQtJcWLZ0yQ0H7SVATal88w51vyQsGcjoVVz4C7nuyIZs0Um-thnxqwX6cXQykR6FmXPjZymQCa7QiImf36w-FpL7-Tv3n4_IIu2zGLpQp8cS7jzOA/bBGw7_HZtXhv-JFAyKNcn4CvufYFhU8-0n28FRk8wBM"}}}]}},{"id":"recHqC1LiR7bbPSiv","fields":{"Name":"Top estival en maille côtelé","Description":"Ce top en maille côtelé sera adapté pour la saison estivale à venir.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/j0NUuiyYfkqh2_Sw-ZclSw/u8ld0KnTOmMIvez9tzMlzXVjiTP05Sj7d2uIILUjPBC3b28nFt7Zv4-faAirUk2W5J7FDPtZZbynh7Y946Tt7CrYYzG_0UrTpGVkW_gtgag-0jsFEjWtmFtRRwR-qu3c9O08kTIHzt7Hob5FOOQ3VoYVZ587xn0BO7TPcZsYQnFqjc2VWaJZQiNffSjkd655/zhNYiVvUvuUSF2lagrWGjRl8VXIgPDW1A0Ou2DzYuW4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/R2pXEsrG-QMtFcdeV5tIiQ/ypa1af2dgLSOYbfMseEjVaGwAO4afD56tji9AW2DtW5ZgPSBRzbCJBlXc1S2Pho0e8MN0EAk6Qk1krzwnYpjoC1ckuPYWy4jDs0n1Z8RiKmDsAOeUd4MmzHn81p58HZF6wa8HkY0EGltwQ8Pk9mQ1A/aLOnQTCUyfk43pP5gGoRLaLu9vh1ObscQN_7bO4pEyg"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4020,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/mf0fTKEZmYl_ipQeIk9Qew/Z-y0yeA7gSjSsOnnl0bXzbfobIYDK4nmYWHA_pQe25B43C0i07vZATCh0wCCKqj9Kj5uEZirGbaU-pZeO4gHHlIWLZEorEJX8C33xHghErWwwJg0DxSYJI9eL3cJGNwDXxNQlsTMi5AxSM76HOR0BA-A9YuwVBN5DWY7pMQbXA6r9nGmPXAV7uqnE5KE1atA/74O0bX2sHioLD0w8trPPa8TD3RbT1Obux90OU9sK_9g","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/z7i5J6MEOmFmNeYCPAUAiQ/uZ9M4IN_cO1TVFH09qybaAYlZLO3eNeknVy-JC0H24CPoDFNPldThnHyAU2blrqjYv1XfRvNYit8JnLKAViYz0Jet9FCjWP7s3llzeefJN75TtPmc6QPLtzClZB5E2qmoGj0FKF0wcCkEQIEqBlmNA/EwclFfViSn8fO8xaqM0C2w-YWejruULqG_Z34aTdn18"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/zwunO3onG31w5c_N-LGx6w/CsPswsb1IhM3H-jaLNvow8DHOHa7RWrGdpkFjbJqUljixz9M--ch42TyOHJtE-r42OJsk3MOyZtmSu4PCaUa5F1voaZ4N4miI1n5gtoBNJ-jVl1B2Sgcz5w5ih_zBzVi6U9PRSlz3upM2jL_8vGwrQZOBVly4pdbALazTi4SiAX9Rt2lKjTn2TpyTfN8uuOY/jduteJKjDWDg_bZDkzMw2zNkM014UNY301In3aUqjgM","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/J5eUayK-NnbXdNI76elzCg/9mV50LAUZTnRT20KVq9XGhpCyRtTU1MYhGII-TBodW4AkwttNx4KFEWJLnofIgqr7v9BGUyJOasiHr3dR-Uch85c0ua1rO0-i0S5BP6RuqXAtx-3B-6QaRb6ku8Wfbl12Pdz8svKd9WYYl7EqjannQ/jtuMZdE1Cboh0ZAGqKFQAPj_nnBVOQxWL32_1U1dZjc"}}}]}},{"id":"rec8Ra3VZquevyFhr","fields":{"Name":"Top à capuche zippé sans manches","Description":"Ce top à capuche alliera style et décontraction au quotidien.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Y_ypEImC22v1L2QkP9gUTA/HxaLSX_egg-qkUy-dB8DrPY0jIobmd_NZLyFAUsd1i8oAGqBsJbKfOCEDfGarcNDZ91LrOgkY7BDQ2ctl7BBXXlV_hR3mTURPPtcb6-fKgDGWZJ27Pg4I2WYDTAMEeszTJmA5JLSl7-0qfOeaOM8kGt6YrKwOYxZKwxUFZ162Nz24tOgWUlZqUKhHTRW6G-T/ZQ5PYgpqpfJNiBwoOFLyLKvCFDvghyx_csaXukZAv0g","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/bI7hJxfSX_bg4EVLMzt5ew/46ZYdiKCnx-WXaZNEAc5tWit1F7QizFz2TFRHF-gqGxiArKPnf_qWL2QIa-J94DOYBfS8oBRaGuoNSo8Vn-mWxnheqU8uN-3IPI8CNv_R4gSO8ci5olIQUXXiI0ZBsOX7FceCtNM7QwfWN807ZevZA/pWFP25YuMKLtLZSW1FY6yp_zOZTKOghsJadUJ5a1B6I"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4030,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/U-E6RwURwpyx4bxsCADwGQ/-73qNBuvHpJ8SR8chQsorszopnPxWmof88dUG2iN9Mn4_jNlILyLEg8Li46XI4iPFEXRj9dq_WpQsLQVT2Im3iUUKZytCHueeTredNlvSLdW7SKfcbZqqWOKrTYcTM8NI2-4g7aUEANSoobVwD6JGVTBaWyT45EgcemtBjdBvkfXqfcaVSujUqF3yCx5JEV_R0OSQXH0dHNNWKgVX_flOw/JtQ8geovACAc1A-o4sNwbVCEhXi0zEVZie5GcrPvO9g","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/uUgzO7tllinkhowlkaV4iw/FKK9kpu-2MmvS4laNvnWRfgIjBhCWCJvYjaZR5c_MrJxl_IS4nApaCKgSlAX9ATGoKHWVawZafle3RPzKmwYdJ92uLS7zrGlS-CBTadguOVagNSm1sc4cgljpBYEp5FmojIbYSik3a2xYv8wjBpExA/AXEqSshvpQK2JSPRL-COlPHZxQHHuJrZ8mx-sAHg_qY"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/aU3bkRenDM5t8qIgoMIwGA/nasbdYer5YNgvG4Wmf71IekIYkVUxOKebNu8pBo4ZqK-8_jfYuc-M59l8OeBsQM_TJxudKl05iLppxRXCfVAskIJElsabmR5jTAVuGomQsgiXqx1HXiGUoqo2xpqq2eWrerK6wotId3ALsUj1cPLmEkiK6Ea2qXuUrGQZ4wk4Y9XqpQOAvmn6SZOmfxt-AtK/GCLFDUa9FqP_yC-WIP9WLP6lWLyJXcw5fg5ILhdgDN8","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Ki-ZXJutDKxLkznWZwkbyA/9GZNrt_5avOQBYBkbyIGDFt9OF7UoCM6zn5mLMBluqM3wPWP4JTdHC05ruCFJu1IpcctVOFBAvYkggq0qBtqK_OlwT1qeCtaZdmh3GQYe9HhLeUGVCpnP51ty-OdFsXH64T9sHkR0qiewJgEdl1oRw/HtfMwqE8r79C6SJCiwAqiIXLLB4Nj8xRBr7dTaCUEfk"}}}]}},{"id":"recCaORBqzSHa45L4","fields":{"Name":"Top Juliette à pois","Description":"Ce caraco à pois, avec dentelles et boutons bijoux est adapté pour toutes les femmes.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/4SM_s-VK4wdB2NXDTXhkLw/7b6CO2cqwYWhEWKTR6P82GtJkruhNUJbXqTzOhyScILUIiZWIqzRz84yqYu7hbBkL4be_CRrwxuhCW4uLFCpjAep9D30PHJjvkfuC0xyUOh95vxN0TBx6DVL91U67fq2XtTboFza1zL7_rg3qhCP2WLNlmo1Yb_SptIuIkbqaLKIKJ8oXCzMJE_urduzq__Y_6rmot-z7Lh1Tc5LM72IVK6PdcS4aTURfv0kYldrwnQ/uy-ABaLzBET1zy5yGZ4Vld99LlOWQHcQXuJYE_8dPXA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ueudkg-EDvFeTJwL1It6YQ/CrgeerReq-JD2NBsUuY-flXiM4QBPnpvUAsI8xeH1_5ZiEGehZj7wJ4hVSMSCAm0nkc_Mf4J1zTly7zr_BLIG-fTE8Ypj8g9SxxCIlX8YLhbVbiPLr8LdKIScHlkhywZdlpsDsolN-NnU8OnzeGDQg/Xh7uHHKUD4jS0htAlBqtgXrRAfYVn05VmBYnjuXUffo"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4035,"Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ueTCLQpu5j76pg_-W_ItXw/_BYY4fhJ8IuFPPeBT2mN5RHuDV8BbnY956myHkGn_SX0Dq1bg-N6BqcyHw6uocAY47AmX7dz-jIz_P_lx68UlMxxWAya82uu2Ani_L9yqpO4HUSED9h4B2p789GK9s0FXamom-Y1Y13F00mgMLC0Qg3KUzN4UUzh7DBRVrTh61wYl1mzxDSfF-hZbbKZVFY6GjXRQ7MAGGJYLch7b5NHzXdu0DQXcnbq7OA_Jisaq9g/TlXjantvjslbl27QFpAkclp1bN2SVx51i8BokLg85RA","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/_LJkQyMabLe8s59ZohfRdQ/b-t_kWmKxWq4TQ4ieSkOaCTEN-bPbMghFHloA0VXItcMZQIjZ9RKl621tlS1qSw1Ctzh-RZdkOuM9ekILjWWKklCabPVOpNGAYPNlxJFJmbzOaNJ4sMhAUym7f0nwgzgQx3tcilLPCgB-XmvhTpI0Q/dZeJFfXGZrtws1hgAn1yd7MrK9sF4MbvPsMWjoAvXdw"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/XK6yqovWFkGXYaz7NzN0bQ/KrJrWPLDPOMw0cM66gDZHzimVeybdt43tm3AkA5R4GB0r3R8JUNWX9_bXx1Ge3QL4xxxwnDWou8YOoW0fwunS9qbrPK559LdiM-iECqS8g60Bp-h35QpcCawvPJ-iaUpXoLmwrKLpfOccAMFLo-CJM0Q4JFSECIDS3nXsgLQlk11wG14z_4eqILENUmUdczn9QCUGvAugyT2BLU6IBYVgUkJhb4PJeA67l4sy0pLmIQ/xAw85ORADniAXt2HMUQ3izQrhXX0JE3ATVvulxFzXA8","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/yxiwf1w95FCRT6fiqcM2Aw/WXl2xff7ii7DUK-1HHhXBASOGuqEPLqCoVwjfOeL09FWYyAN9dWTAHqweaCmET-X_jGverueUjEkgs-y-8923ubImjn58wdWkwkJJKKl3jDtu8o5XWcUmwUj3EYvsfifCEnTDjXDhtRagRrhOM-v7w/Mv-Vvjo3WLL-lGK_DvqcDPPcPCXTMPOxOVo0IcgP6PE"}}}]}},{"id":"reclnVryiCTZDaL11","fields":{"Name":"Top Femme Épaules Dénudées en Maille Fine","Description":"Ce top et son épaule dénudée allie confort et style au quotidien.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/Y1tnXnBJ7CcpQioJKUvyVA/7taiinNJISPnCQr0hHN-tpzxAzRZX9FMqggRJ60FYCdwzyvq1z7v0osV-8q6L36UN_8DmWYM7ofzXV8SQari_NoO_cB0dsM-FbKHfJedZWT6-KwwUPEMHTEL3AFFSuNSq7vA-Qa-Wmvh1tOpeXhzKq6loJse8UQcu0EFwiZoCD_MrxrBRgk2ovrkYk0xDT_unCd6ubpVzUx6L3NE4yLuIw/NfwTVW61dJpEKElK0y1gWF9rK0gdaBu2GsA0fHIN1Ns","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/U2_Co6-leqK0fvkZDHrEBg/LJKxPdbTpZM3Ywh33V-dTpg2glJJiiVAkVrD2ES57FZnpJTqo0LNSauFMgGjE9nB2mWo01ZXAEhw_qjnS6LyJt6I-5VEaKoWLUlAyu3fTe_s-9tsecmWQl5fLBBJcqrZpRIdFNU2JcrP_cBIXvTV4g/5XTl82DezsPTT_if63YCe97vXQp0GYlZjZvunwOpJ88"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4036,"Reference":"081211","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/7IQBYduQFhEa55PmiAYzaA/-wcuulA6B7sE8V8krDe_4oAibSrmXvCR5311qx9lKhoyvGp7A7CILqGjmRGHpBAf9C_6k30m6vGnCig5q8-DqQVovndXjUEThQFbruHrtvgArLMgrnj6dZdturqIFqqBiN1MtAkgICzg72DQU-P_XuZycNANMPzHieNmsvbJne6KO5SJsyyUFF5DUKSSebES1gVXq8jly62mF1uAXezXFA/DbQq0p-hRKRabDmKKzUllhVVIry3hxwXHXp3YPadHK0","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/TAX9MjIhEVeMEKOZtUM5Hw/GRVEsCd2aUTQa3Jc1JLv1iG9Pk3wcsRAUO2byTAzU_0O9QbJNunkCTJnr4FIVC4-ty7ZiuVCJshvA4V2shM432WY5Nsjj94FkF8WD2-OMbA-gngQZz4YkZkdbyKqmdesNsYzpZtyt3sdLneonQh_lw/3WEQ_v5vzErkkTdiASK40NO5T9uk1ZXAgDBrcprwDwo"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/nJ0ladPs5ZKj7wnqctpwWw/UJx6zw-2mKeShRn7XS0r9lFfYnTK-VzltxR8B9xQYR_nryZZS3z_ul1BSUTPBGDGrhcaiJMyL3DzJCorTlZlVUXE2wU_tfSapqWNjJIWflyT6ymBrGj-xmSsWRZUzdjFkdv6jKnVf__7Tia6Luo4XGrof0_Amo90pTOBAjcaoAkSXiYrDsJz9DH7ABFI3QE1_YPfgfMHrSeD42YF5DpnJA/X0LQpgGrqtK6IYhFwowsP5L0zA_z1d99QGS22S4UGhU","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/hnWcQvOSHKk1e0MpkDeapw/2bk5qpfp4K7D4F-7c2hUN8sjjnuf_Wgjpo-Dys5pQZPlrvwO243cYTO4Kb3ZCl2Dudmw2EMGDBmEeYgBVW5CxjRyU3uLplDOblFj3LGKpFqpd8tBiLf6962jpuEX-T-VkLBRlQXoyrC4ZQ_jhZ1XnA/zTeIL3nj3K2tetamQK970P13aDrF2HrRz_fXLa_S09U"}}}],"Badge 2":"+ Couleurs"}},{"id":"recaB5sKeLupjTbZX","fields":{"Name":"Haut en Maille Côtelée Rayée Col V ","Description":"Haut en Maille Côtelée Rayée avec col V, idéal pour les beaux jours.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/JxH5W9PgO4rj8e7OVMahlA/06uwH8tS1wxv0K-_bePmZ8KAwjmkokgzVx9QiEMYe-xEUU9py1UJihuL4Xn14pbMUK_N6Y99MG2JNpZIz7mXkLxI1hqY-Qquc1M1PXs5bCLjNaWjXLJdbKirBMl5m1MMiSh9OpcATd1yY8mZ3QN8KyUYCrzXl1nFgMFynb3vJnTFbZn0xRf1Cg4A1pRaFjJ6/fjhgX5xfGevu5NGyxH0fjwOmXqfWcT4ko8Gv8PbHUTc","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/ZICQG8quuDtii3LuwHnqPA/q4A0_lzijKs2deKg39ffjzX8ArJYilbmfJA9L1E4c4l37zmaLpmsMmyhaL_cbkPtrukcS7WzZx8scK3q0MRYBxSS1Dh14RbkWfW16yjWdeQiaiFdVVJAeKeaNPsfyw9I2J9rWTYI4zn4kPJdVWhJgQ/ZIEmHeVdi9NHXBkNcItqUpkPyyhWGD2wG9Mkyz0jX1E"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4037,"Badge":"Nouvelle Collection","Photos 2":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/37x4nDlyl07WlGNa3TgxGw/SA-De7yYg7lAp_tNzD-rU6GJi4VEf0FBPukabFrv4-p5aFQ_cej6ERonvt8axT5mc3wSWoIuAgdCPIRZrmQKUDf1RViAbUNFs0IYPpMjNRBdHT6tyFKZ_wdh10ZzFr4HlfIf2gJD4WjM9eRHHUpb3xN-TETmlEqdbCs8JcIUQw3YkVKxOCxre6zW5Bo5EsfM/5I7hXhW0OEQoOUIoQFsBLjn1tZfhqCv8IhkcIFJPJ40","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/PGS-kLTAPZ-dX0MiX1SG1w/Zck7htGgV8WiR1wUspyPlDp2ZZSaZNIMOW5wHf1CiVZsIerP-YxF0OH2vtumzecQM1Ray8Nf4zKjEMAW7qzuOGbSWMqtbtj4_uNfXqPNfR4E7PeIO7xpOroNu1BOfxU9DHm1EXUXUxnC9rqeJhOTnA/34SpHWLPE_v8EO8LxB1-zNc4MzlrGvWtFFQOcfvCs3U"}}}],"Photos 3":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/vIlp_lRdFdMSbV_huMTtmA/JhhyQt9NyKKaovzz7sRV-QUfb8TGq4_yekFKwrj6EaptO2rRng-0Vi0KAew_Z3MZ6ryxdFb0mwDwOVv7bdS300cH_geV8_bPZ9N4DVeQPzOtdoLEVeDgt2Df2aLU8GeWT_281eZ2Hs6DeRxFgWhFYA_y4Nf8K4SwO29NPxg7o7zH9SvTafsDkpd5ekOEnTpZ8d9kcmsq0MGx05M2JXxpQQ/QlTpu3rP65thmJOsUzxJRLAKDzCGgV9f8n2b2r6dJrk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/TDz37DtBjUF7Z4XEfdKwhA/SZePWQkEspr5K_d-2fKeJvSM3MYV7tnV27B7qMfqmbW-N58EkuE93asfbNiHJSVMtghwmgJ-O2i5a7AyAIjyVD6tRXhaPiEKHgZTdERnqufWiJ3WorDYRNKtXXDc3IW9m53Q8xlvXSChqbae8EWrMA/DADxKxiLVjkozKstchSfbN79M6kQqTHoNgMWM0C5srQ"}}}],"Badge 2":"+ Couleurs"}},{"id":"recSSYQtjQgxsAJbl","fields":{"Name":"Veste Perfecto en Suédine","Description":"Veste Perfecto en suédine légère et tendance.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/5Ug31N92_XRjyqhc7939Zw/MU37bdvB4ju83evQ8NJmZlIeYSWOfOS7sjUWxhKYyt6CGehL5rX9xUZIxl1X7Urekz9ZhJe-vc7oC15DnDbErBRr9pKrOmTTer-2ugfTFbcTCly45Hsmh-HWcl4WxXJcgkty_yCevTXHWUudM7QpRH5VrRn8caVblzAydR_d9mzLUK5Sou9f-fV88QGvNkCrwtvq20zsm-FPpja5-AAgYw/5gUfrSQ2uoO8TpNuhmIz_s55XnnVOLceM4LeCCCMpCg","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/VTi2YXgk2ZAs-ejgQcWXpg/ONQ3GrD10VthfaumHDxC8KQ4O8CuvQEJG2V_UdPYDR4LvWXck18xk2XWmCp-BusWgdk7YyZbm3-Yjx0Srr0Nf3luQKPZFXjmjxKc_rB8XHXEI3jL_SQMTK-aglsIAyGjtgJvuBOfZyCLeHuYV7BvSg/q_HUbq6q64oBBdd7lIXk0zQrhZnEK1zF5htDpBli2u0"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4040}},{"id":"rec20nFE7d8g00wSo","fields":{"Name":"Veste en cuir","Description":"Cette veste en cuir allie un style contemporain et confortable, idéal pour les sorties quotidiennes.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/dInLVrzmHfKtGvYvzb7RBA/o4kuAjsXBLNdBCxq1MCharsfeVYqsTJbGIWM0kWZmJth_45bHQCnsgAMHFlvbwrzqz5cB01aj2RmuE1gAwVHMimrvhbvZox2MR333GhriYI-8TjAtNZwgYYrWdSCaYUhKZpM_dO9BE8GRY1ESDHyqyjMh6a7jjOoCZnoln2gzcQlTpvr_ez47_aMGp3gYDYz/gMb4qVGwbObJKl91gThqNPLzsFSYUJUqZU15qgqbLhw","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/R9yUWfPJmfcjOsnCzOEW_Q/K0pQhHreH5zxrPqKLb2WHSADYplwSnNgrhMzrwamw19n2z0MoRVzfWz3NYdZBpi7JcTeOnrcFQ_Q_3AsATVR-6innGcdKj-5qdN7_JD8ohT3G4Y84xq8KcbfBP5IWoUumir1EVf4xFpTFksX3v5hug/AlWffl_0oRV5rkAK9_bZfovLaMwcIfLjGEI73fMgJ7I"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4060}},{"id":"recm7ix3b1c7tLOPN","fields":{"Name":"Haut polo manches longues","Description":"Polo manche longue pour femme, mix coton, nylon et polyester pour un quotidien avec style et simplicité.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/p6XNqZKCt2IdNtqj4Uvpag/GzP10mme4BgYfRnZC1apB2yvcQUCRzdZpztiA3ukQpTKVsvwKqhNjh1Ry8RGtlDwp3vT-M-LIU6PcxfunobAxChCrLDpmraYl1RB6YqFsfLR4-8YkFDgFu02AeKlwvsdr0n_e05qzyZoCwdX_r20G3uAP9ABePkN0oXLgLtDUTWx1zTV2a2CTyEhGtlt9oN-TrZzr-dm4l8O69qhohSWdw/wAtp5v4CcknIUKlQqB7DeuUkR-zFmttMdTcaYZEKrpk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/KeLBxO8ZFck3XyNsnIjJcg/cVlH0Gd-UiMf48ZeFgvlz9iMrMOIl_wHyle1DfZWyeahS1NjJctSNzNfC6oUNVKaGDnmFlAjSa0ug2k8GQxmdPSXr8YLS5IJjgoc5_Ze6sAt5fY8OL0IWqWzRRwLI-SnBQKx4uGsfLY06YGAu5qH8Q/1CS5sBqD-jRBAo6aszRT6PFhJvG3srvTPESccGh40So"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4070,"Badge":"Nouvelle Collection"}},{"id":"recAcZDATTWtKrd7K","fields":{"Name":"Bodysuit col manches longues","Description":"Body élégant femme en viscose, idéal pour les beaux jours.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/WUlaleVCFcIqxxC6OG1cTA/8IztV3MqNgn6C7ggix_3qXo_7aYacQ4jelf0bn5cpafoCi-XkMG40a_s4DUFjgY03Z6LZpAPtA0KXn-Vzdl4CEkQaRm0UzBk4BchPvL8UH7XN4DtrMgo_tKml_QFd5PJPhdW3fUSPEH8jW--Vv4hbP0QRNu2ZADeea-BKAJnbLAHLh40jX8ZoCNrUyACMMEk/FBwPbYy5_Zxs4TMppG-4kLEmXhg_ZgzmvjJpL3AQTrk","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/JC2bsL7M9PswNBD3SPXNAQ/b9kmUUyLU2xiZ_sX9vVkl1Ivs4nGu9JnXl1iwMymjwc3k7I_2OAc0qLmhKQ9s2INB5pML7gOMs7cCPZM9HiT8VaEFwKzP9WfvnUYHeUBufQqMeQr60-LBazgClDUCDPZBgFYACXXngZRDpY5Kl3dmw/-zt17dthspkMueur5zleb78qO2D9eGQR3NP_d_gMw9M"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4080}},{"id":"reciDQPRcK2HAEnCl","fields":{"Name":"Pull Palace oversize","Description":"Pull Palace coupe oversized pour un style casual chic moderne.","Categorie":"Casual Chic","Photos":[{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/qaRjeh1FhsohJwoDUpGJZg/lv-W03XP0LBNY2bt9JqCCYz2IG3U3ioV5kLaeLID4p8Kz4G3TAqZJQs23ql9seD5dcCWX8iJTlGwHXIhl1ISTYFOofWzAGXoguY0iSj4m0Ddj3Idyj3y5c8-SLCUVY2F6QspxxGUsa_nxOHD1ioMi5jm0XSdA0FWGbRdJWHTUus6TWabanfUpiXz0UchX4Gw/O1WgP_PhKpGIIDsbQY83Q6uQCGu6L19H_sws07wKKi4","thumbnails":{"large":{"url":"https://v5.airtableusercontent.com/v3/u/52/52/1776448800000/bSYcMbOlAy7R3HcMUizQCA/-PyUtULubPG_0fh69kb0NwDgRoySVeU2XULovE6m5FkhIuwSYUttgV9vjoguD2S-6MCSngzPDtOzGGjPArto_l0vFXTpRZjOEHugZq5y0YxcO5zbOArvNrHDWDYNriZu4Z3JBspIS9GvV1DRl8vaLA/172BIWcw5rzRvpFQ6eGWLGus0pbDNZlkpQSqTR0iMhA"}}}],"Lien":"https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026.","Ordre":4090}}]};</script>
+
+  <script>
+    /* =====================================================
+       DONNÉES CATALOGUE — injectées au build par scripts/build.mjs
+       via window.__GIORGIA_CATALOG__. Aucun appel réseau à Airtable
+       ne se fait depuis le navigateur : la clé API n'est jamais exposée.
+    ===================================================== */
+
+    const DEFAULT_WHATSAPP_LINK =
+      'https://wa.me/33686729311?text=' +
+      encodeURIComponent(
+        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+      );
+    const PROD_REF_LINE = '';
+
+    /*
+     * ╔══════════════════════════════════════════════════════════════╗
+     * ║  ORDRE DES CATÉGORIES — modifiez ce tableau pour réordonner ║
+     * ║  Le menu navbar, le slider et les sections page suivront     ║
+     * ╚══════════════════════════════════════════════════════════════╝
+     *
+     *  Chaque objet = une catégorie.
+     *  - Déplacer une ligne = changer l'ordre d'affichage partout
+     *  - Changer "label"   = renommer dans la nav, le slider et le titre
+     *  - Changer "emoji"   = changer l'icône dans la nav et le slider
+     *  - Ne PAS changer "id" ni "airtableKey" → mappés avec Airtable
+     */
+    const UNIVERS = [
+      {
+        id:          'summer',
+        airtableKey: 'Summer Vibes',
+        emoji:       '\u{1F30A}',
+        label:       'Summer Vibes',
+        sub:         'L\u00E9g\u00E8ret\u00E9, couleur & f\u00E9minit\u00E9 solaire',
+        desc:        'Des pi\u00E8ces qui capturent l\u2019essence de l\u2019\u00E9t\u00E9\u00A0: mati\u00E8res fluides, imprim\u00E9s vivants, silhouettes libres. Un univers \u00E0 fort potentiel de vente.',
+        insertBannerAfter: true
+      },
+      {
+        id:          'working',
+        airtableKey: 'Urban Woman',
+        emoji:       '\u{1F454}',
+        label:       'Urban Woman',
+        sub:         '\u00C9l\u00E9gance, confiance & polyvalence au quotidien.',
+        desc:        'Une s\u00E9lection con\u00E7ue pour la femme active contemporaine. Du bureau au week-end, d\u00E9couvrez des basiques sur\u00E9lev\u00E9s et des pi\u00E8ces fluides qui s\u2019adaptent \u00E0 toutes ses vies.'
+      },
+      {
+        id:          'chic',
+        airtableKey: 'Chic & Soir\u00E9e',
+        emoji:       '\u2728',
+        label:       'Chic & Soir\u00E9e',
+        sub:         'Glamour, strass & dentelle pr\u00E9cieuse',
+        desc:        'Quand l\u2019\u00E9l\u00E9gance s\u2019habille de nuit. Strass, satin, dentelle \u2014 des pi\u00E8ces \u00E0 fort impact visuel pour les boutiques de soir\u00E9e et d\u2019\u00E9v\u00E9nementiel.',
+        insertEditorialAfter: true
+      },
+      {
+        id:          'boheme',
+        airtableKey: 'Boh\u00E8me',
+        emoji:       '\u{1F33F}',
+        label:       'Boh\u00E8me',
+        sub:         'Fluidit\u00E9, crochet & \u00E2me libre',
+        desc:        'L\u2019esprit free spirit rencontre l\u2019artisanat d\u00E9licat\u00A0: crochet, mati\u00E8res naturelles, silhouettes a\u00E9riennes. Fort potentiel pour les boutiques lifestyle.'
+      },
+      {
+        id:          'casual',
+        airtableKey: 'Casual Chic',
+        emoji:       '\u{1F90D}',
+        label:       'Casual',
+        sub:         'L\u2019attitude au quotidien, sans effort apparent',
+        desc:        'Le quotidien styl\u00E9\u00A0: vestes \u00E0 caract\u00E8re, tops orn\u00E9ment\u00E9s, looks urban-cool qui tournent en boutique.'
+      }
+    ];
+
+    /** Construit le menu, le slider et les sections à partir de UNIVERS[] */
+    function buildUniversFromConfig() {
+      const nav = document.getElementById('js-univers-nav');
+      const sectionsContainer = document.getElementById('js-univers-sections');
+      if (!nav || !sectionsContainer) return;
+
+      /* ── Navbar mobile : vide les liens catégories existants ── */
+      const mobMenu = document.getElementById('mob-menu');
+      if (mobMenu) {
+        Array.from(mobMenu.querySelectorAll('a[href^="#"]')).forEach(function(a) {
+          if (a.getAttribute('href') !== '#contact') a.remove();
+        });
+      }
+
+      /* ── Navbar desktop : vide les liens ── */
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) navLinks.innerHTML = '';
+
+      UNIVERS.forEach(function(u) {
+
+        /* ── 1. Tab slider ── */
+        var tab = document.createElement('a');
+        tab.href = '#' + u.id;
+        tab.className = 'utab';
+        tab.textContent = u.emoji + ' ' + u.label.replace(/&amp;/g, '&');
+        nav.appendChild(tab);
+
+        /* ── 2. Navbar desktop ── */
+        if (navLinks) {
+          var li = document.createElement('li');
+          var aNav = document.createElement('a');
+          aNav.href = '#' + u.id;
+          aNav.innerHTML = u.label;
+          li.appendChild(aNav);
+          navLinks.appendChild(li);
+        }
+
+        /* ── 3. Menu mobile ── */
+        if (mobMenu) {
+          var mobLink = document.createElement('a');
+          mobLink.href = '#' + u.id;
+          mobLink.setAttribute('onclick', 'closeMob()');
+          mobLink.innerHTML = u.label;
+          var cmdLink = mobMenu.querySelector('a[href="#contact"]');
+          mobMenu.insertBefore(mobLink, cmdLink);
+        }
+
+        /* ── 4. Section univers ── */
+        var section = document.createElement('section');
+        section.className = 'univ-sec';
+        section.id = u.id;
+        section.setAttribute('style', 'scroll-margin-top:130px');
+
+        /* En-tête section */
+        var hdr = document.createElement('div');
+        hdr.className = 'sec-hdr';
+
+        var lineL = document.createElement('div'); lineL.className = 'sec-line';
+        var center = document.createElement('div'); center.className = 'sec-center';
+
+        var eye = document.createElement('span'); eye.className = 'sec-eye';
+        eye.textContent = 'GIORGIA paris — Collection Printemps-Été 2026';
+
+        var title = document.createElement('h2'); title.className = 'sec-title';
+        title.innerHTML = u.label;
+
+        var sub = document.createElement('span'); sub.className = 'sec-sub';
+        sub.innerHTML = u.sub;
+
+        var desc = document.createElement('p'); desc.className = 'sec-desc';
+        desc.innerHTML = u.desc;
+
+        center.appendChild(eye);
+        center.appendChild(title);
+        center.appendChild(sub);
+        center.appendChild(desc);
+
+        var lineR = document.createElement('div'); lineR.className = 'sec-line';
+        hdr.appendChild(lineL);
+        hdr.appendChild(center);
+        hdr.appendChild(lineR);
+        section.appendChild(hdr);
+
+        /* Carrousel */
+        var outer = document.createElement('div');
+        outer.className = 'carousel-outer';
+        outer.setAttribute('data-carousel', u.id);
+
+        var btnPrev = document.createElement('button');
+        btnPrev.className = 'car-btn car-btn-prev';
+        btnPrev.setAttribute('aria-label', 'Précédent');
+        btnPrev.innerHTML = '&#8592;';
+        btnPrev.setAttribute('onclick', "carMove('" + u.id + "',-1)");
+
+        var btnNext = document.createElement('button');
+        btnNext.className = 'car-btn car-btn-next';
+        btnNext.setAttribute('aria-label', 'Suivant');
+        btnNext.innerHTML = '&#8594;';
+        btnNext.setAttribute('onclick', "carMove('" + u.id + "', 1)");
+
+        var clip = document.createElement('div');
+        clip.className = 'carousel-clip';
+
+        var loading = document.createElement('p');
+        loading.className = 'catalog-loading';
+        loading.id = 'loading-' + u.id;
+        loading.setAttribute('role', 'status');
+        loading.textContent = 'Chargement du catalogue…';
+
+        var track = document.createElement('div');
+        track.className = 'carousel-track';
+        track.id = 'track-' + u.id;
+
+        var grid = document.createElement('div');
+        grid.id = 'grid-' + u.id;
+        grid.className = 'catalog-grid-root';
+
+        track.appendChild(grid);
+        clip.appendChild(loading);
+        clip.appendChild(track);
+
+        var dots = document.createElement('div');
+        dots.className = 'car-dots';
+        dots.id = 'dots-' + u.id;
+
+        outer.appendChild(btnPrev);
+        outer.appendChild(btnNext);
+        outer.appendChild(clip);
+        outer.appendChild(dots);
+        section.appendChild(outer);
+
+        sectionsContainer.appendChild(section);
+
+        /* ── 5. Featured banner après Summer Vibes ── */
+        if (u.insertBannerAfter) {
+          var banner = document.createElement('div');
+          banner.className = 'feat-banner';
+
+          var bg = document.createElement('div');
+          bg.className = 'feat-bg';
+          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center')";
+
+          var grad = document.createElement('div');
+          grad.className = 'feat-grad';
+
+          var fc = document.createElement('div');
+          fc.className = 'feat-content';
+          fc.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<h3>V\u00EAtir les boutiques<br>qui font la diff\u00E9rence.</h3>' +
+            '<p>Des pi\u00E8ces s\u00E9lectionn\u00E9es pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant \u2014 et qui veulent des marges r\u00E9elles.</p>' +
+            '<a class="btn-hero-p" href="#contact">Contacter notre \u00E9quipe</a>';
+
+          banner.appendChild(bg);
+          banner.appendChild(grad);
+          banner.appendChild(fc);
+          sectionsContainer.appendChild(banner);
+        }
+
+        /* ── 6. Editorial après Chic & Soirée ── */
+        if (u.insertEditorialAfter) {
+          var ed = document.createElement('div');
+          ed.className = 'editorial';
+
+          var edImg = document.createElement('div');
+          edImg.className = 'ed-img';
+          var edImgEl = document.createElement('img');
+          edImgEl.src = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top';
+          edImgEl.alt = 'GIORGIA paris \u2014 Editorial';
+          edImg.appendChild(edImgEl);
+
+          var edTxt = document.createElement('div');
+          edTxt.className = 'ed-txt';
+          edTxt.innerHTML =
+            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
+            '<span class="sec-eye">Grossiste B2B \u00B7 Partenaire depuis 2007</span>' +
+            '<h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>' +
+            '<p>Bas\u00E9 \u00E0 Aubervilliers, au c\u0153ur du triangle d\u2019or du pr\u00EAt-\u00E0-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et \u00E0 l\u2019international.</p>' +
+            '<p>Rejoignez les centaines de revendeurs qui font confiance \u00E0 GIORGIA paris chaque saison.</p>' +
+            '<a class="btn-ed" href="#contact">Devenir revendeur</a>';
+
+          ed.appendChild(edImg);
+          ed.appendChild(edTxt);
+          sectionsContainer.appendChild(ed);
+        }
+
+      }); /* fin UNIVERS.forEach */
+
+      /* Synchronise CAROUSEL_IDS avec l'ordre de UNIVERS */
+      CAROUSEL_IDS.length = 0;
+      UNIVERS.forEach(function(u) { CAROUSEL_IDS.push(u.id); });
+    }
+
+        /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
+    const CATEGORY_TO_CAROUSEL = {
+      'Summer Vibes': 'summer',
+      'Urban Woman': 'working',
+      'Chic & Soirée': 'chic',
+      'Chic & Soiree': 'chic',
+      'Bohème': 'boheme',
+      'Boheme': 'boheme',
+      'Casual Chic': 'casual',
+      'Casual': 'casual'
+    };
+
+    let CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+
+    /* =====================================================
+       CARROUSEL — logique partagée (cartes injectées par Airtable)
+    ===================================================== */
+    const carState = {};
+
+    function visibleCards() {
+      if (window.innerWidth >= 900) return 5;
+      if (window.innerWidth >= 600) return 2;
+      return 1;
+    }
+
+    /* initCarousel — appelé UNE seule fois par carrousel au chargement */
+    function initCarousel(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      if (!track) return;
+
+      const total = track.querySelectorAll('.prod-card').length;
+      carState[id] = { pos: 0, total };
+
+      buildDots(id);
+      carRender(id);
+
+      /* Touch — listeners attachés une seule fois */
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        /* Seuil 40px, avance d'UNE carte à la fois */
+        if (Math.abs(dx) > 40) carMove(id, dx < 0 ? 1 : -1);
+      }, { passive: true });
+
+      /* Mouse drag (desktop) */
+      let mStartX = 0, dragging = false, mMoved = 0;
+      track.addEventListener('mousedown', e => {
+        mStartX = e.clientX; dragging = true; mMoved = 0;
+        track.classList.add('dragging'); e.preventDefault();
+      });
+      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
+      window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        if (Math.abs(mMoved) > 40) carMove(id, mMoved < 0 ? 1 : -1);
+        dragging = false; track.classList.remove('dragging');
+      });
+    }
+
+    /* buildDots — reconstruit les dots (appelé aussi sur resize) */
+    function buildDots(id) {
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!dotsEl || !s) return;
+      const pages = Math.ceil(s.total / visibleCards());
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'car-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => carGoTo(id, i));
+        dotsEl.appendChild(d);
+      }
+    }
+
+    /* carMove — avance ou recule d'UNE seule carte */
+    function carMove(id, dir) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(Math.max(0, s.pos + dir), Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carGoTo(id, page) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(page * vc, Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carRender(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!track || !s) return;
+      const vc = visibleCards();
+
+      const wrap = track.closest('.carousel-outer');
+      const firstCard = track.querySelector('.prod-card');
+      if (!firstCard) {
+        track.style.transform = 'translateX(0)';
+        if (wrap) {
+          wrap.querySelector('.car-btn-prev')?.classList.add('disabled');
+          wrap.querySelector('.car-btn-next')?.classList.add('disabled');
+        }
+        return;
+      }
+
+      const cardW  = firstCard.getBoundingClientRect().width;
+      const styles = getComputedStyle(track);
+      const gap    = parseFloat(styles.gap) || 22;
+
+      /* translateX : la carte de gauche doit toujours être calée au bord gauche du clip */
+      track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
+
+      if (wrap) {
+        wrap.querySelector('.car-btn-prev')?.classList.toggle('disabled', s.pos <= 0);
+        wrap.querySelector('.car-btn-next')?.classList.toggle('disabled', s.pos >= s.total - vc);
+      }
+      if (dotsEl) {
+        const curPage = Math.min(Math.floor(s.pos / vc), dotsEl.children.length - 1);
+        [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === curPage));
+      }
+    }
+
+    /* Resize : recalcule sans réattacher les listeners */
+    function onResize() {
+      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+        if (!carState[id]) return;
+        carState[id].pos = 0;
+        buildDots(id);
+        carRender(id);
+      });
+    }
+
+    window.addEventListener('resize', onResize);
+
+    function airtableCategoryValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      return String(raw).trim();
+    }
+
+    /**
+     * Retourne la meilleure URL possible pour une pièce jointe Airtable :
+     * priorité à thumbnails.large.url (beaucoup plus léger que l’original),
+     * fallback sur l’URL originale si le thumbnail n’est pas encore généré.
+     */
+    function attachmentBestUrl(att) {
+      if (!att) return '';
+      if (att.thumbnails && att.thumbnails.large && att.thumbnails.large.url) {
+        return String(att.thumbnails.large.url).trim();
+      }
+      if (att.url) return String(att.url).trim();
+      return '';
+    }
+
+    function firstAttachmentUrl(field) {
+      if (!field) return '';
+      if (Array.isArray(field) && field.length) {
+        const u = attachmentBestUrl(field[0]);
+        if (u) return u;
+      }
+      if (typeof field === 'string' && field.trim()) return field.trim();
+      return '';
+    }
+
+    /** Toutes les URLs d’un champ pièces jointes (plusieurs photos dans « Photos »). */
+    function allAttachmentUrls(field) {
+      if (!field) return [];
+      if (Array.isArray(field)) {
+        const out = [];
+        for (let i = 0; i < field.length; i++) {
+          const u = attachmentBestUrl(field[i]);
+          if (u) out.push(u);
+        }
+        return out;
+      }
+      if (typeof field === 'string' && field.trim()) return [field.trim()];
+      return [];
+    }
+
+    function firstUrlFromFieldKeys(fields, keys) {
+      if (!fields) return '';
+      for (let i = 0; i < keys.length; i++) {
+        const u = firstAttachmentUrl(fields[keys[i]]);
+        if (u) return u;
+      }
+      return '';
+    }
+
+    /**
+     * Ordre : toutes les images de « Photos », puis Photos2, puis Photos3 (sans doublon).
+     * Permet plusieurs fichiers dans la colonne Photos + colonnes séparées.
+     */
+    function buildGallerySlotsFromFields(fields) {
+      if (!fields) return [];
+      const fromPhotos = allAttachmentUrls(fields.Photos);
+      const p2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      const p3 = firstUrlFromFieldKeys(fields, ['Photos3', 'Photos 3', 'Photo 3', 'photos3']);
+      const ordered = fromPhotos.slice();
+      if (p2 && ordered.indexOf(p2) === -1) ordered.push(p2);
+      if (p3 && ordered.indexOf(p3) === -1) ordered.push(p3);
+      const seen = new Set();
+      const slots = [];
+      for (let i = 0; i < ordered.length; i++) {
+        if (!seen.has(ordered[i])) {
+          seen.add(ordered[i]);
+          slots.push({ url: ordered[i] });
+        }
+      }
+      return slots;
+    }
+
+    /**
+     * Image affichée au survol de la grande photo : colonne Photos2 si remplie,
+     * sinon 2e pièce jointe de « Photos » (cas le plus fréquent si tout est dans Photos).
+     */
+    function hoverSecondImageUrl(fields) {
+      if (!fields) return '';
+      const fromPhotos2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
+      if (fromPhotos2) return fromPhotos2;
+      const list = allAttachmentUrls(fields.Photos);
+      if (list.length >= 2) return list[1];
+      return '';
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    /** Extrait une URL/texte utilisable depuis une cellule Airtable (texte, URL, formule, lookup…). */
+    function normalizeLinkValue(raw) {
+      if (raw == null) return '';
+      if (typeof raw === 'string') return raw.trim();
+      if (typeof raw === 'number' && !Number.isNaN(raw)) return String(raw).trim();
+      if (Array.isArray(raw) && raw.length) return normalizeLinkValue(raw[0]);
+      if (typeof raw === 'object' && raw.url) return String(raw.url).trim();
+      const s = String(raw).trim();
+      return s === '[object Object]' ? '' : s;
+    }
+
+    /**
+     * Utilise fields.Lien (ou un champ dont le nom correspond à « lien », sans tenir compte de la casse / espaces).
+     * Si vide : lien WhatsApp général du site.
+     */
+    function resolveProductHref(fields) {
+      if (!fields || typeof fields !== 'object') return DEFAULT_WHATSAPP_LINK;
+
+      const explicitKeys = ['Lien', 'LIEN', 'lien', 'Link', 'URL', 'Url'];
+      for (let i = 0; i < explicitKeys.length; i++) {
+        const v = normalizeLinkValue(fields[explicitKeys[i]]);
+        if (v) return v;
+      }
+
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'lien' || nk.startsWith('lien ')) {
+          const v = normalizeLinkValue(fields[keys[k]]);
+          if (v) return v;
+        }
+      }
+
+      return DEFAULT_WHATSAPP_LINK;
+    }
+
+    /** Nom affiché : colonne « Nom » ou « Name » (Airtable utilise le nom exact du champ). */
+    function resolveProductName(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Nom', 'NOM', 'nom', 'Name', 'NAME', 'name', 'Titre', 'title'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const key = keys[k];
+        const nk = key.trim().toLowerCase();
+        if (nk === 'nom' || nk === 'name') {
+          const v = fields[key];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    /** Référence article (colonne « Reference » ou variantes de nom). */
+    function resolveProductReference(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Reference', 'REFERENCE', 'reference', 'Référence', 'Ref', 'REF'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const v = fields[tryKeys[i]];
+        if (v != null && String(v).trim()) return String(v).trim();
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'reference' || nk === 'référence' || nk === 'ref') {
+          const v = fields[keys[k]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    /** Texte du badge Airtable (champ Badge, liste ou texte). */
+    function airtableBadgeString(raw) {
+      if (raw == null || raw === '') return '';
+      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
+      const s = String(raw).trim();
+      return s;
+    }
+
+    function resolveProductBadge(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge', 'BADGE', 'badge'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
+    function resolveProductBadge2(fields) {
+      if (!fields || typeof fields !== 'object') return '';
+      const tryKeys = ['Badge2', 'BADGE2', 'badge2', 'Badge 2', 'BADGE 2', 'badge 2'];
+      for (let i = 0; i < tryKeys.length; i++) {
+        const t = airtableBadgeString(fields[tryKeys[i]]);
+        if (t) return t;
+      }
+      const keys = Object.keys(fields);
+      for (let k = 0; k < keys.length; k++) {
+        const nk = keys[k].trim().toLowerCase();
+        if (nk === 'badge2') {
+          const t = airtableBadgeString(fields[keys[k]]);
+          if (t) return t;
+        }
+      }
+      return '';
+    }
+
+    /**
+     * Fond noir par défaut et si le texte contient « nouvelle ».
+     * Rouge discret uniquement si le texte contient « promo » sans « nouvelle ».
+     */
+    function badgeClassForText(text) {
+      if (!text) return 'prod-badge';
+      const lower = text.toLowerCase();
+      if (lower.indexOf('nouvelle') !== -1) return 'prod-badge';
+      if (lower.indexOf('promo') !== -1) return 'prod-badge prod-badge--promo';
+      return 'prod-badge';
+    }
+
+    /** Titre sous la photo : « REF: xxx - Nom » ou seulement le nom si pas de référence. */
+    function formatProductTitleHtml(ref, nom) {
+      const r = ref && String(ref).trim();
+      const n = nom != null ? String(nom).trim() : '';
+      if (r && n) return 'REF: ' + escapeHtml(r) + ' - ' + escapeHtml(n);
+      if (n) return escapeHtml(n);
+      if (r) return 'REF: ' + escapeHtml(r);
+      return '';
+    }
+
+    function setupProductGallery(card, uniqueSlots, photos2Url, altBase) {
+      const mainImg = card.querySelector('img.prod-img-primary');
+      if (!mainImg || !uniqueSlots.length) return;
+
+      let selectedIdx = 0;
+
+      function applyMain(i) {
+        const slot = uniqueSlots[i];
+        if (!slot) return;
+        mainImg.src = slot.url;
+        mainImg.alt = altBase;
+        card.querySelectorAll('.prod-thumb').forEach(function (el, j) {
+          el.classList.toggle('is-active', j === i);
+        });
+      }
+
+      if (photos2Url && photos2Url !== (uniqueSlots[0] && uniqueSlots[0].url)) {
+        mainImg.addEventListener('mouseenter', function () {
+          mainImg.setAttribute('data-giorgia-swap', '1');
+          mainImg.src = photos2Url;
+        });
+        mainImg.addEventListener('mouseleave', function () {
+          if (!mainImg.hasAttribute('data-giorgia-swap')) return;
+          mainImg.removeAttribute('data-giorgia-swap');
+          applyMain(selectedIdx);
+        });
+      }
+
+      card.querySelectorAll('.prod-thumb').forEach(function (btn, i) {
+        btn.addEventListener('mouseenter', function () {
+          applyMain(i);
+        });
+        btn.addEventListener('mouseleave', function () {
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedIdx = i;
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            selectedIdx = i;
+            applyMain(selectedIdx);
+          }
+        });
+      });
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.prod-thumb')) e.preventDefault();
+      });
+    }
+
+    function buildProductCard(fields) {
+      const nom = resolveProductName(fields);
+      const reference = resolveProductReference(fields);
+      const desc = (function() {
+        const tryDescKeys = ['Description', 'DESCRIPTION', 'description', 'Desc', 'DESC', 'desc'];
+        for (let i = 0; i < tryDescKeys.length; i++) {
+          const v = fields[tryDescKeys[i]];
+          if (v != null && String(v).trim()) return String(v).trim();
+        }
+        return '';
+      })();
+      const href = resolveProductHref(fields);
+      const uniqueSlots = buildGallerySlotsFromFields(fields);
+      const mainSrc = uniqueSlots.length ? uniqueSlots[0].url : '';
+      const hoverUrl = hoverSecondImageUrl(fields);
+      const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
+      const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
+
+      const badgeText = resolveProductBadge(fields);
+      const badge2Text = resolveProductBadge2(fields);
+
+      const a = document.createElement('a');
+      a.className = 'prod-card';
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      const media = document.createElement('div');
+      media.className = 'prod-media';
+
+      const imgBox = document.createElement('div');
+      imgBox.className = 'prod-img';
+
+      if (mainSrc) {
+        const mainImg = document.createElement('img');
+        mainImg.className = 'prod-img-primary';
+        mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
+        mainImg.alt = alt;
+        mainImg.loading = 'lazy';
+        mainImg.decoding = 'async';
+        imgBox.appendChild(mainImg);
+      }
+
+      if (badgeText || badge2Text) {
+        const badgeWrap = document.createElement('div');
+        badgeWrap.className = 'prod-badges';
+        if (badgeText) {
+          const b = document.createElement('div');
+          b.className = badgeClassForText(badgeText);
+          b.textContent = badgeText;
+          badgeWrap.appendChild(b);
+        }
+        if (badge2Text) {
+          const b2 = document.createElement('div');
+          b2.className = 'prod-badge2';
+          b2.textContent = badge2Text;
+          badgeWrap.appendChild(b2);
+        }
+        imgBox.appendChild(badgeWrap);
+      }
+
+      const wm = document.createElement('div');
+      wm.className = 'prod-wm logo';
+      wm.innerHTML = '<span class="logo-g">GIORGIA</span><span class="logo-p">paris</span>';
+      imgBox.appendChild(wm);
+
+      media.appendChild(imgBox);
+
+      if (uniqueSlots.length > 1) {
+        const thumbs = document.createElement('div');
+        thumbs.className = 'prod-thumbs';
+        for (let i = 0; i < uniqueSlots.length; i++) {
+          const sp = document.createElement('span');
+          sp.className = 'prod-thumb' + (i === 0 ? ' is-active' : '');
+          sp.setAttribute('role', 'button');
+          sp.setAttribute('tabindex', '0');
+          const tim = document.createElement('img');
+          tim.src = uniqueSlots[i].url;
+          tim.alt = '';
+          tim.loading = 'lazy';
+          tim.decoding = 'async';
+          sp.appendChild(tim);
+          thumbs.appendChild(sp);
+        }
+        media.appendChild(thumbs);
+      }
+
+      a.appendChild(media);
+
+      const info = document.createElement('div');
+      info.className = 'prod-info';
+      info.innerHTML =
+        '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
+        '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
+        '<p class="prod-desc">' + escapeHtml(desc) + '</p>';
+      a.appendChild(info);
+
+      a.setAttribute('href', href);
+
+      if (mainSrc && (uniqueSlots.length > 1 || hoverUrl)) {
+        setupProductGallery(a, uniqueSlots, hoverUrl, alt);
+      }
+
+      return a;
+    }
+
+    function waitForImages(root, timeoutMs) {
+      timeoutMs = timeoutMs == null ? 25000 : timeoutMs;
+      const imgs = root.querySelectorAll('img[src]');
+      if (!imgs.length) return Promise.resolve();
+      const each = function (img) {
+        return new Promise(function (resolve) {
+          if (img.complete) return resolve();
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        });
+      };
+      const allLoaded = Promise.all([].map.call(imgs, each));
+      const timeout = new Promise(function (resolve) {
+        setTimeout(resolve, timeoutMs);
+      });
+      return Promise.race([allLoaded, timeout]);
+    }
+
+    /** Valeur numérique du champ Ordre, ou null si absent / non numérique. */
+    function ordreValueFromRecord(rec) {
+      const f = rec.fields || {};
+      const v = f.Ordre;
+      if (v == null || v === '') return null;
+      const n = typeof v === 'number' ? v : Number(String(v).trim().replace(',', '.'));
+      if (Number.isNaN(n)) return null;
+      return n;
+    }
+
+    /**
+     * Trie côté client : par Ordre croissant ; sans numéro d’ordre à la fin
+     * (l’API Airtable peut laisser les vides en tête en asc).
+     */
+    function sortRecordsByOrdre(records) {
+      return records.slice().sort(function (a, b) {
+        const oa = ordreValueFromRecord(a);
+        const ob = ordreValueFromRecord(b);
+        if (oa == null && ob == null) return 0;
+        if (oa == null) return 1;
+        if (ob == null) return -1;
+        if (oa === ob) return 0;
+        return oa < ob ? -1 : 1;
+      });
+    }
+
+    /* =====================================================
+       LECTURE DU CATALOGUE — les données sont embarquées dans la page
+       par le build statique (window.__GIORGIA_CATALOG__).
+       Plus aucun appel réseau à Airtable depuis le navigateur.
+    ===================================================== */
+    async function fetchAllAirtableRecords() {
+      const payload = window.__GIORGIA_CATALOG__;
+      if (payload && Array.isArray(payload.products)) {
+        return payload.products;
+      }
+      throw new Error(
+        'Catalogue non disponible : les données n’ont pas été injectées dans la page. ' +
+        'Vérifiez que le build GitHub Actions a bien tourné.'
+      );
+    }
+
+    async function loadCatalogFromAirtable() {
+      try {
+        const records = await fetchAllAirtableRecords();
+        const unmatched = [];
+
+        records.forEach(rec => {
+          const f = rec.fields || {};
+          const cat = airtableCategoryValue(f.Categorie != null ? f.Categorie : f['Catégorie']);
+          const key = CATEGORY_TO_CAROUSEL[cat];
+          const grid = key ? document.getElementById('grid-' + key) : null;
+          if (!grid) {
+            if (cat) unmatched.push(cat);
+            return;
+          }
+          grid.appendChild(buildProductCard(f));
+        });
+
+        if (unmatched.length) {
+          const uniq = [...new Set(unmatched)];
+          console.warn('[GIORGIA] Catégories non reconnues (vérifiez l’orthographe dans Airtable) :', uniq);
+        }
+
+        await Promise.all(
+          CAROUSEL_IDS.map(async cid => {
+            const grid = document.getElementById('grid-' + cid);
+            const loadEl = document.getElementById('loading-' + cid);
+            if (grid) await waitForImages(grid);
+            if (loadEl) loadEl.classList.add('done');
+          })
+        );
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            CAROUSEL_IDS.forEach(initCarousel);
+          });
+        });
+      } catch (err) {
+        console.error(err);
+        CAROUSEL_IDS.forEach(cid => {
+          const loadEl = document.getElementById('loading-' + cid);
+          if (loadEl) {
+            loadEl.textContent = 'Impossible de charger le catalogue.';
+            loadEl.style.color = '#6b2a2a';
+            loadEl.style.pointerEvents = 'auto';
+          }
+        });
+        requestAnimationFrame(() => {
+          CAROUSEL_IDS.forEach(initCarousel);
+        });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      buildUniversFromConfig();
+
+      /* Observer les sections dynamiques pour la nav active */
+      const tabs = document.querySelectorAll('.utab');
+      const secIO = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('section[id]').forEach(s => secIO.observe(s));
+
+      /* Observer les fade-up statiques */
+      document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+      loadCatalogFromAirtable();
+    });
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    /* Les .fade-up sont observés dans le load event ci-dessous */
+
+    /* ---- ACTIVE UNIVERS TAB ---- */
+    /* NB: setup décalé au load event pour capter les sections créées dynamiquement */
+
+    /* ---- NAVBAR SCROLL ---- */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    /* ---- MOBILE MENU ---- */
+    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    /* ---- STICKY CONTACT PANEL ---- */
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
+      const sc = document.getElementById('sticky-contact');
+      if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
