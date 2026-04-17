@@ -1523,9 +1523,26 @@
       return String(raw).trim();
     }
 
+    /**
+     * Retourne la meilleure URL possible pour une pièce jointe Airtable :
+     * priorité à thumbnails.large.url (beaucoup plus léger que l’original),
+     * fallback sur l’URL originale si le thumbnail n’est pas encore généré.
+     */
+    function attachmentBestUrl(att) {
+      if (!att) return '';
+      if (att.thumbnails && att.thumbnails.large && att.thumbnails.large.url) {
+        return String(att.thumbnails.large.url).trim();
+      }
+      if (att.url) return String(att.url).trim();
+      return '';
+    }
+
     function firstAttachmentUrl(field) {
       if (!field) return '';
-      if (Array.isArray(field) && field.length && field[0] && field[0].url) return String(field[0].url).trim();
+      if (Array.isArray(field) && field.length) {
+        const u = attachmentBestUrl(field[0]);
+        if (u) return u;
+      }
       if (typeof field === 'string' && field.trim()) return field.trim();
       return '';
     }
@@ -1536,7 +1553,8 @@
       if (Array.isArray(field)) {
         const out = [];
         for (let i = 0; i < field.length; i++) {
-          if (field[i] && field[i].url) out.push(String(field[i].url).trim());
+          const u = attachmentBestUrl(field[i]);
+          if (u) out.push(u);
         }
         return out;
       }
@@ -1829,7 +1847,7 @@
         mainImg.className = 'prod-img-primary';
         mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
         mainImg.alt = alt;
-        mainImg.loading = 'eager';
+        mainImg.loading = 'lazy';
         mainImg.decoding = 'async';
         imgBox.appendChild(mainImg);
       }
@@ -1870,7 +1888,8 @@
           const tim = document.createElement('img');
           tim.src = uniqueSlots[i].url;
           tim.alt = '';
-          tim.loading = 'eager';
+          tim.loading = 'lazy';
+          tim.decoding = 'async';
           sp.appendChild(tim);
           thumbs.appendChild(sp);
         }
@@ -1940,7 +1959,52 @@
       });
     }
 
+    /* =====================================================
+       CACHE LOCALSTORAGE — évite de rappeler Airtable à
+       chaque rafraîchissement si les données ont moins de 30 min.
+       • Clé versionnée : incrémenter CATALOG_CACHE_KEY pour invalider
+         tous les caches (ex. après un changement de structure).
+       • Les URLs thumbnails Airtable restent valides bien au-delà
+         de 30 min, donc pas de risque d’images cassées.
+    ===================================================== */
+    const CATALOG_CACHE_KEY = 'giorgia:catalog:v1';
+    const CATALOG_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+    function readCatalogCache() {
+      try {
+        const raw = localStorage.getItem(CATALOG_CACHE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed.ts !== 'number' || !Array.isArray(parsed.records)) return null;
+        if (Date.now() - parsed.ts > CATALOG_CACHE_TTL_MS) return null;
+        return parsed.records;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function writeCatalogCache(records) {
+      try {
+        const payload = JSON.stringify({ ts: Date.now(), records: records });
+        localStorage.setItem(CATALOG_CACHE_KEY, payload);
+      } catch (e) {
+        // Quota dépassé ou localStorage indisponible : on ignore, non bloquant.
+        try { localStorage.removeItem(CATALOG_CACHE_KEY); } catch (e2) {}
+      }
+    }
+
+    /** Vide le cache manuellement (utilisable depuis la console : clearCatalogCache()). */
+    function clearCatalogCache() {
+      try { localStorage.removeItem(CATALOG_CACHE_KEY); } catch (e) {}
+    }
+    window.clearCatalogCache = clearCatalogCache;
+
     async function fetchAllAirtableRecords() {
+      // 1) Si cache valide (< 30 min), on le renvoie immédiatement.
+      const cached = readCatalogCache();
+      if (cached) return cached;
+
+      // 2) Sinon, appel réseau Airtable classique.
       const keyMissing =
         !AIRTABLE_API_KEY || AIRTABLE_API_KEY.includes('COLLEZ_VOTRE') ||
         !AIRTABLE_BASE_ID || AIRTABLE_BASE_ID.includes('COLLEZ_VOTRE');
@@ -1966,7 +2030,11 @@
         if (data.records) all.push(...data.records);
         offset = data.offset || '';
       } while (offset);
-      return sortRecordsByOrdre(all);
+
+      // 3) On trie puis on écrit en cache pour les visites suivantes.
+      const sorted = sortRecordsByOrdre(all);
+      writeCatalogCache(sorted);
+      return sorted;
     }
 
     async function loadCatalogFromAirtable() {
