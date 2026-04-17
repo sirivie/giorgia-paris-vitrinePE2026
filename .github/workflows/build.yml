@@ -1,0 +1,61 @@
+name: Build & Deploy
+
+on:
+  # Rebuild automatique toutes les 2 heures (heure UTC).
+  schedule:
+    - cron: '0 */2 * * *'
+
+  # Bouton "Run workflow" dans l'onglet Actions de GitHub — pour forcer
+  # un rebuild immédiat après une modif dans Airtable.
+  workflow_dispatch: {}
+
+  # Rebuild automatique si le template, le script ou le workflow
+  # lui-même changent (pas besoin pour une simple modif Airtable).
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - '.github/workflows/**'
+
+# Empêche deux builds de tourner en parallèle (évite les conflits sur gh-pages).
+concurrency:
+  group: build-deploy
+  cancel-in-progress: false
+
+# Nécessaire pour que l'action de déploiement puisse pusher sur gh-pages.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout du code source
+        uses: actions/checkout@v4
+
+      - name: Installation de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Génération du site statique
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ vars.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ vars.AIRTABLE_TABLE_NAME }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+        run: node scripts/build.mjs
+
+      - name: Déploiement sur la branche gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Build from Airtable — ${{ github.event_name }}'
