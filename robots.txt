@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Autorise explicitement les grands crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Bloquer les crawlers IA qui génèrent beaucoup de charge sans apporter de trafic
+# (décommenter si souhaité — laisse par défaut activé pour ne pas bloquer)
+# User-agent: GPTBot
+# Disallow: /
+
+Sitemap: https://giorgiaparis.com/sitemap.xml
