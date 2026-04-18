@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GIORGIA paris — Catalogue Collection Printemps-Été 2026</title>
-  <meta name="description" content="GIORGIA paris — Grossiste prêt-à-porter féminin basé à Aubervilliers. Collection Printemps-Été 2026. Casual chic, Summer Vibes, Urban Woman, Bohème & Soirée. Minimum 100€ HT.">
+
+  <!-- ========== SEO — TITRE & DESCRIPTION ==========
+       Le <title> apparaît dans l'onglet du navigateur ET dans les résultats Google.
+       Gardé court (≤ 60 car.) et orienté requête commerciale.
+       La description est l'extrait sous le titre dans Google (≤ 160 car.). -->
+  <title>Grossiste Prêt-à-Porter Féminin Paris — GIORGIA paris</title>
+  <meta name="description" content="Grossiste prêt-à-porter féminin à Paris depuis 2007. Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Aubervilliers.">
+
+  <!-- ========== SEO — CANONICAL & LANGUE ==========
+       Canonical : indique à Google l'URL "officielle" et évite le duplicate content.
+       hreflang : déclare la langue principale et la langue par défaut. -->
+  <link rel="canonical" href="<!-- SITE_ORIGIN -->/">
+  <link rel="alternate" hreflang="fr" href="<!-- SITE_ORIGIN -->/">
+  <link rel="alternate" hreflang="fr-FR" href="<!-- SITE_ORIGIN -->/">
+  <link rel="alternate" hreflang="x-default" href="<!-- SITE_ORIGIN -->/">
+
+  <!-- ========== SEO — FAVICON (SVG inline, aucun fichier à uploader) ==========
+       "G" doré sur crème, cohérent avec la charte. -->
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F6F1EA"/><text x="50" y="70" font-family="Georgia,serif" font-weight="700" font-size="64" text-anchor="middle" fill="%23C5A36A">G</text></svg>'>
+
+  <!-- ========== OPEN GRAPH & TWITTER CARD ==========
+       Jolies cartes quand le site est partagé sur WhatsApp, LinkedIn, Instagram DM, etc. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:url" content="<!-- SITE_ORIGIN -->/">
+  <meta property="og:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
+  <meta property="og:description" content="Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Paris.">
+  <meta property="og:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
+  <meta name="twitter:description" content="Collection PE 2026 pour boutiques. Min. 100€ HT, livraison rapide depuis Paris.">
+  <meta name="twitter:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+
+  <!-- ========== DONNÉES STRUCTURÉES (JSON-LD) ==========
+       Injectées au build par scripts/build.mjs : Organization + WebSite + ItemList
+       (un item par produit Airtable). Signale à Google que ce site est une entreprise
+       réelle, un grossiste, avec un catalogue identifié. -->
+  <!-- JSON_LD -->
+
   <!-- PATCH WEBPERF : preload de l'image hero (la première chose vue).
        On force aussi un resize à 1600px pour éviter de télécharger l'original
        de plusieurs Mo. Pexels supporte les query params ?w=...&auto=compress. -->
@@ -913,33 +954,27 @@
     </div>
   </div>
 
-  <!-- ========== MOBILE MENU ========== -->
+  <!-- ========== MOBILE MENU ==========
+       Les liens catégories sont désormais rendus au buildtime (scripts/build.mjs),
+       à partir du tableau UNIVERS, pour que Google les voie sans exécuter de JS. -->
   <div id="mob-menu">
-    <button class="mob-close" onclick="closeMob()">✕</button>
-    <a href="#summer" onclick="closeMob()">Summer Vibes</a>
-    <a href="#working" onclick="closeMob()">Urban Woman</a>
-    <a href="#chic"    onclick="closeMob()">Chic &amp; Soirée</a>
-    <a href="#boheme"  onclick="closeMob()">Bohème</a>
-    <a href="#casual"  onclick="closeMob()">Casual</a>
-    <a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <!-- MOB_MENU_LINKS -->
   </div>
 
-  <!-- ========== NAVBAR ========== -->
-  <nav id="navbar">
-    <a class="logo" href="#top">
+  <!-- ========== NAVBAR ==========
+       Les liens catégories sont rendus au buildtime depuis UNIVERS (build.mjs). -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a class="logo" href="#top" aria-label="GIORGIA paris — Accueil">
       <span class="logo-g">GIORGIA</span>
       <span class="logo-p">paris</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#summer">Summer Vibes</a></li>
-      <li><a href="#working">Urban Woman</a></li>
-      <li><a href="#chic">Chic &amp; Soirée</a></li>
-      <li><a href="#boheme">Bohème</a></li>
-      <li><a href="#casual">Casual</a></li>
+      <!-- NAV_LINKS -->
     </ul>
     <div class="nav-right">
-      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Commander</a>
-      <div class="hamburger" onclick="openMob()"><span></span><span></span><span></span></div>
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
     </div>
   </nav>
 
@@ -959,7 +994,13 @@
           <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
           <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
         </div>
-        <p class="hero-tagline">Votre grossiste en prêt-à-porter féminin,<br>Giorgia vous accompagne pour proposer les plus belles pièces à vos clientes.</p>
+        <!-- ========== H1 SEO ==========
+             Un seul <h1> par page, obligatoire pour le référencement.
+             On garde exactement l'apparence visuelle de l'ancien .hero-tagline
+             (la classe .hero-tagline était déjà stylée en serif italique).
+             Le contenu inclut les mots-clés commerciaux clés :
+             "grossiste", "prêt-à-porter féminin", "Paris". -->
+        <h1 class="hero-tagline">Grossiste en prêt-à-porter féminin à Paris,<br>GIORGIA vous accompagne pour proposer les plus belles pièces à vos clientes.</h1>
         <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
         <div class="hero-btns">
           <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
@@ -988,24 +1029,19 @@
     </div>
   </div>
 
-  <!-- ========== UNIVERS NAV ========== -->
-  <!--
-    ╔══════════════════════════════════════════════════════╗
-    ║  ORDRE DES CATÉGORIES — modifiez ICI uniquement      ║
-    ║  Le menu, le slider et la page suivront              ║
-    ╚══════════════════════════════════════════════════════╝
-    Chaque ligne = { id, emoji, label, sub, desc }
-    • Pour remonter une catégorie : déplacez sa ligne vers le haut
-    • Pour la descendre : déplacez-la vers le bas
-    • Pour la renommer dans l'interface : changez "label"
-    ⚠️  Ne changez PAS l'id (summer/working/chic/boheme/casual)
-        car il correspond au mapping Airtable dans CATEGORY_TO_CAROUSEL
-  -->
+  <!-- ========== UNIVERS — SLIDER DE TABS & SECTIONS ==========
+       Tout est rendu au buildtime depuis le tableau UNIVERS de build.mjs.
+       Pour changer l'ordre ou renommer une catégorie : éditer le tableau
+       UNIVERS dans scripts/build.mjs, puis pusher sur main. -->
   <div class="univers-nav">
-    <div class="univers-nav-inner" id="js-univers-nav"></div>
+    <div class="univers-nav-inner" id="js-univers-nav">
+      <!-- UNIVERS_NAV_TABS -->
+    </div>
   </div>
 
-  <div id="js-univers-sections"></div>
+  <div id="js-univers-sections">
+    <!-- UNIVERS_SECTIONS -->
+  </div>
 
 
   <!-- ==================== CONTACT ==================== -->
@@ -1142,274 +1178,22 @@
       );
     const PROD_REF_LINE = '';
 
-    /*
-     * ╔══════════════════════════════════════════════════════════════╗
-     * ║  ORDRE DES CATÉGORIES — modifiez ce tableau pour réordonner ║
-     * ║  Le menu navbar, le slider et les sections page suivront     ║
-     * ╚══════════════════════════════════════════════════════════════╝
-     *
-     *  Chaque objet = une catégorie.
-     *  - Déplacer une ligne = changer l'ordre d'affichage partout
-     *  - Changer "label"   = renommer dans la nav, le slider et le titre
-     *  - Changer "emoji"   = changer l'icône dans la nav et le slider
-     *  - Ne PAS changer "id" ni "airtableKey" → mappés avec Airtable
-     */
-    const UNIVERS = [
-      {
-        id:          'summer',
-        airtableKey: 'Summer Vibes',
-        emoji:       '\u{1F30A}',
-        label:       'Summer Vibes',
-        sub:         'L\u00E9g\u00E8ret\u00E9, couleur & f\u00E9minit\u00E9 solaire',
-        desc:        'Des pi\u00E8ces qui capturent l\u2019essence de l\u2019\u00E9t\u00E9\u00A0: mati\u00E8res fluides, imprim\u00E9s vivants, silhouettes libres. Un univers \u00E0 fort potentiel de vente.',
-        insertBannerAfter: true
-      },
-      {
-        id:          'working',
-        airtableKey: 'Urban Woman',
-        emoji:       '\u{1F454}',
-        label:       'Urban Woman',
-        sub:         '\u00C9l\u00E9gance, confiance & polyvalence au quotidien.',
-        desc:        'Une s\u00E9lection con\u00E7ue pour la femme active contemporaine. Du bureau au week-end, d\u00E9couvrez des basiques sur\u00E9lev\u00E9s et des pi\u00E8ces fluides qui s\u2019adaptent \u00E0 toutes ses vies.'
-      },
-      {
-        id:          'chic',
-        airtableKey: 'Chic & Soir\u00E9e',
-        emoji:       '\u2728',
-        label:       'Chic & Soir\u00E9e',
-        sub:         'Glamour, strass & dentelle pr\u00E9cieuse',
-        desc:        'Quand l\u2019\u00E9l\u00E9gance s\u2019habille de nuit. Strass, satin, dentelle \u2014 des pi\u00E8ces \u00E0 fort impact visuel pour les boutiques de soir\u00E9e et d\u2019\u00E9v\u00E9nementiel.',
-        insertEditorialAfter: true
-      },
-      {
-        id:          'boheme',
-        airtableKey: 'Boh\u00E8me',
-        emoji:       '\u{1F33F}',
-        label:       'Boh\u00E8me',
-        sub:         'Fluidit\u00E9, crochet & \u00E2me libre',
-        desc:        'L\u2019esprit free spirit rencontre l\u2019artisanat d\u00E9licat\u00A0: crochet, mati\u00E8res naturelles, silhouettes a\u00E9riennes. Fort potentiel pour les boutiques lifestyle.'
-      },
-      {
-        id:          'casual',
-        airtableKey: 'Casual Chic',
-        emoji:       '\u{1F90D}',
-        label:       'Casual',
-        sub:         'L\u2019attitude au quotidien, sans effort apparent',
-        desc:        'Le quotidien styl\u00E9\u00A0: vestes \u00E0 caract\u00E8re, tops orn\u00E9ment\u00E9s, looks urban-cool qui tournent en boutique.'
-      }
-    ];
+    /* =====================================================
+       Les sections, cards, navbar et menus sont désormais rendus au BUILDTIME
+       par scripts/build.mjs (pas en JavaScript). Les moteurs de recherche voient
+       donc tout le catalogue dans le HTML source, sans devoir exécuter du JS.
 
-    /** Construit le menu, le slider et les sections à partir de UNIVERS[] */
-    function buildUniversFromConfig() {
-      const nav = document.getElementById('js-univers-nav');
-      const sectionsContainer = document.getElementById('js-univers-sections');
-      if (!nav || !sectionsContainer) return;
+       Côté navigateur, il ne reste qu'à initialiser les comportements interactifs :
+       navigation des carrousels, swipe tactile, changement de photo au clic sur
+       une vignette, survol de la photo principale.
+    ===================================================== */
 
-      /* ── Navbar mobile : vide les liens catégories existants ── */
-      const mobMenu = document.getElementById('mob-menu');
-      if (mobMenu) {
-        Array.from(mobMenu.querySelectorAll('a[href^="#"]')).forEach(function(a) {
-          if (a.getAttribute('href') !== '#contact') a.remove();
-        });
-      }
-
-      /* ── Navbar desktop : vide les liens ── */
-      const navLinks = document.querySelector('.nav-links');
-      if (navLinks) navLinks.innerHTML = '';
-
-      UNIVERS.forEach(function(u) {
-
-        /* ── 1. Tab slider ── */
-        var tab = document.createElement('a');
-        tab.href = '#' + u.id;
-        tab.className = 'utab';
-        tab.textContent = u.emoji + ' ' + u.label.replace(/&amp;/g, '&');
-        nav.appendChild(tab);
-
-        /* ── 2. Navbar desktop ── */
-        if (navLinks) {
-          var li = document.createElement('li');
-          var aNav = document.createElement('a');
-          aNav.href = '#' + u.id;
-          aNav.innerHTML = u.label;
-          li.appendChild(aNav);
-          navLinks.appendChild(li);
-        }
-
-        /* ── 3. Menu mobile ── */
-        if (mobMenu) {
-          var mobLink = document.createElement('a');
-          mobLink.href = '#' + u.id;
-          mobLink.setAttribute('onclick', 'closeMob()');
-          mobLink.innerHTML = u.label;
-          var cmdLink = mobMenu.querySelector('a[href="#contact"]');
-          mobMenu.insertBefore(mobLink, cmdLink);
-        }
-
-        /* ── 4. Section univers ── */
-        var section = document.createElement('section');
-        section.className = 'univ-sec';
-        section.id = u.id;
-        section.setAttribute('style', 'scroll-margin-top:130px');
-
-        /* En-tête section */
-        var hdr = document.createElement('div');
-        hdr.className = 'sec-hdr';
-
-        var lineL = document.createElement('div'); lineL.className = 'sec-line';
-        var center = document.createElement('div'); center.className = 'sec-center';
-
-        var eye = document.createElement('span'); eye.className = 'sec-eye';
-        eye.textContent = 'GIORGIA paris — Collection Printemps-Été 2026';
-
-        var title = document.createElement('h2'); title.className = 'sec-title';
-        title.innerHTML = u.label;
-
-        var sub = document.createElement('span'); sub.className = 'sec-sub';
-        sub.innerHTML = u.sub;
-
-        var desc = document.createElement('p'); desc.className = 'sec-desc';
-        desc.innerHTML = u.desc;
-
-        center.appendChild(eye);
-        center.appendChild(title);
-        center.appendChild(sub);
-        center.appendChild(desc);
-
-        var lineR = document.createElement('div'); lineR.className = 'sec-line';
-        hdr.appendChild(lineL);
-        hdr.appendChild(center);
-        hdr.appendChild(lineR);
-        section.appendChild(hdr);
-
-        /* Carrousel */
-        var outer = document.createElement('div');
-        outer.className = 'carousel-outer';
-        outer.setAttribute('data-carousel', u.id);
-
-        var btnPrev = document.createElement('button');
-        btnPrev.className = 'car-btn car-btn-prev';
-        btnPrev.setAttribute('aria-label', 'Précédent');
-        btnPrev.innerHTML = '&#8592;';
-        btnPrev.setAttribute('onclick', "carMove('" + u.id + "',-1)");
-
-        var btnNext = document.createElement('button');
-        btnNext.className = 'car-btn car-btn-next';
-        btnNext.setAttribute('aria-label', 'Suivant');
-        btnNext.innerHTML = '&#8594;';
-        btnNext.setAttribute('onclick', "carMove('" + u.id + "', 1)");
-
-        var clip = document.createElement('div');
-        clip.className = 'carousel-clip';
-
-        var loading = document.createElement('p');
-        loading.className = 'catalog-loading';
-        loading.id = 'loading-' + u.id;
-        loading.setAttribute('role', 'status');
-        loading.textContent = 'Chargement du catalogue…';
-
-        var track = document.createElement('div');
-        track.className = 'carousel-track';
-        track.id = 'track-' + u.id;
-
-        var grid = document.createElement('div');
-        grid.id = 'grid-' + u.id;
-        grid.className = 'catalog-grid-root';
-
-        track.appendChild(grid);
-        clip.appendChild(loading);
-        clip.appendChild(track);
-
-        var dots = document.createElement('div');
-        dots.className = 'car-dots';
-        dots.id = 'dots-' + u.id;
-
-        outer.appendChild(btnPrev);
-        outer.appendChild(btnNext);
-        outer.appendChild(clip);
-        outer.appendChild(dots);
-        section.appendChild(outer);
-
-        sectionsContainer.appendChild(section);
-
-        /* ── 5. Featured banner après Summer Vibes ── */
-        if (u.insertBannerAfter) {
-          var banner = document.createElement('div');
-          banner.className = 'feat-banner';
-
-          var bg = document.createElement('div');
-          bg.className = 'feat-bg';
-          /* PATCH WEBPERF : &auto=format → WebP si le navigateur supporte,
-             &q=75 → compression plus agressive. Typiquement -60% de poids. */
-          bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center&auto=format&q=75')";
-
-          var grad = document.createElement('div');
-          grad.className = 'feat-grad';
-
-          var fc = document.createElement('div');
-          fc.className = 'feat-content';
-          fc.innerHTML =
-            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
-            '<h3>V\u00EAtir les boutiques<br>qui font la diff\u00E9rence.</h3>' +
-            '<p>Des pi\u00E8ces s\u00E9lectionn\u00E9es pour leur potentiel commercial. Pour les boutiques qui refusent le stock dormant \u2014 et qui veulent des marges r\u00E9elles.</p>' +
-            '<a class="btn-hero-p" href="#contact">Contacter notre \u00E9quipe</a>';
-
-          banner.appendChild(bg);
-          banner.appendChild(grad);
-          banner.appendChild(fc);
-          sectionsContainer.appendChild(banner);
-        }
-
-        /* ── 6. Editorial après Chic & Soirée ── */
-        if (u.insertEditorialAfter) {
-          var ed = document.createElement('div');
-          ed.className = 'editorial';
-
-          var edImg = document.createElement('div');
-          edImg.className = 'ed-img';
-          var edImgEl = document.createElement('img');
-          edImgEl.src = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top';
-          edImgEl.alt = 'GIORGIA paris \u2014 Editorial';
-          edImg.appendChild(edImgEl);
-
-          var edTxt = document.createElement('div');
-          edTxt.className = 'ed-txt';
-          edTxt.innerHTML =
-            '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>' +
-            '<span class="sec-eye">Grossiste B2B \u00B7 Partenaire depuis 2007</span>' +
-            '<h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>' +
-            '<p>Bas\u00E9 \u00E0 Aubervilliers, au c\u0153ur du triangle d\u2019or du pr\u00EAt-\u00E0-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et \u00E0 l\u2019international.</p>' +
-            '<p>Rejoignez les centaines de revendeurs qui font confiance \u00E0 GIORGIA paris chaque saison.</p>' +
-            '<a class="btn-ed" href="#contact">Devenir revendeur</a>';
-
-          ed.appendChild(edImg);
-          ed.appendChild(edTxt);
-          sectionsContainer.appendChild(ed);
-        }
-
-      }); /* fin UNIVERS.forEach */
-
-      /* Synchronise CAROUSEL_IDS avec l'ordre de UNIVERS */
-      CAROUSEL_IDS.length = 0;
-      UNIVERS.forEach(function(u) { CAROUSEL_IDS.push(u.id); });
-    }
-
-        /** Valeur du champ Airtable « Categorie » → id carrousel (track-*, grid-*) */
-    const CATEGORY_TO_CAROUSEL = {
-      'Summer Vibes': 'summer',
-      'Urban Woman': 'working',
-      'Chic & Soirée': 'chic',
-      'Chic & Soiree': 'chic',
-      'Bohème': 'boheme',
-      'Boheme': 'boheme',
-      'Casual Chic': 'casual',
-      'Casual': 'casual'
-    };
-
-    let CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+    /* Liste des carrousels à initialiser. Doit rester synchronisée avec
+       le tableau UNIVERS dans scripts/build.mjs (mêmes ids). */
+    const CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
 
     /* =====================================================
-       CARROUSEL — logique partagée (cartes injectées par Airtable)
+       CARROUSEL — logique partagée
     ===================================================== */
     const carState = {};
 
@@ -1536,264 +1320,46 @@
 
     window.addEventListener('resize', onResize);
 
-    function airtableCategoryValue(raw) {
-      if (raw == null) return '';
-      if (typeof raw === 'string') return raw.trim();
-      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
-      return String(raw).trim();
-    }
-
-    /**
-     * Retourne la meilleure URL possible pour une pièce jointe Airtable :
-     * priorité à thumbnails.large.url (beaucoup plus léger que l’original),
-     * fallback sur l’URL originale si le thumbnail n’est pas encore généré.
-     */
-    function attachmentBestUrl(att) {
-      if (!att) return '';
-      if (att.thumbnails && att.thumbnails.large && att.thumbnails.large.url) {
-        return String(att.thumbnails.large.url).trim();
-      }
-      if (att.url) return String(att.url).trim();
-      return '';
-    }
-
-    function firstAttachmentUrl(field) {
-      if (!field) return '';
-      if (Array.isArray(field) && field.length) {
-        const u = attachmentBestUrl(field[0]);
-        if (u) return u;
-      }
-      if (typeof field === 'string' && field.trim()) return field.trim();
-      return '';
-    }
-
-    /** Toutes les URLs d’un champ pièces jointes (plusieurs photos dans « Photos »). */
-    function allAttachmentUrls(field) {
-      if (!field) return [];
-      if (Array.isArray(field)) {
-        const out = [];
-        for (let i = 0; i < field.length; i++) {
-          const u = attachmentBestUrl(field[i]);
-          if (u) out.push(u);
-        }
-        return out;
-      }
-      if (typeof field === 'string' && field.trim()) return [field.trim()];
-      return [];
-    }
-
-    function firstUrlFromFieldKeys(fields, keys) {
-      if (!fields) return '';
-      for (let i = 0; i < keys.length; i++) {
-        const u = firstAttachmentUrl(fields[keys[i]]);
-        if (u) return u;
-      }
-      return '';
-    }
-
-    /**
-     * Ordre : toutes les images de « Photos », puis Photos2, puis Photos3 (sans doublon).
-     * Permet plusieurs fichiers dans la colonne Photos + colonnes séparées.
-     */
-    function buildGallerySlotsFromFields(fields) {
-      if (!fields) return [];
-      const fromPhotos = allAttachmentUrls(fields.Photos);
-      const p2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
-      const p3 = firstUrlFromFieldKeys(fields, ['Photos3', 'Photos 3', 'Photo 3', 'photos3']);
-      const ordered = fromPhotos.slice();
-      if (p2 && ordered.indexOf(p2) === -1) ordered.push(p2);
-      if (p3 && ordered.indexOf(p3) === -1) ordered.push(p3);
-      const seen = new Set();
-      const slots = [];
-      for (let i = 0; i < ordered.length; i++) {
-        if (!seen.has(ordered[i])) {
-          seen.add(ordered[i]);
-          slots.push({ url: ordered[i] });
-        }
-      }
-      return slots;
-    }
-
-    /**
-     * Image affichée au survol de la grande photo : colonne Photos2 si remplie,
-     * sinon 2e pièce jointe de « Photos » (cas le plus fréquent si tout est dans Photos).
-     */
-    function hoverSecondImageUrl(fields) {
-      if (!fields) return '';
-      const fromPhotos2 = firstUrlFromFieldKeys(fields, ['Photos2', 'Photos 2', 'Photo 2', 'photos2']);
-      if (fromPhotos2) return fromPhotos2;
-      const list = allAttachmentUrls(fields.Photos);
-      if (list.length >= 2) return list[1];
-      return '';
-    }
-
-    function escapeHtml(s) {
-      const d = document.createElement('div');
-      d.textContent = s == null ? '' : String(s);
-      return d.innerHTML;
-    }
-
-    /** Extrait une URL/texte utilisable depuis une cellule Airtable (texte, URL, formule, lookup…). */
-    function normalizeLinkValue(raw) {
-      if (raw == null) return '';
-      if (typeof raw === 'string') return raw.trim();
-      if (typeof raw === 'number' && !Number.isNaN(raw)) return String(raw).trim();
-      if (Array.isArray(raw) && raw.length) return normalizeLinkValue(raw[0]);
-      if (typeof raw === 'object' && raw.url) return String(raw.url).trim();
-      const s = String(raw).trim();
-      return s === '[object Object]' ? '' : s;
-    }
-
-    /**
-     * Utilise fields.Lien (ou un champ dont le nom correspond à « lien », sans tenir compte de la casse / espaces).
-     * Si vide : lien WhatsApp général du site.
-     */
-    function resolveProductHref(fields) {
-      if (!fields || typeof fields !== 'object') return DEFAULT_WHATSAPP_LINK;
-
-      const explicitKeys = ['Lien', 'LIEN', 'lien', 'Link', 'URL', 'Url'];
-      for (let i = 0; i < explicitKeys.length; i++) {
-        const v = normalizeLinkValue(fields[explicitKeys[i]]);
-        if (v) return v;
-      }
-
-      const keys = Object.keys(fields);
-      for (let k = 0; k < keys.length; k++) {
-        const nk = keys[k].trim().toLowerCase();
-        if (nk === 'lien' || nk.startsWith('lien ')) {
-          const v = normalizeLinkValue(fields[keys[k]]);
-          if (v) return v;
-        }
-      }
-
-      return DEFAULT_WHATSAPP_LINK;
-    }
-
-    /** Nom affiché : colonne « Nom » ou « Name » (Airtable utilise le nom exact du champ). */
-    function resolveProductName(fields) {
-      if (!fields || typeof fields !== 'object') return '';
-      const tryKeys = ['Nom', 'NOM', 'nom', 'Name', 'NAME', 'name', 'Titre', 'title'];
-      for (let i = 0; i < tryKeys.length; i++) {
-        const v = fields[tryKeys[i]];
-        if (v != null && String(v).trim()) return String(v).trim();
-      }
-      const keys = Object.keys(fields);
-      for (let k = 0; k < keys.length; k++) {
-        const key = keys[k];
-        const nk = key.trim().toLowerCase();
-        if (nk === 'nom' || nk === 'name') {
-          const v = fields[key];
-          if (v != null && String(v).trim()) return String(v).trim();
-        }
-      }
-      return '';
-    }
-
-    /** Référence article (colonne « Reference » ou variantes de nom). */
-    function resolveProductReference(fields) {
-      if (!fields || typeof fields !== 'object') return '';
-      const tryKeys = ['Reference', 'REFERENCE', 'reference', 'Référence', 'Ref', 'REF'];
-      for (let i = 0; i < tryKeys.length; i++) {
-        const v = fields[tryKeys[i]];
-        if (v != null && String(v).trim()) return String(v).trim();
-      }
-      const keys = Object.keys(fields);
-      for (let k = 0; k < keys.length; k++) {
-        const nk = keys[k].trim().toLowerCase();
-        if (nk === 'reference' || nk === 'référence' || nk === 'ref') {
-          const v = fields[keys[k]];
-          if (v != null && String(v).trim()) return String(v).trim();
-        }
-      }
-      return '';
-    }
-
-    /** Texte du badge Airtable (champ Badge, liste ou texte). */
-    function airtableBadgeString(raw) {
-      if (raw == null || raw === '') return '';
-      if (typeof raw === 'object' && raw.name != null) return String(raw.name).trim();
-      const s = String(raw).trim();
-      return s;
-    }
-
-    function resolveProductBadge(fields) {
-      if (!fields || typeof fields !== 'object') return '';
-      const tryKeys = ['Badge', 'BADGE', 'badge'];
-      for (let i = 0; i < tryKeys.length; i++) {
-        const t = airtableBadgeString(fields[tryKeys[i]]);
-        if (t) return t;
-      }
-      const keys = Object.keys(fields);
-      for (let k = 0; k < keys.length; k++) {
-        const nk = keys[k].trim().toLowerCase();
-        if (nk === 'badge') {
-          const t = airtableBadgeString(fields[keys[k]]);
-          if (t) return t;
-        }
-      }
-      return '';
-    }
-
-    function resolveProductBadge2(fields) {
-      if (!fields || typeof fields !== 'object') return '';
-      const tryKeys = ['Badge2', 'BADGE2', 'badge2', 'Badge 2', 'BADGE 2', 'badge 2'];
-      for (let i = 0; i < tryKeys.length; i++) {
-        const t = airtableBadgeString(fields[tryKeys[i]]);
-        if (t) return t;
-      }
-      const keys = Object.keys(fields);
-      for (let k = 0; k < keys.length; k++) {
-        const nk = keys[k].trim().toLowerCase();
-        if (nk === 'badge2') {
-          const t = airtableBadgeString(fields[keys[k]]);
-          if (t) return t;
-        }
-      }
-      return '';
-    }
-
-    /**
-     * Fond noir par défaut et si le texte contient « nouvelle ».
-     * Rouge discret uniquement si le texte contient « promo » sans « nouvelle ».
-     */
-    function badgeClassForText(text) {
-      if (!text) return 'prod-badge';
-      const lower = text.toLowerCase();
-      if (lower.indexOf('nouvelle') !== -1) return 'prod-badge';
-      if (lower.indexOf('promo') !== -1) return 'prod-badge prod-badge--promo';
-      return 'prod-badge';
-    }
-
-    /** Titre sous la photo : « REF: xxx - Nom » ou seulement le nom si pas de référence. */
-    function formatProductTitleHtml(ref, nom) {
-      const r = ref && String(ref).trim();
-      const n = nom != null ? String(nom).trim() : '';
-      if (r && n) return 'REF: ' + escapeHtml(r) + ' - ' + escapeHtml(n);
-      if (n) return escapeHtml(n);
-      if (r) return 'REF: ' + escapeHtml(r);
-      return '';
-    }
-
-    function setupProductGallery(card, uniqueSlots, photos2Url, altBase) {
+    /* =====================================================
+       GALERIE PRODUIT — survol + clic sur les vignettes
+       =====================================================
+       Les cards sont déjà dans le DOM (rendues au buildtime).
+       Pour chaque card on lit :
+       - photo principale : <img class="prod-img-primary" data-hover-url="...">
+       - photos de la galerie : <.prod-thumb img> (présents uniquement si >1 photo)
+       Comportements :
+       - hover sur la photo principale → affiche data-hover-url (si défini)
+       - hover sur une vignette → affiche cette photo temporairement
+       - clic sur une vignette → sélectionne cette photo comme active
+    ===================================================== */
+    function setupProductGallery(card) {
       const mainImg = card.querySelector('img.prod-img-primary');
-      if (!mainImg || !uniqueSlots.length) return;
+      if (!mainImg) return;
+
+      const thumbs = Array.from(card.querySelectorAll('.prod-thumb'));
+      const thumbUrls = thumbs.map(function (sp) {
+        const im = sp.querySelector('img');
+        return im ? im.getAttribute('src') : '';
+      });
+      const hoverUrl = mainImg.getAttribute('data-hover-url') || '';
+      const mainInitialSrc = mainImg.getAttribute('src');
 
       let selectedIdx = 0;
 
       function applyMain(i) {
-        const slot = uniqueSlots[i];
-        if (!slot) return;
-        mainImg.src = slot.url;
-        mainImg.alt = altBase;
-        card.querySelectorAll('.prod-thumb').forEach(function (el, j) {
+        const url = thumbUrls[i];
+        if (!url) return;
+        mainImg.src = url;
+        thumbs.forEach(function (el, j) {
           el.classList.toggle('is-active', j === i);
         });
       }
 
-      if (photos2Url && photos2Url !== (uniqueSlots[0] && uniqueSlots[0].url)) {
+      /* Hover sur la grande image : montre la photo "Photos2" si définie. */
+      if (hoverUrl && hoverUrl !== mainInitialSrc) {
         mainImg.addEventListener('mouseenter', function () {
           mainImg.setAttribute('data-giorgia-swap', '1');
-          mainImg.src = photos2Url;
+          mainImg.src = hoverUrl;
         });
         mainImg.addEventListener('mouseleave', function () {
           if (!mainImg.hasAttribute('data-giorgia-swap')) return;
@@ -1802,13 +1368,10 @@
         });
       }
 
-      card.querySelectorAll('.prod-thumb').forEach(function (btn, i) {
-        btn.addEventListener('mouseenter', function () {
-          applyMain(i);
-        });
-        btn.addEventListener('mouseleave', function () {
-          applyMain(selectedIdx);
-        });
+      /* Vignettes : hover + clic + clavier (Enter / Espace). */
+      thumbs.forEach(function (btn, i) {
+        btn.addEventListener('mouseenter', function () { applyMain(i); });
+        btn.addEventListener('mouseleave', function () { applyMain(selectedIdx); });
         btn.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -1825,263 +1388,53 @@
         });
       });
 
+      /* Évite que le clic sur une vignette ne suive le lien de la card. */
       card.addEventListener('click', function (e) {
         if (e.target.closest('.prod-thumb')) e.preventDefault();
       });
     }
 
-    function buildProductCard(fields, isPriority) {
-      const nom = resolveProductName(fields);
-      const reference = resolveProductReference(fields);
-      const desc = (function() {
-        const tryDescKeys = ['Description', 'DESCRIPTION', 'description', 'Desc', 'DESC', 'desc'];
-        for (let i = 0; i < tryDescKeys.length; i++) {
-          const v = fields[tryDescKeys[i]];
-          if (v != null && String(v).trim()) return String(v).trim();
-        }
-        return '';
-      })();
-      const href = resolveProductHref(fields);
-      const uniqueSlots = buildGallerySlotsFromFields(fields);
-      const mainSrc = uniqueSlots.length ? uniqueSlots[0].url : '';
-      const hoverUrl = hoverSecondImageUrl(fields);
-      const titlePlain = reference && nom ? 'REF: ' + reference + ' - ' + nom : nom || (reference ? 'REF: ' + reference : '');
-      const alt = titlePlain ? titlePlain + ' — GIORGIA paris' : 'Produit — GIORGIA paris';
-
-      const badgeText = resolveProductBadge(fields);
-      const badge2Text = resolveProductBadge2(fields);
-
-      const a = document.createElement('a');
-      a.className = 'prod-card';
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-
-      const media = document.createElement('div');
-      media.className = 'prod-media';
-
-      const imgBox = document.createElement('div');
-      imgBox.className = 'prod-img';
-
-      if (mainSrc) {
-        const mainImg = document.createElement('img');
-        mainImg.className = 'prod-img-primary';
-        mainImg.src = uniqueSlots[0] ? uniqueSlots[0].url : mainSrc;
-        mainImg.alt = alt;
-        /* --- PATCH WEBPERF ---
-           Les 4 premières cards de Summer Vibes sont prioritaires : elles
-           sont au-dessus de la ligne de flottaison et doivent être peintes
-           le plus tôt possible. Le reste reste lazy pour économiser la
-           bande passante. */
-        if (isPriority) {
-          mainImg.loading = 'eager';
-          mainImg.setAttribute('fetchpriority', 'high');
-        } else {
-          mainImg.loading = 'lazy';
-        }
-        mainImg.decoding = 'async';
-        imgBox.appendChild(mainImg);
-      }
-
-      if (badgeText || badge2Text) {
-        const badgeWrap = document.createElement('div');
-        badgeWrap.className = 'prod-badges';
-        if (badgeText) {
-          const b = document.createElement('div');
-          b.className = badgeClassForText(badgeText);
-          b.textContent = badgeText;
-          badgeWrap.appendChild(b);
-        }
-        if (badge2Text) {
-          const b2 = document.createElement('div');
-          b2.className = 'prod-badge2';
-          b2.textContent = badge2Text;
-          badgeWrap.appendChild(b2);
-        }
-        imgBox.appendChild(badgeWrap);
-      }
-
-      const wm = document.createElement('div');
-      wm.className = 'prod-wm logo';
-      wm.innerHTML = '<span class="logo-g">GIORGIA</span><span class="logo-p">paris</span>';
-      imgBox.appendChild(wm);
-
-      media.appendChild(imgBox);
-
-      if (uniqueSlots.length > 1) {
-        const thumbs = document.createElement('div');
-        thumbs.className = 'prod-thumbs';
-        for (let i = 0; i < uniqueSlots.length; i++) {
-          const sp = document.createElement('span');
-          sp.className = 'prod-thumb' + (i === 0 ? ' is-active' : '');
-          sp.setAttribute('role', 'button');
-          sp.setAttribute('tabindex', '0');
-          const tim = document.createElement('img');
-          tim.src = uniqueSlots[i].url;
-          tim.alt = '';
-          tim.loading = 'lazy';
-          tim.decoding = 'async';
-          sp.appendChild(tim);
-          thumbs.appendChild(sp);
-        }
-        media.appendChild(thumbs);
-      }
-
-      a.appendChild(media);
-
-      const info = document.createElement('div');
-      info.className = 'prod-info';
-      info.innerHTML =
-        '<p class="prod-ref">' + escapeHtml(PROD_REF_LINE) + '</p>' +
-        '<h3 class="prod-name">' + formatProductTitleHtml(reference, nom) + '</h3>' +
-        '<p class="prod-desc">' + escapeHtml(desc) + '</p>';
-      a.appendChild(info);
-
-      a.setAttribute('href', href);
-
-      if (mainSrc && (uniqueSlots.length > 1 || hoverUrl)) {
-        setupProductGallery(a, uniqueSlots, hoverUrl, alt);
-      }
-
-      return a;
-    }
-
-    function waitForImages(root, timeoutMs) {
-      timeoutMs = timeoutMs == null ? 25000 : timeoutMs;
-      const imgs = root.querySelectorAll('img[src]');
-      if (!imgs.length) return Promise.resolve();
-      const each = function (img) {
-        return new Promise(function (resolve) {
-          if (img.complete) return resolve();
-          img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', resolve, { once: true });
-        });
-      };
-      const allLoaded = Promise.all([].map.call(imgs, each));
-      const timeout = new Promise(function (resolve) {
-        setTimeout(resolve, timeoutMs);
-      });
-      return Promise.race([allLoaded, timeout]);
-    }
-
-    /** Valeur numérique du champ Ordre, ou null si absent / non numérique. */
-    function ordreValueFromRecord(rec) {
-      const f = rec.fields || {};
-      const v = f.Ordre;
-      if (v == null || v === '') return null;
-      const n = typeof v === 'number' ? v : Number(String(v).trim().replace(',', '.'));
-      if (Number.isNaN(n)) return null;
-      return n;
-    }
-
-    /**
-     * Trie côté client : par Ordre croissant ; sans numéro d’ordre à la fin
-     * (l’API Airtable peut laisser les vides en tête en asc).
-     */
-    function sortRecordsByOrdre(records) {
-      return records.slice().sort(function (a, b) {
-        const oa = ordreValueFromRecord(a);
-        const ob = ordreValueFromRecord(b);
-        if (oa == null && ob == null) return 0;
-        if (oa == null) return 1;
-        if (ob == null) return -1;
-        if (oa === ob) return 0;
-        return oa < ob ? -1 : 1;
-      });
-    }
-
     /* =====================================================
-       LECTURE DU CATALOGUE — les données sont embarquées dans la page
-       par le build statique (window.__GIORGIA_CATALOG__).
-       Plus aucun appel réseau à Airtable depuis le navigateur.
-    ===================================================== */
-    async function fetchAllAirtableRecords() {
-      const payload = window.__GIORGIA_CATALOG__;
-      if (payload && Array.isArray(payload.products)) {
-        return payload.products;
-      }
-      throw new Error(
-        'Catalogue non disponible : les données n’ont pas été injectées dans la page. ' +
-        'Vérifiez que le build GitHub Actions a bien tourné.'
-      );
+       INITIALISATION
+       =====================================================
+       Tout le catalogue est déjà dans le HTML au chargement de la page.
+       Ce handler ne fait plus que :
+       - installer les IntersectionObservers (nav active, fade-up)
+       - initialiser les carrousels
+       - brancher les interactions galerie sur chaque card produit
+
+       IMPORTANT : on utilise DOMContentLoaded et PAS window.load.
+       - DOMContentLoaded → déclenché dès que le HTML est parsé
+         (typiquement 100-300 ms après l'ouverture de la page).
+       - window.load → ATTEND que toutes les images soient téléchargées,
+         ce qui peut prendre 5-15 s sur un site avec 100+ photos produits.
+       Avant ce changement, les flèches des carrousels paraissaient
+       "bloquées" car carState n'était rempli qu'après le chargement
+       complet des images. Ce n'est plus le cas. */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInteractivity);
+    } else {
+      /* Le DOM est déjà parsé (script injecté tard) : on init immédiatement. */
+      initInteractivity();
     }
 
-    async function loadCatalogFromAirtable() {
-      try {
-        const records = await fetchAllAirtableRecords();
-        const unmatched = [];
-
-        /* --- PATCH WEBPERF ---
-           On compte les cards ajoutées à "summer" pour marquer les 4
-           premières comme prioritaires (chargement eager + fetchpriority
-           high). Ce sont celles visibles au premier scroll. */
-        let summerCount = 0;
-        records.forEach(rec => {
-          const f = rec.fields || {};
-          const cat = airtableCategoryValue(f.Categorie != null ? f.Categorie : f['Catégorie']);
-          const key = CATEGORY_TO_CAROUSEL[cat];
-          const grid = key ? document.getElementById('grid-' + key) : null;
-          if (!grid) {
-            if (cat) unmatched.push(cat);
-            return;
-          }
-          const isPriority = (key === 'summer' && summerCount < 4);
-          if (key === 'summer') summerCount++;
-          grid.appendChild(buildProductCard(f, isPriority));
-        });
-
-        if (unmatched.length) {
-          const uniq = [...new Set(unmatched)];
-          console.warn('[GIORGIA] Catégories non reconnues (vérifiez l’orthographe dans Airtable) :', uniq);
-        }
-
-        /* --- PATCH WEBPERF ---
-           On n'attend PLUS que les images soient chargées pour initialiser les
-           carrousels. Les images se chargent en asynchrone (loading="lazy"),
-           attendre provoquait un blocage de 25s (timeout) car les images hors
-           viewport ne se téléchargent jamais.
-           On masque simplement les "loading-XXX" immédiatement, et on init
-           les carrousels au prochain frame. */
-        CAROUSEL_IDS.forEach(cid => {
-          const loadEl = document.getElementById('loading-' + cid);
-          if (loadEl) loadEl.classList.add('done');
-        });
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            CAROUSEL_IDS.forEach(initCarousel);
-          });
-        });
-      } catch (err) {
-        console.error(err);
-        CAROUSEL_IDS.forEach(cid => {
-          const loadEl = document.getElementById('loading-' + cid);
-          if (loadEl) {
-            loadEl.textContent = 'Impossible de charger le catalogue.';
-            loadEl.style.color = '#6b2a2a';
-            loadEl.style.pointerEvents = 'auto';
-          }
-        });
-        requestAnimationFrame(() => {
-          CAROUSEL_IDS.forEach(initCarousel);
-        });
-      }
-    }
-
-    window.addEventListener('load', () => {
-      buildUniversFromConfig();
-
-      /* Observer les sections dynamiques pour la nav active */
+    function initInteractivity() {
+      /* Observer les sections pour la nav active (tabs univers surlignés). */
       const tabs = document.querySelectorAll('.utab');
       const secIO = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
       }, { threshold: 0.3 });
       document.querySelectorAll('section[id]').forEach(s => secIO.observe(s));
 
-      /* Observer les fade-up statiques */
+      /* Observer les fade-up. */
       document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 
-      loadCatalogFromAirtable();
-    });
+      /* Initialiser les carrousels (les cards sont déjà dans le DOM). */
+      CAROUSEL_IDS.forEach(initCarousel);
+
+      /* Brancher les interactions galerie (survol / clic vignettes). */
+      document.querySelectorAll('.prod-card').forEach(setupProductGallery);
+    }
 
     /* ---- SCROLL ANIMATIONS ---- */
     const io = new IntersectionObserver(entries => {
