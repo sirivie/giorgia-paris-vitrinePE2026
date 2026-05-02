@@ -2,9 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://giorgiaparis.com/</loc>
-    <lastmod>2026-05-02T14:46:33+00:00</lastmod>
+    <loc>https://sirivie.github.io/giorgia-paris-vitrinePE2026/</loc>
+    <lastmod>2026-05-02T15:43:07+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sirivie.github.io/giorgia-paris-vitrinePE2026/mentions-legales/</loc>
+    <lastmod>2026-05-02T15:43:07+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://sirivie.github.io/giorgia-paris-vitrinePE2026/cgv/</loc>
+    <lastmod>2026-05-02T15:43:07+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://sirivie.github.io/giorgia-paris-vitrinePE2026/confidentialite/</loc>
+    <lastmod>2026-05-02T15:43:07+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://sirivie.github.io/giorgia-paris-vitrinePE2026/politique-retour/</loc>
+    <lastmod>2026-05-02T15:43:07+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
