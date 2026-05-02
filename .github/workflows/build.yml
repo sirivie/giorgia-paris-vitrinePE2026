@@ -31,7 +31,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Marge confortable : même avec 108 images à télécharger+compresser, on tient
+    # largement en 5 min grâce au cache. La première exécution (cache froid)
+    # peut prendre 3-4 min.
+    timeout-minutes: 10
 
     steps:
       - name: Checkout du code source
@@ -41,6 +44,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+
+      - name: Installation des dépendances (Sharp pour le traitement d'image)
+        run: npm ci
+
+      # Cache des images compressées entre les builds. Clé basée sur le nom
+      # du repo — ne change jamais, donc le cache est partagé entre toutes
+      # les exécutions. Les images non modifiées sont instantanément réutilisées.
+      - name: Restauration du cache d'images
+        uses: actions/cache@v4
+        with:
+          path: .image-cache
+          key: images-${{ github.repository }}
+          restore-keys: |
+            images-${{ github.repository }}
 
       - name: Génération du site statique
         env:
@@ -48,6 +66,12 @@ jobs:
           AIRTABLE_BASE_ID: ${{ vars.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ vars.AIRTABLE_TABLE_NAME }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+          # BASE_PATH : préfixe d'URL pour la qualif (sirivie.github.io/<repo>/)
+          # En prod (CUSTOM_DOMAIN défini), reste vide. En qualif, c'est le nom du repo.
+          BASE_PATH: ${{ vars.CUSTOM_DOMAIN && '' || format('/{0}', github.event.repository.name) }}
+          # GITHUB_PAGES_ORIGIN : sert pour les URLs canoniques en qualif
+          # (sitemap.xml, og:url, JSON-LD). Pas utilisé en prod.
+          GITHUB_PAGES_ORIGIN: ${{ vars.CUSTOM_DOMAIN && '' || format('https://{0}.github.io', github.repository_owner) }}
         run: node scripts/build.mjs
 
       - name: Déploiement sur la branche gh-pages
