@@ -626,19 +626,25 @@ function renderProductCard(fields, isPriority, univ) {
   const fetchprio = isPriority ? ' fetchpriority="high"' : '';
   const dims = mainLocal ? ` width="${mainLocal.width}" height="${mainLocal.height}"` : '';
 
+  // URL WebP du hover (à passer en data-attribute pour que le JS puisse swap
+  // à la fois le src JPEG ET le srcset WebP du <picture>).
+  const hoverWebp = hoverLocal ? hoverLocal.webp : '';
+  const dataHoverWebp = hoverWebp && hoverWebp !== (mainLocal && mainLocal.webp)
+    ? ` data-hover-webp="${esc(hoverWebp)}"` : '';
+
   let h = '';
   h += `<a class="prod-card" target="_blank" rel="noopener noreferrer" href="${esc(href)}">`;
   h += `<div class="prod-media">`;
   h += `<div class="prod-img">`;
 
   // <picture> : WebP si supporté (~98% du trafic depuis 2021), JPEG sinon.
-  // Le <img> dedans conserve class/src/data-hover-url pour que le JS DOM-based
-  // de galerie continue de marcher sans modification.
+  // Le JS swap simultanément le srcset du <source> et le src du <img>
+  // lorsqu'on change d'image (hover, clic vignette).
   h += `<picture>`;
   if (mainLocal) {
     h += `<source srcset="${esc(mainLocal.webp)}" type="image/webp">`;
   }
-  h += `<img class="prod-img-primary" src="${esc(mainDisplayUrl)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dims}${dataHover}>`;
+  h += `<img class="prod-img-primary" src="${esc(mainDisplayUrl)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dims}${dataHover}${dataHoverWebp}>`;
   h += `</picture>`;
 
   if (badge || badge2) {
@@ -662,9 +668,13 @@ function renderProductCard(fields, isPriority, univ) {
       const altThumb = `${altBase} — vue ${i + 1}`;
       const thumbLocal = localImageFor(p);
       // Pour les thumbnails, on sert l'image JPEG locale directement (pas de
-      // <picture> ici car le JS a besoin de lire le src exact pour swap).
+      // <picture> ici car ce sont de petites images, le gain WebP est marginal
+      // sur les vignettes 80×80px). On stocke aussi data-webp pour permettre
+      // au JS de swap correctement le srcset du <picture> principal.
       const thumbSrc = thumbLocal ? thumbLocal.jpg : p;
-      h += `<span class="${cls}" role="button" tabindex="0" aria-label="Voir la vue ${i + 1} de ${esc(altBase)}">`;
+      const thumbWebp = thumbLocal ? thumbLocal.jpg.replace(/\.jpg$/, '.webp') : '';
+      const dataWebp = thumbWebp ? ` data-webp="${esc(thumbWebp)}"` : '';
+      h += `<span class="${cls}" role="button" tabindex="0" aria-label="Voir la vue ${i + 1} de ${esc(altBase)}"${dataWebp}>`;
       h += `<img src="${esc(thumbSrc)}" alt="${esc(altThumb)}" loading="lazy" decoding="async">`;
       h += `</span>`;
     });
