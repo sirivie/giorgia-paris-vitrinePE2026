@@ -14,10 +14,10 @@
   <!-- ========== SEO — CANONICAL & LANGUE ==========
        Canonical : indique à Google l'URL "officielle" et évite le duplicate content.
        hreflang : déclare la langue principale et la langue par défaut. -->
-  <link rel="canonical" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="fr" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="fr-FR" href="<!-- SITE_ORIGIN -->/">
-  <link rel="alternate" hreflang="x-default" href="<!-- SITE_ORIGIN -->/">
+  <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="fr" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="fr-FR" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
+  <link rel="alternate" hreflang="x-default" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
 
   <!-- ========== SEO — FAVICON (SVG inline, aucun fichier à uploader) ==========
        "G" doré sur crème, cohérent avec la charte. -->
@@ -27,10 +27,10 @@
        Jolies cartes quand le site est partagé sur WhatsApp, LinkedIn, Instagram DM, etc. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GIORGIA paris">
-  <meta property="og:url" content="<!-- SITE_ORIGIN -->/">
+  <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/">
   <meta property="og:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
   <meta property="og:description" content="Collection Printemps-Été 2026 pour boutiques indépendantes. Minimum 100€ HT, livraison rapide depuis Paris.">
-  <meta property="og:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+  <meta property="og:image" content="<!-- HERO_IMAGE_URL -->">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="fr_FR">
@@ -38,7 +38,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GIORGIA paris — Grossiste Prêt-à-Porter Féminin Paris">
   <meta name="twitter:description" content="Collection PE 2026 pour boutiques. Min. 100€ HT, livraison rapide depuis Paris.">
-  <meta name="twitter:image" content="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1200">
+  <meta name="twitter:image" content="<!-- HERO_IMAGE_URL -->">
 
   <!-- ========== DONNÉES STRUCTURÉES (JSON-LD) ==========
        Injectées au build par scripts/build.mjs : Organization + WebSite + ItemList
@@ -50,10 +50,9 @@
        On force aussi un resize à 1600px pour éviter de télécharger l'original
        de plusieurs Mo. Pexels supporte les query params ?w=...&auto=compress. -->
   <link rel="preload" as="image"
-        href="https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        href="<!-- HERO_IMAGE_URL -->"
         fetchpriority="high">
-  <link rel="preconnect" href="https://images.pexels.com" crossorigin>
-
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- PATCH WEBPERF : preconnect vers les CDN Airtable qui servent les images.
@@ -204,7 +203,7 @@
       /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
          télécharger l'original full-resolution. L'URL doit matcher celle
          du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
-      background: url('https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600') center center / cover no-repeat;
+      background: url('<!-- HERO_IMAGE_URL -->') center center / cover no-repeat;
       filter: brightness(.62);
     }
     .hero-grad {
@@ -653,10 +652,26 @@
     }
     .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
 
+    /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
+       pour Google et réassurance pour les acheteuses pro. */
+    .foot-legal {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .4rem 1.5rem; padding: .9rem 1rem .3rem;
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .foot-legal a {
+      color: rgba(255,255,255,.65); text-decoration: none;
+      transition: color .25s;
+    }
+    .foot-legal a:hover { color: var(--gold); }
+    .foot-legal .sep { color: rgba(255,255,255,.2); }
+
     @media(max-width:900px) {
       .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
       .foot-right { text-align: center; }
       .foot-bottom { padding: 1rem 1.5rem; }
+      .foot-legal { gap: .3rem 1rem; }
+      .foot-legal .sep { display: none; }
     }
 
     /* ===================== STICKY CONTACT TAB ===================== */
@@ -1148,17 +1163,29 @@
         <span class="logo-p" style="color:#5a4e45">paris</span>
       </div>
 
-      <!-- Adresse -->
+      <!-- Adresse : siège social juridique à Paris + showroom à Aubervilliers -->
       <div class="foot-right">
         <div class="foot-addr">
-          <p>70 rue de la Haie Coq · 93300 Aubervilliers, France</p>
-          <p><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a> · +33 6 86 72 93 11</p>
+          <p>Siège social&nbsp;: 4 rue de Marivaux, 75002 Paris · Showroom&nbsp;: 70 rue de la Haie Coq, 93300 Aubervilliers</p>
+          <p>+33 6 86 72 93 11 · <a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></p>
         </div>
       </div>
 
     </div>
+
+    <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD -->
+    <nav class="foot-legal" aria-label="Informations légales">
+      <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
+    </nav>
+
     <div class="foot-bottom">
-      <p class="foot-copy">© 2026 GIORGIA paris · Grossiste Prêt-à-Porter Féminin · Catalogue Collection Printemps-Été 2026</p>
+      <p class="foot-copy">© 2026 GIORGIA (SARL) · Grossiste Prêt-à-Porter Féminin · RCS Paris 499 006 559</p>
     </div>
   </footer>
 
