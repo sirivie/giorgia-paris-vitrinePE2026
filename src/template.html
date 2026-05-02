@@ -1363,35 +1363,60 @@
       const mainImg = card.querySelector('img.prod-img-primary');
       if (!mainImg) return;
 
+      // Le <source> WebP du <picture> doit être swappé en parallèle du <img>,
+      // sinon les navigateurs modernes (qui supportent WebP) continuent
+      // d'afficher l'image initiale même si on change le src du <img>.
+      const picture = mainImg.closest('picture');
+      const sourceEl = picture ? picture.querySelector('source[type="image/webp"]') : null;
+
       const thumbs = Array.from(card.querySelectorAll('.prod-thumb'));
-      const thumbUrls = thumbs.map(function (sp) {
+      // Pour chaque vignette : on récupère son src JPEG (depuis l'<img>) et
+      // son URL WebP (depuis l'attribut data-webp du <span> conteneur).
+      const thumbData = thumbs.map(function (sp) {
         const im = sp.querySelector('img');
-        return im ? im.getAttribute('src') : '';
+        return {
+          jpg: im ? im.getAttribute('src') : '',
+          webp: sp.getAttribute('data-webp') || '',
+        };
       });
-      const hoverUrl = mainImg.getAttribute('data-hover-url') || '';
-      const mainInitialSrc = mainImg.getAttribute('src');
+      const hoverJpg = mainImg.getAttribute('data-hover-url') || '';
+      const hoverWebp = mainImg.getAttribute('data-hover-webp') || '';
+      const mainInitialJpg = mainImg.getAttribute('src');
+      const mainInitialWebp = sourceEl ? sourceEl.getAttribute('srcset') : '';
 
       let selectedIdx = 0;
 
+      /** Met à jour l'image visible. Doit modifier <source srcset> ET <img src>
+       *  pour que le swap fonctionne sur tous les navigateurs (WebP + fallback). */
+      function setMainImage(jpg, webp) {
+        if (jpg) mainImg.src = jpg;
+        if (sourceEl && webp) sourceEl.srcset = webp;
+      }
+
       function applyMain(i) {
-        const url = thumbUrls[i];
-        if (!url) return;
-        mainImg.src = url;
+        const t = thumbData[i];
+        if (!t || !t.jpg) return;
+        setMainImage(t.jpg, t.webp || t.jpg);
         thumbs.forEach(function (el, j) {
           el.classList.toggle('is-active', j === i);
         });
       }
 
       /* Hover sur la grande image : montre la photo "Photos2" si définie. */
-      if (hoverUrl && hoverUrl !== mainInitialSrc) {
+      if (hoverJpg && hoverJpg !== mainInitialJpg) {
         mainImg.addEventListener('mouseenter', function () {
           mainImg.setAttribute('data-giorgia-swap', '1');
-          mainImg.src = hoverUrl;
+          setMainImage(hoverJpg, hoverWebp || hoverJpg);
         });
         mainImg.addEventListener('mouseleave', function () {
           if (!mainImg.hasAttribute('data-giorgia-swap')) return;
           mainImg.removeAttribute('data-giorgia-swap');
-          applyMain(selectedIdx);
+          // Restaurer l'image actuellement sélectionnée (initiale ou autre vignette)
+          if (selectedIdx === 0 && thumbData.length === 0) {
+            setMainImage(mainInitialJpg, mainInitialWebp);
+          } else {
+            applyMain(selectedIdx);
+          }
         });
       }
 
