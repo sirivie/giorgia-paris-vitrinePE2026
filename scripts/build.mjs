@@ -17,8 +17,10 @@
  * En GitHub Actions : la clé vient du secret AIRTABLE_API_KEY.
  * ============================================================ */
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { readFile, writeFile, mkdir, readdir, copyFile, stat } from 'node:fs/promises';
+import { resolve, join } from 'node:path';
+import { createHash } from 'node:crypto';
+import sharp from 'sharp';
 
 /* ==========================================================================
    1. CONFIGURATION
@@ -32,13 +34,56 @@ const TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || 'Catalogue';
 // UNIQUEMENT sur le repo de production. En pré-prod, laisser vide : le site
 // sera servi à l'URL par défaut github.io et ne volera pas le domaine à la prod.
 const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || '';
+
+// BASE_PATH : sous-chemin sous lequel le site est servi. À utiliser en
+// environnement de qualif où GitHub Pages sert depuis "<user>.github.io/<repo>".
+//   • Prod (giorgiaparis.com)              → BASE_PATH non défini → ''
+//   • Qualif (sirivie.github.io/giorgia-paris-vitrinePE2026)
+//                                          → BASE_PATH='/giorgia-paris-vitrinePE2026'
+//
+// Toutes les URLs absolues du site (images, pages légales, CSS) seront
+// préfixées par BASE_PATH. Sans cette variable, les liens "/img/..." casseraient
+// en qualif car ils pointeraient vers la racine du domaine github.io.
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+
+// Origine du site (https://...). Sert pour le sitemap, JSON-LD, og:url, etc.
+// Si CUSTOM_DOMAIN est défini → on utilise ce domaine.
+// Sinon, si BASE_PATH est défini → on déduit l'URL github.io standard.
+// Sinon → fallback prod par défaut.
 const SITE_ORIGIN = CUSTOM_DOMAIN
   ? `https://${CUSTOM_DOMAIN}`
-  : 'https://giorgiaparis.com';
+  : (process.env.GITHUB_PAGES_ORIGIN || 'https://giorgiaparis.com');
+
+// SITE_BASE : préfixe à appliquer aux URLs internes (chemins absolus du site).
+// Concaténé à SITE_ORIGIN pour les URLs canoniques (sitemap.xml, og:url),
+// et utilisé seul pour les chemins relatifs au domaine (src d'images, href de liens).
+const SITE_BASE = BASE_PATH;        // ex. '' en prod, '/giorgia-paris-vitrinePE2026' en qualif
 
 const TEMPLATE_PATH = resolve('src/template.html');
 const OUTPUT_DIR = resolve('dist');
 const OUTPUT_HTML = resolve(OUTPUT_DIR, 'index.html');
+
+// Répertoires du pipeline d'images
+const IMG_OUTPUT_DIR = resolve(OUTPUT_DIR, 'img');      // dist/img/ — ce qui sera servi en ligne
+const IMG_CACHE_DIR = resolve('.image-cache');          // Cache persistant entre les builds GitHub Actions
+
+// Paramètres de compression — à ajuster ici en cas de besoin
+const IMG_MAX_WIDTH = 1200;          // Les images plus larges sont redimensionnées
+const IMG_JPEG_QUALITY = 82;         // Bon compromis qualité/poids pour JPEG
+const IMG_WEBP_QUALITY = 78;         // WebP à qualité équivalente visuelle, mais plus léger
+const IMG_CONCURRENCY = 6;           // Téléchargements en parallèle — pas trop pour ne pas taper Airtable trop fort
+const IMG_TIMEOUT_MS = 20000;        // Abandonne un download qui traîne au-delà de 20 s
+
+// URLs d'illustration "en dur" (non-Airtable). Centralisées ici pour qu'elles
+// soient téléchargées au build, et remplacées par leurs chemins locaux dans le HTML.
+const ILLUSTRATION_URLS = {
+  heroPexels:
+    'https://images.pexels.com/photos/6068969/pexels-photo-6068969.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  bannerUnsplash:
+    'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center&auto=format&q=75',
+  editorialUnsplash:
+    'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top',
+};
 
 if (!API_KEY) {
   console.error('✖ AIRTABLE_API_KEY manquant. Ajoutez-le comme secret GitHub ou variable d\'environnement locale.');
@@ -311,6 +356,240 @@ function esc(s) {
 }
 
 /* ==========================================================================
+   7 bis. PIPELINE D'IMAGES
+   ==========================================================================
+   Toutes les images du site (produits Airtable, hero Pexels, banner Unsplash)
+   sont téléchargées au buildtime, compressées, converties en JPEG + WebP et
+   stockées dans dist/img/. Les URLs dans le HTML pointent ensuite vers des
+   chemins relatifs (/img/xxx.jpg), rendant le site totalement autonome.
+
+   Bénéfices :
+   - Images servies depuis GitHub Pages (pas de dépendance à un CDN tiers)
+   - Plus d'URL Airtable qui expire toutes les 3-4h
+   - WebP pour navigateurs modernes (~30 % plus léger) + JPEG de fallback
+   - Les images lourdes (>300 KB) sont automatiquement redimensionnées
+
+   Pipeline:
+     URL Airtable → hash SHA-1 → cache miss ? download → compress → .jpg+.webp
+                                 cache hit  → copy from .image-cache/
+
+   Le cache (.image-cache/) est persisté entre les builds par GitHub Actions,
+   donc une image déjà traitée est réutilisée instantanément.
+   ========================================================================== */
+
+/** Registre des images connues : URL source → { jpg, webp, width, height }. */
+const imageRegistry = new Map();
+
+/** Stats du pipeline, pour reporting en fin de build. */
+const imageStats = { downloaded: 0, cached: 0, failed: 0, totalSavedBytes: 0 };
+
+/**
+ * Hash court et stable d'une URL. On extrait la partie "identifiante" de l'URL
+ * Airtable (le path, pas le querystring avec le timestamp d'expiration) pour
+ * que la même image serve le même hash même si Airtable régénère son token.
+ */
+function hashImageUrl(url) {
+  // Airtable : les URLs ont la forme v3/u/52/52/<timestamp>/<token>/<filename>/<...>
+  // On normalise en enlevant le timestamp qui change entre deux builds.
+  let normalized = url;
+  try {
+    const u = new URL(url);
+    if (u.hostname.endsWith('airtableusercontent.com')) {
+      // Pour Airtable, on hash uniquement les segments de path qui sont stables.
+      // La structure est /v3/u/52/52/<TIMESTAMP>/<TOKEN1>/<FILE_ID>/<TOKEN2>
+      // Le token et le timestamp changent à chaque build; seul FILE_ID est stable.
+      const parts = u.pathname.split('/').filter(Boolean);
+      // Prend tous les segments non-numériques et non-tokens temporels
+      const stable = parts.filter(p => !/^\d{10,}$/.test(p));
+      normalized = stable.join('/');
+    } else {
+      // Pour les autres (Pexels, Unsplash), l'URL est stable → hash direct
+      normalized = u.origin + u.pathname;
+    }
+  } catch {
+    // URL invalide : hash de la chaîne brute
+  }
+  return createHash('sha1').update(normalized).digest('hex').slice(0, 10);
+}
+
+/** Petite fonction pour formater les bytes. */
+function fmtBytes(n) {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
+  return `${(n / 1024 / 1024).toFixed(1)} MB`;
+}
+
+/** Télécharge une URL en buffer avec timeout. */
+async function downloadUrl(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), IMG_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const arrayBuffer = await res.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Traite une URL image :
+ *   1. Cherche dans le cache disque (hash.jpg + hash.webp)
+ *   2. Si absent : télécharge, redimensionne, compresse en JPEG et WebP,
+ *      écrit dans le cache
+ *   3. Copie du cache vers dist/img/
+ * Retourne { jpg: '/img/xxx.jpg', webp: '/img/xxx.webp', width, height }.
+ * En cas d'échec complet, retourne null → fallback sur l'URL originale.
+ */
+async function processImage(url) {
+  if (!url || typeof url !== 'string') return null;
+
+  // Cache in-memory dans ce même build (une image référencée 3× = 1 seul traitement)
+  if (imageRegistry.has(url)) return imageRegistry.get(url);
+
+  const hash = hashImageUrl(url);
+  const cacheJpg = join(IMG_CACHE_DIR, `${hash}.jpg`);
+  const cacheWebp = join(IMG_CACHE_DIR, `${hash}.webp`);
+  const cacheMeta = join(IMG_CACHE_DIR, `${hash}.json`);
+  const outJpg = join(IMG_OUTPUT_DIR, `${hash}.jpg`);
+  const outWebp = join(IMG_OUTPUT_DIR, `${hash}.webp`);
+
+  let fromCache = false;
+  let meta = null;
+
+  // 1. Tentative cache
+  try {
+    const [j, w, m] = await Promise.all([
+      stat(cacheJpg),
+      stat(cacheWebp),
+      readFile(cacheMeta, 'utf8'),
+    ]);
+    if (j.size > 0 && w.size > 0) {
+      meta = JSON.parse(m);
+      fromCache = true;
+    }
+  } catch {
+    // Cache miss, on télécharge
+  }
+
+  // 2. Téléchargement + compression si cache miss
+  if (!fromCache) {
+    try {
+      const originalBuf = await downloadUrl(url);
+      const originalSize = originalBuf.length;
+
+      // Sharp : analyse + redimensionnement conditionnel
+      const pipeline = sharp(originalBuf, { failOn: 'none' }).rotate();
+      const metadata = await pipeline.metadata();
+      const needsResize = metadata.width && metadata.width > IMG_MAX_WIDTH;
+
+      // Deux sorties parallèles : JPEG + WebP
+      const [jpgBuf, webpBuf] = await Promise.all([
+        sharp(originalBuf, { failOn: 'none' })
+          .rotate()
+          .resize({ width: needsResize ? IMG_MAX_WIDTH : undefined, withoutEnlargement: true })
+          .jpeg({ quality: IMG_JPEG_QUALITY, mozjpeg: true, progressive: true })
+          .toBuffer(),
+        sharp(originalBuf, { failOn: 'none' })
+          .rotate()
+          .resize({ width: needsResize ? IMG_MAX_WIDTH : undefined, withoutEnlargement: true })
+          .webp({ quality: IMG_WEBP_QUALITY })
+          .toBuffer(),
+      ]);
+
+      // On garde les dimensions de la version compressée (source de vérité pour le HTML)
+      const finalMeta = await sharp(jpgBuf).metadata();
+      meta = {
+        width: finalMeta.width,
+        height: finalMeta.height,
+        jpgBytes: jpgBuf.length,
+        webpBytes: webpBuf.length,
+        originalBytes: originalSize,
+      };
+
+      // Écriture dans le cache
+      await mkdir(IMG_CACHE_DIR, { recursive: true });
+      await Promise.all([
+        writeFile(cacheJpg, jpgBuf),
+        writeFile(cacheWebp, webpBuf),
+        writeFile(cacheMeta, JSON.stringify(meta)),
+      ]);
+
+      imageStats.downloaded++;
+      // Comparaison brute original vs jpg compressé (proxy utile du gain)
+      if (originalSize > jpgBuf.length) {
+        imageStats.totalSavedBytes += originalSize - jpgBuf.length;
+      }
+    } catch (err) {
+      imageStats.failed++;
+      console.warn(`  ⚠ Échec image ${url.slice(0, 80)}… : ${err.message}`);
+      imageRegistry.set(url, null);
+      return null;
+    }
+  } else {
+    imageStats.cached++;
+  }
+
+  // 3. Copie cache → dist/img/
+  await mkdir(IMG_OUTPUT_DIR, { recursive: true });
+  await Promise.all([
+    copyFile(cacheJpg, outJpg),
+    copyFile(cacheWebp, outWebp),
+  ]);
+
+  const result = {
+    jpg: `${SITE_BASE}/img/${hash}.jpg`,
+    webp: `${SITE_BASE}/img/${hash}.webp`,
+    width: meta.width,
+    height: meta.height,
+  };
+  imageRegistry.set(url, result);
+  return result;
+}
+
+/** Traite un tableau d'URLs en parallèle contrôlé. */
+async function processImagesBatch(urls, concurrency = IMG_CONCURRENCY) {
+  const uniqueUrls = [...new Set(urls.filter(Boolean))];
+  let idx = 0;
+  async function worker() {
+    while (idx < uniqueUrls.length) {
+      const i = idx++;
+      await processImage(uniqueUrls[i]);
+    }
+  }
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+}
+
+/** Collecte toutes les URLs images à traiter depuis les records Airtable +
+ *  les URLs en dur du template (hero Pexels, banners Unsplash). */
+function collectAllImageUrls(records) {
+  const urls = [];
+  // 1. Images des produits Airtable
+  for (const rec of records) {
+    const f = rec.fields || {};
+    urls.push(...resolvePhotos(f));
+  }
+  // 2. Images d'illustration en dur : hero Pexels + banner Unsplash + editorial Unsplash
+  urls.push(
+    ILLUSTRATION_URLS.heroPexels,
+    ILLUSTRATION_URLS.bannerUnsplash,
+    ILLUSTRATION_URLS.editorialUnsplash
+  );
+  return urls;
+}
+
+/**
+ * Retourne les chemins locaux pour une URL donnée, ou null si l'image n'a pas
+ * pu être traitée (fallback sur l'URL d'origine). À appeler dans les fonctions
+ * de rendu HTML après que processImagesBatch soit terminé.
+ */
+function localImageFor(url) {
+  if (!url) return null;
+  return imageRegistry.get(url) || null;
+}
+
+/* ==========================================================================
    8. RENDU DES CARDS PRODUIT
    ========================================================================== */
 
@@ -332,16 +611,35 @@ function renderProductCard(fields, isPriority, univ) {
   const altMain = ref
     ? `${altBase} — Réf. ${ref} — ${univ.label} — Grossiste GIORGIA paris`
     : `${altBase} — ${univ.label} — Grossiste GIORGIA paris`;
-  const dataHover = hoverUrl && hoverUrl !== mainSrc
-    ? ` data-hover-url="${esc(hoverUrl)}"` : '';
+
+  // Résolution des chemins locaux (fallback URL Airtable si échec du pipeline)
+  const mainLocal = localImageFor(mainSrc);
+  const mainDisplayUrl = mainLocal ? mainLocal.jpg : mainSrc;
+
+  // Hover URL en version locale aussi (pour que l'effet survol utilise le JPEG local)
+  const hoverLocal = hoverUrl ? localImageFor(hoverUrl) : null;
+  const hoverDisplayUrl = hoverLocal ? hoverLocal.jpg : hoverUrl;
+  const dataHover = hoverDisplayUrl && hoverDisplayUrl !== mainDisplayUrl
+    ? ` data-hover-url="${esc(hoverDisplayUrl)}"` : '';
+
   const loading = isPriority ? 'eager' : 'lazy';
   const fetchprio = isPriority ? ' fetchpriority="high"' : '';
+  const dims = mainLocal ? ` width="${mainLocal.width}" height="${mainLocal.height}"` : '';
 
   let h = '';
   h += `<a class="prod-card" target="_blank" rel="noopener noreferrer" href="${esc(href)}">`;
   h += `<div class="prod-media">`;
   h += `<div class="prod-img">`;
-  h += `<img class="prod-img-primary" src="${esc(mainSrc)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dataHover}>`;
+
+  // <picture> : WebP si supporté (~98% du trafic depuis 2021), JPEG sinon.
+  // Le <img> dedans conserve class/src/data-hover-url pour que le JS DOM-based
+  // de galerie continue de marcher sans modification.
+  h += `<picture>`;
+  if (mainLocal) {
+    h += `<source srcset="${esc(mainLocal.webp)}" type="image/webp">`;
+  }
+  h += `<img class="prod-img-primary" src="${esc(mainDisplayUrl)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dims}${dataHover}>`;
+  h += `</picture>`;
 
   if (badge || badge2) {
     h += `<div class="prod-badges">`;
@@ -362,8 +660,12 @@ function renderProductCard(fields, isPriority, univ) {
     photos.forEach((p, i) => {
       const cls = i === 0 ? 'prod-thumb is-active' : 'prod-thumb';
       const altThumb = `${altBase} — vue ${i + 1}`;
+      const thumbLocal = localImageFor(p);
+      // Pour les thumbnails, on sert l'image JPEG locale directement (pas de
+      // <picture> ici car le JS a besoin de lire le src exact pour swap).
+      const thumbSrc = thumbLocal ? thumbLocal.jpg : p;
       h += `<span class="${cls}" role="button" tabindex="0" aria-label="Voir la vue ${i + 1} de ${esc(altBase)}">`;
-      h += `<img src="${esc(p)}" alt="${esc(altThumb)}" loading="lazy" decoding="async">`;
+      h += `<img src="${esc(thumbSrc)}" alt="${esc(altThumb)}" loading="lazy" decoding="async">`;
       h += `</span>`;
     });
     h += `</div>`;
@@ -429,9 +731,12 @@ function renderUniversSection(univ, products) {
 }
 
 function renderFeatBanner() {
+  // Chemin local (JPEG) si dispo, sinon fallback sur l'URL Unsplash originale
+  const local = localImageFor(ILLUSTRATION_URLS.bannerUnsplash);
+  const bgUrl = local ? local.jpg : ILLUSTRATION_URLS.bannerUnsplash;
   return [
     '<div class="feat-banner">',
-    '<div class="feat-bg" style="background-image:url(\'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1800&h=700&fit=crop&crop=center&auto=format&q=75\')"></div>',
+    `<div class="feat-bg" style="background-image:url('${esc(bgUrl)}')"></div>`,
     '<div class="feat-grad"></div>',
     '<div class="feat-content">',
     '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>',
@@ -444,10 +749,22 @@ function renderFeatBanner() {
 }
 
 function renderEditorial() {
+  const local = localImageFor(ILLUSTRATION_URLS.editorialUnsplash);
+  // Balise <picture> pour bénéficier du WebP si dispo
+  let imgHtml;
+  if (local) {
+    imgHtml =
+      '<picture>' +
+      `<source srcset="${esc(local.webp)}" type="image/webp">` +
+      `<img src="${esc(local.jpg)}" width="${local.width}" height="${local.height}" alt="GIORGIA paris — Showroom parisien et collection Printemps-Été 2026" loading="lazy" decoding="async">` +
+      '</picture>';
+  } else {
+    imgHtml = `<img src="${esc(ILLUSTRATION_URLS.editorialUnsplash)}" alt="GIORGIA paris — Showroom parisien et collection Printemps-Été 2026" loading="lazy" decoding="async">`;
+  }
   return [
     '<div class="editorial">',
     '<div class="ed-img">',
-    '<img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&crop=top" alt="GIORGIA paris — Showroom parisien et collection Printemps-Été 2026" loading="lazy" decoding="async">',
+    imgHtml,
     '</div>',
     '<div class="ed-txt">',
     '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>',
@@ -492,11 +809,11 @@ function buildOrganizationLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WholesaleStore',
-    '@id': `${SITE_ORIGIN}/#organization`,
+    '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization`,
     name: 'GIORGIA paris',
     alternateName: 'Giorgia Paris',
     description: 'Grossiste en prêt-à-porter féminin basé à Aubervilliers, près de Paris. Collection Printemps-Été 2026, pièces tendances pour boutiques indépendantes. Minimum de commande 100€ HT.',
-    url: `${SITE_ORIGIN}/`,
+    url: `${SITE_ORIGIN}${SITE_BASE}/`,
     telephone: '+33686729311',
     email: 'giorgia93300@gmail.com',
     foundingDate: '2007',
@@ -555,12 +872,12 @@ function buildWebSiteLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': `${SITE_ORIGIN}/#website`,
-    url: `${SITE_ORIGIN}/`,
+    '@id': `${SITE_ORIGIN}${SITE_BASE}/#website`,
+    url: `${SITE_ORIGIN}${SITE_BASE}/`,
     name: 'GIORGIA paris',
     description: 'Catalogue du grossiste prêt-à-porter féminin GIORGIA paris — Collection Printemps-Été 2026.',
     inLanguage: 'fr-FR',
-    publisher: { '@id': `${SITE_ORIGIN}/#organization` },
+    publisher: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
   };
 }
 
@@ -597,29 +914,143 @@ function renderRobotsTxt() {
     '# User-agent: GPTBot',
     '# Disallow: /',
     '',
-    `Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
+    `Sitemap: ${SITE_ORIGIN}${SITE_BASE}/sitemap.xml`,
     '',
   ].join('\n');
 }
 
 function renderSitemapXml(now) {
   const lastmod = now.toISOString().split('.')[0] + '+00:00';
-  // Une seule URL pour l'instant (SPA single-page). Les anchors (#summer, etc.)
-  // ne comptent pas comme des URLs distinctes pour les moteurs.
-  // Quand on créera des pages /produits/[slug]/ dans une 2e phase, on les ajoutera ici.
+
+  // URLs du site. La home est prioritaire (1.0, changefreq=weekly).
+  // Les pages légales sont là pour le signal E-E-A-T et la conformité mais
+  // ne sont pas des pages de destination marketing → priority 0.3, rarement
+  // modifiées.
+  const urls = [
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                      priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/politique-retour/`,     priority: '0.3', changefreq: 'yearly' },
+  ];
+
+  const body = urls.map(u => [
+    '  <url>',
+    `    <loc>${u.loc}</loc>`,
+    `    <lastmod>${lastmod}</lastmod>`,
+    `    <changefreq>${u.changefreq}</changefreq>`,
+    `    <priority>${u.priority}</priority>`,
+    '  </url>',
+  ].join('\n')).join('\n');
+
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
-    '  <url>',
-    `    <loc>${SITE_ORIGIN}/</loc>`,
-    `    <lastmod>${lastmod}</lastmod>`,
-    '    <changefreq>weekly</changefreq>',
-    '    <priority>1.0</priority>',
-    '  </url>',
+    body,
     '</urlset>',
     '',
   ].join('\n');
+}
+
+/* ==========================================================================
+   13 bis. COPIE DES PAGES LÉGALES
+   ==========================================================================
+   Source : src/legal/ (4 fichiers HTML + 1 CSS partagé)
+   Destination :
+     - dist/legal/legal-styles.css           (CSS accessible à /legal/legal-styles.css)
+     - dist/mentions-legales/index.html      (URL : /mentions-legales/)
+     - dist/cgv/index.html                   (URL : /cgv/)
+     - dist/confidentialite/index.html       (URL : /confidentialite/)
+     - dist/politique-retour/index.html      (URL : /politique-retour/)
+
+   Le mapping est volontaire : le nom de fichier source (ex.
+   "politique-confidentialite.html") n'est PAS l'URL finale (qui sera
+   "/confidentialite/") pour des raisons SEO et de lisibilité.
+*/
+
+// Mapping : nom du fichier source → nom du dossier de sortie (= URL)
+const LEGAL_PAGES_MAP = {
+  'mentions-legales.html':         'mentions-legales',
+  'cgv.html':                      'cgv',
+  'politique-confidentialite.html':'confidentialite',
+  'politique-retour.html':         'politique-retour',
+};
+
+async function copyLegalPages() {
+  const srcDir = resolve('src/legal');
+
+  // Vérifier que le dossier existe (il peut manquer si tu n'as pas encore
+  // déposé les fichiers — dans ce cas on skip sans crasher le build).
+  try {
+    await stat(srcDir);
+  } catch {
+    console.warn('⚠ src/legal/ introuvable — pages légales non déployées.');
+    console.warn('  Pour les activer, déposez les 4 HTML + le CSS dans src/legal/.');
+    return { deployed: false };
+  }
+
+  // 1. Copier la CSS partagée vers dist/legal/ (CSS = pas de transformation
+  // d'URL nécessaire, on copie tel quel)
+  const cssSrc = join(srcDir, 'legal-styles.css');
+  const cssDstDir = resolve(OUTPUT_DIR, 'legal');
+  const cssDst = join(cssDstDir, 'legal-styles.css');
+  try {
+    await stat(cssSrc);
+    await mkdir(cssDstDir, { recursive: true });
+    await copyFile(cssSrc, cssDst);
+    console.log(`  • CSS → ${SITE_BASE}/legal/legal-styles.css`);
+  } catch {
+    console.warn('  ⚠ legal-styles.css manquant dans src/legal/');
+  }
+
+  // 2. Copier chaque page HTML dans son dossier dédié, EN PRÉFIXANT les
+  // liens internes par SITE_BASE. Ainsi la même source HTML fonctionne
+  // en prod (SITE_BASE='') et en qualif (SITE_BASE='/giorgia-paris-vitrinePE2026').
+  const deployedPages = [];
+  for (const [srcFile, outFolder] of Object.entries(LEGAL_PAGES_MAP)) {
+    const srcPath = join(srcDir, srcFile);
+    try {
+      await stat(srcPath);
+    } catch {
+      console.warn(`  ⚠ ${srcFile} manquant dans src/legal/ — page /${outFolder}/ non déployée.`);
+      continue;
+    }
+    const outDir = resolve(OUTPUT_DIR, outFolder);
+    const outPath = join(outDir, 'index.html');
+    await mkdir(outDir, { recursive: true });
+
+    // Lecture + transformation des URLs internes
+    let html = await readFile(srcPath, 'utf8');
+    html = applyBasePathToHtml(html);
+
+    await writeFile(outPath, html, 'utf8');
+    deployedPages.push(outFolder);
+    console.log(`  • ${srcFile} → ${SITE_BASE}/${outFolder}/`);
+  }
+
+  return { deployed: true, pages: deployedPages };
+}
+
+/**
+ * Transforme les URLs internes absolues (commençant par '/') en y ajoutant
+ * SITE_BASE. À utiliser sur les pages légales avant de les écrire dans dist/.
+ *
+ * Exemples (avec SITE_BASE='/giorgia-paris-vitrinePE2026') :
+ *   href="/"                          → href="/giorgia-paris-vitrinePE2026/"
+ *   href="/cgv/"                      → href="/giorgia-paris-vitrinePE2026/cgv/"
+ *   href="/legal/legal-styles.css"    → href="/giorgia-paris-vitrinePE2026/legal/legal-styles.css"
+ *   href="https://example.com/x"      → inchangé (pas '/' en tête)
+ *   href="mailto:..."                 → inchangé
+ *   href="#anchor"                    → inchangé
+ *
+ * En prod, SITE_BASE='' donc cette fonction est un no-op.
+ */
+function applyBasePathToHtml(html) {
+  if (!SITE_BASE) return html; // Prod : aucune transformation
+  // On match : href="/..." ou src="/..."  où le / suit immédiatement le ".
+  // Lookbehind exclu pour éviter '//' (URLs protocole-relative type //cdn.example.com).
+  return html.replace(/(\bhref|\bsrc)="\/(?!\/)/g, `$1="${SITE_BASE}/`);
 }
 
 /* ==========================================================================
@@ -742,7 +1173,27 @@ async function main() {
   // Payload allégé pour __GIORGIA_CATALOG__ (conservé par compatibilité)
   const slim = sortedRecords.map(slimRecord);
 
-  // Audit webperf des images
+  // ===================================================================
+  //  PIPELINE D'IMAGES : téléchargement + compression + WebP
+  // -------------------------------------------------------------------
+  //  Téléchargées depuis Airtable/Pexels/Unsplash, compressées (JPEG qualité
+  //  82 + WebP qualité 78), écrites dans dist/img/. Le cache .image-cache/
+  //  est persisté entre builds par GitHub Actions → les images déjà traitées
+  //  sont instantanément réutilisées (pas de re-download, pas de re-compress).
+  // ===================================================================
+  console.log('→ Pipeline d\'images (download + compression + WebP)…');
+  const tImg0 = Date.now();
+  const allImgUrls = collectAllImageUrls(sortedRecords);
+  console.log(`  ${new Set(allImgUrls).size} URLs uniques à traiter (cache = .image-cache/).`);
+  await processImagesBatch(allImgUrls);
+  const tImgMs = Date.now() - tImg0;
+  console.log(`✓ Images : ${imageStats.downloaded} téléchargées, ${imageStats.cached} depuis le cache, ${imageStats.failed} échecs (${(tImgMs / 1000).toFixed(1)}s).`);
+  if (imageStats.totalSavedBytes > 0) {
+    console.log(`  Gain total de compression : ${fmtBytes(imageStats.totalSavedBytes)}.`);
+  }
+
+  // Audit webperf des images (post-compression : évalue l'état de Airtable
+  // "à la source", pas des images servies qui sont maintenant locales)
   let imageAudit = null;
   if (process.env.SKIP_IMAGE_AUDIT !== '1') {
     try { imageAudit = await auditImageWeights(records); }
@@ -793,6 +1244,10 @@ async function main() {
   const payloadJson = JSON.stringify(payload).replace(/<\/script>/gi, '<\\/script>');
   const catalogDataScript = `<script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__=${payloadJson};</script>`;
 
+  // Chemin local pour l'image hero (fallback sur Pexels si le traitement a échoué)
+  const heroLocal = localImageFor(ILLUSTRATION_URLS.heroPexels);
+  const heroImageUrl = heroLocal ? heroLocal.jpg : ILLUSTRATION_URLS.heroPexels;
+
   // Substitutions des placeholders
   const replacements = [
     ['<!-- UNIVERS_NAV_TABS -->', renderUniversTabs()],
@@ -802,6 +1257,7 @@ async function main() {
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
+    ['<!-- SITE_BASE -->', SITE_BASE],
   ];
 
   let html = template;
@@ -812,7 +1268,20 @@ async function main() {
         `Vérifiez que vous avez bien mis à jour template.html à la version v2.`
       );
     }
-    html = html.replace(ph, val);
+    // SITE_BASE et SITE_ORIGIN apparaissent plusieurs fois (canonical, og:url,
+    // hreflang, footer). On utilise split/join pour remplacer toutes les
+    // occurrences en une passe.
+    if (ph === '<!-- SITE_BASE -->' || ph === '<!-- SITE_ORIGIN -->') {
+      html = html.split(ph).join(val);
+    } else {
+      html = html.replace(ph, val);
+    }
+  }
+
+  // HERO_IMAGE_URL apparaît 4 fois dans le template (og:image, twitter:image,
+  // <link rel="preload">, background CSS) → remplacement GLOBAL, pas simple.
+  if (html.includes('<!-- HERO_IMAGE_URL -->')) {
+    html = html.split('<!-- HERO_IMAGE_URL -->').join(heroImageUrl);
   }
 
   // Écriture des fichiers de sortie
@@ -826,13 +1295,23 @@ async function main() {
     await writeFile(resolve(OUTPUT_DIR, 'CNAME'), `${CUSTOM_DOMAIN}\n`, 'utf8');
   }
 
+  // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
+  console.log('→ Copie des pages légales…');
+  await copyLegalPages();
+
   await writeFile(
     resolve(OUTPUT_DIR, 'build-info.json'),
     JSON.stringify(
       {
         generatedAt: payload.generatedAt,
         count: payload.count,
-        version: payload.version,
+        version: 3,
+        imagePipeline: {
+          downloaded: imageStats.downloaded,
+          cached: imageStats.cached,
+          failed: imageStats.failed,
+          compressionSavedKB: Math.round(imageStats.totalSavedBytes / 1024),
+        },
         imageAudit,
       },
       null,
