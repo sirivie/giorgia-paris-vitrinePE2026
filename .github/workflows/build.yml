@@ -44,10 +44,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Installation des dépendances (Sharp pour le traitement d'image)
-        run: npm ci
+        # On utilise `npm install` plutôt que `npm ci` car le repo ne contient
+        # pas de package-lock.json (pas obligatoire pour ce projet à 1 seule
+        # dépendance — Sharp). Le lock file serait nécessaire pour `npm ci`.
+        run: npm install --no-audit --no-fund
 
       # Cache des images compressées entre les builds. Clé basée sur le nom
       # du repo — ne change jamais, donc le cache est partagé entre toutes
