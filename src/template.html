@@ -94,10 +94,29 @@
       --white:      #FDFAF6;
       --border:     rgba(22,22,22,0.10);
 
+      /* Palette PRÉVENTES (bleu pétrole adouci + bordeaux mode + crème chaude) */
+      --pv-bg:      #2D3E5C;   /* bleu pétrole, fond de la bande */
+      --pv-bg-dk:   #243348;   /* variante plus sombre pour effets */
+      --pv-border:  #3F5278;   /* bordure douce sur le bleu */
+      --pv-accent:  #9B3848;   /* bordeaux mode, badges + CTA */
+      --pv-accent-dk:#7E2C3A;  /* hover bordeaux */
+      --pv-text:    #FBEEF0;   /* texte principal (blanc rosé chaud) */
+      --pv-text-mut:#C9D2E0;   /* texte secondaire (gris bleuté clair) */
+
+      /* Hauteur du bandeau sticky WhatsApp en haut de page.
+         Référencée dans #navbar (top) et .univers-nav (top sticky). */
+      --wa-banner-h: 38px;
+
       --ff-display: 'Cormorant Garamond', Georgia, serif;
       --ff-logo:    'Century Gothic', 'Josefin Sans', 'Trebuchet MS', 'Futura', sans-serif;
       --ff-body:    'DM Sans', system-ui, sans-serif;
       --ease:       cubic-bezier(.25,.46,.45,.94);
+    }
+
+    /* En mobile, la barre WhatsApp passe sur 2 lignes possibles → on prévoit
+       un peu plus de hauteur pour ne pas écraser le contenu. */
+    @media (max-width: 760px) {
+      :root { --wa-banner-h: 44px; }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,7 +154,7 @@
 
     /* ===================== NAVBAR ===================== */
     #navbar {
-      position: fixed; inset: 0 0 auto;
+      position: fixed; top: var(--wa-banner-h); left: 0; right: 0;
       z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.1rem 3.5rem;
@@ -327,7 +346,7 @@
     /* ===================== UNIVERS NAV ===================== */
     .univers-nav {
       background: var(--cream); border-bottom: 1px solid var(--border);
-      position: sticky; top: 67px; z-index: 80; overflow-x: auto;
+      position: sticky; top: calc(67px + var(--wa-banner-h)); z-index: 80; overflow-x: auto;
     }
     .univers-nav::-webkit-scrollbar { display: none; }
     .univers-nav-inner {
@@ -872,9 +891,267 @@
       transition: opacity .65s var(--ease), transform .65s var(--ease);
     }
     .fade-up.vis { opacity: 1; transform: none; }
+
+    /* =========================================================
+       BANDEAU WHATSAPP STICKY (haut de page)
+       ---------------------------------------------------------
+       Bande fine, visible en permanence, qui rappelle au visiteur
+       que le catalogue en ligne n'est pas exhaustif et l'invite
+       à contacter via WhatsApp pour les références supplémentaires.
+       ========================================================= */
+    #wa-banner {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--wa-banner-h);
+      z-index: 110; /* au-dessus de la navbar (100) */
+      display: flex; align-items: center; justify-content: center;
+      background: var(--pv-bg);
+      color: var(--pv-text);
+      font-family: var(--ff-body);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      padding: 0 1rem;
+      border-bottom: 1px solid var(--pv-border);
+    }
+    #wa-banner a {
+      color: var(--pv-text); text-decoration: none;
+      display: inline-flex; align-items: center; gap: .55rem;
+      transition: color .25s var(--ease);
+    }
+    #wa-banner a:hover { color: #fff; }
+    #wa-banner .wa-banner-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px;
+      background: var(--pv-accent);
+      border-radius: 50%;
+      color: var(--pv-text);
+      flex-shrink: 0;
+    }
+    #wa-banner .wa-banner-icon svg { width: 11px; height: 11px; fill: currentColor; }
+    #wa-banner .wa-banner-arrow {
+      color: var(--pv-text); opacity: .85;
+      margin-left: .25rem;
+    }
+    @media (max-width: 760px) {
+      #wa-banner { font-size: .65rem; line-height: 1.25; padding: 0 .8rem; text-align: center; }
+      #wa-banner a { gap: .4rem; }
+    }
+
+    /* =========================================================
+       SECTION PRÉVENTES (en tête de home)
+       ---------------------------------------------------------
+       Bande contrastée bleu pétrole qui fait rupture visuelle
+       avec le reste de la home (crème). Le carrousel hérite des
+       classes .carousel-outer / .carousel-track existantes pour
+       que la mécanique JS (carMove, drag, dots) marche tel quel.
+       ========================================================= */
+    .prevente-sec {
+      background: var(--pv-bg);
+      padding: 4rem 0 3rem;
+      position: relative;
+      isolation: isolate;
+    }
+    /* Léger dégradé décoratif en haut/bas pour adoucir la rupture */
+    .prevente-sec::before,
+    .prevente-sec::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 22px;
+      pointer-events: none;
+    }
+    .prevente-sec::before {
+      top: 0;
+      background: linear-gradient(to bottom, var(--pv-bg-dk), transparent);
+    }
+    .prevente-sec::after {
+      bottom: 0;
+      background: linear-gradient(to top, var(--pv-bg-dk), transparent);
+    }
+    .prevente-inner {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 3.5rem;
+    }
+    @media (max-width: 760px) {
+      .prevente-sec { padding: 2.5rem 0 2rem; }
+      .prevente-inner { padding: 0 1.4rem; }
+    }
+
+    /* En-tête de la section : titre + sous-titre + CTA bordeaux */
+    .prevente-hdr {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .prevente-hdr-text { max-width: 720px; }
+    .prevente-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      font-size: .62rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .4rem .9rem;
+      border-radius: 100px;
+      margin-bottom: .9rem;
+    }
+    .prevente-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--pv-text); border-radius: 50%;
+    }
+    .prevente-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--pv-text);
+      margin-bottom: .6rem;
+      letter-spacing: .002em;
+    }
+    .prevente-sub {
+      color: var(--pv-text-mut);
+      font-size: .92rem; line-height: 1.5;
+      max-width: 620px;
+    }
+    .prevente-cta {
+      display: inline-flex; align-items: center;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      text-decoration: none;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .85rem 1.5rem;
+      border-radius: 4px;
+      transition: background .25s var(--ease), transform .25s var(--ease);
+      white-space: nowrap;
+    }
+    .prevente-cta:hover {
+      background: var(--pv-accent-dk);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 760px) {
+      .prevente-hdr { gap: 1rem; }
+      .prevente-cta { width: 100%; justify-content: center; }
+    }
+
+    /* Boutons flèches du carrousel — adaptés au fond sombre */
+    .prevente-sec .car-btn {
+      background: rgba(255,255,255,.95);
+      color: var(--pv-bg);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+    .prevente-sec .car-btn:hover {
+      background: var(--pv-text);
+    }
+    /* Dots du carrousel sur fond sombre */
+    .prevente-sec .car-dots .car-dot { background: rgba(255,255,255,.35); }
+    .prevente-sec .car-dots .car-dot.active { background: var(--pv-text); }
+
+    /* Cards préventes : on garde le squelette mais avec un cadre clair
+       qui ressort sur le fond bleu, et un badge bordeaux PRÉVENTE. */
+    .prevente-sec .prod-card {
+      background: var(--white);
+      border: 1px solid var(--pv-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .prevente-sec .prod-card .prod-info {
+      background: var(--white);
+      padding: .9rem 1rem 1.1rem;
+    }
+    .prevente-sec .prod-card .prod-name { color: var(--black); }
+    .prevente-sec .prod-card .prod-ref { color: var(--taupe); }
+    .prevente-sec .prod-card .prod-desc { color: var(--charcoal); }
+
+    /* Badge PRÉVENTE — bordeaux mode, distinct des badges des cards univers */
+    .prod-badge--prevente {
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      font-size: .62rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .35rem .7rem;
+      border-radius: 3px;
+    }
+
+    /* =========================================================
+       ENCART WHATSAPP « CATALOGUE ÉTENDU » (milieu de home)
+       ---------------------------------------------------------
+       Card éditoriale insérée entre deux univers, rappelle que
+       le site n'est qu'une partie du catalogue total.
+       ========================================================= */
+    .wa-catalog {
+      background: var(--charcoal);
+      color: var(--pv-text);
+      padding: 3rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .wa-catalog-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .wa-catalog-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .wa-catalog-text h3 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--pv-text);
+      margin-bottom: .55rem;
+    }
+    .wa-catalog-text p {
+      color: var(--pv-text-mut);
+      font-size: .92rem; line-height: 1.55;
+      max-width: 580px;
+    }
+    .wa-catalog-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      text-decoration: none;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .95rem 1.6rem;
+      border-radius: 4px;
+      transition: background .25s var(--ease), transform .25s var(--ease);
+      white-space: nowrap;
+    }
+    .wa-catalog-cta:hover {
+      background: var(--pv-accent-dk);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 880px) {
+      .wa-catalog-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.2rem;
+      }
+      .wa-catalog-icon { margin: 0 auto; }
+      .wa-catalog-text p { margin: 0 auto; }
+      .wa-catalog-cta { width: 100%; max-width: 360px; margin: 0 auto; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ========== BANDEAU STICKY WHATSAPP — visible en permanence en haut ==========
+       Rappelle aux visiteurs que tous les modèles ne sont pas en ligne.
+       Renvoie sur WhatsApp avec un message pré-rempli différent du CTA "commande". -->
+  <a id="wa-banner-link"
+     href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
+     target="_blank" rel="noopener noreferrer"
+     style="display:contents">
+  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
+    <span class="wa-banner-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </span>
+    <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
+    <span class="wa-banner-arrow" aria-hidden="true">→</span>
+  </div>
+  </a>
 
   <!-- ========== STICKY CONTACT TAB ========== -->
   <div id="sticky-contact">
@@ -1025,6 +1302,13 @@
       <div class="hero-scroll">Scroll</div>
     </div>
   </section>
+
+  <!-- ========== SECTION PRÉVENTES (juste après le hero, en tête de page) ==========
+       Rendue dynamiquement par build.mjs depuis Airtable.
+       Affiche les produits dont la case à cocher « Prévente » est cochée.
+       Si aucun produit n'est en prévente, la section ne s'affiche pas du tout
+       (build.mjs renvoie une chaîne vide → aucun bloc dans le HTML final). -->
+  <!-- PREVENTES_SECTION -->
 
   <!-- ========== INTRO STRIP ========== -->
   <div class="intro-strip">
