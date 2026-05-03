@@ -16,4 +16,4 @@ Allow: /
 # User-agent: GPTBot
 # Disallow: /
 
-Sitemap: https://sirivie.github.io/giorgia-paris-vitrinePE2026/sitemap.xml
+Sitemap: https://giorgiaparis.com/sitemap.xml
