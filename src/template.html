@@ -103,6 +103,12 @@
       --pv-text:    #FBEEF0;   /* texte principal (blanc rosé chaud) */
       --pv-text-mut:#C9D2E0;   /* texte secondaire (gris bleuté clair) */
 
+      /* Couleurs officielles WhatsApp — pour l'icône, partout où elle apparaît
+         (bandeau sticky, encart "catalogue étendu"). Vert reconnaissable
+         instantanément, plus rassurant qu'un fond rouge. */
+      --wa-green:    #25D366;
+      --wa-green-dk: #128C7E;
+
       /* Hauteur du bandeau sticky WhatsApp en haut de page.
          Référencée dans #navbar (top) et .univers-nav (top sticky). */
       --wa-banner-h: 38px;
@@ -921,9 +927,9 @@
     #wa-banner .wa-banner-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 18px; height: 18px;
-      background: var(--pv-accent);
+      background: var(--wa-green);
       border-radius: 50%;
-      color: var(--pv-text);
+      color: #fff;
       flex-shrink: 0;
     }
     #wa-banner .wa-banner-icon svg { width: 11px; height: 11px; fill: currentColor; }
@@ -1090,8 +1096,8 @@
     .wa-catalog-icon {
       display: flex; align-items: center; justify-content: center;
       width: 64px; height: 64px;
-      background: var(--pv-accent);
-      color: var(--pv-text);
+      background: var(--wa-green);
+      color: #fff;
       border-radius: 50%;
       flex-shrink: 0;
     }
@@ -1107,20 +1113,20 @@
       font-size: .92rem; line-height: 1.55;
       max-width: 580px;
     }
+    /* CTA doré champagne — même look que le bouton "Devenir revendeur" plus bas */
     .wa-catalog-cta {
       display: inline-flex; align-items: center; justify-content: center;
-      background: var(--pv-accent);
-      color: var(--pv-text);
+      background: var(--gold);
+      color: var(--black);
       text-decoration: none;
-      font-size: .72rem; font-weight: 500;
-      letter-spacing: .14em; text-transform: uppercase;
-      padding: .95rem 1.6rem;
-      border-radius: 4px;
+      font-size: .68rem; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      padding: .95rem 2rem;
       transition: background .25s var(--ease), transform .25s var(--ease);
       white-space: nowrap;
     }
     .wa-catalog-cta:hover {
-      background: var(--pv-accent-dk);
+      background: var(--white);
       transform: translateY(-1px);
     }
     @media (max-width: 880px) {
@@ -1129,7 +1135,8 @@
         text-align: center;
         gap: 1.2rem;
       }
-      .wa-catalog-icon { margin: 0 auto; }
+      /* Sur mobile, l'icône WhatsApp prenait trop de place : on la masque */
+      .wa-catalog-icon { display: none; }
       .wa-catalog-text p { margin: 0 auto; }
       .wa-catalog-cta { width: 100%; max-width: 360px; margin: 0 auto; }
     }
@@ -1500,8 +1507,12 @@
     ===================================================== */
 
     /* Liste des carrousels à initialiser. Doit rester synchronisée avec
-       le tableau UNIVERS dans scripts/build.mjs (mêmes ids). */
-    const CAROUSEL_IDS = ['summer', 'working', 'chic', 'boheme', 'casual'];
+       le tableau UNIVERS dans scripts/build.mjs (mêmes ids).
+       'preventes' est un carrousel spécial rendu dynamiquement par build.mjs
+       SI au moins un produit est coché 'Prévente' dans Airtable. Si la
+       section n'est pas rendue, getElementById('track-preventes') renverra
+       null et initCarousel sortira proprement (early return). */
+    const CAROUSEL_IDS = ['preventes', 'summer', 'working', 'chic', 'boheme', 'casual'];
 
     /* =====================================================
        CARROUSEL — logique partagée
