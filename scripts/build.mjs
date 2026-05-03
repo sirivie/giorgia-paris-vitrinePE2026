@@ -21,6 +21,8 @@ import { readFile, writeFile, mkdir, readdir, copyFile, stat } from 'node:fs/pro
 import { resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
+import matter from 'gray-matter';
+import { marked } from 'marked';
 
 /* ==========================================================================
    1. CONFIGURATION
@@ -1009,16 +1011,20 @@ function renderEditorial() {
    ========================================================================== */
 
 function renderNavLinks() {
-  return UNIVERS.map(u =>
+  const universLinks = UNIVERS.map(u =>
     `<li><a href="#${u.id}">${esc(u.label)}</a></li>`
   ).join('');
+  // Lien Tendances & Conseils Pro — section éditoriale du site
+  const tendancesLink = `<li><a href="${SITE_BASE}/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li>`;
+  return universLinks + tendancesLink;
 }
 
 function renderMobMenuLinks() {
   const links = UNIVERS.map(u =>
     `<a href="#${u.id}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
-  return links + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  const tendancesLink = `<a href="${SITE_BASE}/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a>`;
+  return links + tendancesLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
 }
 
 function renderUniversTabs() {
@@ -1381,6 +1387,420 @@ async function auditImageWeights(records) {
 }
 
 /* ==========================================================================
+   13 ter. PIPELINE ARTICLES — "Tendances & Conseils Pro"
+   ==========================================================================
+   Source : src/articles/*.md  (front-matter YAML + corps Markdown)
+            src/articles/article-template.html
+            src/articles/articles-styles.css
+            src/articles/img/<hero>.jpg
+
+   Destination :
+     - dist/tendances-conseils-pro/articles-styles.css
+     - dist/tendances-conseils-pro/<slug>/index.html  (1 par article)
+     - Hero images traitées via le pipeline d'images (JPEG + WebP, compressé)
+
+   Le matching avec le catalogue Airtable se fait par RÉFÉRENCE en priorité
+   (champ Reference / Référence) puis par NOM (avec normalisation accents/casse).
+   Si un produit cité dans l'article n'est pas trouvé : warning, l'article est
+   tout de même rendu mais sans cette card (au lieu de planter le build).
+   ========================================================================== */
+
+const ARTICLES_SRC_DIR = resolve('src/articles');
+const ARTICLES_OUTPUT_DIR = resolve(OUTPUT_DIR, 'tendances-conseils-pro');
+const ARTICLE_URL_PREFIX = '/tendances-conseils-pro';
+
+/**
+ * Construit un index des produits Airtable pour matching rapide.
+ * Retourne { byRef: Map, byName: Map } où :
+ *   - byRef indexe les produits par référence normalisée (ex. "26359")
+ *   - byName indexe par nom normalisé (sans accents, lowercase, espaces collapsés)
+ */
+function buildProductIndex(records) {
+  const byRef = new Map();
+  const byName = new Map();
+  for (const rec of records) {
+    const f = rec.fields || {};
+    const ref = resolveRef(f);
+    const nom = resolveName(f);
+    if (ref) {
+      const k = String(ref).trim().toLowerCase();
+      if (!byRef.has(k)) byRef.set(k, rec);
+    }
+    if (nom) {
+      const k = normalizeKey(nom);
+      if (!byName.has(k)) byName.set(k, rec);
+    }
+  }
+  return { byRef, byName };
+}
+
+/**
+ * Résout un produit cité dans le front-matter ({reference?, nom?}) en
+ * cherchant dans l'index Airtable. Référence prioritaire, fallback nom.
+ */
+function resolveSelectionProduct(productCite, index) {
+  const ref = productCite.reference ? String(productCite.reference).trim().toLowerCase() : '';
+  const nom = productCite.nom ? String(productCite.nom).trim() : '';
+
+  if (ref && index.byRef.has(ref)) {
+    return index.byRef.get(ref);
+  }
+  if (nom) {
+    const key = normalizeKey(nom);
+    if (index.byName.has(key)) {
+      return index.byName.get(key);
+    }
+  }
+  return null;
+}
+
+/**
+ * Card produit dans le carrousel "Sélection GIORGIA".
+ * Reproduit la structure de renderPreventeCard mais avec la classe selection-card
+ * et une badge "Pack de 6" à la place de "Prévente".
+ */
+function renderSelectionCard(fields, isPriority) {
+  const nom = resolveName(fields);
+  const ref = resolveRef(fields);
+  const desc = resolveDesc(fields);
+  const href = resolveHref(fields);
+  const photos = resolvePhotos(fields);
+
+  if (!photos.length) return '';
+
+  const mainSrc = photos[0];
+  const altBase = (nom || ref || 'Produit').trim();
+  const altMain = ref
+    ? `${altBase} — Réf. ${ref} — Sélection GIORGIA — Grossiste GIORGIA paris`
+    : `${altBase} — Sélection GIORGIA — Grossiste GIORGIA paris`;
+
+  const mainLocal = localImageFor(mainSrc);
+  const mainDisplayUrl = mainLocal ? mainLocal.jpg : mainSrc;
+
+  const loading = isPriority ? 'eager' : 'lazy';
+  const fetchprio = isPriority ? ' fetchpriority="high"' : '';
+  const dims = mainLocal ? ` width="${mainLocal.width}" height="${mainLocal.height}"` : '';
+
+  let h = '';
+  h += `<a class="selection-card" target="_blank" rel="noopener noreferrer" href="${esc(href)}">`;
+  h += `<div class="prod-media">`;
+  h += `<div class="prod-img">`;
+
+  h += `<picture>`;
+  if (mainLocal) {
+    h += `<source srcset="${esc(mainLocal.webp)}" type="image/webp">`;
+  }
+  h += `<img src="${esc(mainDisplayUrl)}" alt="${esc(altMain)}" loading="${loading}"${fetchprio} decoding="async"${dims}>`;
+  h += `</picture>`;
+
+  h += `<div class="prod-badges">`;
+  h += `<div class="prod-badge">Pack de 6</div>`;
+  h += `</div>`;
+
+  h += `<div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>`;
+  h += `</div>`; // .prod-img
+  h += `</div>`; // .prod-media
+
+  h += `<div class="prod-info">`;
+  h += `<h3 class="prod-name">${esc(nom || '(Sans nom)')}</h3>`;
+  if (ref) h += `<p class="prod-ref">Réf. ${esc(ref)}</p>`;
+  if (desc) h += `<p class="prod-desc">${esc(desc)}</p>`;
+  h += `</div>`;
+
+  h += `</a>`;
+  return h;
+}
+
+/**
+ * Section "Sélection GIORGIA" complète : bande crème/charcoal + titre signature
+ * + intro + carrousel horizontal des produits sélectionnés.
+ */
+function renderSelectionSection(article, products) {
+  if (!products.length) return ''; // Aucun produit résolu → on n'affiche pas la section
+
+  // ID unique du carrousel basé sur le slug (au cas où un jour on aurait
+  // plusieurs sélections sur la même page)
+  const carouselId = 'sel-' + article.slug;
+
+  const waMessage = `Bonjour GIORGIA paris, je souhaite des conseils sur ${article.selection_titre || 'votre sélection ' + (article.title || '')}.`;
+  const waUrl = `https://wa.me/33686729311?text=${encodeURIComponent(waMessage)}`;
+
+  let h = '';
+  h += `<section class="selection-sec" aria-labelledby="title-${carouselId}">`;
+  h += `<div class="selection-inner">`;
+
+  // En-tête
+  h += `<div class="selection-hdr">`;
+  h += `<div class="selection-hdr-text">`;
+  h += `<span class="selection-pill"><span class="selection-dot"></span>Sélection grossiste · Stock parisien</span>`;
+  h += `<h2 class="selection-title" id="title-${carouselId}">${esc(article.selection_titre || 'La sélection GIORGIA — disponible en pack de 6')}</h2>`;
+  if (article.selection_intro) {
+    h += `<p class="selection-sub">${esc(article.selection_intro)}</p>`;
+  }
+  h += `</div>`;
+  h += `<a class="selection-cta" href="${esc(waUrl)}" target="_blank" rel="noopener noreferrer">Commander sur WhatsApp →</a>`;
+  h += `</div>`;
+
+  // Carrousel
+  h += `<div class="carousel-outer" data-carousel="${esc(carouselId)}">`;
+  h += `<button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('${esc(carouselId)}',-1)">&#8592;</button>`;
+  h += `<button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('${esc(carouselId)}',1)">&#8594;</button>`;
+  h += `<div class="carousel-clip">`;
+  h += `<div class="carousel-track" id="track-${esc(carouselId)}">`;
+  h += `<div id="grid-${esc(carouselId)}" class="catalog-grid-root">`;
+
+  // Les 4 premières images en priorité de chargement
+  products.forEach((rec, i) => {
+    h += renderSelectionCard(rec.fields || {}, i < 4);
+  });
+
+  h += `</div>`; // grid
+  h += `</div>`; // track
+  h += `</div>`; // clip
+  h += `<div class="car-dots" id="dots-${esc(carouselId)}"></div>`;
+  h += `</div>`; // carousel-outer
+
+  h += `</div>`; // selection-inner
+  h += `</section>`;
+  return h;
+}
+
+/**
+ * Formate une date ISO (2026-05-04) en libellé FR ("4 mai 2026").
+ */
+function formatArticleDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    return `${d.getDate()} ${mois[d.getMonth()]} ${d.getFullYear()}`;
+  } catch {
+    return iso;
+  }
+}
+
+/**
+ * Lit un fichier .md, parse son front-matter et son corps markdown.
+ * Retourne un objet article enrichi.
+ */
+async function loadArticleFromFile(filePath) {
+  const raw = await readFile(filePath, 'utf8');
+  const parsed = matter(raw);
+  const fm = parsed.data || {};
+  const contentHtml = marked.parse(parsed.content || '', {
+    headerIds: false,
+    mangle: false,
+  });
+
+  return {
+    slug: fm.slug || '',
+    title: fm.title || '',
+    meta_title: fm.meta_title || fm.title || '',
+    meta_description: fm.meta_description || '',
+    chapo: fm.chapo || '',
+    categorie: fm.categorie || '',
+    date_publication: fm.date_publication || '',
+    auteur: fm.auteur || 'GIORGIA paris',
+    hero_image: fm.hero_image || '',
+    hero_image_alt: fm.hero_image_alt || fm.title || '',
+    selection_titre: fm.selection_titre || '',
+    selection_intro: fm.selection_intro || '',
+    selection_produits: Array.isArray(fm.selection_produits) ? fm.selection_produits : [],
+    mots_cles_seo: Array.isArray(fm.mots_cles_seo) ? fm.mots_cles_seo : [],
+    contentHtml,
+    sourcePath: filePath,
+  };
+}
+
+/**
+ * Rend une page article complète à partir du template + de l'article + des
+ * produits Airtable résolus. Écrit dist/tendances-conseils-pro/<slug>/index.html.
+ */
+async function renderArticlePage(article, productIndex, allRecords) {
+  if (!article.slug) {
+    console.warn(`  ⚠ Article ${article.sourcePath} sans slug — ignoré.`);
+    return null;
+  }
+
+  // Résolution des produits cités dans selection_produits
+  const resolvedProducts = [];
+  const missing = [];
+  for (const cite of article.selection_produits) {
+    const rec = resolveSelectionProduct(cite, productIndex);
+    if (rec) {
+      resolvedProducts.push(rec);
+    } else {
+      const label = cite.reference ? `réf. ${cite.reference}` : cite.nom || '(?)';
+      missing.push(label);
+    }
+  }
+  if (missing.length) {
+    console.warn(`  ⚠ Article "${article.slug}" : produits non trouvés dans Airtable : ${missing.join(', ')}`);
+  }
+
+  // Section sélection GIORGIA
+  const selectionHtml = renderSelectionSection(article, resolvedProducts);
+
+  // Image hero : copiée et compressée via le pipeline d'images
+  let heroImageUrl = '';
+  if (article.hero_image) {
+    const heroSrcPath = resolve(ARTICLES_SRC_DIR, 'img', article.hero_image);
+    try {
+      await stat(heroSrcPath);
+      // Génère un chemin de sortie dans dist/img/articles/ (réutilise le pipeline)
+      const heroOutDir = resolve(IMG_OUTPUT_DIR, 'articles');
+      await mkdir(heroOutDir, { recursive: true });
+      const heroOutJpg = join(heroOutDir, article.hero_image);
+      const heroOutWebp = heroOutJpg.replace(/\.(jpe?g|png)$/i, '.webp');
+
+      // Compression via sharp (mêmes paramètres que le pipeline principal)
+      const buffer = await readFile(heroSrcPath);
+      const img = sharp(buffer).rotate();
+      const meta = await img.metadata();
+      const targetWidth = meta.width && meta.width > IMG_MAX_WIDTH ? IMG_MAX_WIDTH : meta.width;
+
+      await img.clone().resize({ width: targetWidth, withoutEnlargement: true })
+        .jpeg({ quality: IMG_JPEG_QUALITY, mozjpeg: true })
+        .toFile(heroOutJpg);
+      await img.clone().resize({ width: targetWidth, withoutEnlargement: true })
+        .webp({ quality: IMG_WEBP_QUALITY })
+        .toFile(heroOutWebp);
+
+      heroImageUrl = `${SITE_BASE}/img/articles/${article.hero_image}`;
+    } catch (err) {
+      console.warn(`  ⚠ Hero image manquante pour "${article.slug}" : ${article.hero_image}`);
+      // Fallback : 1ère photo du 1er produit résolu
+      if (resolvedProducts.length) {
+        const firstPhotos = resolvePhotos(resolvedProducts[0].fields || {});
+        if (firstPhotos[0]) {
+          const local = localImageFor(firstPhotos[0]);
+          heroImageUrl = local ? local.jpg : firstPhotos[0];
+        }
+      }
+    }
+  } else if (resolvedProducts.length) {
+    // Pas de hero spécifié : fallback automatique sur la photo du 1er produit
+    const firstPhotos = resolvePhotos(resolvedProducts[0].fields || {});
+    if (firstPhotos[0]) {
+      const local = localImageFor(firstPhotos[0]);
+      heroImageUrl = local ? local.jpg : firstPhotos[0];
+    }
+  }
+
+  // URL canonique de l'article
+  const articleUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+
+  // CTA WhatsApp pré-rempli (différent du CTA catalogue : on track les leads "blog")
+  const waMessage = `Bonjour GIORGIA paris, je souhaite des conseils sur "${article.title}".`;
+  const waCtaUrl = `https://wa.me/33686729311?text=${encodeURIComponent(waMessage)}`;
+
+  // Lecture du template article
+  const templatePath = resolve('src/articles/article-template.html');
+  let html = await readFile(templatePath, 'utf8');
+
+  // Substitutions
+  const replacements = [
+    ['<!-- META_TITLE -->', esc(article.meta_title)],
+    ['<!-- META_DESCRIPTION -->', esc(article.meta_description)],
+    ['<!-- ARTICLE_URL -->', articleUrl],
+    ['<!-- ARTICLE_TITLE -->', esc(article.title)],
+    ['<!-- ARTICLE_CHAPO -->', esc(article.chapo)],
+    ['<!-- ARTICLE_CATEGORIE -->', esc(article.categorie)],
+    ['<!-- ARTICLE_DATE -->', esc(formatArticleDate(article.date_publication))],
+    ['<!-- ARTICLE_AUTEUR -->', esc(article.auteur)],
+    ['<!-- ARTICLE_CONTENT -->', article.contentHtml],
+    ['<!-- SELECTION_GIORGIA_SECTION -->', selectionHtml],
+    ['<!-- HERO_IMAGE_URL -->', heroImageUrl || ''],
+    ['<!-- WHATSAPP_CTA_URL -->', waCtaUrl],
+    ['<!-- SITE_BASE -->', SITE_BASE],
+    ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
+  ];
+
+  for (const [ph, val] of replacements) {
+    // Remplacement global pour SITE_BASE / SITE_ORIGIN / HERO_IMAGE_URL
+    // (apparaissent plusieurs fois dans le template)
+    html = html.split(ph).join(val);
+  }
+
+  // Écriture
+  const outDir = resolve(ARTICLES_OUTPUT_DIR, article.slug);
+  const outPath = resolve(outDir, 'index.html');
+  await mkdir(outDir, { recursive: true });
+  await writeFile(outPath, html, 'utf8');
+
+  return {
+    slug: article.slug,
+    title: article.title,
+    url: articleUrl,
+    productsResolved: resolvedProducts.length,
+    productsMissing: missing.length,
+  };
+}
+
+/**
+ * Pipeline complète : lit tous les .md, copie le CSS, génère les pages.
+ * Appelé depuis main() après le rendu de la home.
+ */
+async function buildArticles(allRecords) {
+  // Vérifier que le dossier source existe
+  try {
+    await stat(ARTICLES_SRC_DIR);
+  } catch {
+    console.warn('⚠ src/articles/ introuvable — section Tendances & Conseils Pro non déployée.');
+    return { deployed: false, count: 0 };
+  }
+
+  console.log('→ Pipeline articles "Tendances & Conseils Pro"…');
+
+  // 1. Copier le CSS partagé vers dist/tendances-conseils-pro/
+  const cssSrc = join(ARTICLES_SRC_DIR, 'articles-styles.css');
+  const cssDst = join(ARTICLES_OUTPUT_DIR, 'articles-styles.css');
+  try {
+    await stat(cssSrc);
+    await mkdir(ARTICLES_OUTPUT_DIR, { recursive: true });
+    await copyFile(cssSrc, cssDst);
+    console.log(`  • CSS → ${SITE_BASE}${ARTICLE_URL_PREFIX}/articles-styles.css`);
+  } catch {
+    console.warn('  ⚠ articles-styles.css manquant dans src/articles/');
+  }
+
+  // 2. Index Airtable pour matching produits
+  const productIndex = buildProductIndex(allRecords);
+
+  // 3. Lister tous les .md dans src/articles/ (hors sous-dossiers img/, etc.)
+  const allFiles = await readdir(ARTICLES_SRC_DIR);
+  const mdFiles = allFiles.filter(f => f.endsWith('.md'));
+
+  if (mdFiles.length === 0) {
+    console.warn('  ⚠ Aucun fichier .md trouvé dans src/articles/');
+    return { deployed: false, count: 0 };
+  }
+
+  console.log(`  ${mdFiles.length} article(s) à générer.`);
+
+  // 4. Générer chaque page article
+  const generatedArticles = [];
+  for (const file of mdFiles) {
+    const filePath = join(ARTICLES_SRC_DIR, file);
+    try {
+      const article = await loadArticleFromFile(filePath);
+      const result = await renderArticlePage(article, productIndex, allRecords);
+      if (result) {
+        generatedArticles.push(result);
+        console.log(`  • ${file} → ${SITE_BASE}${ARTICLE_URL_PREFIX}/${result.slug}/ (${result.productsResolved} produits)`);
+      }
+    } catch (err) {
+      console.error(`  ✖ Échec du rendu de ${file} :`, err.message);
+    }
+  }
+
+  return { deployed: true, count: generatedArticles.length, articles: generatedArticles };
+}
+
+
+
+/* ==========================================================================
    14. PIPELINE PRINCIPAL
    ========================================================================== */
 
@@ -1545,6 +1965,12 @@ async function main() {
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
   await copyLegalPages();
+
+  // Pipeline articles "Tendances & Conseils Pro"
+  const articlesResult = await buildArticles(sortedRecords);
+  if (articlesResult.deployed) {
+    console.log(`✓ ${articlesResult.count} article(s) "Tendances & Conseils Pro" généré(s).`);
+  }
 
   await writeFile(
     resolve(OUTPUT_DIR, 'build-info.json'),
