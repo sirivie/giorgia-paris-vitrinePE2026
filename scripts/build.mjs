@@ -35,10 +35,40 @@ const TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || 'Catalogue';
 // vide : le site sera servi à l'URL par défaut <user>.github.io/<repo>/.
 const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || '';
 
-// Variables fournies systématiquement par le workflow (REPO_NAME, REPO_OWNER).
-// On les utilise uniquement quand CUSTOM_DOMAIN est vide → mode qualif.
-const REPO_NAME  = process.env.REPO_NAME  || '';
-const REPO_OWNER = process.env.REPO_OWNER || '';
+// =============================================================
+//  AUTO-DÉTECTION REPO_NAME / REPO_OWNER
+//  -----------------------------------------------------------
+//  Priorité 1 : variables explicites du workflow (REPO_NAME / REPO_OWNER).
+//  Priorité 2 : variables natives GitHub Actions, TOUJOURS définies dans
+//               un run Actions :
+//                 - GITHUB_REPOSITORY        = "owner/repo"
+//                 - GITHUB_REPOSITORY_OWNER  = "owner"
+//  Cette redondance évite que le site casse si le workflow oublie d'injecter
+//  REPO_NAME / REPO_OWNER (cas observé : SITE_BASE = '' → toutes les images
+//  pointent vers /img/... au lieu de /<repo>/img/... → 404 partout).
+// =============================================================
+function deriveRepoInfo() {
+  const explicitName  = process.env.REPO_NAME  || '';
+  const explicitOwner = process.env.REPO_OWNER || '';
+
+  // GITHUB_REPOSITORY a la forme "owner/repo"
+  const ghRepo = process.env.GITHUB_REPOSITORY || '';
+  const ghOwner = process.env.GITHUB_REPOSITORY_OWNER || '';
+
+  let name = explicitName;
+  let owner = explicitOwner;
+
+  if (!name && ghRepo.includes('/')) {
+    name = ghRepo.split('/').slice(1).join('/');
+  }
+  if (!owner) {
+    owner = ghOwner || (ghRepo.split('/')[0] || '');
+  }
+
+  return { name, owner };
+}
+
+const { name: REPO_NAME, owner: REPO_OWNER } = deriveRepoInfo();
 
 // =============================================================
 //  DÉTECTION D'ENVIRONNEMENT — basée UNIQUEMENT sur CUSTOM_DOMAIN.
@@ -62,6 +92,16 @@ const SITE_ORIGIN = IS_PROD
 //   • Prod   → ''
 //   • Qualif → '/<REPO_NAME>'  (ex. '/giorgia-paris-vitrinePE2026')
 const SITE_BASE = IS_PROD ? '' : (REPO_NAME ? `/${REPO_NAME}` : '');
+
+// Garde-fou : si on est en qualif sans REPO_NAME détecté, on échoue tôt
+// avec un message clair plutôt que de produire un build cassé silencieux.
+if (!IS_PROD && !REPO_NAME) {
+  console.warn(
+    '⚠ ATTENTION : mode qualif sans REPO_NAME détecté.\n' +
+    '  Les chemins d\'images vont être servis depuis la racine, ce qui cassera tout en GitHub Pages.\n' +
+    '  Vérifie que le job tourne bien dans GitHub Actions (GITHUB_REPOSITORY est-il défini ?)'
+  );
+}
 
 const TEMPLATE_PATH = resolve('src/template.html');
 const OUTPUT_DIR = resolve('dist');
@@ -108,7 +148,7 @@ const UNIVERS = [
     label: 'Summer Vibes',
     sub: 'Légèreté, couleur & féminité solaire',
     desc: 'Des pièces qui capturent l\u2019essence de l\u2019été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente.',
-    insertBannerAfter: true,
+    insertWaCatalogueAfter: true, // Encart "Tous nos modèles..." (WhatsApp) après Summer Vibes
   },
   {
     id: 'working',
@@ -117,6 +157,7 @@ const UNIVERS = [
     label: 'Urban Woman',
     sub: 'Élégance, confiance & polyvalence au quotidien.',
     desc: 'Une sélection conçue pour la femme active contemporaine. Du bureau au week-end, découvrez des basiques surélevés et des pièces fluides qui s\u2019adaptent à toutes ses vies.',
+    insertBannerAfter: true, // Encart "Vêtir les boutiques..." (doré) après Urban Woman
   },
   {
     id: 'chic',
@@ -1347,7 +1388,9 @@ async function main() {
   const t0 = Date.now();
 
   console.log(`→ Airtable : ${BASE_ID} / ${TABLE_NAME}`);
+  console.log(`→ Mode : ${IS_PROD ? 'PROD' : 'QUALIF'}`);
   console.log(`→ Site origin : ${SITE_ORIGIN}`);
+  console.log(`→ Site base   : '${SITE_BASE}' ${SITE_BASE ? '' : '(racine)'}`);
   console.log('→ Récupération des enregistrements…');
   const records = await fetchAllRecords();
   console.log(`✓ ${records.length} produits récupérés.`);
@@ -1414,19 +1457,20 @@ async function main() {
   console.log('→ Rendu du HTML…');
   // Section Préventes (en tête de home, après le hero)
   const preventesHtml = renderPreventeSection(preventeRecords);
-  // Encart WhatsApp catalogue étendu (au milieu de la home)
+  // Encart WhatsApp catalogue étendu (placement piloté par le flag
+  // insertWaCatalogueAfter sur l'univers concerné — actuellement Summer Vibes).
   const waCatalogueHtml = renderWhatsAppCatalogue();
 
   let sectionsHtml = '';
-  for (let i = 0; i < UNIVERS.length; i++) {
-    const u = UNIVERS[i];
+  for (const u of UNIVERS) {
     const recs = byUnivers.get(u.id) || [];
     sectionsHtml += renderUniversSection(u, recs);
-    if (u.insertBannerAfter) sectionsHtml += renderFeatBanner();
-    if (u.insertEditorialAfter) sectionsHtml += renderEditorial();
-    // Encart WhatsApp inséré au milieu de la liste des univers (après le 2e univers,
-    // soit après "Urban Woman", pour une visibilité maximale dans le scroll).
-    if (i === 1) sectionsHtml += waCatalogueHtml;
+    // Les flags sont évalués dans cet ordre. Un même univers pourrait
+    // (en théorie) avoir plusieurs encarts derrière lui ; en pratique
+    // un seul flag est posé par univers pour rester lisible.
+    if (u.insertWaCatalogueAfter) sectionsHtml += waCatalogueHtml;
+    if (u.insertBannerAfter)      sectionsHtml += renderFeatBanner();
+    if (u.insertEditorialAfter)   sectionsHtml += renderEditorial();
   }
 
   // JSON-LD
