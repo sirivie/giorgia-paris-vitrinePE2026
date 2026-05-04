@@ -50,5 +50,3 @@ L'autre point à garder en tête : la **règle des deux échelles**. Proposez sy
 ## Pour aller plus loin
 
 Notre conseil : sécurisez aujourd'hui votre pièce phare et un ou deux compléments, observez la rotation pendant deux à trois semaines, puis ajustez avec un réassort ciblé. C'est le rythme qui fonctionne le mieux pour une boutique multimarque qui veut suivre les tendances sans surstocker.
-
-Nous publierons prochainement un article dédié au merchandising de la tendance pois — comment construire votre rayon, quel ratio dans l'assortiment, quelle hiérarchie visuelle en vitrine.
