@@ -30,13 +30,18 @@
   <meta name="twitter:description" content="Les pois reviennent en force pour la saison printemps été 2026. Décryptage de la tendance et sélection prête à commander pour votre boutique multimarque.">
   <meta name="twitter:image" content="/giorgia-paris-vitrinePE2026/img/articles/pois-printemps-ete-2026-hero.jpg">
 
-  <!-- ========== JSON-LD (Article + BreadcrumbList) — MVP minimal commenté
-       Sera ajouté en MVP complet. -->
-
   <!-- ========== POLICES ========== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
+    @font-face {
+      font-family: 'Century Gothic';
+      src: local('Century Gothic'), local('CenturyGothic');
+      font-display: swap;
+    }
+  </style>
 
   <!-- ========== CSS PARTAGÉ ARTICLES ========== -->
   <link rel="stylesheet" href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/articles-styles.css">
@@ -89,12 +94,6 @@
 
       <p class="article-chapo">Pas un retour timide, pas un clin d&#39;œil rétro discret — un vrai retour assumé, recoloré, transformé. Pour la saison printemps été 2026, les pois s&#39;imposent comme une pièce d&#39;appel à intégrer dès maintenant dans votre assortiment.</p>
 
-    </article>
-
-    <!-- ========== BLOC SÉLECTION GIORGIA ========== -->
-    <!-- SELECTION_GIORGIA_SECTION -->
-
-    <article class="article-container">
       <div class="article-prose">
         <h2>Pourquoi les pois reviennent en force cette saison</h2>
 <p>L&#39;imprimé à pois traverse la mode féminine depuis les années 1840. Ce qui change pour la saison printemps été 2026, c&#39;est l&#39;ampleur de son retour et la façon dont les créateurs le réinterprètent. Plusieurs marques mainstream l&#39;ont placé au cœur de leurs collections, les célébrités l&#39;ont massivement adopté, et les rédactions mode notent une rupture nette avec l&#39;imagerie rétro pin-up : le polka dot devient un manifeste graphique, avec des duos chromatiques inattendus — chocolat-jaune, bleu roi-rose poudré, mandarine-ivoire, pistache-lilas — qui éloignent définitivement le pois du seul couple noir et blanc.</p>
@@ -125,6 +124,99 @@
     </section>
   </main>
 
+  <!-- ========== STICKY CONTACT — IDENTIQUE À LA HOMEPAGE ========== -->
+  <div id="sticky-contact">
+    <div id="sticky-panel">
+      <div class="sp-inner">
+        <button class="sp-close" onclick="toggleSticky()">✕</button>
+        <div class="sp-logo logo">
+          <span class="logo-g">GIORGIA</span>
+          <span class="logo-p">paris</span>
+        </div>
+        <p class="sp-title">Contactez notre équipe B2B</p>
+
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Commander sur WhatsApp</span>
+            <span class="sp-val">+33 6 86 72 93 11</span>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sp-row" href="https://instagram.com/giorgia.auber" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-sticky-art" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-sticky-art)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Instagram</span>
+            <span class="sp-val">@giorgia.auber</span>
+          </div>
+        </a>
+
+        <!-- TikTok -->
+        <a class="sp-row" href="https://tiktok.com/@giorgia.paris56" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">TikTok</span>
+            <span class="sp-val">@giorgia.paris56</span>
+          </div>
+        </a>
+
+        <!-- Showroom -->
+        <a class="sp-row" href="/giorgia-paris-vitrinePE2026/#contact">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">NOTRE SHOWROOM</span>
+            <span class="sp-val">70 rue de la Haie Coq, Aubervilliers</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
+      Contact
+    </div>
+  </div>
+
   <!-- ========== FOOTER ========== -->
   <footer class="article-footer">
     <div class="article-footer-inner">
@@ -153,14 +245,14 @@
     </div>
   </footer>
 
-  <!-- ========== STICKY CONTACT TAB ========== -->
-  <aside class="sticky-contact">
-    <a class="sticky-contact-tab" href="/giorgia-paris-vitrinePE2026/#contact" title="Nous contacter">Nous contacter</a>
-  </aside>
-
-  <!-- ========== JS CARROUSEL (minimal) ========== -->
+  <!-- ========== JS ========== -->
   <script>
-    /* Réutilise le même pattern que la home : carMove(carouselId, direction) */
+    /* Toggle du sticky contact (identique à la home) */
+    function toggleSticky() {
+      document.getElementById('sticky-contact').classList.toggle('open');
+    }
+
+    /* Carrousel "Sélection GIORGIA" */
     (function() {
       const tracks = document.querySelectorAll('[data-carousel] .carousel-track');
       const states = new Map();
@@ -210,7 +302,6 @@
         }
       }
 
-      // Recalcule au resize
       window.addEventListener('resize', () => {
         states.forEach((_, id) => renderDots(id));
       });
