@@ -1589,21 +1589,39 @@ function formatArticleDate(iso) {
  */
 async function loadArticleFromFile(filePath) {
   const raw = await readFile(filePath, 'utf8');
+  const fileName = filePath.split('/').pop();
+  
+  console.log(`\n  📄 Parsing ${fileName}…`);
+  console.log(`     Taille du fichier brut : ${raw.length} chars`);
+  
   const parsed = matter(raw);
   const fm = parsed.data || {};
+  
+  console.log(`     ✓ Front-matter keys détectées : ${Object.keys(fm).join(', ')}`);
+  console.log(`     ✓ Contenu markdown brut : ${parsed.content.length} chars`);
+  
   const contentHtml = marked.parse(parsed.content || '', {
     headerIds: false,
     mangle: false,
   });
+  
+  console.log(`     ✓ HTML rendu : ${contentHtml.length} chars`);
+  if (contentHtml.length < 200) {
+    console.log(`     ⚠️  HTML très court (preview) : ${contentHtml.slice(0, 100)}`);
+  } else {
+    console.log(`     ✓ HTML preview : ${contentHtml.slice(0, 150)}...`);
+  }
 
   // Auto-génération du slug à partir du nom du fichier si absent
   let slug = fm.slug || '';
   if (!slug) {
-    const fileName = filePath.split('/').pop(); // ex: "pois-printemps-ete-2026.md"
-    slug = fileName.replace(/\.md$/i, ''); // ex: "pois-printemps-ete-2026"
+    slug = fileName.replace(/\.md$/i, '');
+    console.log(`     ℹ️  Slug auto-généré depuis le nom du fichier : ${slug}`);
+  } else {
+    console.log(`     ✓ Slug du front-matter : ${slug}`);
   }
 
-  return {
+  const article = {
     slug,
     title: fm.title || '',
     meta_title: fm.meta_title || fm.title || '',
@@ -1621,6 +1639,11 @@ async function loadArticleFromFile(filePath) {
     contentHtml,
     sourcePath: filePath,
   };
+  
+  console.log(`     ✓ Article chargé : titre="${article.title.slice(0, 50)}..."`);
+  console.log(`     ✓ Selection produits : ${article.selection_produits.length} items`);
+  
+  return article;
 }
 
 /**
@@ -1632,6 +1655,8 @@ async function renderArticlePage(article, productIndex, allRecords) {
     console.warn(`  ⚠ Article ${article.sourcePath} sans slug — ignoré.`);
     return null;
   }
+
+  console.log(`\n  🎨 Rendu de la page article "${article.slug}"…`);
 
   // Résolution des produits cités dans selection_produits
   const resolvedProducts = [];
@@ -1646,11 +1671,13 @@ async function renderArticlePage(article, productIndex, allRecords) {
     }
   }
   if (missing.length) {
-    console.warn(`  ⚠ Article "${article.slug}" : produits non trouvés dans Airtable : ${missing.join(', ')}`);
+    console.warn(`     ⚠ Produits non trouvés dans Airtable : ${missing.join(', ')}`);
   }
+  console.log(`     ✓ Produits résolus : ${resolvedProducts.length}/${article.selection_produits.length}`);
 
   // Section sélection GIORGIA
   const selectionHtml = renderSelectionSection(article, resolvedProducts);
+  console.log(`     ✓ Section sélection rendue : ${selectionHtml.length} chars`);
 
   // Image hero : copiée et compressée via le pipeline d'images
   let heroImageUrl = '';
@@ -1658,6 +1685,7 @@ async function renderArticlePage(article, productIndex, allRecords) {
     const heroSrcPath = resolve(ARTICLES_SRC_DIR, 'img', article.hero_image);
     try {
       await stat(heroSrcPath);
+      console.log(`     ✓ Image hero trouvée : ${article.hero_image}`);
       // Génère un chemin de sortie dans dist/img/articles/ (réutilise le pipeline)
       const heroOutDir = resolve(IMG_OUTPUT_DIR, 'articles');
       await mkdir(heroOutDir, { recursive: true });
@@ -1678,14 +1706,16 @@ async function renderArticlePage(article, productIndex, allRecords) {
         .toFile(heroOutWebp);
 
       heroImageUrl = `${SITE_BASE}/img/articles/${article.hero_image}`;
+      console.log(`     ✓ Hero compressée et servie depuis : ${heroImageUrl}`);
     } catch (err) {
-      console.warn(`  ⚠ Hero image manquante pour "${article.slug}" : ${article.hero_image}`);
+      console.warn(`     ⚠ Hero image manquante : ${article.hero_image} (${err.message})`);
       // Fallback : 1ère photo du 1er produit résolu
       if (resolvedProducts.length) {
         const firstPhotos = resolvePhotos(resolvedProducts[0].fields || {});
         if (firstPhotos[0]) {
           const local = localImageFor(firstPhotos[0]);
           heroImageUrl = local ? local.jpg : firstPhotos[0];
+          console.log(`     ℹ️  Fallback : photo du 1er produit`);
         }
       }
     }
@@ -1695,6 +1725,7 @@ async function renderArticlePage(article, productIndex, allRecords) {
     if (firstPhotos[0]) {
       const local = localImageFor(firstPhotos[0]);
       heroImageUrl = local ? local.jpg : firstPhotos[0];
+      console.log(`     ℹ️  Pas de hero custom, fallback : photo du 1er produit`);
     }
   }
 
@@ -1708,6 +1739,8 @@ async function renderArticlePage(article, productIndex, allRecords) {
   // Lecture du template article
   const templatePath = resolve('src/articles/article-template.html');
   let html = await readFile(templatePath, 'utf8');
+  
+  console.log(`     ✓ Template HTML chargé : ${html.length} chars`);
 
   // Substitutions
   const replacements = [
@@ -1727,6 +1760,13 @@ async function renderArticlePage(article, productIndex, allRecords) {
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
   ];
 
+  console.log(`     ✓ Substitutions à faire : ${replacements.length}`);
+  console.log(`     ✓ Contenu article HTML à injecter : ${article.contentHtml.length} chars`);
+  if (article.contentHtml.length < 200) {
+    console.log(`     ⚠️  Article HTML très court (${article.contentHtml.length} chars)`);
+    console.log(`        Preview : ${article.contentHtml.slice(0, 300)}`);
+  }
+
   for (const [ph, val] of replacements) {
     // Remplacement global pour SITE_BASE / SITE_ORIGIN / HERO_IMAGE_URL
     // (apparaissent plusieurs fois dans le template)
@@ -1738,6 +1778,8 @@ async function renderArticlePage(article, productIndex, allRecords) {
   const outPath = resolve(outDir, 'index.html');
   await mkdir(outDir, { recursive: true });
   await writeFile(outPath, html, 'utf8');
+
+  console.log(`     ✓ Page écrite : ${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/ (${html.length} bytes)`);
 
   return {
     slug: article.slug,
