@@ -47,6 +47,8 @@ Plutôt que d'acheter "des pois" en bloc, identifiez les quatre lectures qui von
 
 L'autre point à garder en tête : la **règle des deux échelles**. Proposez systématiquement un maxi pois et un micro pois dans votre sélection. Vous adressez ainsi à la fois la cliente qui veut "que ça se voie" et la cliente qui veut une touche subtile — deux profils qui se croisent sur la même journée dans la même boutique.
 
+<!-- SELECTION_GIORGIA_SECTION -->
+
 ## Pour aller plus loin
 
 Notre conseil : sécurisez aujourd'hui votre pièce phare et un ou deux compléments, observez la rotation pendant deux à trois semaines, puis ajustez avec un réassort ciblé. C'est le rythme qui fonctionne le mieux pour une boutique multimarque qui veut suivre les tendances sans surstocker.
