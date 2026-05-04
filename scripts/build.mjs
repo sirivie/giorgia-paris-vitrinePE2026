@@ -1583,6 +1583,9 @@ function formatArticleDate(iso) {
 /**
  * Lit un fichier .md, parse son front-matter et son corps markdown.
  * Retourne un objet article enrichi.
+ * 
+ * Si le slug n'est pas défini dans le front-matter, il est auto-généré
+ * à partir du nom du fichier (ex: pois-printemps-ete-2026.md → slug pois-printemps-ete-2026)
  */
 async function loadArticleFromFile(filePath) {
   const raw = await readFile(filePath, 'utf8');
@@ -1593,8 +1596,15 @@ async function loadArticleFromFile(filePath) {
     mangle: false,
   });
 
+  // Auto-génération du slug à partir du nom du fichier si absent
+  let slug = fm.slug || '';
+  if (!slug) {
+    const fileName = filePath.split('/').pop(); // ex: "pois-printemps-ete-2026.md"
+    slug = fileName.replace(/\.md$/i, ''); // ex: "pois-printemps-ete-2026"
+  }
+
   return {
-    slug: fm.slug || '',
+    slug,
     title: fm.title || '',
     meta_title: fm.meta_title || fm.title || '',
     meta_description: fm.meta_description || '',
