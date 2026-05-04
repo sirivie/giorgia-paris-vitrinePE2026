@@ -266,12 +266,18 @@ a { color: inherit; }
 
 /* ==========================================================================
    BLOC SÉLECTION GIORGIA — clone du pattern Préventes, en ton charcoal/gold
+   IMPORTANT : cette section sort du flux du contenu prose pour prendre 100% de largeur
    ========================================================================== */
 .selection-sec {
   background: linear-gradient(180deg, var(--sel-bg) 0%, var(--sel-bg-dk) 100%);
   padding: 4rem 0 4.5rem;
-  margin-top: 3rem;
+  margin-top: 0;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
 }
 .selection-inner {
   max-width: 1300px;
@@ -304,13 +310,13 @@ a { color: inherit; }
   font-weight: 600;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
   line-height: 1.2;
-  color: var(--sel-text);
+  color: var(--white);
   margin-bottom: .6rem;
 }
 .selection-sub {
   font-size: .92rem;
   line-height: 1.6;
-  color: var(--sel-text-mut);
+  color: var(--cream);
   max-width: 720px;
 }
 .selection-cta {
@@ -450,6 +456,49 @@ a { color: inherit; }
   font-size: .85rem;
   line-height: 1.5;
   color: var(--charcoal);
+}
+
+/* ==========================================================================
+   STICKY CONTACT TAB (à droite de l'écran)
+   ========================================================================== */
+.sticky-contact {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.sticky-contact-tab {
+  background: var(--gold);
+  color: var(--black);
+  padding: 1.2rem 0.8rem;
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transition: background 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  min-height: 120px;
+}
+
+.sticky-contact-tab:hover {
+  background: var(--gold-lt);
+}
+
+@media (max-width: 1200px) {
+  .sticky-contact {
+    display: none;
+  }
 }
 
 /* ==========================================================================
