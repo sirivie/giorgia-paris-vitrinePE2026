@@ -1600,7 +1600,11 @@ async function loadArticleFromFile(filePath) {
   console.log(`     ✓ Front-matter keys détectées : ${Object.keys(fm).join(', ')}`);
   console.log(`     ✓ Contenu markdown brut : ${parsed.content.length} chars`);
   
-  const contentHtml = marked.parse(parsed.content || '', {
+  // NOTE : le carrousel sera injecté dans renderArticlePage après la résolution des produits
+  // Ici on stocke juste le contenu markdown tel quel
+  let markdownContent = parsed.content || '';
+  
+  const contentHtml = marked.parse(markdownContent, {
     headerIds: false,
     mangle: false,
   });
@@ -1742,6 +1746,22 @@ async function renderArticlePage(article, productIndex, allRecords) {
   
   console.log(`     ✓ Template HTML chargé : ${html.length} chars`);
 
+  // =========================================================================
+  //  INJECTION DU CARROUSEL DANS LE CONTENU HTML
+  // =========================================================================
+  //  Le carrousel remplace le placeholder <!-- SELECTION_GIORGIA_SECTION -->
+  //  qui a été placé par l'utilisateur dans le markdown de l'article.
+  //  Vu que marked() a déjà rendu le markdown en HTML, les balises HTML du
+  //  carrousel s'injectent directement (pas de double-échappement).
+  // =========================================================================
+  let contentHtml = article.contentHtml;
+  if (contentHtml.includes('<!-- SELECTION_GIORGIA_SECTION -->')) {
+    contentHtml = contentHtml.replace('<!-- SELECTION_GIORGIA_SECTION -->', selectionHtml);
+    console.log(`     ✓ Carrousel injecté dans le contenu HTML`);
+  } else if (selectionHtml.length > 0) {
+    console.log(`     ⚠ Placeholder <!-- SELECTION_GIORGIA_SECTION --> non trouvé dans le markdown`);
+  }
+
   // Substitutions
   const replacements = [
     ['<!-- META_TITLE -->', esc(article.meta_title)],
@@ -1752,8 +1772,7 @@ async function renderArticlePage(article, productIndex, allRecords) {
     ['<!-- ARTICLE_CATEGORIE -->', esc(article.categorie)],
     ['<!-- ARTICLE_DATE -->', esc(formatArticleDate(article.date_publication))],
     ['<!-- ARTICLE_AUTEUR -->', esc(article.auteur)],
-    ['<!-- ARTICLE_CONTENT -->', article.contentHtml],
-    ['<!-- SELECTION_GIORGIA_SECTION -->', selectionHtml],
+    ['<!-- ARTICLE_CONTENT -->', contentHtml],  // contentHtml avec le carrousel injecté
     ['<!-- HERO_IMAGE_URL -->', heroImageUrl || ''],
     ['<!-- WHATSAPP_CTA_URL -->', waCtaUrl],
     ['<!-- SITE_BASE -->', SITE_BASE],
@@ -1761,10 +1780,10 @@ async function renderArticlePage(article, productIndex, allRecords) {
   ];
 
   console.log(`     ✓ Substitutions à faire : ${replacements.length}`);
-  console.log(`     ✓ Contenu article HTML à injecter : ${article.contentHtml.length} chars`);
-  if (article.contentHtml.length < 200) {
-    console.log(`     ⚠️  Article HTML très court (${article.contentHtml.length} chars)`);
-    console.log(`        Preview : ${article.contentHtml.slice(0, 300)}`);
+  console.log(`     ✓ Contenu article HTML final à injecter : ${contentHtml.length} chars`);
+  if (contentHtml.length < 200) {
+    console.log(`     ⚠️  Article HTML très court (${contentHtml.length} chars)`);
+    console.log(`        Preview : ${contentHtml.slice(0, 300)}`);
   }
 
   for (const [ph, val] of replacements) {
