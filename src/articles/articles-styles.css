@@ -104,9 +104,36 @@ a { color: inherit; }
   padding: .55rem 1.4rem; transition: background .3s;
 }
 .article-nav .btn-nav:hover { background: var(--gold); }
+
+/* Hamburger menu icon — visible sur mobile */
+.hamburger {
+  display: none; flex-direction: column; gap: 4.5px;
+  cursor: pointer; padding: .3rem;
+}
+.hamburger span { width: 20px; height: 1.5px; background: var(--black); display: block; }
+
 @media(max-width:900px) {
   .article-nav { padding: 1rem 1.5rem; }
   .article-nav .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+
+/* Mobile menu — plein écran quand ouvert */
+#mob-menu {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: var(--black); flex-direction: column;
+  align-items: center; justify-content: center; gap: 2rem;
+}
+#mob-menu.open { display: flex; }
+#mob-menu a {
+  font-family: var(--ff-display); font-size: 2rem; font-weight: 300;
+  color: var(--white); text-decoration: none; letter-spacing: .05em;
+}
+#mob-menu a:hover { color: var(--gold); }
+.mob-close {
+  position: absolute; top: 1.5rem; right: 2rem;
+  background: none; border: none; color: var(--white);
+  font-size: 1.6rem; cursor: pointer;
 }
 
 /* ==========================================================================
