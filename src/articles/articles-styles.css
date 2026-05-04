@@ -109,13 +109,15 @@ a { color: inherit; }
 .hamburger {
   display: none; flex-direction: column; gap: 4.5px;
   cursor: pointer; padding: .3rem;
+  margin-left: 1rem;
 }
 .hamburger span { width: 20px; height: 1.5px; background: var(--black); display: block; }
 
 @media(max-width:900px) {
-  .article-nav { padding: 1rem 1.5rem; }
+  .article-nav { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
   .article-nav .nav-links { display: none; }
   .hamburger { display: flex; }
+  .article-nav .nav-right { margin-left: auto; }
 }
 
 /* Mobile menu — plein écran quand ouvert */
@@ -128,6 +130,9 @@ a { color: inherit; }
 #mob-menu a {
   font-family: var(--ff-display); font-size: 2rem; font-weight: 300;
   color: var(--white); text-decoration: none; letter-spacing: .05em;
+  text-align: center;
+  white-space: normal;
+  max-width: 90%;
 }
 #mob-menu a:hover { color: var(--gold); }
 .mob-close {
