@@ -48,6 +48,15 @@
 </head>
 <body>
 
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <a href="<!-- SITE_BASE -->/">Catalogue</a>
+    <a href="<!-- SITE_BASE -->/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a>
+    <a href="<!-- SITE_BASE -->/#contact">Contact</a>
+    <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored" style="color:var(--gold)">Commander</a>
+  </div>
+
   <!-- ========== NAVBAR ========== -->
   <nav class="article-nav" aria-label="Navigation principale">
     <a class="logo" href="<!-- SITE_BASE -->/" aria-label="GIORGIA paris — Accueil">
@@ -61,6 +70,7 @@
     </ul>
     <div class="nav-right">
       <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
     </div>
   </nav>
 
@@ -236,6 +246,16 @@
     /* Toggle du sticky contact (identique à la home) */
     function toggleSticky() {
       document.getElementById('sticky-contact').classList.toggle('open');
+    }
+
+    /* Menu burger mobile */
+    function openMob() {
+      document.getElementById('mob-menu').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMob() {
+      document.getElementById('mob-menu').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
     /* Carrousel "Sélection GIORGIA" */
