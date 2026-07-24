@@ -1,10 +1,6 @@
 name: Build & Deploy
 
 on:
-  # Rebuild automatique toutes les 2 heures (heure UTC).
-  schedule:
-    - cron: '0 */2 * * *'
-
   # Bouton "Run workflow" dans l'onglet Actions de GitHub — pour forcer
   # un rebuild immédiat après une modif dans Airtable.
   workflow_dispatch: {}
