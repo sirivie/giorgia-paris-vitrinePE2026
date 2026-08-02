@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ========== SEO — TITRE & DESCRIPTION ========== -->
+  <title>Tendances & Conseils Pro — GIORGIA paris</title>
+  <meta name="description" content="Tendances saisonnières, conseils assortiment et articles mode pour les boutiques indépendantes. Guides éditoriaux par GIORGIA paris, grossiste prêt-à-porter féminin.">
+
+  <!-- ========== SEO — CANONICAL & LANGUE ========== -->
+  <link rel="canonical" href="<!-- ARTICLE_HUB_URL -->">
+  <link rel="alternate" hreflang="fr" href="<!-- ARTICLE_HUB_URL -->">
+  <link rel="alternate" hreflang="fr-FR" href="<!-- ARTICLE_HUB_URL -->">
+  <link rel="alternate" hreflang="x-default" href="<!-- ARTICLE_HUB_URL -->">
+
+  <!-- ========== FAVICON ========== -->
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F6F1EA"/><text x="50" y="70" font-family="Georgia,serif" font-weight="700" font-size="64" text-anchor="middle" fill="%23C5A36A">G</text></svg>'>
+
+  <!-- ========== OPEN GRAPH & TWITTER CARD ========== -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:url" content="<!-- ARTICLE_HUB_URL -->">
+  <meta property="og:title" content="Tendances & Conseils Pro — GIORGIA paris">
+  <meta property="og:description" content="Guides éditoriaux, tendances mode, conseils assortiment pour boutiques indépendantes.">
+  <meta property="og:image" content="<!-- SITE_BASE -->/img/og-articles-hub.jpg">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tendances & Conseils Pro — GIORGIA paris">
+  <meta name="twitter:description" content="Guides éditoriaux, tendances mode, conseils assortiment pour boutiques indépendantes.">
+
+  <!-- ========== POLICES ========== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Century Gothic';
+      src: local('Century Gothic'), local('CenturyGothic');
+      font-display: swap;
+    }
+  </style>
+
+  <!-- ========== CSS PARTAGÉ ARTICLES ========== -->
+  <link rel="stylesheet" href="<!-- SITE_BASE -->/tendances-conseils-pro/articles-styles.css">
+
+  <!-- ========== CSS SPÉCIFIQUE HUB ========== -->
+  <style>
+    /* ===== HUB HERO COMPACT ===== */
+    .hub-hero {
+      position: relative;
+      height: 28vh;
+      min-height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      margin-top: 60px; /* fixed navbar */
+      background: linear-gradient(135deg, var(--charcoal), var(--black));
+      overflow: hidden;
+    }
+    .hub-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 800px 300px at 50% 0%, rgba(197,163,106,.12) 0%, transparent 70%);
+    }
+    .hub-hero-content {
+      position: relative; z-index: 2;
+      color: var(--cream);
+      padding: 0 2rem;
+    }
+    .hub-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 600;
+      margin-bottom: .5rem;
+      line-height: 1.2;
+    }
+    .hub-hero p {
+      font-size: clamp(.85rem, 2vw, 1rem);
+      color: var(--gold-lt);
+      letter-spacing: .08em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ===== HUB CONTAINER ===== */
+    .hub-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* ===== FILTERS & CONTROLS ===== */
+    .hub-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .hub-filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hub-filter-btn {
+      padding: .6rem 1.2rem;
+      border: 1.5px solid var(--taupe);
+      background: transparent;
+      color: var(--black);
+      font-family: var(--ff-body);
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all .3s cubic-bezier(.25,.46,.45,.94);
+    }
+    .hub-filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .hub-filter-btn.is-active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--white);
+    }
+    .hub-count {
+      font-size: .8rem;
+      color: var(--taupe);
+      letter-spacing: .06em;
+    }
+
+    /* ===== ARTICLE GRID ===== */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+    @media (max-width: 1200px) {
+      .articles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* ===== ARTICLE CARD ===== */
+    .article-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: all .3s cubic-bezier(.25,.46,.45,.94);
+    }
+    .article-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      transform: translateY(-4px);
+    }
+
+    .article-card-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--cream-dark);
+      overflow: hidden;
+    }
+    .article-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .article-card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-card-category {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: .5rem;
+    }
+
+    .article-card-title {
+      font-family: var(--ff-display);
+      font-size: clamp(.95rem, 2vw, 1.25rem);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: .75rem;
+      color: var(--black);
+    }
+
+    .article-card-excerpt {
+      font-size: .85rem;
+      line-height: 1.6;
+      color: var(--taupe);
+      margin-bottom: 1rem;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .article-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .7rem;
+      color: var(--taupe);
+      letter-spacing: .04em;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .article-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: color .3s;
+    }
+    .article-card:hover .article-card-cta {
+      color: var(--black);
+    }
+
+    /* ===== PAGINATION ===== */
+    .hub-pagination {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .hub-page-btn {
+      padding: .6rem 1rem;
+      border: 1px solid var(--taupe);
+      background: transparent;
+      color: var(--black);
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+    .hub-page-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .hub-page-btn.is-active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--white);
+    }
+    .hub-page-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .hub-empty {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--taupe);
+    }
+    .hub-empty p {
+      font-size: .9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hub-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      .hub-filters {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <a href="<!-- SITE_BASE -->/">Catalogue</a>
+    <a href="<!-- SITE_BASE -->/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a>
+    <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
+    <a href="<!-- SITE_BASE -->/#contact">Contact</a>
+    <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored" style="color:var(--gold)">Commander</a>
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="article-nav" aria-label="Navigation principale">
+    <a class="logo" href="<!-- SITE_BASE -->/" aria-label="GIORGIA paris — Accueil">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="<!-- SITE_BASE -->/">Catalogue</a></li>
+      <li><a href="<!-- SITE_BASE -->/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a></li>
+      <li><a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a></li>
+      <li><a href="<!-- SITE_BASE -->/#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+    </div>
+    <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- ========== HERO COMPACT ========== -->
+  <header class="hub-hero">
+    <div class="hub-hero-content">
+      <h1>Tendances &amp; Conseils Pro</h1>
+      <p>Guides éditoriaux, décryptages de tendances et stratégies d'assortiment pour vos clientes</p>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main>
+    <div class="hub-container">
+
+      <!-- Breadcrumb -->
+      <nav class="article-breadcrumb" aria-label="Fil d'Ariane" style="margin-bottom: 2rem;">
+        <a href="<!-- SITE_BASE -->/">Accueil</a>
+        <span class="sep">›</span>
+        <span>Tendances &amp; Conseils Pro</span>
+      </nav>
+
+      <!-- CONTROLS — Filters + Count -->
+      <div class="hub-controls">
+        <div class="hub-filters" id="filters-container">
+          <button class="hub-filter-btn is-active" data-filter="all">
+            Tous les articles
+          </button>
+          <!-- Autres filtres injectés au build -->
+          <!-- FILTERS_BUTTONS -->
+        </div>
+        <div class="hub-count">
+          <span id="articles-count">0</span> articles
+        </div>
+      </div>
+
+      <!-- ARTICLES GRID (will be paginated if > 12 items) -->
+      <div class="articles-grid" id="articles-grid">
+        <!-- Articles injectés au build -->
+        <!-- ARTICLES_GRID -->
+      </div>
+
+      <!-- PAGINATION (displayed only if articles > 12) -->
+      <div class="hub-pagination" id="pagination-container" style="display: none;">
+        <!-- Pagination buttons injectées au build si besoin -->
+        <!-- PAGINATION_BUTTONS -->
+      </div>
+
+      <!-- EMPTY STATE (if no articles match filters) -->
+      <div class="hub-empty" id="empty-state" style="display: none;">
+        <p>Aucun article ne correspond à votre recherche.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========== STICKY CONTACT ========== -->
+  <div id="sticky-contact">
+    <div id="sticky-panel">
+      <div class="sp-inner">
+        <button class="sp-close" onclick="toggleSticky()">✕</button>
+        <div class="sp-logo logo">
+          <span class="logo-g">GIORGIA</span>
+          <span class="logo-p">paris</span>
+        </div>
+        <p class="sp-title">Contactez notre équipe B2B</p>
+
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Commander sur WhatsApp</span>
+            <span class="sp-val">+33 6 86 72 93 11</span>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sp-row" href="https://instagram.com/giorgia.auber" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-hub" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-hub)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Instagram</span>
+            <span class="sp-val">@giorgia.auber</span>
+          </div>
+        </a>
+
+        <!-- TikTok -->
+        <a class="sp-row" href="https://tiktok.com/@giorgia.paris56" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">TikTok</span>
+            <span class="sp-val">@giorgia.paris56</span>
+          </div>
+        </a>
+
+        <!-- Showroom -->
+        <a class="sp-row" href="<!-- SITE_BASE -->/#contact">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">NOTRE SHOWROOM</span>
+            <span class="sp-val">70 rue de la Haie Coq, Aubervilliers</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
+      Contact
+    </div>
+  </div>
+
+  <!-- ========== FOOTER (cohérent avec la homepage) ========== -->
+  <footer class="hub-footer">
+    <div class="foot-top">
+      <div class="logo">
+        <span class="logo-g">GIORGIA</span>
+        <span class="logo-p">paris</span>
+      </div>
+      <div class="foot-right">
+        <div class="foot-addr">
+          <p>Siège social&nbsp;: 4 rue de Marivaux, 75002 Paris · Showroom&nbsp;: 70 rue de la Haie Coq, 93300 Aubervilliers</p>
+          <p>+33 6 86 72 93 11 · <a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="foot-legal" aria-label="Informations légales">
+      <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/politique-retour/">Politique de retour</a>
+    </nav>
+
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 GIORGIA (SARL) · Grossiste Prêt-à-Porter Féminin · RCS Paris 499 006 559</p>
+    </div>
+  </footer>
+  <style>
+    /* Footer aligné sur la homepage (graphisme cohérent) */
+    .hub-footer { background: #0D0D0D; border-top: 1px solid rgba(255,255,255,.06); }
+    .hub-footer .foot-top {
+      padding: 2.8rem 3.5rem 2rem;
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 2rem; align-items: center;
+    }
+    .hub-footer .logo-g { color: #fff; font-size: .9rem; font-family: var(--ff-logo, 'Cormorant Garamond', serif); font-weight: 700; letter-spacing: .15em; }
+    .hub-footer .logo-p { color: var(--taupe, #8a7d6f); font-style: italic; }
+    .hub-footer .foot-right { text-align: right; }
+    .hub-footer .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .hub-footer .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .hub-footer .foot-addr a:hover { color: #fff; }
+    .hub-footer .foot-legal {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .4rem 1.5rem; padding: .9rem 1rem .3rem;
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .hub-footer .foot-legal a { color: rgba(255,255,255,.65); text-decoration: none; transition: color .25s; }
+    .hub-footer .foot-legal a:hover { color: var(--gold, #C5A36A); }
+    .hub-footer .foot-legal .sep { color: rgba(255,255,255,.2); }
+    .hub-footer .foot-bottom {
+      padding: 1rem 3.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      text-align: center;
+    }
+    .hub-footer .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
+    @media(max-width:900px) {
+      .hub-footer .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .hub-footer .foot-right { text-align: center; }
+      .hub-footer .foot-bottom { padding: 1rem 1.5rem; }
+      .hub-footer .foot-legal { gap: .3rem 1rem; }
+      .hub-footer .foot-legal .sep { display: none; }
+    }
+  </style>
+
+  <!-- ========== JS ========== -->
+  <script>
+    /* Toggle sticky contact */
+    function toggleSticky() {
+      document.getElementById('sticky-contact').classList.toggle('open');
+    }
+
+    /* Menu burger mobile */
+    function openMob() {
+      document.getElementById('mob-menu').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMob() {
+      document.getElementById('mob-menu').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* Filtrages & Pagination côté client */
+    (function() {
+      const ITEMS_PER_PAGE = 12;
+      let currentPage = 1;
+      let currentFilter = 'all';
+
+      const allArticles = document.querySelectorAll('[data-article-category]');
+      const filterBtns = document.querySelectorAll('.hub-filter-btn');
+      const articlesGrid = document.getElementById('articles-grid');
+      const articlesCount = document.getElementById('articles-count');
+      const paginationContainer = document.getElementById('pagination-container');
+      const emptyState = document.getElementById('empty-state');
+
+      // Initialiser
+      render();
+
+      // Event listeners filters
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          currentFilter = btn.getAttribute('data-filter') || 'all';
+          currentPage = 1;
+          render();
+        });
+      });
+
+      function getFilteredArticles() {
+        if (currentFilter === 'all') {
+          return Array.from(allArticles);
+        }
+        return Array.from(allArticles).filter(a => 
+          a.getAttribute('data-article-category') === currentFilter
+        );
+      }
+
+      function render() {
+        const filtered = getFilteredArticles();
+        const totalArticles = filtered.length;
+        const totalPages = Math.ceil(totalArticles / ITEMS_PER_PAGE);
+
+        // Update count
+        articlesCount.textContent = totalArticles;
+
+        // Empty state
+        if (totalArticles === 0) {
+          emptyState.style.display = 'block';
+          articlesGrid.innerHTML = '';
+          paginationContainer.style.display = 'none';
+          return;
+        }
+        emptyState.style.display = 'none';
+
+        // Pagination
+        const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIdx = startIdx + ITEMS_PER_PAGE;
+        const pageArticles = filtered.slice(startIdx, endIdx);
+
+        // Rendre les articles
+        articlesGrid.innerHTML = '';
+        pageArticles.forEach(article => {
+          articlesGrid.appendChild(article.cloneNode(true));
+        });
+
+        // Afficher pagination si > 12 articles
+        if (totalArticles > ITEMS_PER_PAGE) {
+          paginationContainer.style.display = 'flex';
+          renderPagination(totalPages);
+        } else {
+          paginationContainer.style.display = 'none';
+        }
+      }
+
+      function renderPagination(totalPages) {
+        const container = paginationContainer;
+        container.innerHTML = '';
+
+        // Prev button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'hub-page-btn';
+        prevBtn.textContent = '← Précédent';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            render();
+            window.scrollTo({ top: articlesGrid.offsetTop - 100, behavior: 'smooth' });
+          }
+        });
+        container.appendChild(prevBtn);
+
+        // Page buttons (show max 5 page numbers)
+        const maxPageButtons = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+        let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+        if (endPage - startPage + 1 < maxPageButtons) {
+          startPage = Math.max(1, endPage - maxPageButtons + 1);
+        }
+
+        if (startPage > 1) {
+          const firstBtn = document.createElement('button');
+          firstBtn.className = 'hub-page-btn';
+          firstBtn.textContent = '1';
+          firstBtn.addEventListener('click', () => {
+            currentPage = 1;
+            render();
+            window.scrollTo({ top: articlesGrid.offsetTop - 100, behavior: 'smooth' });
+          });
+          container.appendChild(firstBtn);
+
+          if (startPage > 2) {
+            const dots = document.createElement('span');
+            dots.style.padding = '0 0.5rem';
+            dots.textContent = '…';
+            container.appendChild(dots);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'hub-page-btn';
+          if (i === currentPage) btn.classList.add('is-active');
+          btn.textContent = String(i);
+          btn.addEventListener('click', () => {
+            currentPage = i;
+            render();
+            window.scrollTo({ top: articlesGrid.offsetTop - 100, behavior: 'smooth' });
+          });
+          container.appendChild(btn);
+        }
+
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            const dots = document.createElement('span');
+            dots.style.padding = '0 0.5rem';
+            dots.textContent = '…';
+            container.appendChild(dots);
+          }
+
+          const lastBtn = document.createElement('button');
+          lastBtn.className = 'hub-page-btn';
+          lastBtn.textContent = String(totalPages);
+          lastBtn.addEventListener('click', () => {
+            currentPage = totalPages;
+            render();
+            window.scrollTo({ top: articlesGrid.offsetTop - 100, behavior: 'smooth' });
+          });
+          container.appendChild(lastBtn);
+        }
+
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'hub-page-btn';
+        nextBtn.textContent = 'Suivant →';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            render();
+            window.scrollTo({ top: articlesGrid.offsetTop - 100, behavior: 'smooth' });
+          }
+        });
+        container.appendChild(nextBtn);
+      }
+    })();
+  </script>
+</body>
+</html>
