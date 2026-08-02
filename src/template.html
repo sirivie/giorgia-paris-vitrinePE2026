@@ -171,13 +171,74 @@
     }
     #navbar.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.07); }
 
-    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
-    .nav-links a {
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links a,
+    .nav-links .nav-dropdown-toggle {
       font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
       text-decoration: none; color: var(--taupe);
       transition: color .3s;
+      font-family: inherit;
+      background: transparent; border: none; cursor: pointer; padding: 0;
+      display: inline-flex; align-items: center; gap: .35rem;
     }
-    .nav-links a:hover { color: var(--black); }
+    .nav-links a:hover,
+    .nav-links .nav-dropdown-toggle:hover,
+    .nav-links .nav-dropdown:hover .nav-dropdown-toggle,
+    .nav-links .nav-dropdown-toggle[aria-expanded="true"] { color: var(--black); }
+
+    /* ===================== NAV DROPDOWN "Nos Univers" ===================== */
+    .nav-dropdown-chev {
+      font-size: .85em; line-height: 1;
+      transition: transform .25s ease;
+    }
+    .nav-dropdown:hover .nav-dropdown-chev,
+    .nav-dropdown-toggle[aria-expanded="true"] .nav-dropdown-chev {
+      transform: rotate(180deg);
+    }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + .6rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 280px;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      list-style: none;
+      padding: .6rem 0;
+      margin: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,.08);
+      z-index: 250;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown-toggle[aria-expanded="true"] + .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu li { list-style: none; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: .7rem 1.5rem;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(197,163,106,.08);
+      color: var(--gold);
+    }
 
     .nav-right { display: flex; align-items: center; gap: 1rem; }
 
@@ -204,14 +265,39 @@
     #mob-menu {
       display: none; position: fixed; inset: 0; z-index: 300;
       background: var(--black); flex-direction: column;
-      align-items: center; justify-content: center; gap: 2rem;
+      align-items: center; justify-content: flex-start;
+      gap: 0;
+      overflow-y: auto;
+      padding: 5rem 2rem 2rem;
     }
     #mob-menu.open { display: flex; }
     #mob-menu a {
-      font-family: var(--ff-display); font-size: 2rem; font-weight: 300;
+      font-family: var(--ff-display); font-size: 1.5rem; font-weight: 300;
       color: var(--white); text-decoration: none; letter-spacing: .05em;
+      padding: .55rem 0;
+      width: 100%; text-align: center;
     }
     #mob-menu a:hover { color: var(--gold); }
+
+    /* Sous-titre "Nos Univers" dans le menu mobile — liste plate (choix b) */
+    #mob-menu .mob-menu-heading {
+      font-family: var(--ff-body);
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 1.2rem 0 .3rem;
+      width: 100%; text-align: center;
+      opacity: .85;
+    }
+    /* Séparateur discret entre le groupe Univers et le reste du menu */
+    #mob-menu .mob-menu-sep {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,.18);
+      margin: 1.4rem auto .6rem;
+    }
     .mob-close {
       position: absolute; top: 1.5rem; right: 2rem;
       background: none; border: none; color: var(--white);
@@ -956,6 +1042,9 @@
       position: relative;
       isolation: isolate;
     }
+    /* Évite le flicker pendant le shuffle aléatoire des Préventes au chargement.
+       JS retire la classe .pv-shuffling juste après avoir réorganisé les cartes. */
+    #track-preventes.pv-shuffling { visibility: hidden; }
     /* Léger dégradé décoratif en haut/bas pour adoucir la rupture */
     .prevente-sec::before,
     .prevente-sec::after {
@@ -1302,7 +1391,10 @@
         <h1 class="hero-tagline">Grossiste en prêt-à-porter féminin à Paris,<br>GIORGIA vous accompagne pour proposer les plus belles pièces à vos clientes.</h1>
         <p class="hero-sub">Grossiste Prêt-à-Porter Féminin · Depuis 2007 · Aubervilliers, Paris</p>
         <div class="hero-btns">
-          <a class="btn-hero-p" href="#summer">Découvrir la collection</a>
+          <!-- HERO_CTA_HREF est piloté par build.mjs :
+               • s'il y a des produits en Prévente → "#preventes"
+               • sinon → "#working" (Urban Woman, premier univers home) -->
+          <a class="btn-hero-p" href="<!-- HERO_CTA_HREF -->">Découvrir la collection</a>
           <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
         </div>
       </div>
@@ -1316,6 +1408,11 @@
        Si aucun produit n'est en prévente, la section ne s'affiche pas du tout
        (build.mjs renvoie une chaîne vide → aucun bloc dans le HTML final). -->
   <!-- PREVENTES_SECTION -->
+
+  <!-- ========== ENCART WHATSAPP CATALOGUE ==========
+       Placé juste après les préventes pour rester haut sur la page et
+       maximiser le rebond commercial vers WhatsApp. -->
+  <!-- WA_CATALOGUE_SECTION -->
 
   <!-- ========== INTRO STRIP ========== -->
   <div class="intro-strip">
@@ -1444,6 +1541,101 @@
   </section>
 
 
+  <!-- ==================== À LIRE AUSSI — ARTICLES PREVIEW ==================== -->
+  <section style="background: linear-gradient(135deg, rgba(42,39,36,0.05), transparent); padding: 3rem 2rem; margin-bottom: 2rem; border-radius: 0;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+      
+      <h2 style="font-family: var(--ff-display); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--black);">À lire aussi</h2>
+      <p style="font-size: 0.9rem; color: var(--taupe); margin-bottom: 2rem; letter-spacing: 0.04em;">Découvrez nos guides tendances et conseils pour votre assortiment</p>
+      
+      <div style="position: relative; margin-bottom: 2rem;">
+        <div id="articles-track" style="display: flex; gap: 1.5rem; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 0.5rem;">
+          <!-- Articles injectés par JS depuis /api/latest-articles.json -->
+        </div>
+        <style>
+          #articles-track::-webkit-scrollbar { display: none; }
+          #articles-track > a {
+            scroll-snap-align: start;
+            flex: 0 0 280px;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            border: 1px solid rgba(22,22,22,0.10);
+            border-radius: 4px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+          }
+          #articles-track > a:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px rgba(0,0,0,.08);
+            transform: translateY(-4px);
+          }
+          #articles-track img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+          }
+          .article-card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+          }
+          .article-card-title {
+            font-family: var(--ff-display);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+          }
+          .article-card-excerpt {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--taupe);
+            margin-bottom: 1rem;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          .article-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--taupe);
+            border-top: 1px solid rgba(22,22,22,0.10);
+            padding-top: 1rem;
+          }
+          .article-card-cta {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            transition: color 0.3s;
+          }
+          #articles-track > a:hover .article-card-cta {
+            color: var(--black);
+          }
+        </style>
+      </div>
+
+      <div style="display: flex; justify-content: center; align-items: center; gap: .6rem; margin-top: 1rem; color: var(--taupe); font-size: 0.78rem; letter-spacing: 0.06em;">
+        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">←</span>
+        <span>Faites glisser pour découvrir plus d'articles</span>
+        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">→</span>
+      </div>
+
+      <a href="./tendances-conseils-pro/" style="display: inline-block; padding: 0.8rem 1.6rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; transition: all 0.3s; margin-top: 1rem;">Voir tous les articles →</a>
+
+    </div>
+  </section>
+
+
   <!-- ==================== FOOTER ==================== -->
   <footer>
     <div class="foot-top" style="grid-template-columns: auto 1fr;">
@@ -1466,6 +1658,10 @@
 
     <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD -->
     <nav class="foot-legal" aria-label="Informations légales">
+      <a href="<!-- SITE_BASE -->/notre-histoire/">Qui sommes-nous</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="<!-- SITE_BASE -->/contact/">Contact</a>
+      <span class="sep" aria-hidden="true">·</span>
       <a href="<!-- SITE_BASE -->/mentions-legales/">Mentions légales</a>
       <span class="sep" aria-hidden="true">·</span>
       <a href="<!-- SITE_BASE -->/cgv/">CGV</a>
@@ -1506,13 +1702,29 @@
        une vignette, survol de la photo principale.
     ===================================================== */
 
-    /* Liste des carrousels à initialiser. Doit rester synchronisée avec
-       le tableau UNIVERS dans scripts/build.mjs (mêmes ids).
-       'preventes' est un carrousel spécial rendu dynamiquement par build.mjs
-       SI au moins un produit est coché 'Prévente' dans Airtable. Si la
-       section n'est pas rendue, getElementById('track-preventes') renverra
-       null et initCarousel sortira proprement (early return). */
-    const CAROUSEL_IDS = ['preventes', 'summer', 'working', 'chic', 'boheme', 'casual'];
+    /* Liste des carrousels à initialiser sur cette page. Injectée par build.mjs
+       depuis les univers dont `location === 'home'` (+ 'preventes' si applicable).
+       Les univers archive ('summer', 'boheme') sont initialisés sur leur page
+       dédiée /collection-printemps-ete-2026/. */
+    const CAROUSEL_IDS = <!-- CAROUSEL_IDS_JS -->;
+
+    /* ====================================================================
+       REDIRECTION LEGACY ANCHORS
+       -------------------------------------------------------------------
+       Les ancres #summer et #boheme n'existent plus sur la home. Si un
+       visiteur arrive via un lien externe (Google, backlink, ancien signet)
+       pointant vers /#summer ou /#boheme, on le redirige proprement vers
+       /collection-printemps-ete-2026/#summer (ou #boheme).
+       Le préfixe <!-- SITE_BASE --> est vide en prod, '/<repo>' en qualif.
+    ==================================================================== */
+    (function redirectLegacyHomeAnchors() {
+      const legacyIds = ['summer', 'boheme'];
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (legacyIds.includes(hash)) {
+        const target = '<!-- SITE_BASE -->/collection-printemps-ete-2026/#' + hash;
+        window.location.replace(target);
+      }
+    })();
 
     /* =====================================================
        CARROUSEL — logique partagée
@@ -1530,6 +1742,26 @@
       const track = document.getElementById('track-' + id);
       const dotsEl = document.getElementById('dots-' + id);
       if (!track) return;
+
+      // Pour la section Préventes uniquement : mélanger l'ordre des cartes
+      // à chaque visite pour un effet dynamique. Aucun impact SEO (Google
+      // a déjà indexé le HTML, l'ordre des cartes n'influence pas le ranking).
+      if (id === 'preventes') {
+        const grid = track.querySelector('.catalog-grid-root') || track;
+        const cards = Array.from(grid.children);
+        // Algorithme Fisher-Yates pour un shuffle uniforme
+        for (let i = cards.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        // Réinjecter les cartes dans le nouvel ordre. DocumentFragment évite
+        // les reflows multiples et rend l'opération imperceptible (~1ms).
+        const fragment = document.createDocumentFragment();
+        cards.forEach(card => fragment.appendChild(card));
+        grid.appendChild(fragment);
+        // Retire la classe pv-shuffling → carrousel visible avec ordre aléatoire
+        track.classList.remove('pv-shuffling');
+      }
 
       const total = track.querySelectorAll('.prod-card').length;
       carState[id] = { pos: 0, total };
@@ -1806,6 +2038,50 @@
       const sc = document.getElementById('sticky-contact');
       if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
+
+    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
+    (function() {
+      const articlesTrack = document.getElementById('articles-track');
+      if (!articlesTrack) return;
+
+      // Charger le JSON des articles
+      fetch('./api/latest-articles.json')
+        .then(res => res.json())
+        .then(data => {
+          const articlesData = data.articles || [];
+          if (articlesData.length === 0) {
+            console.log('Pas d\'articles à afficher');
+            return;
+          }
+          renderCarousel(articlesData);
+        })
+        .catch(err => console.log('Erreur chargement articles:', err));
+
+      function renderCarousel(articlesData) {
+        articlesTrack.innerHTML = '';
+        articlesData.forEach(article => {
+          const dateObj = new Date(article.date_publication);
+          const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+          const card = document.createElement('a');
+          card.href = `./tendances-conseils-pro/${article.slug}/`;
+          card.innerHTML = `
+            <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">
+              <img src="${article.hero_image_url}" alt="${article.title}" loading="lazy" decoding="async">
+            </div>
+            <div class="article-card-content">
+              <h3 class="article-card-title">${article.title}</h3>
+              <p class="article-card-excerpt">${article.chapo}</p>
+              <div class="article-card-meta">
+                <time datetime="${article.date_publication}">${dateStr}</time>
+                <span class="article-card-cta">Lire →</span>
+              </div>
+            </div>
+          `;
+          articlesTrack.appendChild(card);
+        });
+      }
+    })();
   </script>
 </body>
 </html>
