@@ -141,7 +141,16 @@ if (!API_KEY) {
    ========================================================================== */
 
 /** Ordre et métadonnées des 5 catégories. Pour réordonner : déplacer une ligne.
- *  Ne PAS changer "id" ni "airtableKey" — ils sont couplés au front et à Airtable. */
+ *  Ne PAS changer "id" ni "airtableKey" — ils sont couplés au front et à Airtable.
+ *
+ *  Champ "location" :
+ *   - 'home'    → rendu sur la homepage (dans le slider univers)
+ *   - 'archive' → rendu sur /collection-printemps-ete-2026/ (page ancienne collection PE 2026)
+ *
+ *  Pour déplacer un univers de home vers archive (ou l'inverse) :
+ *  changer juste la valeur du champ location. build.mjs s'occupe du reste
+ *  (nav, mobile menu, sitemap, JSON-LD, redirections legacy).
+ */
 const UNIVERS = [
   {
     id: 'summer',
@@ -150,7 +159,7 @@ const UNIVERS = [
     label: 'Summer Vibes',
     sub: 'Légèreté, couleur & féminité solaire',
     desc: 'Des pièces qui capturent l\u2019essence de l\u2019été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente.',
-    insertWaCatalogueAfter: true, // Encart "Tous nos modèles..." (WhatsApp) après Summer Vibes
+    location: 'archive',
   },
   {
     id: 'working',
@@ -159,6 +168,7 @@ const UNIVERS = [
     label: 'Urban Woman',
     sub: 'Élégance, confiance & polyvalence au quotidien.',
     desc: 'Une sélection conçue pour la femme active contemporaine. Du bureau au week-end, découvrez des basiques surélevés et des pièces fluides qui s\u2019adaptent à toutes ses vies.',
+    location: 'home',
     insertBannerAfter: true, // Encart "Vêtir les boutiques..." (doré) après Urban Woman
   },
   {
@@ -168,6 +178,7 @@ const UNIVERS = [
     label: 'Chic & Soirée',
     sub: 'Glamour, strass & dentelle précieuse',
     desc: 'Quand l\u2019élégance s\u2019habille de nuit. Strass, satin, dentelle — des pièces à fort impact visuel pour les boutiques de soirée et d\u2019événementiel.',
+    location: 'home',
     insertEditorialAfter: true,
   },
   {
@@ -177,6 +188,7 @@ const UNIVERS = [
     label: 'Bohème',
     sub: 'Fluidité, crochet & âme libre',
     desc: 'L\u2019esprit free spirit rencontre l\u2019artisanat délicat : crochet, matières naturelles, silhouettes aériennes. Fort potentiel pour les boutiques lifestyle.',
+    location: 'archive',
   },
   {
     id: 'casual',
@@ -185,8 +197,63 @@ const UNIVERS = [
     label: 'Casual',
     sub: 'L\u2019attitude au quotidien, sans effort apparent',
     desc: 'Le quotidien stylé : vestes à caractère, tops ornementés, looks urban-cool qui tournent en boutique.',
+    location: 'home',
   },
 ];
+
+// Vues dérivées de UNIVERS (utilisées partout : sections, nav, tabs, JSON-LD, sitemap)
+const HOME_UNIVERS    = UNIVERS.filter(u => u.location === 'home');
+const ARCHIVE_UNIVERS = UNIVERS.filter(u => u.location === 'archive');
+
+// URL de la page archive (ancienne collection PE 2026)
+const ARCHIVE_PAGE_SLUG  = 'collection-printemps-ete-2026';
+const ARCHIVE_PAGE_TITLE = 'Ancienne Collection Printemps-Été 2026';
+const CONTACT_PAGE_SLUG  = 'contact';
+
+/**
+ * FUTURE-PROOFING — champ Airtable "Collection".
+ * Aujourd'hui, tous les produits Airtable sont de la collection PE 2026.
+ * Quand la prochaine collection arrivera (AH 2026, PE 2027…), il faudra :
+ *   1. Ajouter dans Airtable un champ single-select "Collection" avec les valeurs
+ *      ex : "PE 2026", "AH 2026", "PE 2027"…
+ *   2. Renseigner "PE 2026" sur tous les produits actuels.
+ *   3. Renseigner la nouvelle valeur pour les nouveaux produits.
+ *
+ * Le code ci-dessous LIT ce champ s'il existe et l'utilise pour distinguer
+ * "ancienne PE 2026" (→ page archive) de "nouvelle collection" (→ home,
+ * même pour Summer Vibes / Bohème s'ils reviennent avec une nouvelle collection).
+ *
+ * Tant que le champ n'existe pas dans Airtable, on retombe sur le comportement
+ * historique : la catégorie seule (`location: 'archive'`) détermine le routage.
+ */
+const ARCHIVE_COLLECTION_LABEL = 'PE 2026';
+
+function resolveCollection(f) {
+  const raw = f?.Collection ?? f?.collection ?? '';
+  if (Array.isArray(raw)) return raw[0] ? String(raw[0]).trim() : '';
+  if (typeof raw === 'object' && raw !== null && raw.name) return String(raw.name).trim();
+  return String(raw || '').trim();
+}
+
+/**
+ * Détermine si un enregistrement doit apparaître sur la page ARCHIVE
+ * (ancienne collection PE 2026).
+ *
+ * Règle :
+ *  - Si l'univers du produit est en `location: 'home'` → jamais archive.
+ *  - Si l'univers est en `location: 'archive'` :
+ *      • et que le champ Airtable "Collection" existe :
+ *          → archive UNIQUEMENT si Collection === "PE 2026"
+ *          → sinon home (produit d'une nouvelle collection dans un univers archive)
+ *      • et que le champ n'existe pas :
+ *          → archive (comportement legacy, tout Summer Vibes / Bohème = archive)
+ */
+function isArchiveRecord(rec, univ) {
+  if (!univ || univ.location !== 'archive') return false;
+  const collection = resolveCollection(rec.fields || {});
+  if (!collection) return true; // legacy : pas de champ Collection → archive par défaut
+  return normalizeKey(collection) === normalizeKey(ARCHIVE_COLLECTION_LABEL);
+}
 
 /** Normalise une clé catégorie pour matching tolérant (case, accents, espaces). */
 function normalizeKey(s) {
@@ -418,6 +485,84 @@ function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/**
+ * Génère le schema JSON-LD pour un article
+ * Aide Google à comprendre et afficher l'article dans les rich snippets
+ */
+function generateArticleSchema(article, heroImageUrl) {
+  const articleUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+  const publishDate = article.date_publication ? new Date(article.date_publication).toISOString() : new Date().toISOString();
+  
+  // Extraire une partie du contenu HTML comme articleBody (limiter à 5000 chars pour ne pas surcharger)
+  const articleBody = (article.contentHtml || '')
+    .replace(/<[^>]*>/g, '') // Enlever les tags HTML
+    .trim()
+    .slice(0, 5000) + (article.contentHtml && article.contentHtml.length > 5000 ? '...' : '');
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': article.title,
+    'description': article.chapo || article.title,
+    'image': heroImageUrl || `${SITE_ORIGIN}${SITE_BASE}/img/og-articles-hub.jpg`,
+    'datePublished': publishDate,
+    'dateModified': publishDate,
+    'author': {
+      '@type': 'Organization',
+      'name': article.auteur || 'GIORGIA paris'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'GIORGIA paris',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': `${SITE_ORIGIN}${SITE_BASE}/img/og-articles-hub.jpg`
+      }
+    },
+    'articleBody': articleBody,
+    'url': articleUrl,
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': articleUrl
+    }
+  };
+}
+
+/**
+ * Génère le schema JSON-LD BreadcrumbList pour un article
+ * Aide Google à afficher le fil d'Ariane
+ */
+function generateBreadcrumbSchema(article) {
+  const articleUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+  const hubUrl = `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`;
+  const homeUrl = `${SITE_ORIGIN}${SITE_BASE}/`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Accueil',
+        'item': homeUrl
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Tendances & Conseils Pro',
+        'item': hubUrl
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': article.title,
+        'item': articleUrl
+      }
+    ]
+  };
 }
 
 /* ==========================================================================
@@ -942,9 +1087,14 @@ function renderUniversSection(univ, products) {
   h += `<div class="carousel-track" id="track-${univ.id}">`;
   h += `<div id="grid-${univ.id}" class="catalog-grid-root">`;
 
-  // Priorité de chargement : 4 premières de "summer" (au-dessus de la ligne de flottaison)
+  // Priorité de chargement : 4 premières du premier univers home
+  // (au-dessus de la ligne de flottaison sur la home).
+  // NB : pour la page archive, on garde la même logique (premier univers archive).
+  const priorityUnivId = univ.location === 'archive'
+    ? (ARCHIVE_UNIVERS[0]?.id)
+    : (HOME_UNIVERS[0]?.id);
   products.forEach((rec, i) => {
-    const isPriority = (univ.id === 'summer' && i < 4);
+    const isPriority = (univ.id === priorityUnivId && i < 4);
     h += renderProductCard(rec.fields || {}, isPriority, univ);
   });
 
@@ -1010,25 +1160,103 @@ function renderEditorial() {
    10. RENDU DE LA NAVBAR & MENUS
    ========================================================================== */
 
-function renderNavLinks() {
-  const universLinks = UNIVERS.map(u =>
-    `<li><a href="#${u.id}">${esc(u.label)}</a></li>`
+/**
+ * Navbar desktop.
+ *
+ * Structure :
+ *   • Dropdown "Nos Univers" (hover/focus) contenant :
+ *      - les univers `location: 'home'` (ancres vers la home)
+ *      - un lien vers la page ancienne collection PE 2026
+ *   • Tendances & Conseils Pro (page dédiée)
+ *   • Qui sommes-nous (page notre-histoire — URL conservée pour SEO)
+ *   • Contact (nouvelle page)
+ *
+ * Le paramètre `context` détermine si les liens univers vers la home
+ * pointent vers une ancre (`#working`) — cas home — ou vers une URL absolue
+ * vers la home suivie de l'ancre (`/#working`) — cas pages autres que home.
+ */
+function renderNavLinks(context = 'home') {
+  const homeUrl = SITE_BASE ? `${SITE_BASE}/` : '/';
+  const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
+
+  const universSubLinks = HOME_UNIVERS.map(u =>
+    `<li><a href="${univHref(u.id)}">${esc(u.label)}</a></li>`
   ).join('');
-  // Lien Tendances & Conseils Pro — section éditoriale du site
+  const archiveSubLink = `<li><a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/">${esc(ARCHIVE_PAGE_TITLE)}</a></li>`;
+
+  const universDropdown = [
+    '<li class="nav-dropdown">',
+    '<button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">',
+    'Nos Univers <span class="nav-dropdown-chev" aria-hidden="true">▾</span>',
+    '</button>',
+    '<ul class="nav-dropdown-menu" role="menu">',
+    universSubLinks,
+    archiveSubLink,
+    '</ul>',
+    '</li>',
+  ].join('');
+
   const tendancesLink = `<li><a href="${SITE_BASE}/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li>`;
-  return universLinks + tendancesLink;
+  const quiLink       = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
+  const contactLink   = `<li><a href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/">Contact</a></li>`;
+
+  return universDropdown + tendancesLink + quiLink + contactLink;
 }
 
-function renderMobMenuLinks() {
-  const links = UNIVERS.map(u =>
-    `<a href="#${u.id}" onclick="closeMob()">${esc(u.label)}</a>`
+/**
+ * Menu mobile — liste plate avec sous-titre "Nos Univers".
+ * Choix (b) validé : tous les liens visibles direct dans le HTML rendu,
+ * meilleur pour le SEO (pas d'interaction requise pour révéler les liens).
+ */
+function renderMobMenuLinks(context = 'home') {
+  const homeUrl = SITE_BASE ? `${SITE_BASE}/` : '/';
+  const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
+
+  const universHeading = `<div class="mob-menu-heading">Nos Univers</div>`;
+  const universSubLinks = HOME_UNIVERS.map(u =>
+    `<a href="${univHref(u.id)}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
+  const archiveSubLink = `<a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/" onclick="closeMob()">${esc(ARCHIVE_PAGE_TITLE)}</a>`;
+
+  const separator = `<div class="mob-menu-sep" aria-hidden="true"></div>`;
+
   const tendancesLink = `<a href="${SITE_BASE}/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a>`;
-  return links + tendancesLink + `<a href="#contact" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  const quiLink       = `<a href="${SITE_BASE}/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a>`;
+  const contactLink   = `<a href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/" onclick="closeMob()">Contact</a>`;
+
+  // CTA final "Commander" — pointe vers la section #contact de la home (conservée)
+  // en contexte home, ou vers la page contact autonome depuis les autres pages.
+  const commanderHref = context === 'home' ? '#contact' : `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
+  const commanderLink = `<a href="${commanderHref}" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+
+  return (
+    universHeading +
+    universSubLinks +
+    archiveSubLink +
+    separator +
+    tendancesLink +
+    quiLink +
+    contactLink +
+    commanderLink
+  );
 }
 
+/**
+ * Tabs univers (slider horizontal sous le hero, homepage uniquement).
+ * On ne rend QUE les univers `location: 'home'` — Summer Vibes et Bohème
+ * ont leur propre page dédiée.
+ */
 function renderUniversTabs() {
-  return UNIVERS.map(u =>
+  return HOME_UNIVERS.map(u =>
+    `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`
+  ).join('');
+}
+
+/**
+ * Tabs univers pour la page archive — pointent vers les ancres archive.
+ */
+function renderArchiveUniversTabs() {
+  return ARCHIVE_UNIVERS.map(u =>
     `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`
   ).join('');
 }
@@ -1151,7 +1379,7 @@ function renderRobotsTxt() {
   ].join('\n');
 }
 
-function renderSitemapXml(now) {
+function renderSitemapXml(now, articlesData = []) {
   const lastmod = now.toISOString().split('.')[0] + '+00:00';
 
   // URLs du site. La home est prioritaire (1.0, changefreq=weekly).
@@ -1159,12 +1387,33 @@ function renderSitemapXml(now) {
   // ne sont pas des pages de destination marketing → priority 0.3, rarement
   // modifiées.
   const urls = [
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                      priority: '1.0', changefreq: 'weekly' },
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,     priority: '0.3', changefreq: 'yearly' },
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                  priority: '0.3', changefreq: 'yearly' },
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,      priority: '0.3', changefreq: 'yearly' },
-    { loc: `${SITE_ORIGIN}${SITE_BASE}/politique-retour/`,     priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                                       priority: '1.0', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/`,                  priority: '0.9', changefreq: 'weekly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/${CONTACT_PAGE_SLUG}/`,                  priority: '0.7', changefreq: 'monthly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/notre-histoire/`,                        priority: '0.6', changefreq: 'monthly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/mentions-legales/`,                      priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/cgv/`,                                   priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/confidentialite/`,                       priority: '0.3', changefreq: 'yearly' },
+    { loc: `${SITE_ORIGIN}${SITE_BASE}/politique-retour/`,                      priority: '0.3', changefreq: 'yearly' },
   ];
+
+  // Ajouter la page hub des articles si des articles existent
+  if (articlesData.length > 0) {
+    urls.push({
+      loc: `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`,
+      priority: '0.9',
+      changefreq: 'monthly'
+    });
+
+    // Ajouter chaque article
+    for (const article of articlesData) {
+      urls.push({
+        loc: `${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`,
+        priority: '0.8',
+        changefreq: 'weekly'
+      });
+    }
+  }
 
   const body = urls.map(u => [
     '  <url>',
@@ -1435,10 +1684,23 @@ function buildProductIndex(records) {
 }
 
 /**
- * Résout un produit cité dans le front-matter ({reference?, nom?}) en
- * cherchant dans l'index Airtable. Référence prioritaire, fallback nom.
+ * Résout un produit cité dans le front-matter en cherchant dans l'index Airtable.
+ * Accepte deux formats :
+ *   - chaîne simple : "26393"  (format utilisé dans nos articles .md)
+ *   - objet         : { reference: "26393" } ou { nom: "Robe satin" }
+ * Référence prioritaire, fallback nom.
  */
 function resolveSelectionProduct(productCite, index) {
+  // Support des chaînes simples ("26393") en plus des objets ({reference, nom})
+  if (typeof productCite === 'string') {
+    const ref = productCite.trim().toLowerCase();
+    if (ref && index.byRef.has(ref)) return index.byRef.get(ref);
+    // Fallback : essayer comme nom
+    const key = normalizeKey(productCite.trim());
+    if (index.byName.has(key)) return index.byName.get(key);
+    return null;
+  }
+
   const ref = productCite.reference ? String(productCite.reference).trim().toLowerCase() : '';
   const nom = productCite.nom ? String(productCite.nom).trim() : '';
 
@@ -1762,6 +2024,18 @@ async function renderArticlePage(article, productIndex, allRecords) {
     console.log(`     ⚠ Placeholder <!-- SELECTION_GIORGIA_SECTION --> non trouvé dans le markdown`);
   }
 
+  // Générer les schemas JSON-LD
+  const articleSchema = generateArticleSchema({ ...article, contentHtml }, heroImageUrl);
+  const breadcrumbSchema = generateBreadcrumbSchema(article);
+  const jsonLdScripts = `    <script type="application/ld+json">
+${JSON.stringify(articleSchema, null, 2)}
+    </script>
+    <script type="application/ld+json">
+${JSON.stringify(breadcrumbSchema, null, 2)}
+    </script>`;
+
+  console.log(`     ✓ Schemas JSON-LD générés (Article + BreadcrumbList)`);
+
   // Substitutions
   const replacements = [
     ['<!-- META_TITLE -->', esc(article.meta_title)],
@@ -1777,6 +2051,7 @@ async function renderArticlePage(article, productIndex, allRecords) {
     ['<!-- WHATSAPP_CTA_URL -->', waCtaUrl],
     ['<!-- SITE_BASE -->', SITE_BASE],
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
+    ['<!-- ARTICLE_SCHEMAS -->', jsonLdScripts],  // Injection des schemas JSON-LD
   ];
 
   console.log(`     ✓ Substitutions à faire : ${replacements.length}`);
@@ -1803,10 +2078,50 @@ async function renderArticlePage(article, productIndex, allRecords) {
   return {
     slug: article.slug,
     title: article.title,
+    chapo: article.chapo,
+    categorie: article.categorie || 'Non catégorisé',
+    date_publication: article.date_publication,
+    hero_image_url: heroImageUrl,
     url: articleUrl,
     productsResolved: resolvedProducts.length,
     productsMissing: missing.length,
   };
+}
+
+/**
+ * Génère un fichier JSON avec les 3 derniers articles
+ * Utilisé par la home page pour afficher le carrousel "À lire aussi"
+ */
+async function generateLatestArticlesJson(generatedArticles) {
+  if (!generatedArticles || generatedArticles.length === 0) {
+    return { deployed: false };
+  }
+
+  // Trier par date DESC et prendre les 3 premiers
+  const latest3 = generatedArticles
+    .sort((a, b) => {
+      const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
+      const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
+      return dateB - dateA;
+    })
+    .slice(0, 3)
+    .map(article => ({
+      slug: article.slug,
+      title: article.title,
+      chapo: article.chapo,
+      date_publication: article.date_publication,
+      hero_image_url: article.hero_image_url || `${SITE_BASE}/img/placeholder.jpg`,
+    }));
+
+  // Écrire le fichier JSON
+  const apiDir = resolve(OUTPUT_DIR, 'api');
+  await mkdir(apiDir, { recursive: true });
+  const jsonFile = join(apiDir, 'latest-articles.json');
+  
+  await writeFile(jsonFile, JSON.stringify({ articles: latest3 }, null, 2), 'utf8');
+  
+  console.log(`  ✓ JSON généré : /api/latest-articles.json (${latest3.length} articles)`);
+  return { deployed: true, count: latest3.length };
 }
 
 /**
@@ -1869,10 +2184,393 @@ async function buildArticles(allRecords) {
   return { deployed: true, count: generatedArticles.length, articles: generatedArticles };
 }
 
+/**
+ * Génère la page index `/tendances-conseils-pro/index.html`
+ * Affiche tous les articles avec filtres par catégorie et pagination.
+ */
+async function buildArticlesIndex(generatedArticles) {
+  if (!generatedArticles || generatedArticles.length === 0) {
+    console.warn('  ⚠ Aucun article à indexer — page hub non déployée.');
+    return { deployed: false };
+  }
+
+  console.log('→ Génération de la page hub `/tendances-conseils-pro/`…');
+
+  // Lire le template hub
+  const templatePath = resolve('src/articles/index-template.html');
+  let hubHtml;
+  try {
+    hubHtml = await readFile(templatePath, 'utf8');
+  } catch (err) {
+    console.error(`  ✖ Template hub introuvable : ${templatePath}`);
+    return { deployed: false };
+  }
+
+  // Extraire les catégories uniques et les trier
+  const categories = new Set(generatedArticles.map(a => a.categorie).filter(Boolean));
+  const sortedCategories = Array.from(categories).sort();
+
+  // Générer les boutons de filtre
+  let filterButtonsHtml = '';
+  for (const cat of sortedCategories) {
+    const filterValue = cat.toLowerCase().replace(/\s+/g, '-');
+    filterButtonsHtml += `<button class="hub-filter-btn" data-filter="${esc(filterValue)}">${esc(cat)}</button>\n          `;
+  }
+
+  // Trier les articles par date de publication décroissante (plus récent en premier)
+  const sortedArticles = generatedArticles.slice().sort((a, b) => {
+    const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
+    const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
+    return dateB - dateA;
+  });
+
+  // Générer les cartes articles (avec data-article-category pour le filtre côté client)
+  let articlesCardsHtml = '';
+  for (const article of sortedArticles) {
+    const filterValue = (article.categorie || '').toLowerCase().replace(/\s+/g, '-');
+    const articleUrl = `${SITE_BASE}${ARTICLE_URL_PREFIX}/${article.slug}/`;
+    
+    // Formater la date
+    const dateObj = article.date_publication ? new Date(article.date_publication) : new Date();
+    const dateStr = dateObj.toLocaleDateString('fr-FR', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+
+    articlesCardsHtml += `<a href="${esc(articleUrl)}" class="article-card" data-article-category="${esc(filterValue)}">
+      <div class="article-card-image">
+        <img src="${esc(article.hero_image_url || SITE_BASE + '/img/placeholder.jpg')}" alt="${esc(article.title)}" loading="lazy" decoding="async">
+      </div>
+      <div class="article-card-content">
+        <div class="article-card-category">${esc(article.categorie || 'Non catégorisé')}</div>
+        <h3 class="article-card-title">${esc(article.title)}</h3>
+        <p class="article-card-excerpt">${esc(article.chapo || '')}</p>
+        <div class="article-card-meta">
+          <time datetime="${article.date_publication || dateStr}">${dateStr}</time>
+          <span class="article-card-cta">Lire l'article →</span>
+        </div>
+      </div>
+    </a>\n`;
+  }
+
+  // Remplacer les placeholders dans le template
+  hubHtml = hubHtml
+    .replace(/<!-- ARTICLE_HUB_URL -->/g, esc(`${SITE_ORIGIN}${SITE_BASE}${ARTICLE_URL_PREFIX}/`))
+    .replace(/<!-- SITE_BASE -->/g, SITE_BASE)
+    .replace(/<!-- FILTERS_BUTTONS -->/g, filterButtonsHtml)
+    .replace(/<!-- ARTICLES_GRID -->/g, articlesCardsHtml);
+
+  // Écrire le fichier
+  const outDir = ARTICLES_OUTPUT_DIR;
+  await mkdir(outDir, { recursive: true });
+  const outFile = join(outDir, 'index.html');
+  await writeFile(outFile, hubHtml, 'utf8');
+
+  console.log(`  ✓ Page hub déployée : ${SITE_BASE}${ARTICLE_URL_PREFIX}/ (${generatedArticles.length} articles)`);
+  return { deployed: true, count: generatedArticles.length };
+}
+
 
 
 /* ==========================================================================
    14. PIPELINE PRINCIPAL
+   ========================================================================== */
+
+/* ==========================================================================
+   15. PAGES DÉDIÉES : ARCHIVE (ANCIENNE COLLECTION PE 2026) & CONTACT
+   ==========================================================================
+   Ces deux pages sont générées à partir de templates propres dans src/pages/,
+   qui n'incluent QUE leur contenu spécifique (hero, sections, contact block).
+   La navbar, le menu mobile, le footer, la CSS globale et le JS interactif
+   sont extraits automatiquement du template principal (src/template.html),
+   ce qui garantit une source unique de vérité pour ces éléments partagés.
+   Si tu modifies la CSS ou la navbar, tu la changes dans template.html et
+   les deux pages dédiées récupèrent la modif au prochain build.
+*/
+
+/**
+ * Extrait le bloc <style>...</style> principal du template.
+ * Utilisé pour partager la CSS entre home et pages dédiées.
+ */
+function extractSharedStyles(template) {
+  // On prend le PREMIER bloc <style> du template (celui du head)
+  const match = template.match(/<style>[\s\S]*?<\/style>/);
+  if (!match) throw new Error('Bloc <style> introuvable dans template.html');
+  return match[0];
+}
+
+/**
+ * Extrait le bloc JS interactif principal du template (celui qui contient
+ * initCarousel, closeMob, etc.). On matche le bloc <script> juste après
+ * la balise CATALOG_DATA (c'est le gros bloc JS du site).
+ */
+function extractSharedInteractiveJs(template) {
+  // On cherche le <script> juste après le placeholder CATALOG_DATA
+  const marker = '<!-- CATALOG_DATA -->';
+  const idx = template.indexOf(marker);
+  if (idx === -1) throw new Error('<!-- CATALOG_DATA --> introuvable dans template.html');
+  const after = template.slice(idx + marker.length);
+  const openIdx = after.indexOf('<script>');
+  const closeTag = '</script>';
+  if (openIdx === -1) throw new Error('<script> post-CATALOG_DATA introuvable');
+  const closeIdx = after.indexOf(closeTag, openIdx);
+  if (closeIdx === -1) throw new Error('</script> post-CATALOG_DATA introuvable');
+  return after.slice(openIdx, closeIdx + closeTag.length);
+}
+
+/**
+ * Compose le HTML final d'une page dédiée en injectant les blocs partagés
+ * (styles, nav, mobile menu, footer, JS) dans un template minimal.
+ *
+ * Placeholders attendus dans le template de la page dédiée :
+ *   <!-- SHARED_STYLES -->          → CSS globale
+ *   <!-- NAV_LINKS -->              → liens navbar (rendus par renderNavLinks)
+ *   <!-- MOB_MENU_LINKS -->         → menu mobile
+ *   <!-- SHARED_FOOTER -->          → footer complet
+ *   <!-- SHARED_JS -->              → JS interactif
+ *   <!-- CAROUSEL_IDS_JS -->        → IDs des carrousels à init sur la page
+ *   <!-- PAGE_JSON_LD -->           → JSON-LD spécifique à la page
+ *   <!-- SITE_BASE --> / <!-- SITE_ORIGIN --> → variables d'environnement
+ */
+async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextReplacements) {
+  const pageTpl = await readFile(pageTemplatePath, 'utf8');
+
+  const context = contextReplacements.context || 'other';
+  const sharedStyles = extractSharedStyles(mainTemplate);
+  const sharedJs = extractSharedInteractiveJs(mainTemplate);
+  const sharedFooter = extractSharedFooter(mainTemplate);
+  const sharedStickyContact = extractSharedStickyContact(mainTemplate, context);
+
+  // Substitutions communes à toutes les pages dédiées.
+  const commonReplacements = [
+    ['<!-- SHARED_STYLES -->',         sharedStyles],
+    ['<!-- SHARED_STICKY_CONTACT -->', sharedStickyContact],
+    ['<!-- NAV_LINKS -->',             renderNavLinks(context)],
+    ['<!-- MOB_MENU_LINKS -->',        renderMobMenuLinks(context)],
+    ['<!-- SHARED_FOOTER -->',         sharedFooter],
+    ['<!-- SHARED_JS -->',             sharedJs],
+    ['<!-- SITE_ORIGIN -->',           SITE_ORIGIN],
+    ['<!-- SITE_BASE -->',             SITE_BASE],
+  ];
+
+  // Merge : les substitutions spécifiques à la page écrasent les communes si conflit.
+  const allReplacements = [...commonReplacements, ...contextReplacements.replacements];
+
+  let html = pageTpl;
+  for (const [ph, val] of allReplacements) {
+    // On tolère les placeholders manquants pour laisser une flexibilité aux templates
+    // pages dédiées (contrairement à la home où c'est strict).
+    if (ph === '<!-- SITE_BASE -->' || ph === '<!-- SITE_ORIGIN -->') {
+      html = html.split(ph).join(val);
+    } else {
+      html = html.split(ph).join(val);
+    }
+  }
+
+  return html;
+}
+
+/**
+ * Extrait le footer du template principal (bloc <footer>...</footer>).
+ */
+function extractSharedFooter(template) {
+  const match = template.match(/<footer>[\s\S]*?<\/footer>/);
+  if (!match) throw new Error('<footer> introuvable dans template.html');
+  return match[0];
+}
+
+/**
+ * Extrait le panneau "Sticky Contact" (bouton flottant + panneau qui glisse).
+ * Sur les pages autres que la home, on remplace href="#contact" par une URL
+ * absolue vers /contact/ pour que le lien "Showroom" reste fonctionnel.
+ */
+function extractSharedStickyContact(template, context = 'home') {
+  const match = template.match(/<div id="sticky-contact">[\s\S]*?<div id="sticky-tab"[\s\S]*?<\/div>\s*<\/div>/);
+  if (!match) {
+    // Non-bloquant : si le sticky-contact est absent (template modifié), on continue.
+    return '';
+  }
+  let html = match[0];
+  if (context !== 'home') {
+    // Remplacer les hrefs "#contact" (ancres de la home) par l'URL /contact/
+    html = html.split('href="#contact"').join(`href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/"`);
+  }
+  return html;
+}
+
+/**
+ * Génère la page /collection-printemps-ete-2026/ (ancienne collection PE 2026).
+ * Rassemble Summer Vibes + Bohème (tous les univers `location: 'archive'`).
+ */
+async function buildArchivePage(byUniversArchive, mainTemplate) {
+  const pageTemplatePath = resolve('src/pages/archive-template.html');
+  try {
+    await stat(pageTemplatePath);
+  } catch {
+    console.warn(`  ⚠ src/pages/archive-template.html introuvable — page archive non générée.`);
+    return { deployed: false };
+  }
+
+  // Rendu des sections univers archive
+  let sectionsHtml = '';
+  const allArchiveRecords = [];
+  for (const u of ARCHIVE_UNIVERS) {
+    const recs = byUniversArchive.get(u.id) || [];
+    sectionsHtml += renderUniversSection(u, recs);
+    allArchiveRecords.push(...recs);
+  }
+
+  // JSON-LD spécifique : ItemList des produits archive + Breadcrumb
+  const jsonLd = renderArchiveJsonLd(allArchiveRecords);
+
+  // IDs des carrousels à init sur cette page (les univers archive uniquement)
+  const carouselIds = ARCHIVE_UNIVERS.map(u => u.id);
+  const carouselIdsJs = JSON.stringify(carouselIds);
+
+  const html = await composePageFromTemplate(pageTemplatePath, mainTemplate, {
+    context: 'other',
+    replacements: [
+      ['<!-- ARCHIVE_UNIVERS_NAV_TABS -->', renderArchiveUniversTabs()],
+      ['<!-- ARCHIVE_SECTIONS -->', sectionsHtml],
+      ['<!-- CAROUSEL_IDS_JS -->', carouselIdsJs],
+      ['<!-- PAGE_JSON_LD -->', jsonLd],
+      ['<!-- PAGE_TITLE -->', ARCHIVE_PAGE_TITLE],
+    ],
+  });
+
+  const outDir = resolve(OUTPUT_DIR, ARCHIVE_PAGE_SLUG);
+  await mkdir(outDir, { recursive: true });
+  await writeFile(join(outDir, 'index.html'), html, 'utf8');
+  console.log(`  ✓ /${ARCHIVE_PAGE_SLUG}/ — ${allArchiveRecords.length} produits (${ARCHIVE_UNIVERS.map(u => u.label).join(' + ')})`);
+  return { deployed: true, count: allArchiveRecords.length };
+}
+
+/**
+ * JSON-LD de la page archive : BreadcrumbList + WebPage + ItemList.
+ */
+function renderArchiveJsonLd(records) {
+  const url = `${SITE_ORIGIN}${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/`;
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil',                             item: `${SITE_ORIGIN}${SITE_BASE}/` },
+      { '@type': 'ListItem', position: 2, name: ARCHIVE_PAGE_TITLE,                    item: url },
+    ],
+  };
+
+  const webPage = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: `${ARCHIVE_PAGE_TITLE} — GIORGIA paris`,
+    description: 'Découvrez les pièces Summer Vibes et Bohème de la collection Printemps-Été 2026 — Grossiste B2B en prêt-à-porter féminin, disponibles au stock depuis Paris.',
+    isPartOf: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#website` },
+    inLanguage: 'fr-FR',
+  };
+
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Ancienne Collection Printemps-Été 2026 — GIORGIA paris',
+    description: 'Pièces Summer Vibes et Bohème de la collection Printemps-Été 2026.',
+    numberOfItems: records.length,
+    itemListElement: records.map((rec, i) => {
+      const f = rec.fields || {};
+      const nom = resolveName(f);
+      const photos = resolvePhotos(f);
+      const descRaw = resolveDesc(f);
+      const ref = resolveRef(f);
+      const cat = resolveCategorie(f);
+
+      const product = {
+        '@type': 'Product',
+        name: nom || `Article ${ref || i + 1}`,
+        brand: { '@type': 'Brand', name: 'GIORGIA paris' },
+      };
+      if (photos[0]) product.image = photos.slice(0, 3);
+      if (descRaw) product.description = descRaw.slice(0, 300);
+      if (ref) product.sku = ref;
+      if (cat) product.category = cat;
+
+      return { '@type': 'ListItem', position: i + 1, item: product };
+    }),
+  };
+
+  const graph = [breadcrumb, webPage, itemList];
+  const safe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/<\/script>/gi, '<\\/script>');
+  return `<script type="application/ld+json">${safe}</script>`;
+}
+
+/**
+ * Génère la page /contact/ (page de contact autonome, SEO-enrichie).
+ */
+async function buildContactPage(mainTemplate) {
+  const pageTemplatePath = resolve('src/pages/contact-template.html');
+  try {
+    await stat(pageTemplatePath);
+  } catch {
+    console.warn(`  ⚠ src/pages/contact-template.html introuvable — page contact non générée.`);
+    return { deployed: false };
+  }
+
+  const jsonLd = renderContactJsonLd();
+
+  const html = await composePageFromTemplate(pageTemplatePath, mainTemplate, {
+    context: 'other',
+    replacements: [
+      ['<!-- CAROUSEL_IDS_JS -->', '[]'], // Pas de carrousel sur la page contact
+      ['<!-- PAGE_JSON_LD -->', jsonLd],
+      ['<!-- PAGE_TITLE -->', 'Contact'],
+    ],
+  });
+
+  const outDir = resolve(OUTPUT_DIR, CONTACT_PAGE_SLUG);
+  await mkdir(outDir, { recursive: true });
+  await writeFile(join(outDir, 'index.html'), html, 'utf8');
+  console.log(`  ✓ /${CONTACT_PAGE_SLUG}/ générée`);
+  return { deployed: true };
+}
+
+/**
+ * JSON-LD de la page contact : BreadcrumbList + ContactPage.
+ */
+function renderContactJsonLd() {
+  const url = `${SITE_ORIGIN}${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE_ORIGIN}${SITE_BASE}/` },
+      { '@type': 'ListItem', position: 2, name: 'Contact', item: url },
+    ],
+  };
+
+  const contactPage = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${url}#contactpage`,
+    url,
+    name: 'Contact — GIORGIA paris',
+    description: 'Contactez GIORGIA paris, grossiste B2B en prêt-à-porter féminin basé à Aubervilliers. Showroom, WhatsApp, email : toutes nos coordonnées pour vos commandes.',
+    isPartOf: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#website` },
+    inLanguage: 'fr-FR',
+    mainEntity: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
+  };
+
+  const graph = [breadcrumb, contactPage];
+  const safe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/<\/script>/gi, '<\\/script>');
+  return `<script type="application/ld+json">${safe}</script>`;
+}
+
+/* ==========================================================================
+   16. MAIN
    ========================================================================== */
 
 async function main() {
@@ -1919,21 +2617,44 @@ async function main() {
     catch (err) { console.warn('⚠ Audit images échoué (non bloquant) :', err.message); }
   }
 
-  // Regroupement par univers
-  const byUnivers = new Map();
-  for (const u of UNIVERS) byUnivers.set(u.id, []);
+  // ===================================================================
+  //  Regroupement par univers, avec routage home/archive.
+  //  Un enregistrement d'un univers `location: 'archive'` peut être routé
+  //  vers la home s'il porte un champ "Collection" ≠ "PE 2026" (nouvelle
+  //  collection dans un univers archive — cas futur AH 2026 / PE 2027).
+  //  Voir isArchiveRecord() pour la règle exacte.
+  // ===================================================================
+  const byUniversHome    = new Map(); // Map<univ.id, records[]> — rendus sur home
+  const byUniversArchive = new Map(); // Map<univ.id, records[]> — rendus sur /collection-printemps-ete-2026/
+  for (const u of UNIVERS) {
+    byUniversHome.set(u.id, []);
+    byUniversArchive.set(u.id, []);
+  }
   const unmatched = [];
   for (const rec of sortedRecords) {
     const cat = resolveCategorie(rec.fields || {});
     const univ = CATEGORY_TO_UNIVERS.get(normalizeKey(cat));
-    if (univ) byUnivers.get(univ.id).push(rec);
-    else if (cat) unmatched.push(cat);
+    if (!univ) {
+      if (cat) unmatched.push(cat);
+      continue;
+    }
+    if (isArchiveRecord(rec, univ)) {
+      byUniversArchive.get(univ.id).push(rec);
+    } else {
+      byUniversHome.get(univ.id).push(rec);
+    }
   }
   if (unmatched.length) {
     console.warn(`⚠ Catégories non reconnues dans Airtable :`, [...new Set(unmatched)]);
   }
+  console.log('  Répartition home / archive :');
   for (const u of UNIVERS) {
-    console.log(`  • ${u.label} : ${byUnivers.get(u.id).length} produits`);
+    const nHome    = byUniversHome.get(u.id).length;
+    const nArchive = byUniversArchive.get(u.id).length;
+    const suffix = u.location === 'archive'
+      ? `(archive: ${nArchive}${nHome > 0 ? ` — nouveau home: ${nHome}` : ''})`
+      : `(home: ${nHome})`;
+    console.log(`  • ${u.label} ${suffix}`);
   }
 
   // ===================================================================
@@ -1948,21 +2669,30 @@ async function main() {
   console.log('→ Rendu du HTML…');
   // Section Préventes (en tête de home, après le hero)
   const preventesHtml = renderPreventeSection(preventeRecords);
-  // Encart WhatsApp catalogue étendu (placement piloté par le flag
-  // insertWaCatalogueAfter sur l'univers concerné — actuellement Summer Vibes).
+  // Encart WhatsApp catalogue étendu — placé directement après la section
+  // Préventes (haut de page, maximise le rebond commercial vers WhatsApp).
   const waCatalogueHtml = renderWhatsAppCatalogue();
 
+  // Sections univers HOME uniquement — Summer Vibes et Bohème ne sont plus
+  // rendus ici (ils vivent sur /collection-printemps-ete-2026/).
   let sectionsHtml = '';
-  for (const u of UNIVERS) {
-    const recs = byUnivers.get(u.id) || [];
+  for (const u of HOME_UNIVERS) {
+    const recs = byUniversHome.get(u.id) || [];
     sectionsHtml += renderUniversSection(u, recs);
-    // Les flags sont évalués dans cet ordre. Un même univers pourrait
-    // (en théorie) avoir plusieurs encarts derrière lui ; en pratique
+    // Un même univers peut avoir plusieurs encarts derrière lui — en pratique
     // un seul flag est posé par univers pour rester lisible.
-    if (u.insertWaCatalogueAfter) sectionsHtml += waCatalogueHtml;
-    if (u.insertBannerAfter)      sectionsHtml += renderFeatBanner();
-    if (u.insertEditorialAfter)   sectionsHtml += renderEditorial();
+    if (u.insertBannerAfter)    sectionsHtml += renderFeatBanner();
+    if (u.insertEditorialAfter) sectionsHtml += renderEditorial();
   }
+
+  // ===================================================================
+  //  CTA HERO : la home hero affiche "Découvrir la collection".
+  //  Cible prioritaire : ancre #preventes s'il y a des préventes,
+  //  sinon fallback sur le premier univers home (#working = Urban Woman).
+  // ===================================================================
+  const heroCtaHref = preventeRecords.length > 0
+    ? '#preventes'
+    : `#${HOME_UNIVERS[0]?.id || 'working'}`;
 
   // JSON-LD
   const jsonLdHtml = renderJsonLd(sortedRecords);
@@ -1985,13 +2715,24 @@ async function main() {
   const heroLocal = localImageFor(ILLUSTRATION_URLS.heroPexels);
   const heroImageUrl = heroLocal ? heroLocal.jpg : ILLUSTRATION_URLS.heroPexels;
 
+  // IDs des carrousels à initialiser côté client sur la home.
+  // 'preventes' est un carrousel spécial rendu conditionnellement.
+  // Les IDs archive ('summer', 'boheme') ne sont PAS listés ici car ces sections
+  // n'existent plus sur la home — leurs carrousels sont initialisés sur la page
+  // /collection-printemps-ete-2026/ uniquement.
+  const homeCarouselIds = ['preventes', ...HOME_UNIVERS.map(u => u.id)];
+  const homeCarouselIdsJs = JSON.stringify(homeCarouselIds);
+
   // Substitutions des placeholders
   const replacements = [
     ['<!-- UNIVERS_NAV_TABS -->', renderUniversTabs()],
-    ['<!-- NAV_LINKS -->', renderNavLinks()],
-    ['<!-- MOB_MENU_LINKS -->', renderMobMenuLinks()],
+    ['<!-- NAV_LINKS -->', renderNavLinks('home')],
+    ['<!-- MOB_MENU_LINKS -->', renderMobMenuLinks('home')],
     ['<!-- PREVENTES_SECTION -->', preventesHtml],
+    ['<!-- WA_CATALOGUE_SECTION -->', waCatalogueHtml],
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
+    ['<!-- HERO_CTA_HREF -->', heroCtaHref],
+    ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
@@ -2027,21 +2768,55 @@ async function main() {
   await mkdir(OUTPUT_DIR, { recursive: true });
   await writeFile(OUTPUT_HTML, html, 'utf8');
   await writeFile(resolve(OUTPUT_DIR, 'robots.txt'), renderRobotsTxt(), 'utf8');
-  await writeFile(resolve(OUTPUT_DIR, 'sitemap.xml'), renderSitemapXml(now), 'utf8');
 
   if (CUSTOM_DOMAIN) {
     await writeFile(resolve(OUTPUT_DIR, 'CNAME'), `${CUSTOM_DOMAIN}\n`, 'utf8');
   }
+
+  // ===================================================================
+  //  Page archive — /collection-printemps-ete-2026/
+  //  Rassemble tous les produits des univers `location: 'archive'`
+  //  (Summer Vibes + Bohème) sur une page dédiée.
+  // ===================================================================
+  console.log(`→ Génération de /${ARCHIVE_PAGE_SLUG}/…`);
+  await buildArchivePage(byUniversArchive, template);
+
+  // ===================================================================
+  //  Page contact — /contact/
+  //  Page SEO enrichie avec coordonnées, showroom, FAQ commande.
+  //  La section #contact reste également sur la home (duplication assumée).
+  // ===================================================================
+  console.log(`→ Génération de /${CONTACT_PAGE_SLUG}/…`);
+  await buildContactPage(template);
 
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
   await copyLegalPages();
 
   // Pipeline articles "Tendances & Conseils Pro"
+  let articlesForSitemap = [];
   const articlesResult = await buildArticles(sortedRecords);
   if (articlesResult.deployed) {
     console.log(`✓ ${articlesResult.count} article(s) "Tendances & Conseils Pro" généré(s).`);
+    
+    // Générer la page hub
+    const hubResult = await buildArticlesIndex(articlesResult.articles);
+    if (hubResult.deployed) {
+      console.log(`✓ Page hub "/tendances-conseils-pro/" générée.`);
+    }
+    
+    // Générer le JSON des 3 derniers articles pour la home
+    const jsonResult = await generateLatestArticlesJson(articlesResult.articles);
+    if (jsonResult.deployed) {
+      console.log(`✓ JSON articles générés pour la home.`);
+    }
+    
+    // Stocker les articles pour la sitemap
+    articlesForSitemap = articlesResult.articles || [];
   }
+
+  // Générer la sitemap (avec les articles)
+  await writeFile(resolve(OUTPUT_DIR, 'sitemap.xml'), renderSitemapXml(now, articlesForSitemap), 'utf8');
 
   await writeFile(
     resolve(OUTPUT_DIR, 'build-info.json'),
