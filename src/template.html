@@ -179,52 +179,68 @@
       text-decoration: none; color: var(--taupe);
       transition: color .3s;
       font-family: inherit;
-      background: transparent; border: none; cursor: pointer; padding: 0;
       display: inline-flex; align-items: center; gap: .35rem;
     }
     .nav-links a:hover,
-    .nav-links .nav-dropdown-toggle:hover,
     .nav-links .nav-dropdown:hover .nav-dropdown-toggle,
-    .nav-links .nav-dropdown-toggle[aria-expanded="true"] { color: var(--black); }
+    .nav-links .nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--black); }
 
-    /* ===================== NAV DROPDOWN "Nos Univers" ===================== */
+    /* ===================== NAV DROPDOWN "Nos Univers" =====================
+       Ouverture 100% au hover (aussi accessible clavier via :focus-within
+       grâce à tabindex="0" sur le <li>). Le toggle est un <span>, pas un
+       <button>, pour ne pas requérir de clic. */
+    .nav-dropdown { cursor: default; outline: none; }
+    .nav-dropdown-toggle { cursor: default; user-select: none; }
     .nav-dropdown-chev {
       font-size: .85em; line-height: 1;
       transition: transform .25s ease;
     }
     .nav-dropdown:hover .nav-dropdown-chev,
-    .nav-dropdown-toggle[aria-expanded="true"] .nav-dropdown-chev {
+    .nav-dropdown:focus-within .nav-dropdown-chev {
       transform: rotate(180deg);
     }
     .nav-dropdown-menu {
       position: absolute;
-      top: calc(100% + .6rem);
+      top: 100%;
       left: 50%;
       transform: translateX(-50%) translateY(-6px);
       min-width: 280px;
-      background: rgba(255,255,255,.98);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border);
-      border-top: 2px solid var(--gold);
+      /* Marge visuelle assurée par padding-top — sert de zone tampon
+         entre le toggle et le menu pour que la souris puisse traverser
+         sans que le menu se ferme (pas de "gap" mort). */
+      margin-top: 0;
+      padding-top: .6rem;
+      background: transparent;
       list-style: none;
-      padding: .6rem 0;
-      margin: 0;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
-      box-shadow: 0 10px 40px rgba(0,0,0,.08);
       z-index: 250;
     }
+    /* Fond blanc + bordure + ombre appliqués à un <div> interne virtuel via
+       ::before pour rester dans le bloc "menu" — ici on utilise un simple
+       fond via background sur le UL, décalé par le padding-top qui, lui,
+       reste transparent (donc hover-friendly). */
+    .nav-dropdown-menu::before {
+      content: "";
+      position: absolute;
+      top: .6rem; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      box-shadow: 0 10px 40px rgba(0,0,0,.08);
+      z-index: -1;
+    }
     .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown:focus-within .nav-dropdown-menu,
-    .nav-dropdown-toggle[aria-expanded="true"] + .nav-dropdown-menu {
+    .nav-dropdown:focus-within .nav-dropdown-menu {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
       transform: translateX(-50%) translateY(0);
     }
-    .nav-dropdown-menu li { list-style: none; }
+    .nav-dropdown-menu li { list-style: none; position: relative; }
     .nav-dropdown-menu a {
       display: block;
       padding: .7rem 1.5rem;
@@ -1170,8 +1186,8 @@
        le site n'est qu'une partie du catalogue total.
        ========================================================= */
     .wa-catalog {
-      background: var(--charcoal);
-      color: var(--pv-text);
+      background: var(--cream);
+      color: var(--black);
       padding: 3rem 1.5rem;
       margin: 2rem 0;
     }
@@ -1194,11 +1210,11 @@
       font-family: var(--ff-display);
       font-size: clamp(1.35rem, 2.4vw, 1.85rem);
       font-weight: 400; line-height: 1.2;
-      color: var(--pv-text);
+      color: var(--black);
       margin-bottom: .55rem;
     }
     .wa-catalog-text p {
-      color: var(--pv-text-mut);
+      color: var(--taupe);
       font-size: .92rem; line-height: 1.55;
       max-width: 580px;
     }
@@ -1211,11 +1227,12 @@
       font-size: .68rem; font-weight: 500;
       letter-spacing: .18em; text-transform: uppercase;
       padding: .95rem 2rem;
-      transition: background .25s var(--ease), transform .25s var(--ease);
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
       white-space: nowrap;
     }
     .wa-catalog-cta:hover {
-      background: var(--white);
+      background: var(--charcoal);
+      color: var(--white);
       transform: translateY(-1px);
     }
     @media (max-width: 880px) {
