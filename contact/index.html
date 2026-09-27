@@ -759,42 +759,84 @@
     }
     .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
 
-    /* Bande de réassurance : plateformes partenaires.
-       Volontairement sobre — c'est une preuve de sérieux, pas un CTA.
-       Logos désaturés et translucides, révélés au survol uniquement. */
+    /* ===================== BANDE PARTENAIRES =====================
+       Les logos fournis sont en noir pur (#000) sur fond transparent.
+       Sur fond sombre ils seraient invisibles : la variante --dark les
+       inverse en blanc via brightness(0) invert(1). Sur fond clair
+       (--light) ils restent noirs, simplement atténués.
+       Traitement volontairement sobre : c'est une preuve, pas un CTA. */
     .partners-band {
       display: flex; flex-direction: column; align-items: center;
-      gap: 1rem;
+      gap: 1.1rem;
+    }
+    .partners-label {
+      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+    }
+    .partners-list {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 1.4rem 3rem;
+    }
+    .partner-item {
+      display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: opacity .3s var(--ease), filter .3s var(--ease);
+    }
+    .partner-item img {
+      height: auto; width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .partner-item .partner-name {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* — Variante sombre : footer — */
+    .partners-band--dark {
       padding: 2rem 1.5rem 1.4rem;
       border-top: 1px solid rgba(255,255,255,.08);
       margin-top: 1.5rem;
     }
-    .partners-label {
-      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
-      color: rgba(255,255,255,.4);
+    .partners-band--dark .partners-label { color: rgba(255,255,255,.42); }
+    .partners-band--dark .partner-item {
+      /* brightness(0) aplatit le logo en noir, invert(1) le passe en blanc.
+         Fonctionne quelle que soit la couleur d'origine du fichier. */
+      filter: brightness(0) invert(1);
+      opacity: .55;
     }
-    .partners-list {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-      gap: 1.2rem 2.8rem;
+    .partners-band--dark .partner-item:hover { opacity: 1; }
+    .partners-band--dark .partner-name { color: rgba(255,255,255,.75); }
+
+    /* — Variante claire : strate de la home — */
+    .partners-section {
+      background: var(--cream);
+      padding: 4.5rem 2rem;
     }
-    .partner-item {
-      display: inline-flex; align-items: center;
-      text-decoration: none;
-      opacity: .45;
-      filter: grayscale(1);
-      transition: opacity .3s var(--ease), filter .3s var(--ease);
+    .partners-section-inner {
+      max-width: 900px; margin: 0 auto; text-align: center;
     }
-    .partner-item:hover { opacity: .9; filter: grayscale(0); }
-    .partner-item img {
-      height: 26px; width: auto; max-width: 150px;
-      object-fit: contain;
-      display: block;
+    .partners-section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 1rem;
+      letter-spacing: -.01em;
     }
-    /* Repli texte quand le logo n'est pas encore fourni */
-    .partner-item .partner-name {
-      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.75);
-      white-space: nowrap;
+    .partners-section-sub {
+      font-size: .96rem; line-height: 1.7;
+      color: var(--taupe);
+      max-width: 620px;
+      margin: 0 auto 2.8rem;
+    }
+    .partners-band--light .partners-label { color: var(--taupe); opacity: .7; }
+    .partners-band--light .partner-item { opacity: .6; }
+    .partners-band--light .partner-item:hover { opacity: 1; }
+    .partners-band--light .partner-name { color: var(--charcoal); }
+
+    @media(max-width:700px) {
+      .partners-section { padding: 3rem 1.4rem; }
+      .partners-section-sub { margin-bottom: 2rem; }
     }
 
     /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
@@ -816,8 +858,8 @@
       .foot-right { text-align: center; }
       .foot-bottom { padding: 1rem 1.5rem; }
       .foot-legal { gap: .3rem 1rem; }
-      .partners-list { gap: 1rem 1.6rem; }
-      .partner-item img { height: 22px; }
+      .partners-list { gap: 1.1rem 1.8rem; }
+      .partner-item img { transform: scale(.82); }
       .foot-legal .sep { display: none; }
     }
 
