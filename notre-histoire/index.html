@@ -1465,17 +1465,20 @@
 <body style="--histoire-hero-img: url('/giorgia-paris-vitrinePE2026/img/pages/notre-histoire-hero.jpg')">
 
   <!-- ========== BANDEAU STICKY WHATSAPP ========== -->
-  <a
-    id="wa-banner-link"
-    href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
-    target="_blank"
-    aria-label="Contacter GIORGIA paris sur WhatsApp — Catalogue complet">
+  <!-- ========== BANDEAU STICKY WHATSAPP (partagé, extrait de template.html) ==========
+       Ne PAS recopier le markup ici : son SVG dépend du wrapper .wa-banner-icon
+       défini dans la CSS du site. -->
+  <a id="wa-banner-link"
+     href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
+     target="_blank" rel="noopener noreferrer"
+     style="display:contents">
   <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
-      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path fill="currentColor" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
-      </svg>
-      <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
-    </div>
+    <span class="wa-banner-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </span>
+    <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
+    <span class="wa-banner-arrow" aria-hidden="true">→</span>
+  </div>
   </a>
 
   <!-- ========== STICKY CONTACT PANEL ========== -->
