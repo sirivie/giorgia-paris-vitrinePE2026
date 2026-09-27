@@ -1450,12 +1450,19 @@ function renderSitemapXml(now, articlesData = []) {
    "/confidentialite/") pour des raisons SEO et de lisibilité.
 */
 
-// Mapping : nom du fichier source → nom du dossier de sortie (= URL)
+// Mapping : nom(s) de fichier source → nom du dossier de sortie (= URL).
+// La valeur peut être une chaîne (nom de fichier unique) ou un tableau de
+// noms candidats : le premier qui existe dans src/legal/ est utilisé. Cette
+// tolérance évite qu'un simple écart de nommage fasse disparaître une page.
 const LEGAL_PAGES_MAP = {
-  'mentions-legales.html':         'mentions-legales',
-  'cgv.html':                      'cgv',
-  'politique-confidentialite.html':'confidentialite',
-  'politique-retour.html':         'politique-retour',
+  'mentions-legales':  { candidates: ['mentions-legales.html'],          out: 'mentions-legales' },
+  'cgv':               { candidates: ['cgv.html'],                       out: 'cgv' },
+  'confidentialite':   { candidates: ['politique-confidentialite.html', 'confidentialite.html'], out: 'confidentialite' },
+  'politique-retour':  { candidates: ['politique-retour.html'],          out: 'politique-retour' },
+  // Page "Qui sommes-nous" — URL /notre-histoire/ conservée (déjà indexée
+  // par Google, cf. travaux SEO Phase 4). Plusieurs noms de fichier tolérés
+  // car le nommage a varié au fil des versions.
+  'notre-histoire':    { candidates: ['notre-histoire.html', 'qui-sommes-nous.html', 'notre-histoire.htm'], out: 'notre-histoire' },
 };
 
 async function copyLegalPages() {
@@ -1489,14 +1496,27 @@ async function copyLegalPages() {
   // liens internes par SITE_BASE. Ainsi la même source HTML fonctionne
   // en prod (SITE_BASE='') et en qualif (SITE_BASE='/giorgia-paris-vitrinePE2026').
   const deployedPages = [];
-  for (const [srcFile, outFolder] of Object.entries(LEGAL_PAGES_MAP)) {
-    const srcPath = join(srcDir, srcFile);
-    try {
-      await stat(srcPath);
-    } catch {
-      console.warn(`  ⚠ ${srcFile} manquant dans src/legal/ — page /${outFolder}/ non déployée.`);
+  for (const [key, entry] of Object.entries(LEGAL_PAGES_MAP)) {
+    const { candidates, out: outFolder } = entry;
+
+    // On prend le premier nom de fichier candidat qui existe réellement.
+    let srcFile = null;
+    let srcPath = null;
+    for (const candidate of candidates) {
+      const p = join(srcDir, candidate);
+      try {
+        await stat(p);
+        srcFile = candidate;
+        srcPath = p;
+        break;
+      } catch { /* candidat absent, on essaie le suivant */ }
+    }
+
+    if (!srcPath) {
+      console.warn(`  ⚠ Aucun fichier trouvé pour /${outFolder}/ dans src/legal/ (cherché : ${candidates.join(', ')}) — page non déployée.`);
       continue;
     }
+
     const outDir = resolve(OUTPUT_DIR, outFolder);
     const outPath = join(outDir, 'index.html');
     await mkdir(outDir, { recursive: true });
