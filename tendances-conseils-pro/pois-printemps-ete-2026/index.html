@@ -45,16 +45,62 @@
 
   <!-- ========== CSS PARTAGÉ ARTICLES ========== -->
   <link rel="stylesheet" href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/articles-styles.css">
+<style data-shared-nav>
+  .nav-links > li { position: relative; }
+  .nav-dropdown { cursor: default; outline: none; }
+  .nav-dropdown-toggle {
+    cursor: default; user-select: none;
+    display: inline-flex; align-items: center; gap: .35rem;
+    font: inherit; font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: inherit;
+  }
+  .nav-dropdown-chev { font-size: .85em; line-height: 1; transition: transform .25s ease; }
+  .nav-dropdown:hover .nav-dropdown-chev,
+  .nav-dropdown:focus-within .nav-dropdown-chev { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 280px; margin: 0; padding-top: .6rem;
+    list-style: none; background: transparent;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+    z-index: 250;
+  }
+  .nav-dropdown-menu::before {
+    content: ""; position: absolute; top: .6rem; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,.98);
+    border: 1px solid rgba(0,0,0,.08); border-top: 2px solid #C5A36A;
+    box-shadow: 0 10px 40px rgba(0,0,0,.08); z-index: -1;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nav-dropdown-menu li { list-style: none; position: relative; }
+  .nav-dropdown-menu a {
+    display: block; padding: .7rem 1.5rem;
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .nav-dropdown-menu a:hover { background: rgba(197,163,106,.08); color: #C5A36A; }
+  #mob-menu .mob-menu-heading {
+    font-size: .68rem; font-weight: 500; letter-spacing: .22em;
+    text-transform: uppercase; color: #C5A36A;
+    padding: 1.2rem 0 .3rem; width: 100%; text-align: center; opacity: .85;
+  }
+  #mob-menu .mob-menu-sep {
+    width: 40px; height: 1px; background: rgba(255,255,255,.18);
+    margin: 1.4rem auto .6rem;
+  }
+</style>
 </head>
 <body>
 
   <!-- ========== MOBILE MENU ========== -->
   <div id="mob-menu">
     <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
-    <a href="/giorgia-paris-vitrinePE2026/">Catalogue</a>
-    <a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a>
-    <a href="/giorgia-paris-vitrinePE2026/#contact">Contact</a>
-    <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored" style="color:var(--gold)">Commander</a>
+    <div class="mob-menu-heading">Nos Univers</div><a href="/giorgia-paris-vitrinePE2026/#working" onclick="closeMob()">Urban Woman</a><a href="/giorgia-paris-vitrinePE2026/#chic" onclick="closeMob()">Chic &amp; Soirée</a><a href="/giorgia-paris-vitrinePE2026/#casual" onclick="closeMob()">Casual</a><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/" onclick="closeMob()">Ancienne Collection Printemps-Été 2026</a><div class="mob-menu-sep" aria-hidden="true"></div><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a><a href="/giorgia-paris-vitrinePE2026/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a><a href="/giorgia-paris-vitrinePE2026/contact/" onclick="closeMob()">Contact</a><a href="/giorgia-paris-vitrinePE2026/contact/" onclick="closeMob()" style="color:var(--gold)">Commander</a>
   </div>
 
   <!-- ========== NAVBAR ========== -->
@@ -63,11 +109,7 @@
       <span class="logo-g">GIORGIA</span>
       <span class="logo-p">paris</span>
     </a>
-    <ul class="nav-links">
-      <li><a href="/giorgia-paris-vitrinePE2026/">Catalogue</a></li>
-      <li><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/" aria-current="page">Tendances &amp; Conseils Pro</a></li>
-      <li><a href="/giorgia-paris-vitrinePE2026/#contact">Contact</a></li>
-    </ul>
+    <ul class="nav-links"><li class="nav-dropdown" tabindex="0"><span class="nav-dropdown-toggle" aria-haspopup="true">Nos Univers <span class="nav-dropdown-chev" aria-hidden="true">▾</span></span><ul class="nav-dropdown-menu" role="menu"><li><a href="/giorgia-paris-vitrinePE2026/#working">Urban Woman</a></li><li><a href="/giorgia-paris-vitrinePE2026/#chic">Chic &amp; Soirée</a></li><li><a href="/giorgia-paris-vitrinePE2026/#casual">Casual</a></li><li><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/">Ancienne Collection Printemps-Été 2026</a></li></ul></li><li><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li><li><a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a></li><li><a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a></li></ul>
     <div class="nav-right">
       <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
     </div>
@@ -129,7 +171,7 @@
       <p>Notre équipe est disponible pour vous conseiller sur le pack le plus adapté à votre boutique.</p>
       <div class="article-cta-buttons">
         <a class="article-cta-btn article-cta-btn--primary" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20des%20conseils%20sur%20%22Pois%20printemps%20%C3%A9t%C3%A9%202026%20%3A%20la%20tendance%20qui%20va%20tourner%20en%20boutique%22." target="_blank" rel="noopener noreferrer">Contacter sur WhatsApp</a>
-        <a class="article-cta-btn article-cta-btn--secondary" href="/giorgia-paris-vitrinePE2026/#contact">Visiter le showroom</a>
+        <a class="article-cta-btn article-cta-btn--secondary" href="/giorgia-paris-vitrinePE2026/contact/">Visiter le showroom</a>
       </div>
     </section>
   </main>
@@ -208,7 +250,7 @@
         </a>
 
         <!-- Showroom -->
-        <a class="sp-row" href="/giorgia-paris-vitrinePE2026/#contact">
+        <a class="sp-row" href="/giorgia-paris-vitrinePE2026/contact/">
           <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#2A2724"/>
             <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
