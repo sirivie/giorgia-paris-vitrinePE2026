@@ -843,36 +843,50 @@
     .partners-band--dark .partner-item:hover { opacity: 1; }
     .partners-band--dark .partner-name { color: rgba(255,255,255,.75); }
 
-    /* — Variante claire : strate de la home — */
-    .partners-section {
-      background: var(--cream);
-      padding: 4.5rem 2rem;
-    }
-    .partners-section-inner {
-      max-width: 900px; margin: 0 auto; text-align: center;
-    }
-    .partners-section-title {
-      font-family: var(--ff-display);
-      font-size: clamp(1.6rem, 3.2vw, 2.3rem);
-      font-weight: 400;
-      color: var(--black);
-      margin-bottom: 1rem;
-      letter-spacing: -.01em;
-    }
-    .partners-section-sub {
-      font-size: .96rem; line-height: 1.7;
-      color: var(--taupe);
-      max-width: 620px;
-      margin: 0 auto 2.8rem;
-    }
+    /* — Variante claire : conservée pour un usage éventuel sur fond crème — */
     .partners-band--light .partners-label { color: var(--taupe); opacity: .7; }
     .partners-band--light .partner-item { opacity: .6; }
     .partners-band--light .partner-item:hover { opacity: 1; }
     .partners-band--light .partner-name { color: var(--charcoal); }
 
+    /* — Strate de la home —
+       Même fond charcoal que la strate "Qui sommes-nous", pour marquer la
+       rupture avec les strates crème qui l'encadrent.
+       Hauteur volontairement compacte : c'est une respiration de
+       réassurance, pas une section à part entière. */
+    .partners-section {
+      background: var(--charcoal);
+      padding: 2.6rem 2rem 2.2rem;
+    }
+    .partners-section-inner {
+      max-width: 860px; margin: 0 auto; text-align: center;
+    }
+    .partners-section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: .55rem;
+      letter-spacing: -.005em;
+    }
+    .partners-section-sub {
+      font-size: .87rem; line-height: 1.6;
+      color: rgba(255,255,255,.6);
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+    }
+    /* Dans la strate, la bande n'a ni filet ni marge : le fond suffit
+       à la séparer du reste de la page. */
+    .partners-section .partners-band {
+      padding: 0;
+      border-top: none;
+      margin-top: 0;
+      gap: .8rem;
+    }
+
     @media(max-width:700px) {
-      .partners-section { padding: 3rem 1.4rem; }
-      .partners-section-sub { margin-bottom: 2rem; }
+      .partners-section { padding: 2.2rem 1.4rem 1.9rem; }
+      .partners-section-sub { margin-bottom: 1.3rem; font-size: .84rem; }
     }
 
     /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
