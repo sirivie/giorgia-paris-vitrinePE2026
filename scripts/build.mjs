@@ -2259,9 +2259,12 @@ async function buildArticles(allRecords) {
  * la bande reste donc fonctionnelle même sans aucun logo.
  */
 const PARTNER_PLATFORMS = [
-  { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops' },
-  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion' },
-  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire' },
+  // maxH : hauteur optique en px. Elle diffère par logo car les proportions
+  // sont très inégales (PFS est carré, Efashion en 3:1, Faire en 8:1). Une
+  // hauteur uniforme donnerait un alignement visuellement déséquilibré.
+  { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops', maxH: 44, maxW: 110 },
+  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion',            maxH: 30, maxW: 130 },
+  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire',               maxH: 18, maxW: 120 },
 ];
 
 /** Logos partenaires réellement présents sur le disque (rempli au build). */
@@ -2302,20 +2305,49 @@ async function processPartnerLogos() {
   }
 }
 
-function renderPartnersBand() {
+/**
+ * Rend la bande de réassurance.
+ *
+ * @param {'dark'|'light'} variant
+ *   'dark'  → footer (fond sombre). Les logos fournis sont en noir pur sur
+ *             fond transparent : ils seraient invisibles. La CSS les inverse
+ *             en blanc via filter: brightness(0) invert(1).
+ *   'light' → strate de la home (fond crème). Les logos restent en noir,
+ *             simplement atténués.
+ */
+function renderPartnersBand(variant = 'dark') {
   const items = PARTNER_PLATFORMS.map(p => {
     const logoUrl = partnerLogoUrls.get(p.logo);
     const inner = logoUrl
-      ? `<img src="${logoUrl}" alt="${esc(p.name)}" loading="lazy" decoding="async">`
+      ? `<img src="${logoUrl}" alt="${esc(p.name)}" loading="lazy" decoding="async" style="max-height:${p.maxH}px;max-width:${p.maxW}px">`
       : `<span class="partner-name">${esc(p.name)}</span>`;
     return `<a class="partner-item" href="${p.url}" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur ${esc(p.name)}">${inner}</a>`;
   }).join('');
 
   return [
-    '<div class="partners-band">',
+    `<div class="partners-band partners-band--${variant}">`,
     '<p class="partners-label">Retrouvez GIORGIA paris sur</p>',
     `<div class="partners-list">${items}</div>`,
     '</div>',
+  ].join('');
+}
+
+/**
+ * Strate de réassurance de la home — remplace l'ancien encart éditorial
+ * "Vêtir les boutiques qui font la différence". Même emplacement (après
+ * Urban Woman), mais joue désormais un rôle de preuve : montrer que GIORGIA
+ * est référencé sur les plateformes B2B de référence rassure une boutique
+ * qui découvre la marque.
+ */
+function renderPartnersSection() {
+  return [
+    '<section class="partners-section" aria-labelledby="partners-section-title">',
+    '<div class="partners-section-inner">',
+    '<h2 id="partners-section-title" class="partners-section-title">Une marque reconnue par les professionnels</h2>',
+    '<p class="partners-section-sub">GIORGIA paris est référencé sur les principales plateformes B2B du secteur. Pour commander sans intermédiaire et bénéficier de nos meilleures conditions, contactez directement notre équipe.</p>',
+    renderPartnersBand('light'),
+    '</div>',
+    '</section>',
   ].join('');
 }
 
@@ -2408,35 +2440,38 @@ function renderSharedNavCss() {
     width: 40px; height: 1px; background: rgba(255,255,255,.18);
     margin: 1.4rem auto .6rem;
   }
-  /* Bande de réassurance partenaires (footer des pages articles) */
+  /* Bande de réassurance partenaires (footer des pages articles).
+     Logos fournis en noir pur : inversés en blanc pour le fond sombre. */
   .partners-band {
-    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
     padding: 2rem 1.5rem 1.4rem;
     border-top: 1px solid rgba(255,255,255,.08);
     margin-top: 1.5rem;
   }
   .partners-label {
     font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
-    color: rgba(255,255,255,.4);
+    color: rgba(255,255,255,.42);
   }
   .partners-list {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-    gap: 1.2rem 2.8rem;
+    gap: 1.4rem 3rem;
   }
   .partner-item {
-    display: inline-flex; align-items: center; text-decoration: none;
-    opacity: .45; filter: grayscale(1);
-    transition: opacity .3s ease, filter .3s ease;
+    display: inline-flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    filter: brightness(0) invert(1);
+    opacity: .55;
+    transition: opacity .3s ease;
   }
-  .partner-item:hover { opacity: .9; filter: grayscale(0); }
-  .partner-item img { height: 26px; width: auto; max-width: 150px; object-fit: contain; display: block; }
+  .partner-item:hover { opacity: 1; }
+  .partner-item img { height: auto; width: auto; object-fit: contain; display: block; }
   .partner-item .partner-name {
     font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
     color: rgba(255,255,255,.75); white-space: nowrap;
   }
   @media (max-width: 700px) {
-    .partners-list { gap: 1rem 1.6rem; }
-    .partner-item img { height: 22px; }
+    .partners-list { gap: 1.1rem 1.8rem; }
+    .partner-item img { transform: scale(.82); }
   }
 </style>`;
 }
@@ -2476,7 +2511,7 @@ function injectSharedNav(html, label) {
   const footRe = /(<nav[^>]*class="[^"]*foot-legal[^"]*"[^>]*>)([\s\S]*?)(<\/nav>)/;
   if (footRe.test(out)) {
     out = out.replace(footRe, (_m, open, _inner, close) =>
-      `${renderPartnersBand()}\n      ${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
+      `${renderPartnersBand('dark')}\n      ${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
     footDone = true;
   } else {
     console.warn(`  ⚠ ${label} : <nav class="foot-legal"> introuvable — footer non uniformisé.`);
@@ -2675,7 +2710,7 @@ async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextRe
     ['<!-- NAV_LINKS -->',             renderNavLinks(context)],
     ['<!-- MOB_MENU_LINKS -->',        renderMobMenuLinks(context)],
     ['<!-- SHARED_FOOTER -->',         sharedFooter],
-    ['<!-- PARTNERS_BAND -->',         renderPartnersBand()],
+    ['<!-- PARTNERS_BAND -->',         renderPartnersBand('dark')],
     ['<!-- FOOT_LEGAL_LINKS -->',      renderFootLegalLinks()],
     ['<!-- SHARED_JS -->',             sharedJs],
     ['<!-- SITE_ORIGIN -->',           SITE_ORIGIN],
@@ -3185,7 +3220,7 @@ async function main() {
     sectionsHtml += renderUniversSection(u, recs);
     // Un même univers peut avoir plusieurs encarts derrière lui — en pratique
     // un seul flag est posé par univers pour rester lisible.
-    if (u.insertBannerAfter)    sectionsHtml += renderFeatBanner();
+    if (u.insertBannerAfter)    sectionsHtml += renderPartnersSection();
     if (u.insertEditorialAfter) sectionsHtml += renderEditorial();
   }
 
@@ -3237,7 +3272,7 @@ async function main() {
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
-    ['<!-- PARTNERS_BAND -->', renderPartnersBand()],
+    ['<!-- PARTNERS_BAND -->', renderPartnersBand('dark')],
     ['<!-- FOOT_LEGAL_LINKS -->', renderFootLegalLinks()],
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
