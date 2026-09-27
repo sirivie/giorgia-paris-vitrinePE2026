@@ -254,6 +254,242 @@
       line-height: 1.65;
     }
 
+    /* ===================== CANAL PRIORITAIRE WHATSAPP ===================== */
+    .contact-whatsapp {
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      padding: 0 2rem;
+    }
+    .contact-whatsapp-inner {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 3px solid #25D366;
+      padding: 2.2rem 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .contact-whatsapp-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-whatsapp-icon svg { width: 34px; height: 34px; }
+    .contact-whatsapp-eyebrow {
+      font-size: .66rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #1da851;
+      margin-bottom: .45rem;
+    }
+    .contact-whatsapp-text h2 {
+      font-family: var(--ff-display);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: .5rem;
+    }
+    .contact-whatsapp-text p {
+      font-size: .93rem;
+      line-height: 1.6;
+      color: var(--taupe);
+      max-width: 560px;
+    }
+    .contact-whatsapp-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #25D366; color: #fff;
+      text-decoration: none;
+      font-size: .7rem; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      padding: .95rem 2rem;
+      white-space: nowrap;
+      transition: background .25s, transform .25s;
+    }
+    .contact-whatsapp-cta:hover { background: #1da851; transform: translateY(-1px); }
+
+    /* ===================== FORMULAIRE ===================== */
+    .contact-form-section {
+      max-width: 900px;
+      margin: 4rem auto 0;
+      padding: 0 2rem;
+    }
+    .contact-form-head { text-align: center; margin-bottom: 2.5rem; }
+    .contact-form-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+    }
+    .contact-form-head h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+    .contact-form-intro {
+      font-size: .96rem;
+      line-height: 1.7;
+      color: var(--taupe);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .contact-form {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    /* Honeypot : invisible pour l'utilisateur, piège à bots */
+    .cf-hp {
+      position: absolute !important;
+      left: -9999px;
+      opacity: 0;
+      height: 0; width: 0;
+    }
+    .cf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+    .cf-field { display: flex; flex-direction: column; }
+    .cf-field--full { grid-column: 1 / -1; }
+    .cf-field label,
+    .cf-fieldset legend {
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: .55rem;
+      font-weight: 500;
+    }
+    .cf-req { color: var(--gold); }
+    .cf-field input[type="text"],
+    .cf-field input[type="email"],
+    .cf-field input[type="tel"],
+    .cf-field select,
+    .cf-field textarea {
+      font-family: var(--ff-body);
+      font-size: .95rem;
+      color: var(--black);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: .85rem 1rem;
+      width: 100%;
+      transition: border-color .25s, background .25s;
+    }
+    .cf-field input:focus,
+    .cf-field select:focus,
+    .cf-field textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--white);
+    }
+    .cf-field input::placeholder,
+    .cf-field textarea::placeholder { color: rgba(138,124,110,.6); }
+    .cf-field textarea { resize: vertical; min-height: 120px; }
+    .cf-field input[aria-invalid="true"],
+    .cf-field select[aria-invalid="true"] { border-color: #c0392b; }
+
+    .cf-fieldset { border: none; padding: 0; margin: 0; }
+    .cf-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem 1.4rem;
+    }
+    .cf-check {
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      font-size: .92rem;
+      color: var(--charcoal);
+      text-transform: none;
+      letter-spacing: 0;
+      cursor: pointer;
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    .cf-check input[type="checkbox"] {
+      accent-color: var(--gold);
+      width: 16px; height: 16px;
+      margin-top: .15rem;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .cf-consent {
+      font-size: .85rem;
+      line-height: 1.55;
+      color: var(--taupe);
+      align-items: flex-start;
+    }
+    .cf-consent a { color: var(--gold); text-decoration: underline; }
+
+    .cf-actions {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .9rem;
+    }
+    .cf-submit {
+      font-family: var(--ff-body);
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 1.05rem 3rem;
+      cursor: pointer;
+      transition: background .25s, transform .25s;
+    }
+    .cf-submit:hover:not(:disabled) { background: var(--gold); transform: translateY(-1px); }
+    .cf-submit:disabled { opacity: .55; cursor: not-allowed; }
+    .cf-note { font-size: .78rem; color: var(--taupe); text-align: center; }
+
+    .cf-status {
+      margin-top: 1.2rem;
+      padding: .9rem 1.2rem;
+      font-size: .9rem;
+      line-height: 1.55;
+      text-align: center;
+      display: none;
+    }
+    .cf-status.is-visible { display: block; }
+    .cf-status.is-success {
+      background: rgba(37,211,102,.1);
+      border: 1px solid rgba(37,211,102,.35);
+      color: #14803c;
+    }
+    .cf-status.is-error {
+      background: rgba(192,57,43,.07);
+      border: 1px solid rgba(192,57,43,.3);
+      color: #c0392b;
+    }
+
+    @media(max-width: 800px) {
+      .contact-whatsapp { padding: 0 1.2rem; }
+      .contact-whatsapp-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 2rem 1.4rem;
+        gap: 1.2rem;
+      }
+      .contact-whatsapp-icon { margin: 0 auto; }
+      .contact-whatsapp-text p { margin: 0 auto; }
+      .contact-whatsapp-cta { width: 100%; }
+      .contact-form-section { padding: 0 1.2rem; }
+      .contact-form { padding: 1.6rem 1.3rem; }
+      .cf-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .cf-submit { width: 100%; }
+    }
+
     @media(max-width: 800px) {
       .contact-main { grid-template-columns: 1fr; gap: 2rem; padding: 0 1.2rem; }
       .contact-showroom-inner { grid-template-columns: 1fr; gap: 2rem; }
@@ -292,7 +528,7 @@
       <!-- NAV_LINKS -->
     </ul>
     <div class="nav-right">
-      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <a class="btn-nav" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
       <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
     </div>
   </nav>
@@ -311,6 +547,142 @@
       <h1>Contactez GIORGIA paris</h1>
       <p class="contact-page-hero-sub">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance pour votre boutique.</p>
     </div>
+  </section>
+
+  <!-- ========== CANAL PRIORITAIRE : WHATSAPP ==========
+       Placé avant tout le reste : en gros de mode, WhatsApp convertit
+       nettement mieux qu'un formulaire (réponse rapide, envoi de photos,
+       conversation continue). Le formulaire plus bas est le second chemin,
+       pour les visiteurs hors horaires ou qui préfèrent l'écrit formel. -->
+  <section class="contact-whatsapp" aria-labelledby="contact-wa-title">
+    <div class="contact-whatsapp-inner">
+      <div class="contact-whatsapp-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+        </svg>
+      </div>
+      <div class="contact-whatsapp-text">
+        <p class="contact-whatsapp-eyebrow">Le plus rapide</p>
+        <h2 id="contact-wa-title">Écrivez-nous sur WhatsApp</h2>
+        <p>Réponse en général dans l'heure pendant les horaires d'ouverture. C'est le canal idéal pour vérifier une disponibilité, recevoir des photos complémentaires ou passer commande directement.</p>
+      </div>
+      <a class="contact-whatsapp-cta" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20repr%C3%A9sente%20une%20boutique%20et%20je%20souhaite%20des%20informations." target="_blank" rel="noopener noreferrer">
+        Ouvrir WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FORMULAIRE DE CONTACT ==========
+       Envoi via le relais Web3Forms (le site est statique, sans serveur).
+       Les champs sont pensés pour qualifier le lead : type de boutique,
+       objet de la demande, univers d'intérêt. -->
+  <section class="contact-form-section" id="formulaire" aria-labelledby="contact-form-title">
+    <div class="contact-form-head">
+      <p class="contact-form-eyebrow">Ou laissez-nous un message</p>
+      <h2 id="contact-form-title">Formulaire de contact</h2>
+      <p class="contact-form-intro">Décrivez-nous votre boutique et votre besoin : nous revenons vers vous sous 24&nbsp;h ouvrées avec une réponse personnalisée et, si vous le souhaitez, le catalogue complet.</p>
+    </div>
+
+    <form class="contact-form" id="giorgia-contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+
+      <!-- Configuration Web3Forms (champs techniques, non visibles) -->
+      <input type="hidden" name="access_key" value="<!-- WEB3FORMS_KEY -->">
+      <input type="hidden" name="subject" value="Nouvelle demande de contact — site GIORGIA paris">
+      <input type="hidden" name="from_name" value="Site GIORGIA paris">
+      <!-- Honeypot anti-spam : invisible pour un humain, rempli par les bots -->
+      <input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off">
+
+      <div class="cf-grid">
+
+        <div class="cf-field">
+          <label for="cf-boutique">Nom de la boutique <span class="cf-req">*</span></label>
+          <input type="text" id="cf-boutique" name="Boutique" required autocomplete="organization" placeholder="Ex. Maison Léonie">
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-nom">Votre nom <span class="cf-req">*</span></label>
+          <input type="text" id="cf-nom" name="Nom du contact" required autocomplete="name" placeholder="Prénom et nom">
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-email">Email <span class="cf-req">*</span></label>
+          <input type="email" id="cf-email" name="Email" required autocomplete="email" placeholder="vous@votreboutique.fr">
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-tel">Téléphone ou WhatsApp</label>
+          <input type="tel" id="cf-tel" name="Téléphone" autocomplete="tel" placeholder="+33 6 00 00 00 00">
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-ville">Ville <span class="cf-req">*</span></label>
+          <input type="text" id="cf-ville" name="Ville" required autocomplete="address-level2" placeholder="Ex. Lyon">
+        </div>
+
+        <div class="cf-field">
+          <label for="cf-pays">Pays <span class="cf-req">*</span></label>
+          <select id="cf-pays" name="Pays" required>
+            <option value="">Sélectionner…</option>
+            <option value="France">France</option>
+            <option value="Belgique">Belgique</option>
+            <option value="Suisse">Suisse</option>
+            <option value="Luxembourg">Luxembourg</option>
+            <option value="Espagne">Espagne</option>
+            <option value="Italie">Italie</option>
+            <option value="Allemagne">Allemagne</option>
+            <option value="Pays-Bas">Pays-Bas</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Autriche">Autriche</option>
+            <option value="Irlande">Irlande</option>
+            <option value="Royaume-Uni">Royaume-Uni</option>
+            <option value="DOM-TOM">DOM-TOM</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div class="cf-field cf-field--full">
+          <label for="cf-objet">Objet de votre demande <span class="cf-req">*</span></label>
+          <select id="cf-objet" name="Objet" required>
+            <option value="">Sélectionner…</option>
+            <option value="Prise de contact">Prise de contact</option>
+            <option value="Informations sur le catalogue produit">Informations sur le catalogue produit</option>
+            <option value="Informations sur une référence produit">Informations sur une référence produit</option>
+            <option value="Question sur une commande en cours">Question sur une commande en cours</option>
+            <option value="Autre demande">Autre demande</option>
+          </select>
+        </div>
+
+        <fieldset class="cf-field cf-field--full cf-fieldset">
+          <legend>Univers qui vous intéressent</legend>
+          <div class="cf-checks">
+            <label class="cf-check"><input type="checkbox" name="Univers" value="Urban Woman"> <span>Urban Woman</span></label>
+            <label class="cf-check"><input type="checkbox" name="Univers" value="Chic &amp; Soirée"> <span>Chic &amp; Soirée</span></label>
+            <label class="cf-check"><input type="checkbox" name="Univers" value="Casual"> <span>Casual</span></label>
+            <label class="cf-check"><input type="checkbox" name="Univers" value="Ancienne collection PE 2026"> <span>Ancienne collection PE 2026</span></label>
+          </div>
+        </fieldset>
+
+        <div class="cf-field cf-field--full">
+          <label for="cf-message">Votre message</label>
+          <textarea id="cf-message" name="Message" rows="5" placeholder="Parlez-nous de votre boutique, de votre clientèle, des pièces que vous recherchez…"></textarea>
+        </div>
+
+        <div class="cf-field cf-field--full">
+          <label class="cf-check cf-consent">
+            <input type="checkbox" id="cf-rgpd" name="Consentement RGPD" value="Oui" required>
+            <span>J'accepte que mes données soient utilisées pour être recontacté(e) par GIORGIA paris. Elles ne sont ni revendues ni transmises à des tiers. <a href="<!-- SITE_BASE -->/confidentialite/">Politique de confidentialité</a> <span class="cf-req">*</span></span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="cf-actions">
+        <button type="submit" class="cf-submit" id="cf-submit">Envoyer ma demande</button>
+        <p class="cf-note">Champs marqués <span class="cf-req">*</span> obligatoires · Réponse sous 24&nbsp;h ouvrées</p>
+      </div>
+
+      <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+    </form>
   </section>
 
   <!-- ========== COORDONNÉES + INFOS PRATIQUES ========== -->
@@ -383,7 +755,7 @@
       <ul class="contact-practical">
         <li>
           <strong>Minimum de commande</strong>
-          100 € HT · 
+          100 € HT · Facturation en HT, TVA reversée selon régime
         </li>
         <li>
           <strong>Conditionnement</strong>
@@ -391,11 +763,15 @@
         </li>
         <li>
           <strong>Livraison</strong>
-          48h en France métropolitaine depuis notre stock parisien · Expéditions Europe et DOM-TOM sur demande
+          48 h en France métropolitaine depuis notre stock parisien · Expéditions Europe et DOM-TOM sur demande
         </li>
         <li>
           <strong>Zone desservie</strong>
-          France, Europe, DOM-TOM. Contactez nous pour une livraison worlwide vers d'autres régions.
+          France, Belgique, Luxembourg, Suisse, Italie, Espagne, Allemagne, Pays-Bas, Royaume-Uni, Irlande, Portugal, Autriche
+        </li>
+        <li>
+          <strong>Paiement</strong>
+          Virement bancaire à réception de facture · Autres modes de paiement sur demande
         </li>
       </ul>
     </div>
@@ -459,6 +835,86 @@
 
   <!-- Payload catalogue vide (la page contact n'affiche pas de produits) -->
   <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={version:2,generatedAt:new Date().toISOString(),count:0,products:[]};</script>
+
+  <!-- ========== JS DU FORMULAIRE DE CONTACT ==========
+       Soumission en AJAX : le visiteur reste sur la page et reçoit un
+       message de confirmation, au lieu d'être redirigé vers une page
+       tierce. Si le JS est désactivé, le formulaire fonctionne quand même
+       en soumission classique vers Web3Forms. -->
+  <script>
+  (function () {
+    var form = document.getElementById('giorgia-contact-form');
+    if (!form) return;
+
+    var submitBtn = document.getElementById('cf-submit');
+    var statusEl  = document.getElementById('cf-status');
+    var keyField  = form.querySelector('input[name="access_key"]');
+
+    // Garde-fou : si la clé Web3Forms n'a pas été configurée dans build.mjs,
+    // on désactive proprement plutôt que d'envoyer dans le vide.
+    if (!keyField || keyField.value.indexOf('REMPLACER') === 0) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Formulaire en cours de configuration';
+      showStatus('error', 'Le formulaire n\'est pas encore actif. En attendant, écrivez-nous sur WhatsApp au +33 6 86 72 93 11 ou à giorgia93300@gmail.com.');
+      return;
+    }
+
+    function showStatus(kind, message) {
+      statusEl.textContent = message;
+      statusEl.className = 'cf-status is-visible is-' + kind;
+    }
+
+    function markInvalid(field, invalid) {
+      if (invalid) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Validation côté client : on signale le premier champ fautif
+      var required = form.querySelectorAll('[required]');
+      var firstInvalid = null;
+      for (var i = 0; i < required.length; i++) {
+        var f = required[i];
+        var ok = f.type === 'checkbox' ? f.checked : String(f.value || '').trim() !== '';
+        if (f.type === 'email' && ok) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value);
+        markInvalid(f, !ok);
+        if (!ok && !firstInvalid) firstInvalid = f;
+      }
+      if (firstInvalid) {
+        showStatus('error', 'Merci de compléter les champs obligatoires avant d\'envoyer.');
+        firstInvalid.focus();
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      submitBtn.disabled = true;
+      var originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Envoi en cours…';
+      showStatus('success', 'Envoi de votre demande…');
+
+      var data = new FormData(form);
+
+      fetch(form.action, { method: 'POST', body: data })
+        .then(function (res) { return res.json().catch(function () { return {}; }); })
+        .then(function (json) {
+          if (json && json.success) {
+            form.reset();
+            showStatus('success', 'Merci, votre demande est bien partie. Notre équipe vous répond sous 24 h ouvrées. Pour une réponse immédiate, vous pouvez aussi nous écrire sur WhatsApp.');
+            submitBtn.textContent = 'Demande envoyée';
+          } else {
+            throw new Error('web3forms');
+          }
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+          showStatus('error', 'L\'envoi a échoué. Réessayez dans un instant, ou contactez-nous directement sur WhatsApp au +33 6 86 72 93 11 ou à giorgia93300@gmail.com.');
+        });
+    });
+  })();
+  </script>
 
   <!-- JS interactif partagé -->
   <!-- SHARED_JS -->
