@@ -2310,14 +2310,30 @@ async function buildArticlesIndex(generatedArticles) {
 */
 
 /**
- * Extrait le bloc <style>...</style> principal du template.
- * Utilisé pour partager la CSS entre home et pages dédiées.
+ * Extrait la CSS partagée du template principal.
+ *
+ * ATTENTION : le template contient PLUSIEURS blocs <style> :
+ *   1. un petit bloc @font-face (Century Gothic) dans le <head>
+ *   2. le gros bloc de CSS du site, également dans le <head>
+ *   3. un bloc local au carrousel d'articles, DANS le <body>
+ *
+ * On récupère tous les blocs situés dans le <head> (1 et 2) et on ignore
+ * ceux du <body>, qui sont spécifiques à des composants absents des pages
+ * dédiées. Ne prendre que le premier bloc laisserait les pages sans CSS.
  */
 function extractSharedStyles(template) {
-  // On prend le PREMIER bloc <style> du template (celui du head)
-  const match = template.match(/<style>[\s\S]*?<\/style>/);
-  if (!match) throw new Error('Bloc <style> introuvable dans template.html');
-  return match[0];
+  const bodyIdx = template.search(/<body[\s>]/i);
+  const head = bodyIdx === -1 ? template : template.slice(0, bodyIdx);
+
+  const blocks = head.match(/<style[^>]*>[\s\S]*?<\/style>/gi);
+  if (!blocks || blocks.length === 0) {
+    throw new Error('Aucun bloc <style> trouvé dans le <head> de template.html');
+  }
+
+  // Le placeholder HERO_IMAGE_URL apparaît dans la CSS du hero de la home.
+  // Il n'est pas substitué sur les pages dédiées (pas de hero d'accueil) :
+  // on le neutralise pour ne pas laisser une url() invalide dans la CSS.
+  return blocks.join('\n').split('<!-- HERO_IMAGE_URL -->').join('');
 }
 
 /**
