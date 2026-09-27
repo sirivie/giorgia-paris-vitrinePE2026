@@ -759,6 +759,44 @@
     }
     .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
 
+    /* Bande de réassurance : plateformes partenaires.
+       Volontairement sobre — c'est une preuve de sérieux, pas un CTA.
+       Logos désaturés et translucides, révélés au survol uniquement. */
+    .partners-band {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1rem;
+      padding: 2rem 1.5rem 1.4rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 1.5rem;
+    }
+    .partners-label {
+      font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+    .partners-list {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 1.2rem 2.8rem;
+    }
+    .partner-item {
+      display: inline-flex; align-items: center;
+      text-decoration: none;
+      opacity: .45;
+      filter: grayscale(1);
+      transition: opacity .3s var(--ease), filter .3s var(--ease);
+    }
+    .partner-item:hover { opacity: .9; filter: grayscale(0); }
+    .partner-item img {
+      height: 26px; width: auto; max-width: 150px;
+      object-fit: contain;
+      display: block;
+    }
+    /* Repli texte quand le logo n'est pas encore fourni */
+    .partner-item .partner-name {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.75);
+      white-space: nowrap;
+    }
+
     /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
        pour Google et réassurance pour les acheteuses pro. */
     .foot-legal {
@@ -778,6 +816,8 @@
       .foot-right { text-align: center; }
       .foot-bottom { padding: 1rem 1.5rem; }
       .foot-legal { gap: .3rem 1rem; }
+      .partners-list { gap: 1rem 1.6rem; }
+      .partner-item img { height: 22px; }
       .foot-legal .sep { display: none; }
     }
 
@@ -2231,6 +2271,11 @@
       </div>
 
     </div>
+
+    <!-- Bande de réassurance : plateformes sur lesquelles GIORGIA est
+         référencée. Générée par renderPartnersBand() dans build.mjs.
+         Placée après les CTA de contact et avant les liens légaux. -->
+    <div class="partners-band"><p class="partners-label">Retrouvez GIORGIA paris sur</p><div class="partners-list"><a class="partner-item" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Paris Fashion Shops"><img src="/giorgia-paris-vitrinePE2026/img/partners/paris-fashion-shops.svg" alt="Paris Fashion Shops" loading="lazy" decoding="async"></a><a class="partner-item" href="https://www.efashion-paris.com/fr" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Efashion Paris"><img src="/giorgia-paris-vitrinePE2026/img/partners/efashion.svg" alt="Efashion Paris" loading="lazy" decoding="async"></a><a class="partner-item" href="https://www.faire.com/fr/" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Faire"><img src="/giorgia-paris-vitrinePE2026/img/partners/faire.svg" alt="Faire" loading="lazy" decoding="async"></a></div></div>
 
     <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD.
          Générés par renderFootLegalLinks() dans build.mjs — source unique,

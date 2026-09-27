@@ -93,6 +93,36 @@
     width: 40px; height: 1px; background: rgba(255,255,255,.18);
     margin: 1.4rem auto .6rem;
   }
+  /* Bande de réassurance partenaires (footer des pages articles) */
+  .partners-band {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    padding: 2rem 1.5rem 1.4rem;
+    border-top: 1px solid rgba(255,255,255,.08);
+    margin-top: 1.5rem;
+  }
+  .partners-label {
+    font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+  }
+  .partners-list {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 1.2rem 2.8rem;
+  }
+  .partner-item {
+    display: inline-flex; align-items: center; text-decoration: none;
+    opacity: .45; filter: grayscale(1);
+    transition: opacity .3s ease, filter .3s ease;
+  }
+  .partner-item:hover { opacity: .9; filter: grayscale(0); }
+  .partner-item img { height: 26px; width: auto; max-width: 150px; object-fit: contain; display: block; }
+  .partner-item .partner-name {
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.75); white-space: nowrap;
+  }
+  @media (max-width: 700px) {
+    .partners-list { gap: 1rem 1.6rem; }
+    .partner-item img { height: 22px; }
+  }
 </style>
 </head>
 <body>
@@ -290,6 +320,7 @@
         </div>
       </div>
 
+      <div class="partners-band"><p class="partners-label">Retrouvez GIORGIA paris sur</p><div class="partners-list"><a class="partner-item" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Paris Fashion Shops"><img src="/giorgia-paris-vitrinePE2026/img/partners/paris-fashion-shops.svg" alt="Paris Fashion Shops" loading="lazy" decoding="async"></a><a class="partner-item" href="https://www.efashion-paris.com/fr" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Efashion Paris"><img src="/giorgia-paris-vitrinePE2026/img/partners/efashion.svg" alt="Efashion Paris" loading="lazy" decoding="async"></a><a class="partner-item" href="https://www.faire.com/fr/" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur Faire"><img src="/giorgia-paris-vitrinePE2026/img/partners/faire.svg" alt="Faire" loading="lazy" decoding="async"></a></div></div>
       <nav class="foot-legal" aria-label="Informations légales">
         <a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a><span class="sep" aria-hidden="true">·</span><a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a><span class="sep" aria-hidden="true">·</span><a href="/giorgia-paris-vitrinePE2026/mentions-legales/">Mentions légales</a><span class="sep" aria-hidden="true">·</span><a href="/giorgia-paris-vitrinePE2026/cgv/">CGV</a><span class="sep" aria-hidden="true">·</span><a href="/giorgia-paris-vitrinePE2026/confidentialite/">Politique de confidentialité</a><span class="sep" aria-hidden="true">·</span><a href="/giorgia-paris-vitrinePE2026/politique-retour/">Politique de retour</a>
       </nav>
