@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#161616">
+
+  <!-- ==================== SEO ==================== -->
+  <title>Qui sommes-nous — GIORGIA paris | Grossiste Prêt-à-Porter Féminin depuis 2007</title>
+  <meta name="description" content="GIORGIA paris, grossiste en prêt-à-porter féminin fondé en 2007 à Aubervilliers. Découvrez notre histoire, notre savoir-faire et notre engagement auprès des boutiques de mode indépendantes en France et en Europe.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://sirivie.github.io/giorgia-paris-vitrinePE2026/notre-histoire/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sirivie.github.io/giorgia-paris-vitrinePE2026/notre-histoire/">
+  <meta property="og:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta property="og:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007, au service des boutiques indépendantes.">
+  <meta property="og:image" content="https://sirivie.github.io/giorgia-paris-vitrinePE2026/img/pages/notre-histoire-hero.jpg">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:locale" content="fr_FR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta name="twitter:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007.">
+  <meta name="twitter:image" content="https://sirivie.github.io/giorgia-paris-vitrinePE2026/img/pages/notre-histoire-hero.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Préchargement de la hero (LCP) -->
+  <link rel="preload" as="image" href="/giorgia-paris-vitrinePE2026/img/pages/notre-histoire-hero.jpg">
+
+  <!-- CSS partagée du site (extraite de src/template.html par build.mjs) -->
+  <style>
+    /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
+    @font-face {
+      font-family: 'Century Gothic';
+      src: local('Century Gothic'), local('CenturyGothic');
+      font-display: swap;
+    }
+  </style>
+<style>
+    /* =====================================================
+       GIORGIA paris — Catalogue PE 2026
+       =====================================================
+       GUIDE MISE À JOUR :
+       • Remplacer les photos produits : chercher "PHOTO-PRODUIT"
+       • Modifier les noms / descriptions : dans chaque .product-info
+       • Nouvelle saison : dupliquer ce fichier, renommer en AH2026 etc.
+       ===================================================== */
+
+    :root {
+      --cream:      #F6F1EA;
+      --cream-dark: #EDE6DB;
+      --black:      #161616;
+      --charcoal:   #2A2724;
+      --gold:       #C5A36A;
+      --gold-lt:    #E2CFA8;
+      --taupe:      #8C7B6A;
+      --white:      #FDFAF6;
+      --border:     rgba(22,22,22,0.10);
+
+      /* Palette PRÉVENTES (bleu pétrole adouci + bordeaux mode + crème chaude) */
+      --pv-bg:      #2D3E5C;   /* bleu pétrole, fond de la bande */
+      --pv-bg-dk:   #243348;   /* variante plus sombre pour effets */
+      --pv-border:  #3F5278;   /* bordure douce sur le bleu */
+      --pv-accent:  #9B3848;   /* bordeaux mode, badges + CTA */
+      --pv-accent-dk:#7E2C3A;  /* hover bordeaux */
+      --pv-text:    #FBEEF0;   /* texte principal (blanc rosé chaud) */
+      --pv-text-mut:#C9D2E0;   /* texte secondaire (gris bleuté clair) */
+
+      /* Couleurs officielles WhatsApp — pour l'icône, partout où elle apparaît
+         (bandeau sticky, encart "catalogue étendu"). Vert reconnaissable
+         instantanément, plus rassurant qu'un fond rouge. */
+      --wa-green:    #25D366;
+      --wa-green-dk: #128C7E;
+
+      /* Hauteur du bandeau sticky WhatsApp en haut de page.
+         Référencée dans #navbar (top) et .univers-nav (top sticky). */
+      --wa-banner-h: 38px;
+
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-logo:    'Century Gothic', 'Josefin Sans', 'Trebuchet MS', 'Futura', sans-serif;
+      --ff-body:    'DM Sans', system-ui, sans-serif;
+      --ease:       cubic-bezier(.25,.46,.45,.94);
+    }
+
+    /* En mobile, la barre WhatsApp passe sur 2 lignes possibles → on prévoit
+       un peu plus de hauteur pour ne pas écraser le contenu. */
+    @media (max-width: 760px) {
+      :root { --wa-banner-h: 44px; }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ---- LOGO TYPOGRAPHIQUE — Century Gothic ---- */
+    .logo {
+      display: flex; flex-direction: column; align-items: center;
+      line-height: 1; text-decoration: none; color: inherit; user-select: none;
+    }
+    .logo-g {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      letter-spacing: .42em;
+      text-transform: uppercase;
+    }
+    .logo-p {
+      font-family: 'Century Gothic', 'Josefin Sans', 'Futura', 'Trebuchet MS', sans-serif;
+      font-weight: 300;
+      font-size: clamp(.45rem,.7vw,.62rem);
+      letter-spacing: .65em;
+      color: var(--taupe);
+      text-transform: lowercase;
+      margin-top: 2px;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    #navbar {
+      position: fixed; top: var(--wa-banner-h); left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3.5rem;
+      background: rgba(246,241,234,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 4px 40px rgba(0,0,0,.07); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links a,
+    .nav-links .nav-dropdown-toggle {
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      transition: color .3s;
+      font-family: inherit;
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .nav-links a:hover,
+    .nav-links .nav-dropdown:hover .nav-dropdown-toggle,
+    .nav-links .nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--black); }
+
+    /* ===================== NAV DROPDOWN "Nos Univers" =====================
+       Ouverture 100% au hover (aussi accessible clavier via :focus-within
+       grâce à tabindex="0" sur le <li>). Le toggle est un <span>, pas un
+       <button>, pour ne pas requérir de clic. */
+    .nav-dropdown { cursor: default; outline: none; }
+    .nav-dropdown-toggle { cursor: default; user-select: none; }
+    .nav-dropdown-chev {
+      font-size: .85em; line-height: 1;
+      transition: transform .25s ease;
+    }
+    .nav-dropdown:hover .nav-dropdown-chev,
+    .nav-dropdown:focus-within .nav-dropdown-chev {
+      transform: rotate(180deg);
+    }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 280px;
+      /* Marge visuelle assurée par padding-top — sert de zone tampon
+         entre le toggle et le menu pour que la souris puisse traverser
+         sans que le menu se ferme (pas de "gap" mort). */
+      margin-top: 0;
+      padding-top: .6rem;
+      background: transparent;
+      list-style: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+      z-index: 250;
+    }
+    /* Fond blanc + bordure + ombre appliqués à un <div> interne virtuel via
+       ::before pour rester dans le bloc "menu" — ici on utilise un simple
+       fond via background sur le UL, décalé par le padding-top qui, lui,
+       reste transparent (donc hover-friendly). */
+    .nav-dropdown-menu::before {
+      content: "";
+      position: absolute;
+      top: .6rem; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,.98);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      box-shadow: 0 10px 40px rgba(0,0,0,.08);
+      z-index: -1;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu li { list-style: none; position: relative; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: .7rem 1.5rem;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(197,163,106,.08);
+      color: var(--gold);
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+    .btn-nav {
+      font-size: .68rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: var(--black);
+      padding: .55rem 1.4rem; transition: background .3s;
+    }
+    .btn-nav:hover { background: var(--gold); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 4.5px;
+      cursor: pointer; padding: .3rem;
+    }
+    .hamburger span { width: 20px; height: 1.5px; background: var(--black); display: block; }
+
+    @media(max-width:900px) {
+      #navbar { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ===================== MOBILE MENU ===================== */
+    #mob-menu {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: var(--black); flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      gap: 0;
+      overflow-y: auto;
+      padding: 5rem 2rem 2rem;
+    }
+    #mob-menu.open { display: flex; }
+    #mob-menu a {
+      font-family: var(--ff-display); font-size: 1.5rem; font-weight: 300;
+      color: var(--white); text-decoration: none; letter-spacing: .05em;
+      padding: .55rem 0;
+      width: 100%; text-align: center;
+    }
+    #mob-menu a:hover { color: var(--gold); }
+
+    /* Sous-titre "Nos Univers" dans le menu mobile — liste plate (choix b) */
+    #mob-menu .mob-menu-heading {
+      font-family: var(--ff-body);
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 1.2rem 0 .3rem;
+      width: 100%; text-align: center;
+      opacity: .85;
+    }
+    /* Séparateur discret entre le groupe Univers et le reste du menu */
+    #mob-menu .mob-menu-sep {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,.18);
+      margin: 1.4rem auto .6rem;
+    }
+    .mob-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: var(--white);
+      font-size: 1.6rem; cursor: pointer;
+    }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
+         télécharger l'original full-resolution. L'URL doit matcher celle
+         du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
+      background: url('') center center / cover no-repeat;
+      filter: brightness(.62);
+    }
+    .hero-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; max-width: 680px;
+      /* Empêche tout débordement horizontal sur mobile */
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold-lt); margin-bottom: 1.4rem;
+    }
+    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
+    .hero-logo .logo-g {
+      font-size: clamp(2rem, 10vw, 5.5rem);
+      color: var(--white);
+      letter-spacing: clamp(.15em, 1.5vw, .5em);
+      padding-left: clamp(.05em, .8vw, .25em);
+      display: block; word-break: keep-all; white-space: nowrap;
+      overflow: visible;
+    }
+    .hero-logo .logo-p {
+      font-size: clamp(.7rem, 2vw, 1.4rem);
+      color: var(--gold-lt);
+      letter-spacing: clamp(.3em, 2vw, .9em);
+    }
+    .hero-tagline {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
+      line-height: 1.65; margin: 1.3rem 0 .5rem;
+    }
+    .hero-sub {
+      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.92); font-weight: 500;
+      margin-bottom: 2.2rem;
+      white-space: normal; line-height: 1.7;
+    }
+    .btn-hero-p {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--black); background: var(--gold-lt);
+      padding: .85rem 2.2rem;
+      transition: all .3s;
+    }
+    .btn-hero-p:hover { background: var(--white); transform: translateY(-2px); }
+    .btn-hero-s {
+      display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--white); background: var(--black);
+      padding: .85rem 2.2rem; transition: all .3s;
+    }
+    .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+    .hero-btns {
+      display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: .4rem; color: rgba(255,255,255,.5);
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 38px;
+      background: rgba(255,255,255,.35);
+      animation: scrollAnim 2.4s ease infinite;
+    }
+    @keyframes scrollAnim {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      49%  { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @media(max-width:768px) {
+      .hero-content { padding: 0 1.4rem; }
+    }
+
+    /* ===================== INTRO STRIP ===================== */
+    .intro-strip {
+      background: var(--charcoal); color: var(--white);
+      padding: 4rem 3.5rem;
+      display: grid; grid-template-columns: 1fr 2.2fr 1fr;
+      gap: 3rem; align-items: center;
+    }
+    .intro-strip .logo-g { color: var(--white); }
+    .intro-strip .logo-p { color: var(--gold); }
+
+    .intro-text { text-align: center; }
+    .intro-text h2 {
+      font-family: var(--ff-display); font-size: clamp(1.3rem,2.5vw,1.9rem);
+      font-weight: 300; font-style: italic; color: var(--gold-lt);
+      margin-bottom: .9rem;
+    }
+    .intro-text p {
+      font-size: .82rem; line-height: 1.85;
+      color: rgba(255,255,255,.68); max-width: 560px; margin: 0 auto;
+    }
+    .intro-stats {
+      display: flex; flex-direction: column; gap: 1.1rem; align-items: flex-end;
+    }
+    .stat-num {
+      font-family: var(--ff-display); font-size: 1.9rem; font-weight: 700;
+      color: var(--gold); display: block; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.42);
+    }
+
+    @media(max-width:900px) {
+      .intro-strip { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+      .intro-stats { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ===================== UNIVERS NAV ===================== */
+    .univers-nav {
+      background: var(--cream); border-bottom: 1px solid var(--border);
+      position: sticky; top: calc(67px + var(--wa-banner-h)); z-index: 80; overflow-x: auto;
+    }
+    .univers-nav::-webkit-scrollbar { display: none; }
+    .univers-nav-inner {
+      display: flex; justify-content: center;
+      padding: 0 3.5rem; min-width: max-content; margin: 0 auto;
+    }
+    .utab {
+      font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; color: var(--taupe);
+      padding: 1.05rem 1.8rem;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all .3s;
+    }
+    .utab:hover, .utab.active { color: var(--black); border-bottom-color: var(--black); }
+
+    /* ===================== SECTIONS ===================== */
+    .univ-sec {
+      padding: 5rem 3.5rem;
+      /* Décale l'ancre sous les deux barres fixes : navbar (~67px) + univers-nav (~46px) + marge */
+      scroll-margin-top: 130px;
+    }
+    .univ-sec:nth-child(even) { background: var(--white); }
+
+    .sec-hdr {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem; align-items: center; margin-bottom: 3.5rem;
+    }
+    .sec-line { height: 1px; background: var(--border); }
+    .sec-center { text-align: center; }
+    .sec-eye {
+      font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: .4rem;
+    }
+    .sec-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 600; line-height: .95;
+      letter-spacing: .02em;
+    }
+    .sec-sub {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: clamp(.85rem,1.4vw,1rem);
+      color: var(--taupe); display: block; margin-top: .5rem;
+    }
+    .sec-desc {
+      font-size: .8rem; line-height: 1.85; color: var(--taupe);
+      max-width: 620px; margin: 1.3rem auto 0; text-align: center;
+    }
+
+    @media(max-width:768px) {
+      .univ-sec { padding: 3.5rem 1.5rem; }
+      .sec-hdr { grid-template-columns: 1fr; gap: .5rem; }
+      .sec-line { display: none; }
+    }
+
+    /* ===================== PRODUCT GRID ===================== */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    /* Cartes produits cliquables */
+    .prod-card {
+      overflow: hidden; cursor: pointer;
+      text-decoration: none; color: inherit; display: block;
+      transition: box-shadow .3s;
+    }
+    .prod-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); }
+
+    .prod-media { display: block; }
+    .prod-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 3/4; background: var(--cream-dark);
+    }
+    .prod-img img.prod-img-primary {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform .75s var(--ease);
+    }
+    .prod-card:hover .prod-img img.prod-img-primary { transform: scale(1.08); }
+
+    .prod-thumbs {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: .35rem;
+      margin-top: .45rem;
+      flex-wrap: wrap;
+    }
+    .prod-thumb {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--cream-dark);
+      padding: 0;
+      margin: 0;
+      display: block;
+      box-sizing: border-box;
+      transition: border-color .2s, opacity .2s;
+    }
+    .prod-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+    .prod-thumb:hover,
+    .prod-thumb.is-active { border-color: var(--black); }
+    .prod-thumb:focus { outline: none; }
+    .prod-thumb:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* Conteneur des badges — colonne en haut à gauche de l'image */
+    .prod-badges {
+      position: absolute; top: .9rem; left: .9rem; right: .9rem;
+      z-index: 2;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
+    }
+    .prod-badge {
+      background: var(--black); color: var(--white);
+      font-size: .57rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      padding: .28rem .65rem;
+      line-height: 1.25;
+    }
+    .prod-badge--promo {
+      background: #8f3336;
+      color: #fff;
+      box-shadow: 0 1px 0 rgba(0,0,0,.12);
+    }
+    .prod-badge2 {
+      background: rgba(253, 250, 246, .96);
+      color: var(--black);
+      border: 1px solid rgba(22, 22, 22, .1);
+      font-size: .52rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: .26rem .55rem;
+      line-height: 1.2;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .prod-wm {
+      position: absolute; bottom: .7rem; right: .7rem;
+      background: rgba(246,241,234,.9); padding: .3rem .55rem; z-index: 2;
+    }
+    .prod-wm .logo-g { font-size: .6rem; }
+    .prod-wm .logo-p { font-size: .26rem; }
+
+    .prod-info { padding: .9rem 0 .4rem; }
+    .prod-ref {
+      font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .25rem;
+    }
+    .prod-ref:empty { display: none; }
+    .prod-name {
+      font-family: var(--ff-display); font-size: .98rem; font-weight: 500;
+      color: var(--black); line-height: 1.3; margin-bottom: .25rem;
+    }
+    .prod-desc { font-size: .74rem; color: var(--taupe); line-height: 1.65; }
+
+    @media(max-width:600px) {
+      .prod-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+    }
+
+    /* ===================== FEATURED BANNER ===================== */
+    .feat-banner {
+      position: relative; height: 58vh; min-height: 360px;
+      overflow: hidden; display: flex; align-items: center;
+    }
+    .feat-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      filter: brightness(.6);
+    }
+    .feat-grad { position: absolute; inset: 0; background: linear-gradient(to right, rgba(22,22,22,.72) 0%, transparent 65%); }
+    .feat-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem; color: var(--white); max-width: 520px;
+    }
+    .feat-content h3 {
+      font-family: var(--ff-display); font-size: clamp(1.7rem,3.5vw,2.8rem);
+      font-weight: 300; font-style: italic; margin: 1rem 0; line-height: 1.2;
+    }
+    .feat-content p { font-size: .82rem; line-height: 1.82; color: rgba(255,255,255,.76); margin-bottom: 1.5rem; }
+    .feat-content .logo-g { color: var(--white); font-size: 1rem; }
+    .feat-content .logo-p { color: var(--gold-lt); font-size: .42rem; }
+
+    @media(max-width:768px) { .feat-content { padding: 0 1.5rem; } }
+
+    /* ===================== EDITORIAL SPLIT ===================== */
+    .editorial {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .ed-img { overflow: hidden; aspect-ratio: 3/2; }
+    .ed-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+    .editorial:hover .ed-img img { transform: scale(1.05); }
+    .ed-txt {
+      padding: 2.2rem 3.5rem;
+      background: var(--black); color: var(--white);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .ed-txt .logo-g { color: var(--white); font-size: .95rem; }
+    .ed-txt .logo-p { font-size: .4rem; }
+    .ed-txt .sec-eye { color: var(--gold); margin-top: 1rem; }
+    .ed-txt .sec-title { color: var(--white); font-size: clamp(1.7rem,2.8vw,2.4rem); }
+    .ed-txt p {
+      font-size: .82rem; line-height: 1.9;
+      color: rgba(255,255,255,.67); margin-top: .8rem;
+    }
+    .btn-ed {
+      display: inline-block; margin-top: 1.4rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: .9rem 2.2rem; transition: all .3s;
+    }
+    .btn-ed:hover { background: var(--white); }
+
+    @media(max-width:900px) {
+      .editorial { grid-template-columns: 1fr; }
+      .ed-img { aspect-ratio: 16/9; }
+      .ed-txt { padding: 2rem 1.5rem; }
+    }
+
+    /* ===================== CONTACT ===================== */
+    #contact {
+      background: var(--charcoal); padding: 6rem 3.5rem;
+      display: grid; grid-template-columns: 1.3fr .9fr;
+      gap: 5rem; align-items: start;
+    }
+    .contact-title {
+      font-family: var(--ff-display); font-size: clamp(2rem,4vw,3.4rem);
+      font-weight: 300; font-style: italic; color: var(--white);
+      line-height: 1.2; margin-bottom: 1.3rem;
+    }
+    .contact-title span { color: var(--gold); font-style: normal; font-weight: 600; }
+    .contact-body {
+      font-size: .82rem; line-height: 1.88;
+      color: rgba(255,255,255,.62); margin-bottom: 1.5rem;
+    }
+    .contact-note {
+      font-size: .72rem; color: rgba(255,255,255,.35); margin-bottom: 2rem;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: .7rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--gold);
+      padding: 1rem 2.4rem; transition: all .3s;
+    }
+    .btn-wa:hover { background: var(--white); }
+    .social-row {
+      display: flex; gap: .8rem; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .soc-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.2); padding: .5rem 1rem;
+      transition: all .3s;
+    }
+    .soc-link:hover { color: var(--white); border-color: var(--gold); }
+
+    .cinfo { list-style: none; }
+    .cinfo li {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: 1.1rem 0; border-bottom: 1px solid rgba(255,255,255,.09);
+    }
+    .ci-icon { font-size: 1rem; width: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
+    .ci-svg { width: 28px; height: 28px; flex-shrink: 0; display: block; }
+    .ci-label {
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold);
+    }
+    .ci-val { font-size: .82rem; color: rgba(255,255,255,.82); margin-top: .15rem; }
+    .ci-val a { color: inherit; text-decoration: none; }
+    .ci-val a:hover { color: var(--gold); }
+
+    @media(max-width:900px) {
+      #contact { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: #0D0D0D;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .foot-top {
+      padding: 2.8rem 3.5rem 2rem;
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 2rem; align-items: center;
+    }
+    footer .logo-g { color: var(--white); font-size: .9rem; }
+    footer .logo-p { color: var(--taupe); }
+
+    .foot-socials {
+      display: flex; justify-content: center;
+      align-items: center; gap: 1.2rem;
+    }
+    .foot-soc {
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      text-decoration: none; opacity: .72; transition: opacity .3s, transform .3s;
+    }
+    .foot-soc:hover { opacity: 1; transform: translateY(-3px); }
+    .foot-soc svg { width: 32px; height: 32px; display: block; }
+    .foot-soc-lbl {
+      font-size: .52rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+
+    .foot-right { text-align: right; }
+    .foot-addr { font-size: .63rem; color: rgba(255,255,255,.85); line-height: 1.8; }
+    .foot-addr a { color: rgba(255,255,255,.85); text-decoration: none; }
+    .foot-addr a:hover { color: var(--white); }
+
+    .foot-bottom {
+      padding: 1rem 3.5rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      text-align: center;
+    }
+    .foot-copy { font-size: .62rem; color: rgba(255,255,255,.85); letter-spacing: .05em; }
+
+    /* Barre de liens légaux (mentions, CGV, RGPD, retours). Signal E-E-A-T
+       pour Google et réassurance pour les acheteuses pro. */
+    .foot-legal {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .4rem 1.5rem; padding: .9rem 1rem .3rem;
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .foot-legal a {
+      color: rgba(255,255,255,.65); text-decoration: none;
+      transition: color .25s;
+    }
+    .foot-legal a:hover { color: var(--gold); }
+    .foot-legal .sep { color: rgba(255,255,255,.2); }
+
+    @media(max-width:900px) {
+      .foot-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; padding: 2.5rem 1.5rem 1.5rem; }
+      .foot-right { text-align: center; }
+      .foot-bottom { padding: 1rem 1.5rem; }
+      .foot-legal { gap: .3rem 1rem; }
+      .foot-legal .sep { display: none; }
+    }
+
+    /* ===================== STICKY CONTACT TAB ===================== */
+    #sticky-contact {
+      position: fixed;
+      right: 0; top: 50%; transform: translateY(-50%);
+      z-index: 200;
+      display: flex; align-items: stretch;
+      filter: drop-shadow(-4px 0 18px rgba(0,0,0,.18));
+    }
+
+    /* Onglet vertical — compact enroulé, icône conservée */
+    #sticky-tab {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      background: var(--gold); color: var(--black);
+      font-family: var(--ff-logo);
+      font-size: .52rem; letter-spacing: .06em; text-transform: uppercase;
+      font-weight: 700;
+      padding: .5rem .3rem;
+      cursor: pointer; user-select: none;
+      border-radius: 6px 0 0 6px;
+      transition: background .3s;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      white-space: nowrap;
+    }
+    #sticky-tab:hover { background: var(--black); color: var(--white); }
+    #sticky-tab .tab-icon {
+      writing-mode: horizontal-tb;
+      transform: rotate(90deg);
+      font-size: .72rem;
+      line-height: 1;
+    }
+
+    /* Desktop uniquement : onglet plus grand et plus visible */
+    @media(min-width:769px) {
+      #sticky-tab {
+        padding: .7rem .65rem;
+        font-size: .82rem;
+        letter-spacing: .14em;
+        font-weight: 700;
+        gap: .5rem;
+      }
+      #sticky-tab .tab-icon { font-size: .95rem; }
+    }
+
+    /* Panneau dépliable — inchangé quand ouvert */
+    #sticky-panel {
+      background: var(--charcoal);
+      width: 0; overflow: hidden;
+      transition: width .42s var(--ease);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    #sticky-contact.open #sticky-panel { width: 260px; }
+    .sp-inner {
+      padding: 1.4rem 1.3rem; min-width: 260px;
+    }
+    .sp-logo { margin-bottom: 1rem; }
+    .sp-logo .logo-g { color: white; font-size: .85rem; }
+    .sp-logo .logo-p { font-size: .36rem; color: var(--gold); }
+
+    .sp-title {
+      font-family: var(--ff-display); font-style: italic; font-weight: 300;
+      font-size: .88rem; color: var(--gold-lt); margin-bottom: 1rem;
+      line-height: 1.3; white-space: nowrap;
+    }
+    .sp-row {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      text-decoration: none;
+    }
+    .sp-row:last-child { border-bottom: none; }
+    .sp-icon { width: 26px; height: 26px; flex-shrink: 0; }
+    .sp-info { display: flex; flex-direction: column; }
+    .sp-lbl { font-size: .52rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .1rem; }
+    .sp-val { font-size: .7rem; color: rgba(255,255,255,.8); }
+    .sp-row:hover .sp-val { color: var(--gold); }
+
+    .sp-close {
+      position: absolute; top: .5rem; right: .5rem;
+      background: none; border: none; color: rgba(255,255,255,.4);
+      font-size: .9rem; cursor: pointer; padding: .2rem;
+      line-height: 1;
+    }
+    .sp-close:hover { color: white; }
+
+    @media(max-width:768px) {
+      #sticky-contact { top: auto; bottom: 5rem; transform: none; }
+      #sticky-tab { font-size: .48rem; padding: .5rem .28rem; }
+      #sticky-contact.open #sticky-panel { width: 220px; }
+      .sp-inner { min-width: 220px; padding: 1.1rem 1rem; }
+      .sp-title { font-size: .8rem; }
+    }
+
+    /* ---- Social SVG icons ---- */
+    .soc-link { display: inline-flex; align-items: center; gap: .55rem; }
+    .soc-link svg { width: 18px; height: 18px; }
+
+    /* ===================== HERO VIDEO ===================== */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(.55);
+      transform: scale(1.02);
+    }
+
+    /* ===================== CARROUSEL PRODUITS ===================== */
+    /* Les cartes sont injectées depuis Airtable (script en bas de page). */
+    .carousel-outer {
+      position: relative;
+    }
+    .carousel-clip {
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1.4rem;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+      will-change: transform;
+      cursor: grab;
+    }
+    .carousel-track.dragging { cursor: grabbing; transition: none; }
+
+    /* 5 cartes visibles sur desktop */
+    .carousel-track .prod-card {
+      flex: 0 0 calc((100% - 1.4rem * 4) / 5);
+      min-width: 0;
+    }
+
+    /* Boutons flèche */
+    .car-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      z-index: 10; background: var(--black); color: var(--white);
+      border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; transition: background .3s, opacity .3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    .car-btn:hover { background: var(--gold); color: var(--black); }
+    .car-btn.disabled { opacity: .2; pointer-events: none; }
+    .car-btn-prev { left: 6px; }
+    .car-btn-next { right: 6px; }
+
+    /* Dots */
+    .car-dots {
+      display: flex; justify-content: center; gap: .5rem;
+      margin-top: 1.6rem;
+    }
+    .car-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border); border: none; cursor: pointer;
+      padding: 0; transition: background .3s, transform .3s;
+    }
+    .car-dot.active { background: var(--black); transform: scale(1.4); }
+
+    @media(max-width:900px) {
+      .carousel-track .prod-card { flex: 0 0 calc((100% - 1.4rem) / 2); }
+      .car-btn { display: none; }
+    }
+    @media(max-width:600px) {
+      /* Mobile : carte large + hint de la suivante sur la droite */
+      .carousel-track .prod-card { flex: 0 0 calc(100% - 2.5rem); }
+      .carousel-track { gap: 1rem; }
+    }
+
+    /* Grille Airtable : les cartes restent des flex items du .carousel-track */
+    .catalog-grid-root { display: contents; }
+
+    .catalog-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      background: rgba(246,241,234,.88);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      transition: opacity .35s var(--ease), visibility .35s;
+    }
+    .catalog-loading.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .carousel-clip { position: relative; }
+
+    /* ===================== SCROLL ANIMATIONS ===================== */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s var(--ease), transform .65s var(--ease);
+    }
+    .fade-up.vis { opacity: 1; transform: none; }
+
+    /* =========================================================
+       BANDEAU WHATSAPP STICKY (haut de page)
+       ---------------------------------------------------------
+       Bande fine, visible en permanence, qui rappelle au visiteur
+       que le catalogue en ligne n'est pas exhaustif et l'invite
+       à contacter via WhatsApp pour les références supplémentaires.
+       ========================================================= */
+    #wa-banner {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--wa-banner-h);
+      z-index: 110; /* au-dessus de la navbar (100) */
+      display: flex; align-items: center; justify-content: center;
+      background: var(--pv-bg);
+      color: var(--pv-text);
+      font-family: var(--ff-body);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      padding: 0 1rem;
+      border-bottom: 1px solid var(--pv-border);
+    }
+    #wa-banner a {
+      color: var(--pv-text); text-decoration: none;
+      display: inline-flex; align-items: center; gap: .55rem;
+      transition: color .25s var(--ease);
+    }
+    #wa-banner a:hover { color: #fff; }
+    #wa-banner .wa-banner-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px;
+      background: var(--wa-green);
+      border-radius: 50%;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    #wa-banner .wa-banner-icon svg { width: 11px; height: 11px; fill: currentColor; }
+    #wa-banner .wa-banner-arrow {
+      color: var(--pv-text); opacity: .85;
+      margin-left: .25rem;
+    }
+    @media (max-width: 760px) {
+      #wa-banner { font-size: .65rem; line-height: 1.25; padding: 0 .8rem; text-align: center; }
+      #wa-banner a { gap: .4rem; }
+    }
+
+    /* =========================================================
+       SECTION PRÉVENTES (en tête de home)
+       ---------------------------------------------------------
+       Bande contrastée bleu pétrole qui fait rupture visuelle
+       avec le reste de la home (crème). Le carrousel hérite des
+       classes .carousel-outer / .carousel-track existantes pour
+       que la mécanique JS (carMove, drag, dots) marche tel quel.
+       ========================================================= */
+    .prevente-sec {
+      background: var(--pv-bg);
+      padding: 4rem 0 3rem;
+      position: relative;
+      isolation: isolate;
+    }
+    /* Évite le flicker pendant le shuffle aléatoire des Préventes au chargement.
+       JS retire la classe .pv-shuffling juste après avoir réorganisé les cartes. */
+    #track-preventes.pv-shuffling { visibility: hidden; }
+    /* Léger dégradé décoratif en haut/bas pour adoucir la rupture */
+    .prevente-sec::before,
+    .prevente-sec::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 22px;
+      pointer-events: none;
+    }
+    .prevente-sec::before {
+      top: 0;
+      background: linear-gradient(to bottom, var(--pv-bg-dk), transparent);
+    }
+    .prevente-sec::after {
+      bottom: 0;
+      background: linear-gradient(to top, var(--pv-bg-dk), transparent);
+    }
+    .prevente-inner {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 3.5rem;
+    }
+    @media (max-width: 760px) {
+      .prevente-sec { padding: 2.5rem 0 2rem; }
+      .prevente-inner { padding: 0 1.4rem; }
+    }
+
+    /* En-tête de la section : titre + sous-titre + CTA bordeaux */
+    .prevente-hdr {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .prevente-hdr-text { max-width: 720px; }
+    .prevente-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      font-size: .62rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .4rem .9rem;
+      border-radius: 100px;
+      margin-bottom: .9rem;
+    }
+    .prevente-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--pv-text); border-radius: 50%;
+    }
+    .prevente-title {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--pv-text);
+      margin-bottom: .6rem;
+      letter-spacing: .002em;
+    }
+    .prevente-sub {
+      color: var(--pv-text-mut);
+      font-size: .92rem; line-height: 1.5;
+      max-width: 620px;
+    }
+    .prevente-cta {
+      display: inline-flex; align-items: center;
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      text-decoration: none;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .85rem 1.5rem;
+      border-radius: 4px;
+      transition: background .25s var(--ease), transform .25s var(--ease);
+      white-space: nowrap;
+    }
+    .prevente-cta:hover {
+      background: var(--pv-accent-dk);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 760px) {
+      .prevente-hdr { gap: 1rem; }
+      .prevente-cta { width: 100%; justify-content: center; }
+    }
+
+    /* Boutons flèches du carrousel — adaptés au fond sombre */
+    .prevente-sec .car-btn {
+      background: rgba(255,255,255,.95);
+      color: var(--pv-bg);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+    .prevente-sec .car-btn:hover {
+      background: var(--pv-text);
+    }
+    /* Dots du carrousel sur fond sombre */
+    .prevente-sec .car-dots .car-dot { background: rgba(255,255,255,.35); }
+    .prevente-sec .car-dots .car-dot.active { background: var(--pv-text); }
+
+    /* Cards préventes : on garde le squelette mais avec un cadre clair
+       qui ressort sur le fond bleu, et un badge bordeaux PRÉVENTE. */
+    .prevente-sec .prod-card {
+      background: var(--white);
+      border: 1px solid var(--pv-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .prevente-sec .prod-card .prod-info {
+      background: var(--white);
+      padding: .9rem 1rem 1.1rem;
+    }
+    .prevente-sec .prod-card .prod-name { color: var(--black); }
+    .prevente-sec .prod-card .prod-ref { color: var(--taupe); }
+    .prevente-sec .prod-card .prod-desc { color: var(--charcoal); }
+
+    /* Badge PRÉVENTE — bordeaux mode, distinct des badges des cards univers */
+    .prod-badge--prevente {
+      background: var(--pv-accent);
+      color: var(--pv-text);
+      font-size: .62rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .35rem .7rem;
+      border-radius: 3px;
+    }
+
+    /* =========================================================
+       ENCART WHATSAPP « CATALOGUE ÉTENDU » (milieu de home)
+       ---------------------------------------------------------
+       Card éditoriale insérée entre deux univers, rappelle que
+       le site n'est qu'une partie du catalogue total.
+       ========================================================= */
+    .wa-catalog {
+      background: var(--cream);
+      color: var(--black);
+      padding: 3rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .wa-catalog-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .wa-catalog-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px;
+      background: var(--wa-green);
+      color: #fff;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .wa-catalog-text h3 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--black);
+      margin-bottom: .55rem;
+    }
+    .wa-catalog-text p {
+      color: var(--taupe);
+      font-size: .92rem; line-height: 1.55;
+      max-width: 580px;
+    }
+    /* CTA doré champagne — même look que le bouton "Devenir revendeur" plus bas */
+    .wa-catalog-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--gold);
+      color: var(--black);
+      text-decoration: none;
+      font-size: .68rem; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      padding: .95rem 2rem;
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+      white-space: nowrap;
+    }
+    .wa-catalog-cta:hover {
+      background: var(--charcoal);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 880px) {
+      .wa-catalog-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.2rem;
+      }
+      /* Sur mobile, l'icône WhatsApp prenait trop de place : on la masque */
+      .wa-catalog-icon { display: none; }
+      .wa-catalog-text p { margin: 0 auto; }
+      .wa-catalog-cta { width: 100%; max-width: 360px; margin: 0 auto; }
+    }
+  </style>
+
+  <!-- Styles spécifiques à la page Qui sommes-nous -->
+  <style>
+    /* ===================== HERO ÉDITORIALE ===================== */
+    .histoire-hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      background-image:
+        linear-gradient(90deg, rgba(246,241,234,.96) 0%, rgba(246,241,234,.80) 45%, rgba(42,39,36,.45) 100%),
+        var(--histoire-hero-img);
+      background-size: cover;
+      background-position: center;
+      padding: 9rem 3.5rem 5rem;
+      isolation: isolate;
+    }
+    .histoire-hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; }
+    .histoire-hero-text { max-width: 640px; }
+    .histoire-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 1.6rem;
+    }
+    .histoire-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5.2vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 1.6rem;
+      letter-spacing: -.015em;
+    }
+    .histoire-hero h1 em {
+      font-style: italic;
+      display: block;
+    }
+    .histoire-hero-sub {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--taupe);
+      max-width: 540px;
+    }
+
+    /* ===================== BREADCRUMB ===================== */
+    .breadcrumb {
+      padding: 1.6rem 3.5rem .4rem;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .breadcrumb a { color: var(--taupe); text-decoration: none; transition: color .25s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb .sep { margin: 0 .55rem; opacity: .5; }
+
+    /* ===================== CORPS ÉDITORIAL ===================== */
+    .histoire-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem 2rem;
+    }
+    .histoire-body p {
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+    .histoire-body p.lead {
+      font-family: var(--ff-display);
+      font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+      line-height: 1.55;
+      color: var(--black);
+      font-weight: 400;
+      margin-bottom: 2.2rem;
+    }
+    .histoire-body h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 400;
+      color: var(--black);
+      margin: 3rem 0 1.2rem;
+      letter-spacing: -.01em;
+    }
+    .histoire-body strong { color: var(--black); font-weight: 600; }
+    .histoire-body a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(197,163,106,.35); transition: border-color .25s; }
+    .histoire-body a:hover { border-color: var(--gold); }
+
+    /* ===================== CHIFFRES CLÉS ===================== */
+    .histoire-stats {
+      background: var(--cream);
+      padding: 4rem 2rem;
+      margin: 4rem 0;
+    }
+    .histoire-stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+      text-align: center;
+    }
+    .histoire-stat-num {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: .6rem;
+    }
+    .histoire-stat-lbl {
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      line-height: 1.5;
+    }
+
+    /* ===================== VALEURS ===================== */
+    .histoire-values {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .histoire-value h3 {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: .8rem;
+    }
+    .histoire-value p {
+      font-size: .94rem;
+      line-height: 1.7;
+      color: var(--taupe);
+    }
+    .histoire-value-num {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      margin-bottom: .8rem;
+      display: block;
+    }
+
+    /* ===================== CTA FINAL ===================== */
+    .histoire-cta {
+      background: var(--charcoal);
+      color: var(--white);
+      padding: 5rem 2rem;
+      text-align: center;
+      margin-top: 5rem;
+    }
+    .histoire-cta h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .histoire-cta p {
+      color: rgba(255,255,255,.72);
+      max-width: 580px;
+      margin: 0 auto 2.2rem;
+      line-height: 1.7;
+    }
+    .histoire-cta-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .histoire-cta-btns a {
+      display: inline-block;
+      padding: .95rem 2.2rem;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .3s var(--ease);
+    }
+    .histoire-cta-btns .cta-primary { background: var(--gold); color: var(--black); }
+    .histoire-cta-btns .cta-primary:hover { background: var(--white); transform: translateY(-1px); }
+    .histoire-cta-btns .cta-secondary { color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+    .histoire-cta-btns .cta-secondary:hover { background: var(--gold); color: var(--black); }
+
+    @media (max-width: 900px) {
+      .histoire-hero {
+        padding: 7rem 1.5rem 3.5rem;
+        min-height: auto;
+        background-image:
+          linear-gradient(180deg, rgba(246,241,234,.95) 0%, rgba(246,241,234,.88) 60%, rgba(42,39,36,.35) 100%),
+          var(--histoire-hero-img);
+      }
+      .breadcrumb { padding: 1.2rem 1.5rem .4rem; }
+      .histoire-body { padding: 3rem 1.4rem 1rem; }
+      .histoire-stats-inner { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .histoire-values { grid-template-columns: 1fr; gap: 2rem; }
+      .histoire-cta { padding: 3.5rem 1.4rem; }
+    }
+  </style>
+
+  <!-- JSON-LD (BreadcrumbList + AboutPage) -->
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Qui sommes-nous",
+          "item": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/notre-histoire/"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "@id": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/notre-histoire/#aboutpage",
+      "url": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/notre-histoire/",
+      "name": "Qui sommes-nous — GIORGIA paris",
+      "description": "GIORGIA paris, grossiste en prêt-à-porter féminin fondé en 2007 à Aubervilliers. Notre histoire, notre savoir-faire et notre engagement auprès des boutiques indépendantes.",
+      "isPartOf": {
+        "@id": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/#website"
+      },
+      "inLanguage": "fr-FR",
+      "mainEntity": {
+        "@id": "https://sirivie.github.io/giorgia-paris-vitrinePE2026/#organization"
+      }
+    }
+  ]
+}</script>
+</head>
+<body style="--histoire-hero-img: url('/giorgia-paris-vitrinePE2026/img/pages/notre-histoire-hero.jpg')">
+
+  <!-- ========== BANDEAU STICKY WHATSAPP ========== -->
+  <a
+    id="wa-banner-link"
+    href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
+    target="_blank"
+    aria-label="Contacter GIORGIA paris sur WhatsApp — Catalogue complet">
+  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
+      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+      </svg>
+      <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
+    </div>
+  </a>
+
+  <!-- ========== STICKY CONTACT PANEL ========== -->
+  <div id="sticky-contact">
+    <div id="sticky-panel">
+      <div class="sp-inner" style="position:relative">
+        <button class="sp-close" onclick="toggleSticky()">✕</button>
+        <div class="sp-logo logo">
+          <span class="logo-g">GIORGIA</span>
+          <span class="logo-p">paris</span>
+        </div>
+        <p class="sp-title">Contactez notre équipe B2B</p>
+
+        <!-- Email -->
+        <a class="sp-row" href="mailto:giorgia93300@gmail.com">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#C5A36A"/>
+            <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Email</span>
+            <span class="sp-val">giorgia93300@gmail.com</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#25D366"/>
+            <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Commander sur WhatsApp</span>
+            <span class="sp-val">+33 6 86 72 93 11</span>
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sp-row" href="https://instagram.com/giorgia.auber" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ig-sticky" cx="30%" cy="107%" r="150%">
+                <stop offset="0%"  stop-color="#fdf497"/>
+                <stop offset="5%"  stop-color="#fdf497"/>
+                <stop offset="45%" stop-color="#fd5949"/>
+                <stop offset="60%" stop-color="#d6249f"/>
+                <stop offset="90%" stop-color="#285AEB"/>
+              </radialGradient>
+            </defs>
+            <rect width="24" height="24" rx="5" fill="url(#ig-sticky)"/>
+            <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">Instagram</span>
+            <span class="sp-val">@giorgia.auber</span>
+          </div>
+        </a>
+
+        <!-- TikTok -->
+        <a class="sp-row" href="https://tiktok.com/@giorgia.paris56" target="_blank">
+          <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#010101"/>
+            <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+            <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+            <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">TikTok</span>
+            <span class="sp-val">@giorgia.paris56</span>
+          </div>
+        </a>
+
+        <!-- Showroom -->
+        <a class="sp-row" href="/giorgia-paris-vitrinePE2026/contact/">
+          <svg class="sp-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="5" fill="#2A2724"/>
+            <path d="M12 4.5C9.24 4.5 7 6.74 7 9.5c0 3.94 5 10 5 10s5-6.06 5-10c0-2.76-2.24-5-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z" fill="#C5A36A"/>
+          </svg>
+          <div class="sp-info">
+            <span class="sp-lbl">NOTRE SHOWROOM</span>
+            <span class="sp-val">70 rue de la Haie Coq, Aubervilliers</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <div id="sticky-tab" onclick="toggleSticky()">
+      <span class="tab-icon">✉</span>
+      Contact
+    </div>
+  </div>
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <div class="mob-menu-heading">Nos Univers</div><a href="/giorgia-paris-vitrinePE2026/#working" onclick="closeMob()">Urban Woman</a><a href="/giorgia-paris-vitrinePE2026/#chic" onclick="closeMob()">Chic &amp; Soirée</a><a href="/giorgia-paris-vitrinePE2026/#casual" onclick="closeMob()">Casual</a><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/" onclick="closeMob()">Ancienne Collection Printemps-Été 2026</a><div class="mob-menu-sep" aria-hidden="true"></div><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/" onclick="closeMob()">Tendances &amp; Conseils Pro</a><a href="/giorgia-paris-vitrinePE2026/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a><a href="/giorgia-paris-vitrinePE2026/contact/" onclick="closeMob()">Contact</a><a href="/giorgia-paris-vitrinePE2026/contact/" onclick="closeMob()" style="color:var(--gold)">Commander</a>
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a class="logo" href="/giorgia-paris-vitrinePE2026/" aria-label="GIORGIA paris — Accueil">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-dropdown" tabindex="0"><span class="nav-dropdown-toggle" aria-haspopup="true">Nos Univers <span class="nav-dropdown-chev" aria-hidden="true">▾</span></span><ul class="nav-dropdown-menu" role="menu"><li><a href="/giorgia-paris-vitrinePE2026/#working">Urban Woman</a></li><li><a href="/giorgia-paris-vitrinePE2026/#chic">Chic &amp; Soirée</a></li><li><a href="/giorgia-paris-vitrinePE2026/#casual">Casual</a></li><li><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/">Ancienne Collection Printemps-Été 2026</a></li></ul></li><li><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li><li><a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a></li><li><a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="histoire-hero">
+    <div class="histoire-hero-inner">
+      <div class="histoire-hero-text">
+        <p class="histoire-eyebrow">GIORGIA paris — Depuis 2007</p>
+        <h1>Un grossiste parisien<br>au service des<br><em>boutiques indépendantes</em></h1>
+        <p class="histoire-hero-sub">De notre showroom d'Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous accompagnons les boutiques de mode partout en France, jusque dans les DOM-TOM et en Europe — avec des collections qui tournent et des partenariats qui durent.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== BREADCRUMB ========== -->
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="/giorgia-paris-vitrinePE2026/">Accueil</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span aria-current="page">Qui sommes-nous</span>
+  </nav>
+
+  <!-- ==========================================================
+       CORPS ÉDITORIAL
+
+       ⚠ SIRI : c'est ICI que se place le texte de ta page actuelle.
+       J'ai repris ce qui était visible sur ton ancienne version et
+       complété avec une trame SEO cohérente. Remplace / ajuste
+       librement les paragraphes ci-dessous par ta rédaction existante
+       si tu veux conserver mot pour mot le travail Phase 4.
+       ========================================================== -->
+  <article class="histoire-body">
+    <p class="lead">GIORGIA paris est un grossiste prêt-à-porter féminin fondé en 2007, basé à Aubervilliers. Depuis près de vingt ans, nous construisons saison après saison des collections pensées pour celles qui font vivre la mode en boutique.</p>
+
+    <p>Tout commence par une conviction simple : une boutique indépendante n'a pas les mêmes besoins qu'une enseigne de chaîne. Elle a besoin de <strong>pièces qui tournent vite</strong>, de quantités maîtrisées, d'un interlocuteur qui répond, et d'un réassort possible quand un modèle part plus vite que prévu. C'est autour de ces exigences que nous avons bâti notre façon de travailler.</p>
+
+    <h2>Un sourcing exigeant, une sélection resserrée</h2>
+
+    <p>Chaque saison, nous sélectionnons nos pièces une par une. Nous ne cherchons pas à proposer le plus grand catalogue possible, mais le plus <strong>juste</strong> : des coupes qui flattent, des matières qui tiennent au lavage, des imprimés qui se vendent. Notre équipe suit les tendances de près — les défilés, la rue, ce qui remonte des boutiques — et arbitre en connaissance des contraintes du terrain.</p>
+
+    <p>Nos collections s'organisent en univers complémentaires : <strong>Urban Woman</strong> pour la femme active, <strong>Chic &amp; Soirée</strong> pour l'événementiel, <strong>Casual</strong> pour le quotidien stylé. Cette structure permet à chaque boutique de composer un assortiment cohérent avec sa clientèle, sans se disperser.</p>
+
+    <h2>Un partenaire, pas un simple fournisseur</h2>
+
+    <p>Nous travaillons avec des boutiques de toutes tailles, de la première commande à plusieurs centaines de références par saison. Ce qui ne change pas : <strong>le minimum de commande reste à 100 € HT</strong>, pour qu'une boutique puisse tester sans engager une trésorerie disproportionnée. Et nous restons joignables — par WhatsApp, par email, ou directement au showroom.</p>
+
+    <p>Notre implantation à Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous permet d'expédier depuis notre propre stock en <strong>48 heures en France métropolitaine</strong>. Pas d'intermédiaire, pas de rupture opaque : ce qui est affiché disponible l'est réellement.</p>
+
+    <h2>Où nous trouver</h2>
+
+    <p>Notre showroom se visite sur rendez-vous au <strong>70 rue de la Haie Coq, 93300 Aubervilliers</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins. C'est l'occasion de voir les matières, d'essayer les coupes, et d'échanger sur ce qui fonctionne actuellement en boutique. Pour convenir d'un créneau, <a href="/giorgia-paris-vitrinePE2026/contact/">contactez-nous</a>.</p>
+  </article>
+
+  <!-- ========== CHIFFRES CLÉS ========== -->
+  <section class="histoire-stats" aria-label="GIORGIA paris en chiffres">
+    <div class="histoire-stats-inner">
+      <div>
+        <div class="histoire-stat-num">2007</div>
+        <div class="histoire-stat-lbl">Année de<br>fondation</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">100 €</div>
+        <div class="histoire-stat-lbl">Minimum de<br>commande HT</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">48 h</div>
+        <div class="histoire-stat-lbl">Livraison France<br>métropolitaine</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">12</div>
+        <div class="histoire-stat-lbl">Pays<br>desservis</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VALEURS ========== -->
+  <section class="histoire-values" aria-label="Nos engagements">
+    <div class="histoire-value">
+      <span class="histoire-value-num">01</span>
+      <h3>Sélection resserrée</h3>
+      <p>Nous préférons un catalogue plus court et mieux choisi. Chaque pièce est retenue pour son potentiel de vente réel en boutique, pas pour gonfler un volume.</p>
+    </div>
+    <div class="histoire-value">
+      <span class="histoire-value-num">02</span>
+      <h3>Stock en propre</h3>
+      <p>Nos pièces sont physiquement à Aubervilliers. Ce qui est annoncé disponible part sous 48 h, sans attente de réapprovisionnement chez un tiers.</p>
+    </div>
+    <div class="histoire-value">
+      <span class="histoire-value-num">03</span>
+      <h3>Relation directe</h3>
+      <p>Pas de plateforme entre vous et nous. Un message WhatsApp, un email, une visite au showroom : vous parlez à l'équipe qui gère réellement votre commande.</p>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="histoire-cta">
+    <h2>Travaillons ensemble</h2>
+    <p>Vous tenez une boutique et cherchez un partenaire de confiance pour votre approvisionnement ? Découvrez la collection ou contactez directement notre équipe.</p>
+    <div class="histoire-cta-btns">
+      <a class="cta-primary" href="/giorgia-paris-vitrinePE2026/">Découvrir la collection</a>
+      <a class="cta-secondary" href="/giorgia-paris-vitrinePE2026/contact/">Nous contacter</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-top" style="grid-template-columns: auto 1fr;">
+
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-g" style="color:white">GIORGIA</span>
+        <span class="logo-p" style="color:#5a4e45">paris</span>
+      </div>
+
+      <!-- Adresse : siège social juridique à Paris + showroom à Aubervilliers -->
+      <div class="foot-right">
+        <div class="foot-addr">
+          <p>Siège social&nbsp;: 4 rue de Marivaux, 75002 Paris · Showroom&nbsp;: 70 rue de la Haie Coq, 93300 Aubervilliers</p>
+          <p>+33 6 86 72 93 11 · <a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Liens légaux : signal E-E-A-T pour Google + conformité LCEN / RGPD -->
+    <nav class="foot-legal" aria-label="Informations légales">
+      <a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/giorgia-paris-vitrinePE2026/mentions-legales/">Mentions légales</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/giorgia-paris-vitrinePE2026/cgv/">CGV</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/giorgia-paris-vitrinePE2026/confidentialite/">Politique de confidentialité</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/giorgia-paris-vitrinePE2026/politique-retour/">Politique de retour</a>
+    </nav>
+
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 GIORGIA (SARL) · Grossiste Prêt-à-Porter Féminin · RCS Paris 499 006 559</p>
+    </div>
+  </footer>
+
+  <!-- Payload catalogue vide (pas de produits affichés sur cette page) -->
+  <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={version:2,generatedAt:new Date().toISOString(),count:0,products:[]};</script>
+
+  <!-- JS interactif partagé -->
+  <script>
+    /* =====================================================
+       DONNÉES CATALOGUE — injectées au build par scripts/build.mjs
+       via window.__GIORGIA_CATALOG__. Aucun appel réseau à Airtable
+       ne se fait depuis le navigateur : la clé API n'est jamais exposée.
+    ===================================================== */
+
+    const DEFAULT_WHATSAPP_LINK =
+      'https://wa.me/33686729311?text=' +
+      encodeURIComponent(
+        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+      );
+    const PROD_REF_LINE = '';
+
+    /* =====================================================
+       Les sections, cards, navbar et menus sont désormais rendus au BUILDTIME
+       par scripts/build.mjs (pas en JavaScript). Les moteurs de recherche voient
+       donc tout le catalogue dans le HTML source, sans devoir exécuter du JS.
+
+       Côté navigateur, il ne reste qu'à initialiser les comportements interactifs :
+       navigation des carrousels, swipe tactile, changement de photo au clic sur
+       une vignette, survol de la photo principale.
+    ===================================================== */
+
+    /* Liste des carrousels à initialiser sur cette page. Injectée par build.mjs
+       depuis les univers dont `location === 'home'` (+ 'preventes' si applicable).
+       Les univers archive ('summer', 'boheme') sont initialisés sur leur page
+       dédiée /collection-printemps-ete-2026/. */
+    const CAROUSEL_IDS = [];
+
+    /* ====================================================================
+       REDIRECTION LEGACY ANCHORS
+       -------------------------------------------------------------------
+       Les ancres #summer et #boheme n'existent plus sur la home. Si un
+       visiteur arrive via un lien externe (Google, backlink, ancien signet)
+       pointant vers /#summer ou /#boheme, on le redirige proprement vers
+       /collection-printemps-ete-2026/#summer (ou #boheme).
+       Le préfixe /giorgia-paris-vitrinePE2026 est vide en prod, '/<repo>' en qualif.
+    ==================================================================== */
+    (function redirectLegacyHomeAnchors() {
+      const legacyIds = ['summer', 'boheme'];
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (legacyIds.includes(hash)) {
+        const target = '/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/#' + hash;
+        window.location.replace(target);
+      }
+    })();
+
+    /* =====================================================
+       CARROUSEL — logique partagée
+    ===================================================== */
+    const carState = {};
+
+    function visibleCards() {
+      if (window.innerWidth >= 900) return 5;
+      if (window.innerWidth >= 600) return 2;
+      return 1;
+    }
+
+    /* initCarousel — appelé UNE seule fois par carrousel au chargement */
+    function initCarousel(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      if (!track) return;
+
+      // Pour la section Préventes uniquement : mélanger l'ordre des cartes
+      // à chaque visite pour un effet dynamique. Aucun impact SEO (Google
+      // a déjà indexé le HTML, l'ordre des cartes n'influence pas le ranking).
+      if (id === 'preventes') {
+        const grid = track.querySelector('.catalog-grid-root') || track;
+        const cards = Array.from(grid.children);
+        // Algorithme Fisher-Yates pour un shuffle uniforme
+        for (let i = cards.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        // Réinjecter les cartes dans le nouvel ordre. DocumentFragment évite
+        // les reflows multiples et rend l'opération imperceptible (~1ms).
+        const fragment = document.createDocumentFragment();
+        cards.forEach(card => fragment.appendChild(card));
+        grid.appendChild(fragment);
+        // Retire la classe pv-shuffling → carrousel visible avec ordre aléatoire
+        track.classList.remove('pv-shuffling');
+      }
+
+      const total = track.querySelectorAll('.prod-card').length;
+      carState[id] = { pos: 0, total };
+
+      buildDots(id);
+      carRender(id);
+
+      /* Touch — listeners attachés une seule fois */
+      let touchStartX = 0;
+      track.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        /* Seuil 40px, avance d'UNE carte à la fois */
+        if (Math.abs(dx) > 40) carMove(id, dx < 0 ? 1 : -1);
+      }, { passive: true });
+
+      /* Mouse drag (desktop) */
+      let mStartX = 0, dragging = false, mMoved = 0;
+      track.addEventListener('mousedown', e => {
+        mStartX = e.clientX; dragging = true; mMoved = 0;
+        track.classList.add('dragging'); e.preventDefault();
+      });
+      window.addEventListener('mousemove', e => { if (dragging) mMoved = e.clientX - mStartX; });
+      window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        if (Math.abs(mMoved) > 40) carMove(id, mMoved < 0 ? 1 : -1);
+        dragging = false; track.classList.remove('dragging');
+      });
+    }
+
+    /* buildDots — reconstruit les dots (appelé aussi sur resize) */
+    function buildDots(id) {
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!dotsEl || !s) return;
+      const pages = Math.ceil(s.total / visibleCards());
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'car-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => carGoTo(id, i));
+        dotsEl.appendChild(d);
+      }
+    }
+
+    /* carMove — avance ou recule d'UNE seule carte */
+    function carMove(id, dir) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(Math.max(0, s.pos + dir), Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carGoTo(id, page) {
+      const s = carState[id];
+      if (!s) return;
+      const vc = visibleCards();
+      s.pos = Math.min(page * vc, Math.max(0, s.total - vc));
+      carRender(id);
+    }
+
+    function carRender(id) {
+      const track = document.getElementById('track-' + id);
+      const dotsEl = document.getElementById('dots-' + id);
+      const s = carState[id];
+      if (!track || !s) return;
+      const vc = visibleCards();
+
+      const wrap = track.closest('.carousel-outer');
+      const firstCard = track.querySelector('.prod-card');
+      if (!firstCard) {
+        track.style.transform = 'translateX(0)';
+        if (wrap) {
+          wrap.querySelector('.car-btn-prev')?.classList.add('disabled');
+          wrap.querySelector('.car-btn-next')?.classList.add('disabled');
+        }
+        return;
+      }
+
+      const cardW  = firstCard.getBoundingClientRect().width;
+      const styles = getComputedStyle(track);
+      const gap    = parseFloat(styles.gap) || 22;
+
+      /* translateX : la carte de gauche doit toujours être calée au bord gauche du clip */
+      track.style.transform = `translateX(-${s.pos * (cardW + gap)}px)`;
+
+      if (wrap) {
+        wrap.querySelector('.car-btn-prev')?.classList.toggle('disabled', s.pos <= 0);
+        wrap.querySelector('.car-btn-next')?.classList.toggle('disabled', s.pos >= s.total - vc);
+      }
+      if (dotsEl) {
+        const curPage = Math.min(Math.floor(s.pos / vc), dotsEl.children.length - 1);
+        [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === curPage));
+      }
+    }
+
+    /* Resize : recalcule sans réattacher les listeners */
+    function onResize() {
+      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+        if (!carState[id]) return;
+        carState[id].pos = 0;
+        buildDots(id);
+        carRender(id);
+      });
+    }
+
+    window.addEventListener('resize', onResize);
+
+    /* =====================================================
+       GALERIE PRODUIT — survol + clic sur les vignettes
+       =====================================================
+       Les cards sont déjà dans le DOM (rendues au buildtime).
+       Pour chaque card on lit :
+       - photo principale : <img class="prod-img-primary" data-hover-url="...">
+       - photos de la galerie : <.prod-thumb img> (présents uniquement si >1 photo)
+       Comportements :
+       - hover sur la photo principale → affiche data-hover-url (si défini)
+       - hover sur une vignette → affiche cette photo temporairement
+       - clic sur une vignette → sélectionne cette photo comme active
+    ===================================================== */
+    function setupProductGallery(card) {
+      const mainImg = card.querySelector('img.prod-img-primary');
+      if (!mainImg) return;
+
+      // Le <source> WebP du <picture> doit être swappé en parallèle du <img>,
+      // sinon les navigateurs modernes (qui supportent WebP) continuent
+      // d'afficher l'image initiale même si on change le src du <img>.
+      const picture = mainImg.closest('picture');
+      const sourceEl = picture ? picture.querySelector('source[type="image/webp"]') : null;
+
+      const thumbs = Array.from(card.querySelectorAll('.prod-thumb'));
+      // Pour chaque vignette : on récupère son src JPEG (depuis l'<img>) et
+      // son URL WebP (depuis l'attribut data-webp du <span> conteneur).
+      const thumbData = thumbs.map(function (sp) {
+        const im = sp.querySelector('img');
+        return {
+          jpg: im ? im.getAttribute('src') : '',
+          webp: sp.getAttribute('data-webp') || '',
+        };
+      });
+      const hoverJpg = mainImg.getAttribute('data-hover-url') || '';
+      const hoverWebp = mainImg.getAttribute('data-hover-webp') || '';
+      const mainInitialJpg = mainImg.getAttribute('src');
+      const mainInitialWebp = sourceEl ? sourceEl.getAttribute('srcset') : '';
+
+      let selectedIdx = 0;
+
+      /** Met à jour l'image visible. Doit modifier <source srcset> ET <img src>
+       *  pour que le swap fonctionne sur tous les navigateurs (WebP + fallback). */
+      function setMainImage(jpg, webp) {
+        if (jpg) mainImg.src = jpg;
+        if (sourceEl && webp) sourceEl.srcset = webp;
+      }
+
+      function applyMain(i) {
+        const t = thumbData[i];
+        if (!t || !t.jpg) return;
+        setMainImage(t.jpg, t.webp || t.jpg);
+        thumbs.forEach(function (el, j) {
+          el.classList.toggle('is-active', j === i);
+        });
+      }
+
+      /* Hover sur la grande image : montre la photo "Photos2" si définie. */
+      if (hoverJpg && hoverJpg !== mainInitialJpg) {
+        mainImg.addEventListener('mouseenter', function () {
+          mainImg.setAttribute('data-giorgia-swap', '1');
+          setMainImage(hoverJpg, hoverWebp || hoverJpg);
+        });
+        mainImg.addEventListener('mouseleave', function () {
+          if (!mainImg.hasAttribute('data-giorgia-swap')) return;
+          mainImg.removeAttribute('data-giorgia-swap');
+          // Restaurer l'image actuellement sélectionnée (initiale ou autre vignette)
+          if (selectedIdx === 0 && thumbData.length === 0) {
+            setMainImage(mainInitialJpg, mainInitialWebp);
+          } else {
+            applyMain(selectedIdx);
+          }
+        });
+      }
+
+      /* Vignettes : hover + clic + clavier (Enter / Espace). */
+      thumbs.forEach(function (btn, i) {
+        btn.addEventListener('mouseenter', function () { applyMain(i); });
+        btn.addEventListener('mouseleave', function () { applyMain(selectedIdx); });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedIdx = i;
+          applyMain(selectedIdx);
+        });
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            selectedIdx = i;
+            applyMain(selectedIdx);
+          }
+        });
+      });
+
+      /* Évite que le clic sur une vignette ne suive le lien de la card. */
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.prod-thumb')) e.preventDefault();
+      });
+    }
+
+    /* =====================================================
+       INITIALISATION
+       =====================================================
+       Tout le catalogue est déjà dans le HTML au chargement de la page.
+       Ce handler ne fait plus que :
+       - installer les IntersectionObservers (nav active, fade-up)
+       - initialiser les carrousels
+       - brancher les interactions galerie sur chaque card produit
+
+       IMPORTANT : on utilise DOMContentLoaded et PAS window.load.
+       - DOMContentLoaded → déclenché dès que le HTML est parsé
+         (typiquement 100-300 ms après l'ouverture de la page).
+       - window.load → ATTEND que toutes les images soient téléchargées,
+         ce qui peut prendre 5-15 s sur un site avec 100+ photos produits.
+       Avant ce changement, les flèches des carrousels paraissaient
+       "bloquées" car carState n'était rempli qu'après le chargement
+       complet des images. Ce n'est plus le cas. */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInteractivity);
+    } else {
+      /* Le DOM est déjà parsé (script injecté tard) : on init immédiatement. */
+      initInteractivity();
+    }
+
+    function initInteractivity() {
+      /* Observer les sections pour la nav active (tabs univers surlignés). */
+      const tabs = document.querySelectorAll('.utab');
+      const secIO = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + e.target.id)); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('section[id]').forEach(s => secIO.observe(s));
+
+      /* Observer les fade-up. */
+      document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+      /* Initialiser les carrousels (les cards sont déjà dans le DOM). */
+      CAROUSEL_IDS.forEach(initCarousel);
+
+      /* Brancher les interactions galerie (survol / clic vignettes). */
+      document.querySelectorAll('.prod-card').forEach(setupProductGallery);
+    }
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    /* Les .fade-up sont observés dans le load event ci-dessous */
+
+    /* ---- ACTIVE UNIVERS TAB ---- */
+    /* NB: setup décalé au load event pour capter les sections créées dynamiquement */
+
+    /* ---- NAVBAR SCROLL ---- */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    /* ---- MOBILE MENU ---- */
+    function openMob()  { document.getElementById('mob-menu').classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMob() { document.getElementById('mob-menu').classList.remove('open'); document.body.style.overflow = ''; }
+
+    /* ---- STICKY CONTACT PANEL ---- */
+    function toggleSticky() { document.getElementById('sticky-contact').classList.toggle('open'); }
+    document.addEventListener('click', e => {
+      const sc = document.getElementById('sticky-contact');
+      if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
+    });
+
+    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
+    (function() {
+      const articlesTrack = document.getElementById('articles-track');
+      if (!articlesTrack) return;
+
+      // Charger le JSON des articles
+      fetch('./api/latest-articles.json')
+        .then(res => res.json())
+        .then(data => {
+          const articlesData = data.articles || [];
+          if (articlesData.length === 0) {
+            console.log('Pas d\'articles à afficher');
+            return;
+          }
+          renderCarousel(articlesData);
+        })
+        .catch(err => console.log('Erreur chargement articles:', err));
+
+      function renderCarousel(articlesData) {
+        articlesTrack.innerHTML = '';
+        articlesData.forEach(article => {
+          const dateObj = new Date(article.date_publication);
+          const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+          const card = document.createElement('a');
+          card.href = `./tendances-conseils-pro/${article.slug}/`;
+          card.innerHTML = `
+            <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">
+              <img src="${article.hero_image_url}" alt="${article.title}" loading="lazy" decoding="async">
+            </div>
+            <div class="article-card-content">
+              <h3 class="article-card-title">${article.title}</h3>
+              <p class="article-card-excerpt">${article.chapo}</p>
+              <div class="article-card-meta">
+                <time datetime="${article.date_publication}">${dateStr}</time>
+                <span class="article-card-cta">Lire →</span>
+              </div>
+            </div>
+          `;
+          articlesTrack.appendChild(card);
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
