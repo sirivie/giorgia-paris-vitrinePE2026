@@ -2262,9 +2262,9 @@ const PARTNER_PLATFORMS = [
   // maxH : hauteur optique en px. Elle diffère par logo car les proportions
   // sont très inégales (PFS est carré, Efashion en 3:1, Faire en 8:1). Une
   // hauteur uniforme donnerait un alignement visuellement déséquilibré.
-  { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops', maxH: 44, maxW: 110 },
-  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion',            maxH: 30, maxW: 130 },
-  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire',               maxH: 18, maxW: 120 },
+  { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops', maxH: 38, maxW: 100 },
+  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion',            maxH: 26, maxW: 120 },
+  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire',               maxH: 16, maxW: 110 },
 ];
 
 /** Logos partenaires réellement présents sur le disque (rempli au build). */
@@ -2345,7 +2345,8 @@ function renderPartnersSection() {
     '<div class="partners-section-inner">',
     '<h2 id="partners-section-title" class="partners-section-title">Une marque reconnue par les professionnels</h2>',
     '<p class="partners-section-sub">GIORGIA paris est référencé sur les principales plateformes B2B du secteur. Pour commander sans intermédiaire et bénéficier de nos meilleures conditions, contactez directement notre équipe.</p>',
-    renderPartnersBand('light'),
+    // Variante "dark" : fond charcoal → les logos noirs sont inversés en blanc.
+    renderPartnersBand('dark'),
     '</div>',
     '</section>',
   ].join('');
