@@ -209,6 +209,8 @@ const ARCHIVE_UNIVERS = UNIVERS.filter(u => u.location === 'archive');
 const ARCHIVE_PAGE_SLUG  = 'collection-printemps-ete-2026';
 const ARCHIVE_PAGE_TITLE = 'Ancienne Collection Printemps-Été 2026';
 const CONTACT_PAGE_SLUG  = 'contact';
+const HISTOIRE_PAGE_SLUG = 'notre-histoire';
+const HISTOIRE_PAGE_TITLE = 'Qui sommes-nous';
 
 /**
  * FUTURE-PROOFING — champ Airtable "Collection".
@@ -1459,10 +1461,10 @@ const LEGAL_PAGES_MAP = {
   'cgv':               { candidates: ['cgv.html'],                       out: 'cgv' },
   'confidentialite':   { candidates: ['politique-confidentialite.html', 'confidentialite.html'], out: 'confidentialite' },
   'politique-retour':  { candidates: ['politique-retour.html'],          out: 'politique-retour' },
-  // Page "Qui sommes-nous" — URL /notre-histoire/ conservée (déjà indexée
-  // par Google, cf. travaux SEO Phase 4). Plusieurs noms de fichier tolérés
-  // car le nommage a varié au fil des versions.
-  'notre-histoire':    { candidates: ['notre-histoire.html', 'qui-sommes-nous.html', 'notre-histoire.htm'], out: 'notre-histoire' },
+  // NB : "Qui sommes-nous" (/notre-histoire/) n'est PLUS traitée ici.
+  // Elle est devenue une page dédiée (src/pages/notre-histoire-template.html)
+  // qui hérite de toute la CSS et de la navbar du site principal.
+  // Voir buildNotreHistoirePage() dans la section 15.
 };
 
 async function copyLegalPages() {
@@ -2605,6 +2607,135 @@ function renderContactJsonLd() {
   return `<script type="application/ld+json">${safe}</script>`;
 }
 
+/**
+ * Traite une image hero de page dédiée : compression JPEG + WebP, écriture
+ * dans dist/img/pages/, retour de l'URL publique.
+ *
+ * Source attendue : src/pages/img/<filename>
+ * Sortie          : dist/img/pages/<filename> (+ .webp)
+ *
+ * Même logique que le pipeline hero des articles. Si l'image est absente,
+ * on retourne une chaîne vide et l'appelant gère le fallback.
+ */
+async function processPageHeroImage(filename) {
+  if (!filename) return '';
+  const srcPath = resolve('src/pages/img', filename);
+  try {
+    await stat(srcPath);
+  } catch {
+    console.warn(`  ⚠ Hero de page introuvable : src/pages/img/${filename}`);
+    return '';
+  }
+  try {
+    const outDir = resolve(IMG_OUTPUT_DIR, 'pages');
+    await mkdir(outDir, { recursive: true });
+    const outJpg = join(outDir, filename);
+    const outWebp = outJpg.replace(/\.(jpe?g|png)$/i, '.webp');
+
+    const buffer = await readFile(srcPath);
+    const img = sharp(buffer).rotate();
+    const meta = await img.metadata();
+    const targetWidth = meta.width && meta.width > IMG_MAX_WIDTH ? IMG_MAX_WIDTH : meta.width;
+
+    await img.clone().resize({ width: targetWidth, withoutEnlargement: true })
+      .jpeg({ quality: IMG_JPEG_QUALITY, mozjpeg: true })
+      .toFile(outJpg);
+    await img.clone().resize({ width: targetWidth, withoutEnlargement: true })
+      .webp({ quality: IMG_WEBP_QUALITY })
+      .toFile(outWebp);
+
+    const url = `${SITE_BASE}/img/pages/${filename}`;
+    console.log(`  ✓ Hero de page compressée : ${url}`);
+    return url;
+  } catch (err) {
+    console.warn(`  ⚠ Échec traitement hero de page ${filename} : ${err.message}`);
+    return '';
+  }
+}
+
+/**
+ * Génère la page /notre-histoire/ ("Qui sommes-nous").
+ *
+ * Cette page était auparavant traitée par le pipeline "pages légales", qui la
+ * copiait telle quelle sans lui donner accès à la CSS ni à la navbar du site.
+ * Elle est désormais une page dédiée à part entière : elle hérite de toute la
+ * CSS, de la navbar, du menu mobile, du sticky contact et du footer du site.
+ *
+ * L'URL /notre-histoire/ est conservée (déjà indexée par Google, cf. travaux
+ * SEO Phase 4) — seul le rendu change, pas l'adresse.
+ */
+async function buildNotreHistoirePage(mainTemplate) {
+  const pageTemplatePath = resolve('src/pages/notre-histoire-template.html');
+  try {
+    await stat(pageTemplatePath);
+  } catch {
+    console.warn(`  ⚠ src/pages/notre-histoire-template.html introuvable — page non générée.`);
+    return { deployed: false };
+  }
+
+  // Hero : cherchée dans src/pages/img/. Fallback sur l'illustration
+  // éditoriale déjà téléchargée par le pipeline principal si absente.
+  let heroUrl = await processPageHeroImage('notre-histoire-hero.jpg');
+  if (!heroUrl) {
+    const fallback = localImageFor(ILLUSTRATION_URLS.editorialUnsplash);
+    heroUrl = fallback ? fallback.jpg : ILLUSTRATION_URLS.editorialUnsplash;
+    console.warn(`  → Fallback hero notre-histoire : ${heroUrl}`);
+  }
+
+  const jsonLd = renderHistoireJsonLd();
+
+  const html = await composePageFromTemplate(pageTemplatePath, mainTemplate, {
+    context: 'other',
+    replacements: [
+      ['<!-- CAROUSEL_IDS_JS -->', '[]'], // Pas de carrousel produits sur cette page
+      ['<!-- PAGE_JSON_LD -->', jsonLd],
+      ['<!-- PAGE_TITLE -->', HISTOIRE_PAGE_TITLE],
+      ['<!-- PAGE_HERO_URL -->', heroUrl],
+    ],
+  });
+
+  const outDir = resolve(OUTPUT_DIR, HISTOIRE_PAGE_SLUG);
+  await mkdir(outDir, { recursive: true });
+  await writeFile(join(outDir, 'index.html'), html, 'utf8');
+  console.log(`  ✓ /${HISTOIRE_PAGE_SLUG}/ générée`);
+  return { deployed: true };
+}
+
+/**
+ * JSON-LD de la page "Qui sommes-nous" : BreadcrumbList + AboutPage.
+ * AboutPage est le type schema.org dédié aux pages de présentation
+ * d'entreprise — signal E-E-A-T fort pour Google.
+ */
+function renderHistoireJsonLd() {
+  const url = `${SITE_ORIGIN}${SITE_BASE}/${HISTOIRE_PAGE_SLUG}/`;
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE_ORIGIN}${SITE_BASE}/` },
+      { '@type': 'ListItem', position: 2, name: HISTOIRE_PAGE_TITLE, item: url },
+    ],
+  };
+
+  const aboutPage = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${url}#aboutpage`,
+    url,
+    name: 'Qui sommes-nous — GIORGIA paris',
+    description: 'GIORGIA paris, grossiste en prêt-à-porter féminin fondé en 2007 à Aubervilliers. Notre histoire, notre savoir-faire et notre engagement auprès des boutiques indépendantes.',
+    isPartOf: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#website` },
+    inLanguage: 'fr-FR',
+    mainEntity: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
+  };
+
+  const graph = [breadcrumb, aboutPage];
+  const safe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/<\/script>/gi, '<\\/script>');
+  return `<script type="application/ld+json">${safe}</script>`;
+}
+
 /* ==========================================================================
    16. MAIN
    ========================================================================== */
@@ -2824,6 +2955,14 @@ async function main() {
   // ===================================================================
   console.log(`→ Génération de /${CONTACT_PAGE_SLUG}/…`);
   await buildContactPage(template);
+
+  // ===================================================================
+  //  Page "Qui sommes-nous" — /notre-histoire/
+  //  Anciennement traitée comme page légale (sans CSS du site), elle est
+  //  désormais une page dédiée complète. URL inchangée pour le SEO.
+  // ===================================================================
+  console.log(`→ Génération de /${HISTOIRE_PAGE_SLUG}/…`);
+  await buildNotreHistoirePage(template);
 
   // Copie des pages légales depuis src/legal/ vers dist/ avec URLs propres.
   console.log('→ Copie des pages légales…');
