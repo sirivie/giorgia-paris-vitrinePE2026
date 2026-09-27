@@ -2213,6 +2213,31 @@ async function buildArticles(allRecords) {
  * Génère la page index `/tendances-conseils-pro/index.html`
  * Affiche tous les articles avec filtres par catégorie et pagination.
  */
+/**
+ * Liens du footer légal — SOURCE UNIQUE pour tout le site.
+ *
+ * Utilisée par :
+ *   • la home et les pages dédiées (via le placeholder <!-- FOOT_LEGAL_LINKS -->)
+ *   • la page hub articles et les pages d'articles (via injectSharedNav, qui
+ *     remplace le contenu de leur <nav class="foot-legal">)
+ *
+ * Pour ajouter ou retirer un lien du footer : le faire ICI, une seule fois.
+ */
+function renderFootLegalLinks() {
+  const links = [
+    [`${SITE_BASE}/notre-histoire/`,      'Qui sommes-nous'],
+    [`${SITE_BASE}/${CONTACT_PAGE_SLUG}/`,'Contact'],
+    [`${SITE_BASE}/mentions-legales/`,    'Mentions légales'],
+    [`${SITE_BASE}/cgv/`,                 'CGV'],
+    [`${SITE_BASE}/confidentialite/`,     'Politique de confidentialité'],
+    [`${SITE_BASE}/politique-retour/`,    'Politique de retour'],
+  ];
+  const sep = '<span class="sep" aria-hidden="true">·</span>';
+  return links
+    .map(([href, label]) => `<a href="${href}">${esc(label)}</a>`)
+    .join(sep);
+}
+
 /* --------------------------------------------------------------------------
    NAVBAR PARTAGÉE POUR LES PAGES ARTICLES
    --------------------------------------------------------------------------
@@ -2309,14 +2334,26 @@ function injectSharedNav(html, label) {
   const contactHref = `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
   out = out.split(`href="${SITE_BASE}/#contact"`).join(`href="${contactHref}"`);
 
-  // 4. CSS du dropdown : injectée avant </head> si absente.
+  // 4. Footer légal : on aligne les liens sur ceux du site principal
+  //    (les templates articles n'avaient ni "Qui sommes-nous" ni "Contact").
+  let footDone = false;
+  const footRe = /(<nav[^>]*class="[^"]*foot-legal[^"]*"[^>]*>)([\s\S]*?)(<\/nav>)/;
+  if (footRe.test(out)) {
+    out = out.replace(footRe, (_m, open, _inner, close) =>
+      `${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
+    footDone = true;
+  } else {
+    console.warn(`  ⚠ ${label} : <nav class="foot-legal"> introuvable — footer non uniformisé.`);
+  }
+
+  // 5. CSS du dropdown : injectée avant </head> si absente.
   if (navDone && !out.includes('data-shared-nav')) {
     out = out.replace('</head>', `${renderSharedNavCss()}\n</head>`);
   }
 
   if (!navDone) console.warn(`  ⚠ ${label} : <ul class="nav-links"> introuvable — navbar non remplacée.`);
   if (!mobDone) console.warn(`  ⚠ ${label} : #mob-menu introuvable — menu mobile non remplacé.`);
-  if (navDone && mobDone) console.log(`  ✓ ${label} : navbar et menu mobile alignés sur le site.`);
+  if (navDone && mobDone && footDone) console.log(`  ✓ ${label} : navbar, menu mobile et footer alignés sur le site.`);
 
   return out;
 }
@@ -2502,6 +2539,7 @@ async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextRe
     ['<!-- NAV_LINKS -->',             renderNavLinks(context)],
     ['<!-- MOB_MENU_LINKS -->',        renderMobMenuLinks(context)],
     ['<!-- SHARED_FOOTER -->',         sharedFooter],
+    ['<!-- FOOT_LEGAL_LINKS -->',      renderFootLegalLinks()],
     ['<!-- SHARED_JS -->',             sharedJs],
     ['<!-- SITE_ORIGIN -->',           SITE_ORIGIN],
     ['<!-- SITE_BASE -->',             SITE_BASE],
@@ -3031,6 +3069,7 @@ async function main() {
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
+    ['<!-- FOOT_LEGAL_LINKS -->', renderFootLegalLinks()],
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
     ['<!-- SITE_ORIGIN -->', SITE_ORIGIN],
