@@ -213,6 +213,30 @@ const HISTOIRE_PAGE_SLUG = 'notre-histoire';
 const HISTOIRE_PAGE_TITLE = 'Qui sommes-nous';
 
 /**
+ * FORMULAIRE DE CONTACT — clé d'accès Web3Forms.
+ *
+ * Le site étant 100 % statique (GitHub Pages, pas de serveur), l'envoi des
+ * emails passe par le relais Web3Forms. La clé est PUBLIQUE par nature :
+ * elle est visible dans le HTML généré. Elle n'autorise que l'envoi vers
+ * l'adresse qui lui est associée côté Web3Forms — aucun risque de fuite.
+ *
+ * Pour l'obtenir : https://web3forms.com → saisir l'email de réception →
+ * la clé arrive par email. La renseigner ci-dessous, ou via la variable
+ * d'environnement WEB3FORMS_ACCESS_KEY dans le workflow GitHub Actions.
+ *
+ * Tant qu'elle vaut la valeur par défaut, le formulaire s'affiche en mode
+ * désactivé avec un message explicite plutôt que d'échouer silencieusement.
+ */
+const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || '3ad93c0b-5c7e-4c6c-bddb-b15792bff49d';
+
+/**
+ * Destinataire du formulaire : clemence.giorgia@gmail.com.
+ * C'est l'adresse déclarée chez Web3Forms lors de la création de la clé —
+ * elle n'a pas besoin d'être répétée ici. Pour ajouter un destinataire en
+ * copie plus tard, réintroduire un champ caché `cc` dans le formulaire.
+ */
+
+/**
  * FUTURE-PROOFING — champ Airtable "Collection".
  * Aujourd'hui, tous les produits Airtable sont de la collection PE 2026.
  * Quand la prochaine collection arrivera (AH 2026, PE 2027…), il faudra :
@@ -1226,10 +1250,11 @@ function renderMobMenuLinks(context = 'home') {
   const quiLink       = `<a href="${SITE_BASE}/notre-histoire/" onclick="closeMob()">Qui sommes-nous</a>`;
   const contactLink   = `<a href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/" onclick="closeMob()">Contact</a>`;
 
-  // CTA final "Commander" — pointe vers la section #contact de la home (conservée)
-  // en contexte home, ou vers la page contact autonome depuis les autres pages.
-  const commanderHref = context === 'home' ? '#contact' : `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
-  const commanderLink = `<a href="${commanderHref}" onclick="closeMob()" style="color:var(--gold)">Commander</a>`;
+  // CTA final du menu mobile — pointe vers la page contact dédiée.
+  // Auparavant libellé "Commander" et pointant vers la marketplace :
+  // on privilégie désormais le canal direct (sans commission).
+  const commanderHref = `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
+  const commanderLink = `<a href="${commanderHref}" onclick="closeMob()" style="color:var(--gold)">Contacter l'équipe</a>`;
 
   return (
     universHeading +
@@ -2733,8 +2758,14 @@ async function buildContactPage(mainTemplate) {
       ['<!-- CAROUSEL_IDS_JS -->', '[]'], // Pas de carrousel sur la page contact
       ['<!-- PAGE_JSON_LD -->', jsonLd],
       ['<!-- PAGE_TITLE -->', 'Contact'],
+      ['<!-- WEB3FORMS_KEY -->', WEB3FORMS_ACCESS_KEY],
     ],
   });
+
+  if (WEB3FORMS_ACCESS_KEY.startsWith('REMPLACER')) {
+    console.warn('  ⚠ Clé Web3Forms non configurée — le formulaire de contact s\'affichera désactivé.');
+    console.warn('    Renseigner WEB3FORMS_ACCESS_KEY dans build.mjs ou en variable d\'environnement.');
+  }
 
   const outDir = resolve(OUTPUT_DIR, CONTACT_PAGE_SLUG);
   await mkdir(outDir, { recursive: true });
@@ -2770,7 +2801,29 @@ function renderContactJsonLd() {
     mainEntity: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
   };
 
-  const graph = [breadcrumb, contactPage];
+  const faqPage = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${url}#faq`,
+    mainEntity: [
+      ['Comment passer ma première commande chez GIORGIA paris ?',
+       'Contactez notre équipe par WhatsApp au +33 6 86 72 93 11 ou par email à giorgia93300@gmail.com en précisant votre boutique (nom, ville, site ou Instagram). Nous vous partagerons le catalogue complet et les disponibilités en temps réel. La première commande est possible dès 100 € HT.'],
+      ['Puis-je voir les collections avant de commander ?',
+       'Oui. Notre showroom d\'Aubervilliers vous accueille sur rendez-vous pour voir la collection en physique. Nous pouvons également vous envoyer des photos ou vidéos complémentaires par WhatsApp sur les pièces qui vous intéressent.'],
+      ['Quels sont les délais de livraison ?',
+       'En moyenne 48 h en France métropolitaine depuis notre stock à Aubervilliers. Pour les DOM-TOM et l\'Europe, comptez 3 à 7 jours ouvrés selon la destination. Nous confirmons systématiquement le délai à la validation de commande.'],
+      ['Puis-je acheter à la pièce ou uniquement par pack ?',
+       'Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L au choix). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
+      ['Existe-t-il d\'anciennes collections encore disponibles ?',
+       'Oui, une sélection de pièces de l\'ancienne collection Printemps-Été 2026 (Summer Vibes et Bohème) reste disponible au stock.'],
+    ].map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  };
+
+  const graph = [breadcrumb, contactPage, faqPage];
   const safe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
     .replace(/<\/script>/gi, '<\\/script>');
   return `<script type="application/ld+json">${safe}</script>`;
