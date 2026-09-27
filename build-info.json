@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T22:16:19.294Z",
+  "generatedAt": "2026-09-27T22:23:56.383Z",
   "count": 122,
   "version": 3,
   "imagePipeline": {
@@ -10,9 +10,9 @@
   },
   "imageAudit": {
     "totalImages": 288,
-    "measured": 288,
-    "totalKB": 63662,
-    "avgKB": 221,
+    "measured": 287,
+    "totalKB": 63611,
+    "avgKB": 222,
     "heavyCount": 100,
     "top20Heavy": [
       {
