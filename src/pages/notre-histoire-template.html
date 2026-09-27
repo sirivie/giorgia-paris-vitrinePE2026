@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#161616">
+
+  <!-- ==================== SEO ==================== -->
+  <title>Qui sommes-nous — GIORGIA paris | Grossiste Prêt-à-Porter Féminin depuis 2007</title>
+  <meta name="description" content="GIORGIA paris, grossiste en prêt-à-porter féminin fondé en 2007 à Aubervilliers. Découvrez notre histoire, notre savoir-faire et notre engagement auprès des boutiques de mode indépendantes en France et en Europe.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
+  <meta property="og:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta property="og:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007, au service des boutiques indépendantes.">
+  <meta property="og:image" content="<!-- SITE_ORIGIN --><!-- PAGE_HERO_URL -->">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:locale" content="fr_FR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Qui sommes-nous — GIORGIA paris">
+  <meta name="twitter:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007.">
+  <meta name="twitter:image" content="<!-- SITE_ORIGIN --><!-- PAGE_HERO_URL -->">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Préchargement de la hero (LCP) -->
+  <link rel="preload" as="image" href="<!-- PAGE_HERO_URL -->">
+
+  <!-- CSS partagée du site (extraite de src/template.html par build.mjs) -->
+  <!-- SHARED_STYLES -->
+
+  <!-- Styles spécifiques à la page Qui sommes-nous -->
+  <style>
+    /* ===================== HERO ÉDITORIALE ===================== */
+    .histoire-hero {
+      position: relative;
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      background-image:
+        linear-gradient(90deg, rgba(246,241,234,.96) 0%, rgba(246,241,234,.80) 45%, rgba(42,39,36,.45) 100%),
+        var(--histoire-hero-img);
+      background-size: cover;
+      background-position: center;
+      padding: 9rem 3.5rem 5rem;
+      isolation: isolate;
+    }
+    .histoire-hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; }
+    .histoire-hero-text { max-width: 640px; }
+    .histoire-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: 1.6rem;
+    }
+    .histoire-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5.2vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 1.6rem;
+      letter-spacing: -.015em;
+    }
+    .histoire-hero h1 em {
+      font-style: italic;
+      display: block;
+    }
+    .histoire-hero-sub {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--taupe);
+      max-width: 540px;
+    }
+
+    /* ===================== BREADCRUMB ===================== */
+    .breadcrumb {
+      padding: 1.6rem 3.5rem .4rem;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .breadcrumb a { color: var(--taupe); text-decoration: none; transition: color .25s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb .sep { margin: 0 .55rem; opacity: .5; }
+
+    /* ===================== CORPS ÉDITORIAL ===================== */
+    .histoire-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem 2rem;
+    }
+    .histoire-body p {
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+    .histoire-body p.lead {
+      font-family: var(--ff-display);
+      font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+      line-height: 1.55;
+      color: var(--black);
+      font-weight: 400;
+      margin-bottom: 2.2rem;
+    }
+    .histoire-body h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 400;
+      color: var(--black);
+      margin: 3rem 0 1.2rem;
+      letter-spacing: -.01em;
+    }
+    .histoire-body strong { color: var(--black); font-weight: 600; }
+    .histoire-body a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(197,163,106,.35); transition: border-color .25s; }
+    .histoire-body a:hover { border-color: var(--gold); }
+
+    /* ===================== CHIFFRES CLÉS ===================== */
+    .histoire-stats {
+      background: var(--cream);
+      padding: 4rem 2rem;
+      margin: 4rem 0;
+    }
+    .histoire-stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+      text-align: center;
+    }
+    .histoire-stat-num {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: .6rem;
+    }
+    .histoire-stat-lbl {
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      line-height: 1.5;
+    }
+
+    /* ===================== VALEURS ===================== */
+    .histoire-values {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .histoire-value h3 {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: .8rem;
+    }
+    .histoire-value p {
+      font-size: .94rem;
+      line-height: 1.7;
+      color: var(--taupe);
+    }
+    .histoire-value-num {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      margin-bottom: .8rem;
+      display: block;
+    }
+
+    /* ===================== CTA FINAL ===================== */
+    .histoire-cta {
+      background: var(--charcoal);
+      color: var(--white);
+      padding: 5rem 2rem;
+      text-align: center;
+      margin-top: 5rem;
+    }
+    .histoire-cta h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .histoire-cta p {
+      color: rgba(255,255,255,.72);
+      max-width: 580px;
+      margin: 0 auto 2.2rem;
+      line-height: 1.7;
+    }
+    .histoire-cta-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .histoire-cta-btns a {
+      display: inline-block;
+      padding: .95rem 2.2rem;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .3s var(--ease);
+    }
+    .histoire-cta-btns .cta-primary { background: var(--gold); color: var(--black); }
+    .histoire-cta-btns .cta-primary:hover { background: var(--white); transform: translateY(-1px); }
+    .histoire-cta-btns .cta-secondary { color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+    .histoire-cta-btns .cta-secondary:hover { background: var(--gold); color: var(--black); }
+
+    @media (max-width: 900px) {
+      .histoire-hero {
+        padding: 7rem 1.5rem 3.5rem;
+        min-height: auto;
+        background-image:
+          linear-gradient(180deg, rgba(246,241,234,.95) 0%, rgba(246,241,234,.88) 60%, rgba(42,39,36,.35) 100%),
+          var(--histoire-hero-img);
+      }
+      .breadcrumb { padding: 1.2rem 1.5rem .4rem; }
+      .histoire-body { padding: 3rem 1.4rem 1rem; }
+      .histoire-stats-inner { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .histoire-values { grid-template-columns: 1fr; gap: 2rem; }
+      .histoire-cta { padding: 3.5rem 1.4rem; }
+    }
+  </style>
+
+  <!-- JSON-LD (BreadcrumbList + AboutPage) -->
+  <!-- PAGE_JSON_LD -->
+</head>
+<body style="--histoire-hero-img: url('<!-- PAGE_HERO_URL -->')">
+
+  <!-- ========== BANDEAU STICKY WHATSAPP ========== -->
+  <a
+    id="wa-banner-link"
+    href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
+    target="_blank"
+    aria-label="Contacter GIORGIA paris sur WhatsApp — Catalogue complet">
+  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
+      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+      </svg>
+      <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
+    </div>
+  </a>
+
+  <!-- ========== STICKY CONTACT PANEL ========== -->
+  <!-- SHARED_STICKY_CONTACT -->
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <!-- MOB_MENU_LINKS -->
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a class="logo" href="<!-- SITE_BASE -->/" aria-label="GIORGIA paris — Accueil">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <!-- NAV_LINKS -->
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="histoire-hero">
+    <div class="histoire-hero-inner">
+      <div class="histoire-hero-text">
+        <p class="histoire-eyebrow">GIORGIA paris — Depuis 2007</p>
+        <h1>Un grossiste parisien<br>au service des<br><em>boutiques indépendantes</em></h1>
+        <p class="histoire-hero-sub">De notre showroom d'Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous accompagnons les boutiques de mode partout en France, jusque dans les DOM-TOM et en Europe — avec des collections qui tournent et des partenariats qui durent.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== BREADCRUMB ========== -->
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="<!-- SITE_BASE -->/">Accueil</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span aria-current="page">Qui sommes-nous</span>
+  </nav>
+
+  <!-- ==========================================================
+       CORPS ÉDITORIAL
+
+       ⚠ SIRI : c'est ICI que se place le texte de ta page actuelle.
+       J'ai repris ce qui était visible sur ton ancienne version et
+       complété avec une trame SEO cohérente. Remplace / ajuste
+       librement les paragraphes ci-dessous par ta rédaction existante
+       si tu veux conserver mot pour mot le travail Phase 4.
+       ========================================================== -->
+  <article class="histoire-body">
+    <p class="lead">GIORGIA paris est un grossiste prêt-à-porter féminin fondé en 2007, basé à Aubervilliers. Depuis près de vingt ans, nous construisons saison après saison des collections pensées pour celles qui font vivre la mode en boutique.</p>
+
+    <p>Tout commence par une conviction simple : une boutique indépendante n'a pas les mêmes besoins qu'une enseigne de chaîne. Elle a besoin de <strong>pièces qui tournent vite</strong>, de quantités maîtrisées, d'un interlocuteur qui répond, et d'un réassort possible quand un modèle part plus vite que prévu. C'est autour de ces exigences que nous avons bâti notre façon de travailler.</p>
+
+    <h2>Un sourcing exigeant, une sélection resserrée</h2>
+
+    <p>Chaque saison, nous sélectionnons nos pièces une par une. Nous ne cherchons pas à proposer le plus grand catalogue possible, mais le plus <strong>juste</strong> : des coupes qui flattent, des matières qui tiennent au lavage, des imprimés qui se vendent. Notre équipe suit les tendances de près — les défilés, la rue, ce qui remonte des boutiques — et arbitre en connaissance des contraintes du terrain.</p>
+
+    <p>Nos collections s'organisent en univers complémentaires : <strong>Urban Woman</strong> pour la femme active, <strong>Chic &amp; Soirée</strong> pour l'événementiel, <strong>Casual</strong> pour le quotidien stylé. Cette structure permet à chaque boutique de composer un assortiment cohérent avec sa clientèle, sans se disperser.</p>
+
+    <h2>Un partenaire, pas un simple fournisseur</h2>
+
+    <p>Nous travaillons avec des boutiques de toutes tailles, de la première commande à plusieurs centaines de références par saison. Ce qui ne change pas : <strong>le minimum de commande reste à 100 € HT</strong>, pour qu'une boutique puisse tester sans engager une trésorerie disproportionnée. Et nous restons joignables — par WhatsApp, par email, ou directement au showroom.</p>
+
+    <p>Notre implantation à Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous permet d'expédier depuis notre propre stock en <strong>48 heures en France métropolitaine</strong>. Pas d'intermédiaire, pas de rupture opaque : ce qui est affiché disponible l'est réellement.</p>
+
+    <h2>Où nous trouver</h2>
+
+    <p>Notre showroom se visite sur rendez-vous au <strong>70 rue de la Haie Coq, 93300 Aubervilliers</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins. C'est l'occasion de voir les matières, d'essayer les coupes, et d'échanger sur ce qui fonctionne actuellement en boutique. Pour convenir d'un créneau, <a href="<!-- SITE_BASE -->/contact/">contactez-nous</a>.</p>
+  </article>
+
+  <!-- ========== CHIFFRES CLÉS ========== -->
+  <section class="histoire-stats" aria-label="GIORGIA paris en chiffres">
+    <div class="histoire-stats-inner">
+      <div>
+        <div class="histoire-stat-num">2007</div>
+        <div class="histoire-stat-lbl">Année de<br>fondation</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">100 €</div>
+        <div class="histoire-stat-lbl">Minimum de<br>commande HT</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">48 h</div>
+        <div class="histoire-stat-lbl">Livraison France<br>métropolitaine</div>
+      </div>
+      <div>
+        <div class="histoire-stat-num">12</div>
+        <div class="histoire-stat-lbl">Pays<br>desservis</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VALEURS ========== -->
+  <section class="histoire-values" aria-label="Nos engagements">
+    <div class="histoire-value">
+      <span class="histoire-value-num">01</span>
+      <h3>Sélection resserrée</h3>
+      <p>Nous préférons un catalogue plus court et mieux choisi. Chaque pièce est retenue pour son potentiel de vente réel en boutique, pas pour gonfler un volume.</p>
+    </div>
+    <div class="histoire-value">
+      <span class="histoire-value-num">02</span>
+      <h3>Stock en propre</h3>
+      <p>Nos pièces sont physiquement à Aubervilliers. Ce qui est annoncé disponible part sous 48 h, sans attente de réapprovisionnement chez un tiers.</p>
+    </div>
+    <div class="histoire-value">
+      <span class="histoire-value-num">03</span>
+      <h3>Relation directe</h3>
+      <p>Pas de plateforme entre vous et nous. Un message WhatsApp, un email, une visite au showroom : vous parlez à l'équipe qui gère réellement votre commande.</p>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="histoire-cta">
+    <h2>Travaillons ensemble</h2>
+    <p>Vous tenez une boutique et cherchez un partenaire de confiance pour votre approvisionnement ? Découvrez la collection ou contactez directement notre équipe.</p>
+    <div class="histoire-cta-btns">
+      <a class="cta-primary" href="<!-- SITE_BASE -->/">Découvrir la collection</a>
+      <a class="cta-secondary" href="<!-- SITE_BASE -->/contact/">Nous contacter</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <!-- SHARED_FOOTER -->
+
+  <!-- Payload catalogue vide (pas de produits affichés sur cette page) -->
+  <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={version:2,generatedAt:new Date().toISOString(),count:0,products:[]};</script>
+
+  <!-- JS interactif partagé -->
+  <!-- SHARED_JS -->
+
+</body>
+</html>
