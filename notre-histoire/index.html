@@ -357,6 +357,22 @@
       padding: .85rem 2.2rem; transition: all .3s;
     }
     .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+
+    /* Mention marketplace sous les CTA du hero — volontairement discrète :
+       c'est une information et une réassurance, pas un appel à l'action. */
+    .hero-marketplace {
+      margin-top: 1.5rem;
+      font-size: .78rem;
+      color: var(--taupe);
+      letter-spacing: .01em;
+    }
+    .hero-marketplace a {
+      color: var(--taupe);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138,124,110,.35);
+      transition: color .25s, border-color .25s;
+    }
+    .hero-marketplace a:hover { color: var(--gold); border-color: var(--gold); }
     .hero-btns {
       display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
     }
