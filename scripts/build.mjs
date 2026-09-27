@@ -2089,6 +2089,9 @@ ${JSON.stringify(breadcrumbSchema, null, 2)}
     html = html.split(ph).join(val);
   }
 
+  // Aligner la navbar et le menu mobile sur ceux du reste du site
+  html = injectSharedNav(html, `Article ${article.slug}`);
+
   // Écriture
   const outDir = resolve(ARTICLES_OUTPUT_DIR, article.slug);
   const outPath = resolve(outDir, 'index.html');
@@ -2210,6 +2213,114 @@ async function buildArticles(allRecords) {
  * Génère la page index `/tendances-conseils-pro/index.html`
  * Affiche tous les articles avec filtres par catégorie et pagination.
  */
+/* --------------------------------------------------------------------------
+   NAVBAR PARTAGÉE POUR LES PAGES ARTICLES
+   --------------------------------------------------------------------------
+   La page hub `/tendances-conseils-pro/` et les pages d'articles ont leur
+   propre design system (src/articles/articles-styles.css) et leur propre
+   navbar codée en dur. Pour qu'elles portent le MÊME menu que le reste du
+   site (dropdown "Nos Univers" + Qui sommes-nous + Contact), on remplace
+   leur navbar après rendu, plutôt que d'exiger une refonte de ces templates.
+
+   L'injection est tolérante : si le markup attendu n'est pas trouvé, on
+   laisse la page telle quelle avec un avertissement — le build ne casse pas.
+-------------------------------------------------------------------------- */
+
+/** CSS minimale du dropdown, injectée dans les pages articles qui n'héritent
+ *  pas de la feuille de styles principale du site. */
+function renderSharedNavCss() {
+  return `<style data-shared-nav>
+  .nav-links > li { position: relative; }
+  .nav-dropdown { cursor: default; outline: none; }
+  .nav-dropdown-toggle {
+    cursor: default; user-select: none;
+    display: inline-flex; align-items: center; gap: .35rem;
+    font: inherit; font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: inherit;
+  }
+  .nav-dropdown-chev { font-size: .85em; line-height: 1; transition: transform .25s ease; }
+  .nav-dropdown:hover .nav-dropdown-chev,
+  .nav-dropdown:focus-within .nav-dropdown-chev { transform: rotate(180deg); }
+  .nav-dropdown-menu {
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 280px; margin: 0; padding-top: .6rem;
+    list-style: none; background: transparent;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+    z-index: 250;
+  }
+  .nav-dropdown-menu::before {
+    content: ""; position: absolute; top: .6rem; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,.98);
+    border: 1px solid rgba(0,0,0,.08); border-top: 2px solid #C5A36A;
+    box-shadow: 0 10px 40px rgba(0,0,0,.08); z-index: -1;
+  }
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nav-dropdown-menu li { list-style: none; position: relative; }
+  .nav-dropdown-menu a {
+    display: block; padding: .7rem 1.5rem;
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .nav-dropdown-menu a:hover { background: rgba(197,163,106,.08); color: #C5A36A; }
+  #mob-menu .mob-menu-heading {
+    font-size: .68rem; font-weight: 500; letter-spacing: .22em;
+    text-transform: uppercase; color: #C5A36A;
+    padding: 1.2rem 0 .3rem; width: 100%; text-align: center; opacity: .85;
+  }
+  #mob-menu .mob-menu-sep {
+    width: 40px; height: 1px; background: rgba(255,255,255,.18);
+    margin: 1.4rem auto .6rem;
+  }
+</style>`;
+}
+
+/**
+ * Remplace la navbar et le menu mobile d'une page article par ceux du site.
+ * `label` sert uniquement aux messages de log.
+ */
+function injectSharedNav(html, label) {
+  let out = html;
+  let navDone = false;
+  let mobDone = false;
+
+  // 1. Navbar desktop : on remplace le contenu de <ul class="nav-links">…</ul>
+  const navRe = /(<ul[^>]*class="[^"]*nav-links[^"]*"[^>]*>)([\s\S]*?)(<\/ul>)/;
+  if (navRe.test(out)) {
+    out = out.replace(navRe, (_m, open, _inner, close) => open + renderNavLinks('other') + close);
+    navDone = true;
+  }
+
+  // 2. Menu mobile : on conserve le bouton de fermeture et on remplace les liens.
+  const mobRe = /(<div[^>]*id="mob-menu"[^>]*>\s*(?:<button[^>]*>[\s\S]*?<\/button>)?)([\s\S]*?)(<\/div>)/;
+  if (mobRe.test(out)) {
+    out = out.replace(mobRe, (_m, head, _inner, close) => head + '\n    ' + renderMobMenuLinks('other') + '\n  ' + close);
+    mobDone = true;
+  }
+
+  // 3. Liens résiduels vers l'ancre #contact de la home (sticky contact,
+  //    CTA "Visiter le showroom"…). Maintenant qu'une page /contact/ existe,
+  //    on les y redirige pour éviter un aller-retour inutile vers la home.
+  const contactHref = `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
+  out = out.split(`href="${SITE_BASE}/#contact"`).join(`href="${contactHref}"`);
+
+  // 4. CSS du dropdown : injectée avant </head> si absente.
+  if (navDone && !out.includes('data-shared-nav')) {
+    out = out.replace('</head>', `${renderSharedNavCss()}\n</head>`);
+  }
+
+  if (!navDone) console.warn(`  ⚠ ${label} : <ul class="nav-links"> introuvable — navbar non remplacée.`);
+  if (!mobDone) console.warn(`  ⚠ ${label} : #mob-menu introuvable — menu mobile non remplacé.`);
+  if (navDone && mobDone) console.log(`  ✓ ${label} : navbar et menu mobile alignés sur le site.`);
+
+  return out;
+}
+
 async function buildArticlesIndex(generatedArticles) {
   if (!generatedArticles || generatedArticles.length === 0) {
     console.warn('  ⚠ Aucun article à indexer — page hub non déployée.');
@@ -2282,6 +2393,9 @@ async function buildArticlesIndex(generatedArticles) {
     .replace(/<!-- SITE_BASE -->/g, SITE_BASE)
     .replace(/<!-- FILTERS_BUTTONS -->/g, filterButtonsHtml)
     .replace(/<!-- ARTICLES_GRID -->/g, articlesCardsHtml);
+
+  // Aligner la navbar et le menu mobile sur ceux du reste du site
+  hubHtml = injectSharedNav(hubHtml, 'Page hub articles');
 
   // Écrire le fichier
   const outDir = ARTICLES_OUTPUT_DIR;
@@ -2383,6 +2497,7 @@ async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextRe
   // Substitutions communes à toutes les pages dédiées.
   const commonReplacements = [
     ['<!-- SHARED_STYLES -->',         sharedStyles],
+    ['<!-- SHARED_WA_BANNER -->',      extractSharedWaBanner(mainTemplate)],
     ['<!-- SHARED_STICKY_CONTACT -->', sharedStickyContact],
     ['<!-- NAV_LINKS -->',             renderNavLinks(context)],
     ['<!-- MOB_MENU_LINKS -->',        renderMobMenuLinks(context)],
@@ -2415,6 +2530,22 @@ async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextRe
 function extractSharedFooter(template) {
   const match = template.match(/<footer>[\s\S]*?<\/footer>/);
   if (!match) throw new Error('<footer> introuvable dans template.html');
+  return match[0];
+}
+
+/**
+ * Extrait le bandeau WhatsApp sticky du haut de page.
+ *
+ * Il est extrait plutôt que recopié dans chaque template de page, car son
+ * markup est couplé à la CSS (.wa-banner-icon dimensionne le SVG à 11px —
+ * recopier le SVG sans ce wrapper produit un picto géant en pleine page).
+ */
+function extractSharedWaBanner(template) {
+  const match = template.match(/<a id="wa-banner-link"[\s\S]*?<div id="wa-banner"[\s\S]*?<\/div>\s*<\/a>/);
+  if (!match) {
+    console.warn('  ⚠ Bandeau WhatsApp introuvable dans template.html — non injecté sur les pages dédiées.');
+    return '';
+  }
   return match[0];
 }
 
