@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#161616">
+
+  <!-- ==================== SEO ==================== -->
+  <title>Contact — GIORGIA paris | Grossiste Prêt-à-Porter Féminin Aubervilliers</title>
+  <meta name="description" content="Contactez GIORGIA paris, grossiste B2B en prêt-à-porter féminin basé à Aubervilliers depuis 2007. Showroom, WhatsApp, email : toutes nos coordonnées pour vos commandes boutique. Minimum 100€ HT, livraison rapide depuis Paris.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/contact/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/contact/">
+  <meta property="og:title" content="Contact — GIORGIA paris">
+  <meta property="og:description" content="Grossiste B2B en prêt-à-porter féminin à Aubervilliers. Contactez notre équipe pour vos commandes boutique.">
+  <meta property="og:site_name" content="GIORGIA paris">
+  <meta property="og:locale" content="fr_FR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact — GIORGIA paris">
+  <meta name="twitter:description" content="Grossiste B2B en prêt-à-porter féminin à Aubervilliers.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS partagée (extraite automatiquement de src/template.html par build.mjs) -->
+  <!-- SHARED_STYLES -->
+
+  <!-- Styles spécifiques à la page contact -->
+  <style>
+    .contact-page-hero {
+      padding: 8rem 2rem 3rem;
+      background: linear-gradient(180deg, rgba(226,207,168,.12), transparent);
+      text-align: center;
+    }
+    .contact-page-hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .contact-page-eyebrow {
+      font-size: .72rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .contact-page-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      letter-spacing: -.01em;
+    }
+    .contact-page-hero-sub {
+      font-size: 1.05rem;
+      color: var(--taupe);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 1rem 2rem 0;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .breadcrumb a { color: var(--taupe); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb .sep { margin: 0 .5rem; opacity: .5; }
+
+    /* Layout principal : coordonnées + infos pratiques */
+    .contact-main {
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .contact-card h2 {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+      letter-spacing: -.01em;
+    }
+
+    /* Liste des coordonnées */
+    .contact-coords { list-style: none; padding: 0; margin: 0; }
+    .contact-coords li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-coords li:last-child { border-bottom: none; }
+    .contact-coords .cc-icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+    }
+    .contact-coords .cc-icon svg { width: 24px; height: 24px; }
+    .contact-coords .cc-body { flex: 1; }
+    .contact-coords .cc-label {
+      display: block;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-bottom: .3rem;
+    }
+    .contact-coords .cc-value {
+      font-size: 1rem;
+      color: var(--black);
+      font-weight: 500;
+    }
+    .contact-coords .cc-value a {
+      color: var(--black);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-coords .cc-value a:hover { color: var(--gold); }
+
+    /* Bloc infos pratiques */
+    .contact-practical {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .contact-practical li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .95rem;
+      color: var(--black);
+    }
+    .contact-practical li:last-child { border-bottom: none; }
+    .contact-practical li strong {
+      display: block;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      font-weight: 500;
+      margin-bottom: .3rem;
+    }
+
+    /* Showroom section */
+    .contact-showroom {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 3rem 2rem;
+      background: var(--black);
+      color: var(--white);
+    }
+    .contact-showroom-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .contact-showroom h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+    .contact-showroom p {
+      color: rgba(255,255,255,.75);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .contact-showroom strong { color: var(--gold); font-weight: 500; }
+    .contact-showroom .btn-showroom {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: .9rem 2rem;
+      background: var(--gold);
+      color: var(--black);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .3s;
+    }
+    .contact-showroom .btn-showroom:hover {
+      background: transparent;
+      color: var(--gold);
+      box-shadow: inset 0 0 0 1.5px var(--gold);
+    }
+    .contact-showroom-map {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 2rem;
+      text-align: center;
+    }
+    .contact-showroom-map iframe {
+      width: 100%;
+      height: 260px;
+      border: 0;
+      display: block;
+      filter: grayscale(0.3) contrast(1.1);
+    }
+
+    /* FAQ section */
+    .contact-faq {
+      max-width: 900px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+    .contact-faq h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .contact-faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+    .contact-faq-item:last-child { border-bottom: none; }
+    .contact-faq-item h3 {
+      font-family: var(--ff-display);
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: .6rem;
+    }
+    .contact-faq-item p {
+      font-size: .95rem;
+      color: var(--taupe);
+      line-height: 1.65;
+    }
+
+    @media(max-width: 800px) {
+      .contact-main { grid-template-columns: 1fr; gap: 2rem; padding: 0 1.2rem; }
+      .contact-showroom-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-showroom { padding: 2.5rem 1.2rem; margin: 3rem 1.2rem; }
+      .contact-card { padding: 1.8rem; }
+    }
+  </style>
+
+  <!-- JSON-LD spécifique page contact (BreadcrumbList + ContactPage) -->
+  <!-- PAGE_JSON_LD -->
+</head>
+<body>
+
+  <!-- ========== BANDEAU STICKY WHATSAPP ========== -->
+  <a
+    id="wa-banner-link"
+    href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
+    target="_blank"
+    aria-label="Contacter GIORGIA paris sur WhatsApp — Catalogue complet">
+  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
+      <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+      </svg>
+      <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
+    </div>
+  </a>
+
+  <!-- ========== STICKY CONTACT PANEL ========== -->
+  <!-- SHARED_STICKY_CONTACT -->
+
+  <!-- ========== MOBILE MENU ========== -->
+  <div id="mob-menu">
+    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>
+    <!-- MOB_MENU_LINKS -->
+  </div>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a class="logo" href="<!-- SITE_BASE -->/" aria-label="GIORGIA paris — Accueil">
+      <span class="logo-g">GIORGIA</span>
+      <span class="logo-p">paris</span>
+    </a>
+    <ul class="nav-links">
+      <!-- NAV_LINKS -->
+    </ul>
+    <div class="nav-right">
+      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- ========== BREADCRUMB ========== -->
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="<!-- SITE_BASE -->/">Accueil</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <span aria-current="page">Contact</span>
+  </nav>
+
+  <!-- ========== HERO CONTACT ========== -->
+  <section class="contact-page-hero" id="top">
+    <div class="contact-page-hero-inner">
+      <p class="contact-page-eyebrow">Grossiste B2B · Depuis 2007</p>
+      <h1>Contactez GIORGIA paris</h1>
+      <p class="contact-page-hero-sub">Notre équipe est disponible pour répondre à toutes vos demandes : disponibilité des packs, conditions tarifaires, délais de livraison, nouveautés à venir. Un partenariat de confiance pour votre boutique.</p>
+    </div>
+  </section>
+
+  <!-- ========== COORDONNÉES + INFOS PRATIQUES ========== -->
+  <div class="contact-main">
+
+    <!-- Carte 1 : Coordonnées -->
+    <div class="contact-card">
+      <h2>Nos coordonnées</h2>
+      <ul class="contact-coords">
+
+        <li>
+          <span class="cc-icon" style="background:#25D366">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
+            </svg>
+          </span>
+          <div class="cc-body">
+            <span class="cc-label">Commander sur WhatsApp</span>
+            <div class="cc-value"><a href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026." target="_blank" rel="noopener noreferrer">+33 6 86 72 93 11</a></div>
+          </div>
+        </li>
+
+        <li>
+          <span class="cc-icon" style="background:#C5A36A">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 7l8 6 8-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="4" y="7" width="16" height="11" rx="1.5" stroke="white" stroke-width="1.5" fill="none"/>
+            </svg>
+          </span>
+          <div class="cc-body">
+            <span class="cc-label">Email</span>
+            <div class="cc-value"><a href="mailto:giorgia93300@gmail.com">giorgia93300@gmail.com</a></div>
+          </div>
+        </li>
+
+        <li>
+          <span class="cc-icon" style="background:linear-gradient(135deg,#fd5949,#d6249f,#285AEB)">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+              <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+              <circle cx="17.4" cy="6.6" r="1.1" fill="white"/>
+            </svg>
+          </span>
+          <div class="cc-body">
+            <span class="cc-label">Instagram</span>
+            <div class="cc-value"><a href="https://instagram.com/giorgia.auber" target="_blank" rel="noopener noreferrer">@giorgia.auber</a></div>
+          </div>
+        </li>
+
+        <li>
+          <span class="cc-icon" style="background:#010101">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="#69C9D0" d="M15.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z"/>
+              <path fill="#EE1D52" d="M16.3 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.5-1.5-2.6-3Z" opacity=".6"/>
+              <path fill="white" d="M15.8 4h-2.1v10.6c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.2 0 .4 0 .6.1V10.5c-.2 0-.4-.1-.6-.1-2.3 0-4.1 1.9-4.1 4.1s1.8 4.1 4.1 4.1 4.1-1.9 4.1-4.1V8.2c.7.5 1.6.9 2.6.9V7c-1.4-.2-2.6-1.5-2.6-3Z" opacity=".85"/>
+            </svg>
+          </span>
+          <div class="cc-body">
+            <span class="cc-label">TikTok</span>
+            <div class="cc-value"><a href="https://tiktok.com/@giorgia.paris56" target="_blank" rel="noopener noreferrer">@giorgia.paris56</a></div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Carte 2 : Informations pratiques -->
+    <div class="contact-card">
+      <h2>Informations pratiques</h2>
+      <ul class="contact-practical">
+        <li>
+          <strong>Minimum de commande</strong>
+          100 € HT · Facturation en HT, TVA reversée selon régime
+        </li>
+        <li>
+          <strong>Conditionnement</strong>
+          Packs de 6 pièces · Tailles S/M ou M/L au choix
+        </li>
+        <li>
+          <strong>Livraison</strong>
+          48 h en France métropolitaine depuis notre stock parisien · Expéditions Europe et DOM-TOM sur demande
+        </li>
+        <li>
+          <strong>Zone desservie</strong>
+          France, Belgique, Luxembourg, Suisse, Italie, Espagne, Allemagne, Pays-Bas, Royaume-Uni, Irlande, Portugal, Autriche
+        </li>
+        <li>
+          <strong>Paiement</strong>
+          Virement bancaire à réception de facture · Autres modes de paiement sur demande
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ========== SHOWROOM ========== -->
+  <section class="contact-showroom">
+    <div class="contact-showroom-inner">
+      <div>
+        <h2>Notre showroom<br>à Aubervilliers</h2>
+        <p>Situé au cœur du <strong>triangle d'or du prêt-à-porter parisien</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins, notre showroom vous accueille pour découvrir la collection en physique, toucher les matières, et échanger avec notre équipe.</p>
+        <p><strong>70 rue de la Haie Coq<br>93300 Aubervilliers, France</strong></p>
+        <p>Sur rendez-vous — Nous contacter par WhatsApp ou email pour convenir d'un créneau.</p>
+        <a class="btn-showroom" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20prendre%20rendez-vous%20au%20showroom." target="_blank" rel="noopener noreferrer">Prendre rendez-vous</a>
+      </div>
+      <div class="contact-showroom-map">
+        <iframe
+          src="https://www.google.com/maps?q=70+rue+de+la+Haie+Coq,+93300+Aubervilliers&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Localisation du showroom GIORGIA paris — 70 rue de la Haie Coq, Aubervilliers">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="contact-faq">
+    <h2>Questions fréquentes</h2>
+
+    <div class="contact-faq-item">
+      <h3>Comment passer ma première commande chez GIORGIA paris&nbsp;?</h3>
+      <p>Contactez notre équipe par WhatsApp au +33 6 86 72 93 11 ou par email à giorgia93300@gmail.com en précisant votre boutique (nom, ville, site ou Instagram). Nous vous partagerons le catalogue complet et les disponibilités en temps réel. La première commande est possible dès 100 € HT.</p>
+    </div>
+
+    <div class="contact-faq-item">
+      <h3>Puis-je voir les collections avant de commander&nbsp;?</h3>
+      <p>Oui. Notre showroom d'Aubervilliers vous accueille sur rendez-vous pour voir la collection en physique. Nous pouvons également vous envoyer des photos ou vidéos complémentaires par WhatsApp sur les pièces qui vous intéressent.</p>
+    </div>
+
+    <div class="contact-faq-item">
+      <h3>Quels sont les délais de livraison&nbsp;?</h3>
+      <p>En moyenne 48 h en France métropolitaine depuis notre stock à Aubervilliers. Pour les DOM-TOM et l'Europe, comptez 3 à 7 jours ouvrés selon la destination. Nous confirmons systématiquement le délai à la validation de commande.</p>
+    </div>
+
+    <div class="contact-faq-item">
+      <h3>Puis-je acheter à la pièce ou uniquement par pack&nbsp;?</h3>
+      <p>Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L au choix). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.</p>
+    </div>
+
+    <div class="contact-faq-item">
+      <h3>Existe-t-il d'anciennes collections encore disponibles&nbsp;?</h3>
+      <p>Oui, une sélection de pièces de l'ancienne collection Printemps-Été 2026 (Summer Vibes et Bohème) reste disponible au stock. Retrouvez-les sur notre page <a href="<!-- SITE_BASE -->/collection-printemps-ete-2026/" style="color:var(--gold)">Ancienne Collection Printemps-Été 2026</a>.</p>
+    </div>
+
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <!-- SHARED_FOOTER -->
+
+  <!-- Payload catalogue vide (la page contact n'affiche pas de produits) -->
+  <script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__={version:2,generatedAt:new Date().toISOString(),count:0,products:[]};</script>
+
+  <!-- JS interactif partagé -->
+  <!-- SHARED_JS -->
+
+</body>
+</html>
