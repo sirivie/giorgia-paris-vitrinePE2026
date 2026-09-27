@@ -388,6 +388,22 @@
       padding: .85rem 2.2rem; transition: all .3s;
     }
     .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
+
+    /* Mention marketplace sous les CTA du hero — volontairement discrète :
+       c'est une information et une réassurance, pas un appel à l'action. */
+    .hero-marketplace {
+      margin-top: 1.5rem;
+      font-size: .78rem;
+      color: var(--taupe);
+      letter-spacing: .01em;
+    }
+    .hero-marketplace a {
+      color: var(--taupe);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138,124,110,.35);
+      transition: color .25s, border-color .25s;
+    }
+    .hero-marketplace a:hover { color: var(--gold); border-color: var(--gold); }
     .hero-btns {
       display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
     }
@@ -1378,7 +1394,7 @@
       <!-- NAV_LINKS -->
     </ul>
     <div class="nav-right">
-      <a class="btn-nav" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer sponsored">Commander</a>
+      <a class="btn-nav" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
       <div class="hamburger" onclick="openMob()" role="button" aria-label="Ouvrir le menu" tabindex="0"><span></span><span></span><span></span></div>
     </div>
   </nav>
@@ -1412,8 +1428,16 @@
                • s'il y a des produits en Prévente → "#preventes"
                • sinon → "#working" (Urban Woman, premier univers home) -->
           <a class="btn-hero-p" href="<!-- HERO_CTA_HREF -->">Découvrir la collection</a>
-          <a class="btn-hero-s" href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank">Passer commande</a>
+          <a class="btn-hero-s" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
         </div>
+        <!-- Mention marketplace : volontairement en lien tertiaire discret.
+             La commande en direct (WhatsApp / page contact) est le canal
+             privilégié — pas de commission. La marketplace reste accessible
+             pour qui préfère commander en ligne, et sert de réassurance. -->
+        <p class="hero-marketplace">
+          Vous préférez commander en ligne&nbsp;?
+          <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer nofollow sponsored">Notre catalogue est aussi sur Paris&nbsp;Fashion&nbsp;Shops</a>
+        </p>
       </div>
       <div class="hero-scroll">Scroll</div>
     </div>
