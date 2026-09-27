@@ -2239,6 +2239,87 @@ async function buildArticles(allRecords) {
  * Affiche tous les articles avec filtres par catégorie et pagination.
  */
 /**
+ * BANDE DE RÉASSURANCE — plateformes partenaires.
+ *
+ * Affiche « Retrouvez GIORGIA paris sur » suivi des plateformes sur
+ * lesquelles la marque est référencée. C'est un signal de sérieux pour une
+ * boutique qui ne connaît pas encore GIORGIA : être validé par ces
+ * plateformes prouve d'avoir passé leurs process fournisseur.
+ *
+ * Traitée volontairement comme une PREUVE et non comme un appel à l'action :
+ *   • placée en bas de page, après les CTA de contact
+ *   • logos en niveaux de gris, révélés en couleur au survol seulement
+ *   • aucun bouton, aucune couleur d'accent
+ *   • rel="nofollow sponsored" : on ne transmet pas d'autorité SEO à des
+ *     plateformes qui se positionnent sur les mêmes mots-clés que nous
+ *
+ * LOGOS : déposer les fichiers dans src/pages/img/partners/ aux noms
+ * indiqués ci-dessous (SVG de préférence, sinon PNG transparent). Tant
+ * qu'un fichier est absent, le nom de la plateforme s'affiche en texte —
+ * la bande reste donc fonctionnelle même sans aucun logo.
+ */
+const PARTNER_PLATFORMS = [
+  { name: 'Paris Fashion Shops', url: 'https://parisfashionshops.com/fr/femme/marque/giorgia', logo: 'paris-fashion-shops' },
+  { name: 'Efashion Paris',      url: 'https://www.efashion-paris.com/fr',                      logo: 'efashion' },
+  { name: 'Faire',               url: 'https://www.faire.com/fr/',                              logo: 'faire' },
+];
+
+/** Logos partenaires réellement présents sur le disque (rempli au build). */
+const partnerLogoUrls = new Map();
+
+/**
+ * Cherche les logos partenaires dans src/pages/img/partners/ et les copie
+ * vers dist/img/partners/. Appelée une fois au début du build.
+ */
+async function processPartnerLogos() {
+  const srcDir = resolve('src/pages/img/partners');
+  try {
+    await stat(srcDir);
+  } catch {
+    console.log('  ℹ src/pages/img/partners/ absent — bande partenaires en mode texte.');
+    return;
+  }
+
+  const outDir = resolve(IMG_OUTPUT_DIR, 'partners');
+  await mkdir(outDir, { recursive: true });
+
+  for (const p of PARTNER_PLATFORMS) {
+    // On accepte SVG (idéal : vectoriel, léger) ou PNG transparent.
+    for (const ext of ['svg', 'png']) {
+      const file = `${p.logo}.${ext}`;
+      const srcPath = join(srcDir, file);
+      try {
+        await stat(srcPath);
+        await copyFile(srcPath, join(outDir, file));
+        partnerLogoUrls.set(p.logo, `${SITE_BASE}/img/partners/${file}`);
+        console.log(`  ✓ Logo partenaire : ${file}`);
+        break;
+      } catch { /* format suivant */ }
+    }
+    if (!partnerLogoUrls.has(p.logo)) {
+      console.log(`  ℹ Logo absent pour ${p.name} — affiché en texte.`);
+    }
+  }
+}
+
+function renderPartnersBand() {
+  const items = PARTNER_PLATFORMS.map(p => {
+    const logoUrl = partnerLogoUrls.get(p.logo);
+    const inner = logoUrl
+      ? `<img src="${logoUrl}" alt="${esc(p.name)}" loading="lazy" decoding="async">`
+      : `<span class="partner-name">${esc(p.name)}</span>`;
+    return `<a class="partner-item" href="${p.url}" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="GIORGIA paris sur ${esc(p.name)}">${inner}</a>`;
+  }).join('');
+
+  return [
+    '<div class="partners-band">',
+    '<p class="partners-label">Retrouvez GIORGIA paris sur</p>',
+    `<div class="partners-list">${items}</div>`,
+    '</div>',
+  ].join('');
+}
+
+/**
  * Liens du footer légal — SOURCE UNIQUE pour tout le site.
  *
  * Utilisée par :
@@ -2327,6 +2408,36 @@ function renderSharedNavCss() {
     width: 40px; height: 1px; background: rgba(255,255,255,.18);
     margin: 1.4rem auto .6rem;
   }
+  /* Bande de réassurance partenaires (footer des pages articles) */
+  .partners-band {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    padding: 2rem 1.5rem 1.4rem;
+    border-top: 1px solid rgba(255,255,255,.08);
+    margin-top: 1.5rem;
+  }
+  .partners-label {
+    font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+  }
+  .partners-list {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 1.2rem 2.8rem;
+  }
+  .partner-item {
+    display: inline-flex; align-items: center; text-decoration: none;
+    opacity: .45; filter: grayscale(1);
+    transition: opacity .3s ease, filter .3s ease;
+  }
+  .partner-item:hover { opacity: .9; filter: grayscale(0); }
+  .partner-item img { height: 26px; width: auto; max-width: 150px; object-fit: contain; display: block; }
+  .partner-item .partner-name {
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.75); white-space: nowrap;
+  }
+  @media (max-width: 700px) {
+    .partners-list { gap: 1rem 1.6rem; }
+    .partner-item img { height: 22px; }
+  }
 </style>`;
 }
 
@@ -2365,7 +2476,7 @@ function injectSharedNav(html, label) {
   const footRe = /(<nav[^>]*class="[^"]*foot-legal[^"]*"[^>]*>)([\s\S]*?)(<\/nav>)/;
   if (footRe.test(out)) {
     out = out.replace(footRe, (_m, open, _inner, close) =>
-      `${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
+      `${renderPartnersBand()}\n      ${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
     footDone = true;
   } else {
     console.warn(`  ⚠ ${label} : <nav class="foot-legal"> introuvable — footer non uniformisé.`);
@@ -2564,6 +2675,7 @@ async function composePageFromTemplate(pageTemplatePath, mainTemplate, contextRe
     ['<!-- NAV_LINKS -->',             renderNavLinks(context)],
     ['<!-- MOB_MENU_LINKS -->',        renderMobMenuLinks(context)],
     ['<!-- SHARED_FOOTER -->',         sharedFooter],
+    ['<!-- PARTNERS_BAND -->',         renderPartnersBand()],
     ['<!-- FOOT_LEGAL_LINKS -->',      renderFootLegalLinks()],
     ['<!-- SHARED_JS -->',             sharedJs],
     ['<!-- SITE_ORIGIN -->',           SITE_ORIGIN],
@@ -2998,6 +3110,9 @@ async function main() {
     console.log(`  Gain total de compression : ${fmtBytes(imageStats.totalSavedBytes)}.`);
   }
 
+  // Logos des plateformes partenaires (bande de réassurance en bas de page)
+  await processPartnerLogos();
+
   // Audit webperf des images (post-compression : évalue l'état de Airtable
   // "à la source", pas des images servies qui sont maintenant locales)
   let imageAudit = null;
@@ -3122,6 +3237,7 @@ async function main() {
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
+    ['<!-- PARTNERS_BAND -->', renderPartnersBand()],
     ['<!-- FOOT_LEGAL_LINKS -->', renderFootLegalLinks()],
     ['<!-- JSON_LD -->', jsonLdHtml],
     ['<!-- CATALOG_DATA -->', catalogDataScript],
