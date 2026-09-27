@@ -1185,10 +1185,10 @@ function renderNavLinks(context = 'home') {
   const archiveSubLink = `<li><a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/">${esc(ARCHIVE_PAGE_TITLE)}</a></li>`;
 
   const universDropdown = [
-    '<li class="nav-dropdown">',
-    '<button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">',
+    '<li class="nav-dropdown" tabindex="0">',
+    '<span class="nav-dropdown-toggle" aria-haspopup="true">',
     'Nos Univers <span class="nav-dropdown-chev" aria-hidden="true">▾</span>',
-    '</button>',
+    '</span>',
     '<ul class="nav-dropdown-menu" role="menu">',
     universSubLinks,
     archiveSubLink,
