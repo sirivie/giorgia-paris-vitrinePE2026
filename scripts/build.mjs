@@ -1722,6 +1722,10 @@ async function copyLegalPages() {
     // Lecture + transformation des URLs internes
     let html = await readFile(srcPath, 'utf8');
     html = applyBasePathToHtml(html);
+    // Navbar « Catalogue », bouton « Contacter l'équipe » et liens du footer
+    // alignés sur le reste du site (les fichiers source gardent l'ancien menu
+    // codé en dur : il est remplacé ici, après le préfixage des URLs).
+    html = injectSharedNav(html, `/${outFolder}/`);
 
     await writeFile(outPath, html, 'utf8');
     deployedPages.push(outFolder);
@@ -2695,9 +2699,10 @@ function injectSharedNav(html, label) {
   // 4. Footer légal : on aligne les liens sur ceux du site principal
   //    (les templates articles n'avaient ni "Qui sommes-nous" ni "Contact").
   let footDone = false;
-  const footRe = /(<nav[^>]*class="[^"]*foot-legal[^"]*"[^>]*>)([\s\S]*?)(<\/nav>)/;
+  // <nav class="foot-legal"> (articles) ou <div class="foot-legal"> (pages légales)
+  const footRe = /(<(nav|div)[^>]*class="[^"]*foot-legal[^"]*"[^>]*>)([\s\S]*?)(<\/\2>)/;
   if (footRe.test(out)) {
-    out = out.replace(footRe, (_m, open, _inner, close) =>
+    out = out.replace(footRe, (_m, open, _tag, _inner, close) =>
       `${renderPartnersBand('dark')}\n      ${open}\n        ${renderFootLegalLinks()}\n      ${close}`);
     footDone = true;
   } else {
@@ -2710,8 +2715,8 @@ function injectSharedNav(html, label) {
   }
 
   if (!navDone) console.warn(`  ⚠ ${label} : <ul class="nav-links"> introuvable — navbar non remplacée.`);
-  if (!mobDone) console.warn(`  ⚠ ${label} : #mob-menu introuvable — menu mobile non remplacé.`);
-  if (navDone && mobDone && footDone) console.log(`  ✓ ${label} : navbar, menu mobile et footer alignés sur le site.`);
+  if (!mobDone && !label.startsWith('/')) console.warn(`  ⚠ ${label} : #mob-menu introuvable — menu mobile non remplacé.`);
+  if (navDone && footDone && (mobDone || label.startsWith('/'))) console.log(`  ✓ ${label} : navbar, menu mobile et footer alignés sur le site.`);
 
   return out;
 }
