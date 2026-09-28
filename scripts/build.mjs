@@ -1663,6 +1663,52 @@ const LEGAL_PAGES_MAP = {
   // Voir buildNotreHistoirePage() dans la section 15.
 };
 
+/**
+ * Ajoute aux pages légales ce qui leur manquait sur mobile : l'icône menu
+ * (hamburger), le menu plein écran et son petit script d'ouverture.
+ * Les liens viennent de renderMobMenuLinks() : même menu que partout ailleurs.
+ * Le style correspondant est dans src/legal/legal-styles.css.
+ */
+function injectLegalMobileMenu(html, label) {
+  if (html.includes('id="mob-menu"')) return html; // déjà présent
+
+  // 1. Icône menu à côté du bouton « Contacter l'équipe »
+  const btnRe = /<a class="btn-nav"[^>]*>[\s\S]*?<\/a>/;
+  if (!btnRe.test(html)) {
+    console.warn(`  ⚠ ${label} : bouton de navbar introuvable — menu mobile non ajouté.`);
+    return html;
+  }
+  const hamburger =
+    '<div class="hamburger" onclick="openMob()" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openMob()}" ' +
+    'role="button" aria-label="Ouvrir le menu" aria-controls="mob-menu" tabindex="0"><span></span><span></span><span></span></div>';
+  html = html.replace(btnRe, (btn) => `<div class="nav-right">${btn}${hamburger}</div>`);
+
+  // 2. Menu plein écran, juste après <body>
+  const mobMenu =
+    '\n  <div id="mob-menu" role="dialog" aria-label="Menu">\n' +
+    '    <button class="mob-close" onclick="closeMob()" aria-label="Fermer le menu">✕</button>\n    ' +
+    renderMobMenuLinks('other') + '\n  </div>';
+  html = html.replace(/<body([^>]*)>/, (m) => m + mobMenu);
+
+  // 3. Script d'ouverture / fermeture (+ touche Échap)
+  const script = `
+  <script>
+    function openMob() {
+      document.getElementById('mob-menu').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMob() {
+      document.getElementById('mob-menu').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMob(); });
+  </script>
+`;
+  html = html.replace('</body>', script + '</body>');
+  console.log(`  ✓ ${label} : menu mobile ajouté.`);
+  return html;
+}
+
 async function copyLegalPages() {
   const srcDir = resolve('src/legal');
 
@@ -1726,6 +1772,7 @@ async function copyLegalPages() {
     // alignés sur le reste du site (les fichiers source gardent l'ancien menu
     // codé en dur : il est remplacé ici, après le préfixage des URLs).
     html = injectSharedNav(html, `/${outFolder}/`);
+    html = injectLegalMobileMenu(html, `/${outFolder}/`);
 
     await writeFile(outPath, html, 'utf8');
     deployedPages.push(outFolder);
