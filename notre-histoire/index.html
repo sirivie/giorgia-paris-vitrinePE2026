@@ -154,7 +154,7 @@
     .nav-links .nav-dropdown:hover .nav-dropdown-toggle,
     .nav-links .nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--black); }
 
-    /* ===================== NAV DROPDOWN "Nos Univers" =====================
+    /* ===================== NAV DROPDOWN "Catalogue" =====================
        Ouverture 100% au hover (aussi accessible clavier via :focus-within
        grâce à tabindex="0" sur le <li>). Le toggle est un <span>, pas un
        <button>, pour ne pas requérir de clic. */
@@ -224,6 +224,11 @@
       background: rgba(197,163,106,.08);
       color: var(--gold);
     }
+    /* Séparateur entre les catégories et les liens Préventes / saisons */
+    .nav-dropdown-menu .nav-dropdown-sep {
+      height: 1px; margin: .35rem 1.5rem;
+      background: var(--border);
+    }
 
     .nav-right { display: flex; align-items: center; gap: 1rem; }
 
@@ -264,7 +269,7 @@
     }
     #mob-menu a:hover { color: var(--gold); }
 
-    /* Sous-titre "Nos Univers" dans le menu mobile — liste plate (choix b) */
+    /* Sous-titre "Catalogue" dans le menu mobile — liste plate (choix b) */
     #mob-menu .mob-menu-heading {
       font-family: var(--ff-body);
       font-size: .68rem;
@@ -666,6 +671,70 @@
       .editorial { grid-template-columns: 1fr; }
       .ed-img { aspect-ratio: 16/9; }
       .ed-txt { padding: 2rem 1.5rem; }
+    }
+
+    /* ===================== STRATE VALEUR GIORGIA =====================
+       Remplace « Votre stock. Notre expertise. » — générée par
+       renderValueStrate() dans build.mjs. Image à gauche, texte et
+       quatre piliers à droite sur fond noir. */
+    .valeurs {
+      display: grid; grid-template-columns: 5fr 7fr;
+      background: var(--black); color: var(--white);
+    }
+    .val-img { position: relative; overflow: hidden; min-height: 100%; }
+    .val-img picture, .val-img img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+    }
+    .val-img img { object-fit: cover; object-position: center top; }
+    .val-txt {
+      padding: 4rem 4rem 4.2rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .val-txt .sec-eye { color: var(--gold); }
+    .val-txt .sec-title {
+      color: var(--white); font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      margin-top: .6rem;
+    }
+    .val-intro {
+      font-size: .86rem; line-height: 1.85; color: rgba(255,255,255,.68);
+      max-width: 52ch; margin-top: 1rem;
+    }
+    .val-list {
+      list-style: none;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem 2.8rem; margin-top: 2.4rem;
+    }
+    .val-list li { border-top: 1px solid rgba(197,163,106,.45); padding-top: 1rem; }
+    .val-list h3 {
+      font-family: var(--ff-display); font-weight: 400; font-style: italic;
+      font-size: 1.35rem; line-height: 1.25; color: var(--gold-lt);
+    }
+    .val-list p {
+      font-size: .8rem; line-height: 1.8; color: rgba(255,255,255,.66);
+      margin-top: .45rem; max-width: 40ch;
+    }
+    .val-ctas {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem;
+      margin-top: 2.6rem;
+    }
+    .val-ctas .btn-ed { margin-top: 0; }
+    .val-link {
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--white); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.35); padding-bottom: .2rem;
+      transition: color .3s, border-color .3s;
+    }
+    .val-link:hover, .val-link:focus-visible { color: var(--gold); border-color: var(--gold); }
+    .val-ctas a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    @media(max-width:1000px) {
+      .valeurs { grid-template-columns: 1fr; }
+      .val-img { min-height: 0; aspect-ratio: 16/9; }
+      .val-txt { padding: 3rem 1.5rem 3.2rem; }
+    }
+    @media(max-width:600px) {
+      .val-list { grid-template-columns: 1fr; gap: 1.5rem; }
+      .val-img { aspect-ratio: 4/3; }
     }
 
     /* ===================== CONTACT ===================== */
