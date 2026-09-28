@@ -289,6 +289,35 @@ const ARCHIVE_MENU_LABEL = 'Collection Printemps-Été 2026';
 let HAS_PREVENTES = false;
 
 /**
+ * COLLECTION DE SAISON EN COURS — page /collection-automne-hiver-2026/,
+ * bandeau nouveauté de la home, entrée en tête du menu Catalogue.
+ *
+ * Un produit en fait partie si son champ Airtable « Collection » vaut
+ * exactement SEASON.key. Tant qu'aucun produit n'est taggé :
+ *   - la page est générée mais en noindex, hors menu et hors sitemap ;
+ *   - le bandeau de la home n'apparaît pas.
+ * Tout s'active automatiquement dès le premier produit taggé.
+ *
+ * Pour la saison suivante (PE 2027…) : changer ces valeurs et déposer une
+ * nouvelle photo de hero dans src/pages/img/.
+ */
+const SEASON = {
+  key:       'AH 2026',
+  slug:      'collection-automne-hiver-2026',
+  title:     'Collection Automne-Hiver 2026',
+  h1:        'Collection<em>Automne-Hiver 2026</em>',
+  menuLabel: 'Nouveautés Automne-Hiver 2026',
+  metaDesc:  'Collection Automne-Hiver 2026 de GIORGIA paris : manteaux, vestes, mailles, robes et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison 48 h.',
+  heroFile:  'collection-ah-2026.jpg',
+};
+let SEASON_COUNT = 0; // nombre de produits de la saison, calculé dans main()
+
+/** Vrai si le produit appartient à la collection de saison en cours. */
+function isSeasonRecord(rec) {
+  return normalizeKey(resolveCollection(rec.fields || {})) === normalizeKey(SEASON.key);
+}
+
+/**
  * FORMULAIRE DE CONTACT — clé d'accès Web3Forms.
  *
  * Le site étant 100 % statique (GitHub Pages, pas de serveur), l'envoi des
@@ -526,7 +555,11 @@ function resolveHref(f) {
   if (v) return v;
   return (
     'https://wa.me/33686729311?text=' +
-    encodeURIComponent('Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.')
+    encodeURIComponent(
+      resolveRef(f)
+        ? `Bonjour GIORGIA paris, je suis intéressé(e) par la référence ${resolveRef(f)}.`
+        : 'Bonjour GIORGIA paris, je souhaite passer commande.'
+    )
   );
 }
 
@@ -1156,7 +1189,7 @@ function renderWhatsAppCatalogue() {
     '</div>',
     '<div class="wa-catalog-text">',
     '<h3 id="wa-catalog-title">Tous nos modèles ne sont pas en ligne</h3>',
-    '<p>Notre catalogue compte plus de références que ce qui est présenté ici. Contactez-nous sur WhatsApp pour découvrir l&rsquo;intégralité de la collection PE 2026.</p>',
+    '<p>Notre catalogue compte plus de références que ce qui est présenté ici. Contactez-nous sur WhatsApp pour découvrir l&rsquo;intégralité de notre catalogue.</p>',
     '</div>',
     `<a class="wa-catalog-cta" href="${waUrl}" target="_blank" rel="noopener noreferrer">Découvrir le catalogue complet</a>`,
     '</div>',
@@ -1316,6 +1349,9 @@ function renderNavLinks(context = 'home') {
   const preventesSubLink = HAS_PREVENTES
     ? `<li><a href="${univHref('preventes')}">Préventes</a></li>`
     : '';
+  const seasonSubLink = SEASON_COUNT > 0
+    ? `<li><a class="nav-dropdown-feat" href="${SITE_BASE}/${SEASON.slug}/">${esc(SEASON.menuLabel)}</a></li>${sep}`
+    : '';
   const archiveSubLink = `<li><a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/">${esc(ARCHIVE_MENU_LABEL)}</a></li>`;
 
   const catalogueDropdown = [
@@ -1324,6 +1360,7 @@ function renderNavLinks(context = 'home') {
     `${esc(CATALOGUE_MENU_LABEL)} <span class="nav-dropdown-chev" aria-hidden="true">▾</span>`,
     '</span>',
     '<ul class="nav-dropdown-menu" role="menu">',
+    seasonSubLink,
     universSubLinks,
     sep,
     preventesSubLink,
@@ -1355,6 +1392,9 @@ function renderMobMenuLinks(context = 'home') {
   const preventesSubLink = HAS_PREVENTES
     ? `<a href="${univHref('preventes')}" onclick="closeMob()">Préventes</a>`
     : '';
+  const seasonSubLink = SEASON_COUNT > 0
+    ? `<a href="${SITE_BASE}/${SEASON.slug}/" onclick="closeMob()" style="color:var(--gold-lt, #E2CFA8)">${esc(SEASON.menuLabel)}</a>`
+    : '';
   const archiveSubLink = `<a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/" onclick="closeMob()">${esc(ARCHIVE_MENU_LABEL)}</a>`;
 
   const separator = `<div class="mob-menu-sep" aria-hidden="true"></div>`;
@@ -1371,6 +1411,7 @@ function renderMobMenuLinks(context = 'home') {
 
   return (
     universHeading +
+    seasonSubLink +
     universSubLinks +
     preventesSubLink +
     archiveSubLink +
@@ -1389,7 +1430,7 @@ function renderMobMenuLinks(context = 'home') {
  * une boutique peut s'intéresser aux manteaux avant leur mise en ligne.
  */
 function renderUniversCheckboxes() {
-  const labels = [...HOME_UNIVERS.map(u => u.label), 'Ancienne collection PE 2026'];
+  const labels = [...HOME_UNIVERS.map(u => u.label), SEASON.title, 'Ancienne collection PE 2026'];
   return labels.map(l =>
     `<label class="cf-check"><input type="checkbox" name="Catégories" value="${esc(l)}"> <span>${esc(l)}</span></label>`
   ).join('\n            ');
@@ -1426,7 +1467,7 @@ function buildOrganizationLd() {
     '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization`,
     name: 'GIORGIA paris',
     alternateName: 'Giorgia Paris',
-    description: 'Grossiste en prêt-à-porter féminin basé à Aubervilliers, près de Paris. Collection Printemps-Été 2026, pièces tendances pour boutiques indépendantes. Minimum de commande 100€ HT.',
+    description: 'Grossiste en prêt-à-porter féminin basé à Aubervilliers, près de Paris. Catalogue très large renouvelé en continu, prix de gros très attractifs pour boutiques indépendantes. Minimum de commande 100€ HT.',
     url: `${SITE_ORIGIN}${SITE_BASE}/`,
     telephone: '+33686729311',
     email: 'giorgia93300@gmail.com',
@@ -1452,7 +1493,7 @@ function buildItemListLd(records) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Catalogue GIORGIA paris — Collection Printemps-Été 2026',
+    name: 'Catalogue GIORGIA paris — Grossiste prêt-à-porter féminin',
     description: 'Sélection de pièces prêt-à-porter féminin pour boutiques professionnelles.',
     numberOfItems: records.length,
     itemListElement: records.map((rec, i) => {
@@ -1489,7 +1530,7 @@ function buildWebSiteLd() {
     '@id': `${SITE_ORIGIN}${SITE_BASE}/#website`,
     url: `${SITE_ORIGIN}${SITE_BASE}/`,
     name: 'GIORGIA paris',
-    description: 'Catalogue du grossiste prêt-à-porter féminin GIORGIA paris — Collection Printemps-Été 2026.',
+    description: 'Catalogue du grossiste prêt-à-porter féminin GIORGIA paris : manteaux, mailles, robes, tops, pantalons et ensembles pour boutiques.',
     inLanguage: 'fr-FR',
     publisher: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
   };
@@ -1542,6 +1583,9 @@ function renderSitemapXml(now, articlesData = []) {
   // modifiées.
   const urls = [
     { loc: `${SITE_ORIGIN}${SITE_BASE}/`,                                       priority: '1.0', changefreq: 'weekly' },
+    ...(SEASON_COUNT > 0
+      ? [{ loc: `${SITE_ORIGIN}${SITE_BASE}/${SEASON.slug}/`,                   priority: '0.95', changefreq: 'weekly' }]
+      : []),
     { loc: `${SITE_ORIGIN}${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/`,                  priority: '0.9', changefreq: 'weekly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/${CONTACT_PAGE_SLUG}/`,                  priority: '0.7', changefreq: 'monthly' },
     { loc: `${SITE_ORIGIN}${SITE_BASE}/notre-histoire/`,                        priority: '0.6', changefreq: 'monthly' },
@@ -2560,6 +2604,7 @@ function renderSharedNavCss() {
   }
   .nav-dropdown-menu a:hover { background: rgba(197,163,106,.08); color: #C5A36A; }
   .nav-dropdown-menu .nav-dropdown-sep { height: 1px; margin: .35rem 1.5rem; background: rgba(0,0,0,.08); }
+  .nav-dropdown-menu a.nav-dropdown-feat { color: #A8854A; font-weight: 600; }
   #mob-menu .mob-menu-heading {
     font-size: .68rem; font-weight: 500; letter-spacing: .22em;
     text-transform: uppercase; color: #C5A36A;
@@ -2968,6 +3013,175 @@ async function buildArchivePage(byUniversArchive, mainTemplate) {
   return { deployed: true, count: allArchiveRecords.length };
 }
 
+/* ==========================================================================
+   COLLECTION DE SAISON — bandeau home + page dédiée
+   ========================================================================== */
+
+/**
+ * Bandeau « nouvelle collection » de la home, placé juste après les Préventes.
+ * Chaîne vide tant qu'aucun produit n'est taggé SEASON.key dans Airtable.
+ */
+function renderSeasonBanner(records) {
+  if (!records.length) return '';
+  const pageUrl = `${SITE_BASE}/${SEASON.slug}/`;
+  const thumbs = records
+    .map(rec => {
+      const f = rec.fields || {};
+      const url = resolvePhotos(f)[0];
+      return url ? { f, url, local: localImageFor(url) } : null;
+    })
+    .filter(Boolean)
+    .slice(0, 4);
+
+  const thumbsHtml = thumbs.map(({ f, url, local }) => {
+    const alt = esc(resolveName(f) || 'Nouveauté GIORGIA paris');
+    const img = local
+      ? `<picture><source srcset="${esc(local.webp)}" type="image/webp"><img src="${esc(local.jpg)}" alt="${alt}" loading="lazy" decoding="async"></picture>`
+      : `<img src="${esc(url)}" alt="${alt}" loading="lazy" decoding="async">`;
+    return `<a class="season-bn-thumb" href="${pageUrl}" tabindex="-1" aria-hidden="true">${img}</a>`;
+  }).join('');
+
+  const n = records.length;
+  return [
+    '<section class="season-bn" aria-labelledby="season-bn-title">',
+    '<div class="season-bn-inner">',
+    '<div class="season-bn-txt">',
+    '<span class="season-bn-eye">Nouvelle collection</span>',
+    // Trait d'union insécable : « Automne-Hiver » ne se coupe pas en fin de ligne.
+    `<h2 id="season-bn-title">${esc(SEASON.title).replace(/-/g, '\u2011')}</h2>`,
+    `<p>${n} nouvelle${n > 1 ? 's' : ''} pièce${n > 1 ? 's' : ''} pour la saison froide, à découvrir par catégorie.</p>`,
+    `<a class="season-bn-cta" href="${pageUrl}">Voir la collection</a>`,
+    '</div>',
+    `<div class="season-bn-thumbs">${thumbsHtml}</div>`,
+    '</div>',
+    '</section>',
+  ].join('');
+}
+
+/**
+ * Génère /collection-automne-hiver-2026/ (ou la saison définie dans SEASON).
+ * Les produits sont regroupés par catégorie, seules les catégories non vides
+ * sont affichées. Page vide → noindex + message d'attente.
+ */
+async function buildSeasonPage(bySeason, mainTemplate) {
+  const pageTemplatePath = resolve('src/pages/collection-saison-template.html');
+  try {
+    await stat(pageTemplatePath);
+  } catch {
+    console.warn('  ⚠ src/pages/collection-saison-template.html introuvable — page saison non générée.');
+    return { deployed: false };
+  }
+
+  // Photo du hero : src/pages/img/<SEASON.heroFile>, sinon photo du hero de la home.
+  let heroUrl = '';
+  try {
+    await stat(resolve('src/pages/img', SEASON.heroFile));
+    heroUrl = await processPageHeroImage(SEASON.heroFile);
+  } catch { /* photo non déposée : fallback ci-dessous */ }
+  if (!heroUrl) {
+    const fallback = localImageFor(ILLUSTRATION_URLS.heroPexels);
+    heroUrl = fallback ? fallback.jpg : ILLUSTRATION_URLS.heroPexels;
+    console.log(`  ℹ️  Hero saison : photo par défaut (déposer src/pages/img/${SEASON.heroFile} pour la remplacer).`);
+  }
+
+  const cats = HOME_UNIVERS.filter(u => (bySeason.get(u.id) || []).length > 0);
+  const allRecs = cats.flatMap(u => bySeason.get(u.id));
+
+  let sectionsHtml = cats.map(u => renderUniversSection(u, bySeason.get(u.id))).join('');
+  const waUrl = 'https://wa.me/33686729311?text=' +
+    encodeURIComponent(`Bonjour GIORGIA paris, je suis intéressé(e) par la ${SEASON.title}.`);
+  if (!allRecs.length) {
+    sectionsHtml = [
+      '<div class="season-empty">',
+      '<p>Les premières pièces de la collection arrivent très bientôt au showroom. Écrivez-nous sur WhatsApp pour les découvrir en avant-première.</p>',
+      `<a class="btn-ed" href="${waUrl}" target="_blank" rel="noopener noreferrer">Nous écrire sur WhatsApp</a>`,
+      '</div>',
+    ].join('');
+  }
+
+  const tabsBlock = cats.length > 1
+    ? `<div class="univers-nav"><div class="univers-nav-inner" id="js-univers-nav">${
+        cats.map(u => `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`).join('')
+      }</div></div>`
+    : '';
+
+  const html = await composePageFromTemplate(pageTemplatePath, mainTemplate, {
+    context: 'other',
+    replacements: [
+      ['<!-- SEASON_TABS_BLOCK -->', tabsBlock],
+      ['<!-- SEASON_SECTIONS -->', sectionsHtml],
+      ['<!-- SEASON_TITLE -->', esc(SEASON.title)],
+      ['<!-- SEASON_H1 -->', SEASON.h1],
+      ['<!-- SEASON_META_DESC -->', esc(SEASON.metaDesc)],
+      ['<!-- SEASON_SLUG -->', SEASON.slug],
+      ['<!-- SEASON_FIRST_ANCHOR -->', cats[0] ? `#${cats[0].id}` : `${SITE_BASE}/contact/`],
+      ['<!-- SEASON_WA_URL -->', waUrl],
+      ['<!-- PAGE_ROBOTS -->', allRecs.length ? 'index, follow, max-image-preview:large' : 'noindex, follow'],
+      ['<!-- PAGE_HERO_URL -->', heroUrl],
+      ['<!-- CAROUSEL_IDS_JS -->', JSON.stringify(cats.map(u => u.id))],
+      ['<!-- PAGE_JSON_LD -->', renderSeasonJsonLd(allRecs)],
+    ],
+  });
+
+  const outDir = resolve(OUTPUT_DIR, SEASON.slug);
+  await mkdir(outDir, { recursive: true });
+  await writeFile(join(outDir, 'index.html'), html, 'utf8');
+  console.log(allRecs.length
+    ? `  ✓ /${SEASON.slug}/ — ${allRecs.length} produits (${cats.map(u => u.label).join(' + ')})`
+    : `  ℹ️  /${SEASON.slug}/ générée vide (noindex) — aucun produit taggé « ${SEASON.key} » dans Airtable.`);
+  return { deployed: true, count: allRecs.length };
+}
+
+/** JSON-LD de la page saison : BreadcrumbList + CollectionPage + ItemList. */
+function renderSeasonJsonLd(records) {
+  const url = `${SITE_ORIGIN}${SITE_BASE}/${SEASON.slug}/`;
+  const graph = [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE_ORIGIN}${SITE_BASE}/` },
+        { '@type': 'ListItem', position: 2, name: SEASON.title, item: url },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      '@id': `${url}#webpage`,
+      url,
+      name: `${SEASON.title} — GIORGIA paris`,
+      description: SEASON.metaDesc,
+      isPartOf: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#website` },
+      inLanguage: 'fr-FR',
+    },
+  ];
+  if (records.length) {
+    graph.push({
+      '@type': 'ItemList',
+      name: `${SEASON.title} — GIORGIA paris`,
+      numberOfItems: records.length,
+      itemListElement: records.map((rec, i) => {
+        const f = rec.fields || {};
+        const ref = resolveRef(f);
+        const photos = resolvePhotos(f);
+        const descRaw = resolveDesc(f);
+        const product = {
+          '@type': 'Product',
+          name: resolveName(f) || `Article ${ref || i + 1}`,
+          brand: { '@type': 'Brand', name: 'GIORGIA paris' },
+        };
+        if (photos[0]) product.image = photos.slice(0, 3);
+        if (descRaw) product.description = descRaw.slice(0, 300);
+        if (ref) product.sku = ref;
+        const cat = resolveCategorie(f);
+        if (cat) product.category = cat;
+        return { '@type': 'ListItem', position: i + 1, item: product };
+      }),
+    });
+  }
+  const safe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/<\/script>/gi, '<\\/script>');
+  return `<script type="application/ld+json">${safe}</script>`;
+}
+
 /**
  * JSON-LD de la page archive : BreadcrumbList + WebPage + ItemList.
  */
@@ -3308,10 +3522,12 @@ async function main() {
   //  Voir isArchiveRecord() pour la règle exacte.
   // ===================================================================
   const byUniversHome    = new Map(); // Map<univ.id, records[]> — rendus sur home
+  const bySeason         = new Map(); // Map<univ.id, records[]> — page collection de saison
   const byUniversArchive = new Map(); // Map<univ.id, records[]> — rendus sur /collection-printemps-ete-2026/
   for (const u of UNIVERS) {
     byUniversHome.set(u.id, []);
     byUniversArchive.set(u.id, []);
+    bySeason.set(u.id, []);
   }
   const unmatched = [];
   for (const rec of sortedRecords) {
@@ -3325,11 +3541,17 @@ async function main() {
       byUniversArchive.get(univ.id).push(rec);
     } else {
       byUniversHome.get(univ.id).push(rec);
+      if (isSeasonRecord(rec)) bySeason.get(univ.id).push(rec);
     }
   }
   if (unmatched.length) {
     console.warn(`⚠ Catégories non reconnues dans Airtable :`, [...new Set(unmatched)]);
   }
+
+  // Collection de saison (champ Airtable « Collection » = SEASON.key).
+  const seasonRecords = HOME_UNIVERS.flatMap(u => bySeason.get(u.id) || []);
+  SEASON_COUNT = seasonRecords.length;
+  console.log(`  • ${SEASON.title} : ${SEASON_COUNT} produits`);
 
   // Catégories home affichées : uniquement celles qui ont des produits.
   VISIBLE_HOME_UNIVERS = HOME_UNIVERS.filter(u => (byUniversHome.get(u.id) || []).length > 0);
@@ -3368,7 +3590,8 @@ async function main() {
   // Rendu des sections
   console.log('→ Rendu du HTML…');
   // Section Préventes (en tête de home, après le hero)
-  const preventesHtml = renderPreventeSection(preventeRecords);
+  // Bandeau nouvelle collection juste après les Préventes (vide si aucun produit).
+  const preventesHtml = renderPreventeSection(preventeRecords) + renderSeasonBanner(seasonRecords);
   // Encart WhatsApp catalogue étendu — placé directement après la section
   // Préventes (haut de page, maximise le rebond commercial vers WhatsApp).
   const waCatalogueHtml = renderWhatsAppCatalogue();
@@ -3391,9 +3614,15 @@ async function main() {
   //  Cible prioritaire : ancre #preventes s'il y a des préventes,
   //  sinon fallback sur la première catégorie visible de la home.
   // ===================================================================
-  const heroCtaHref = preventeRecords.length > 0
-    ? '#preventes'
-    : `#${VISIBLE_HOME_UNIVERS[0]?.id || 'contact'}`;
+  //  Priorité à la collection de saison dès qu'elle a des produits.
+  const heroCtaHref = SEASON_COUNT > 0
+    ? `${SITE_BASE}/${SEASON.slug}/`
+    : preventeRecords.length > 0
+      ? '#preventes'
+      : `#${VISIBLE_HOME_UNIVERS[0]?.id || 'contact'}`;
+  const heroEyebrow = SEASON_COUNT > 0
+    ? `Nouvelle collection ${SEASON.title.replace(/^Collection\s+/i, '')}`
+    : 'Catalogue renouvelé en continu';
 
   // JSON-LD
   const jsonLdHtml = renderJsonLd(sortedRecords);
@@ -3433,6 +3662,7 @@ async function main() {
     ['<!-- WA_CATALOGUE_SECTION -->', waCatalogueHtml],
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
+    ['<!-- HERO_EYEBROW -->', esc(heroEyebrow)],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
     ['<!-- LEGACY_ANCHORS_JS -->', renderLegacyAnchorsJs()],
     ['<!-- PARTNERS_BAND -->', renderPartnersBand('dark')],
@@ -3484,6 +3714,10 @@ async function main() {
   // ===================================================================
   console.log(`→ Génération de /${ARCHIVE_PAGE_SLUG}/…`);
   await buildArchivePage(byUniversArchive, template);
+
+  // Page collection de saison — /collection-automne-hiver-2026/
+  console.log(`→ Génération de /${SEASON.slug}/…`);
+  await buildSeasonPage(bySeason, template);
 
   // ===================================================================
   //  Page contact — /contact/
