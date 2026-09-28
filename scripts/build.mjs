@@ -140,70 +140,135 @@ if (!API_KEY) {
    2. UNIVERS (source unique de vérité — ex-JS du template)
    ========================================================================== */
 
-/** Ordre et métadonnées des 5 catégories. Pour réordonner : déplacer une ligne.
- *  Ne PAS changer "id" ni "airtableKey" — ils sont couplés au front et à Airtable.
+/** Catégories du catalogue. Pour réordonner : déplacer un bloc.
  *
- *  Champ "location" :
- *   - 'home'    → rendu sur la homepage (dans le slider univers)
- *   - 'archive' → rendu sur /collection-printemps-ete-2026/ (page ancienne collection PE 2026)
+ *  Nomenclature par TYPE DE VÊTEMENT (sept. 2026) — plus claire pour les
+ *  acheteuses et alignée sur les recherches Google (« grossiste robe femme »,
+ *  « grossiste pull femme »…). Remplace Urban Woman / Chic & Soirée / Casual.
  *
- *  Pour déplacer un univers de home vers archive (ou l'inverse) :
- *  changer juste la valeur du champ location. build.mjs s'occupe du reste
- *  (nav, mobile menu, sitemap, JSON-LD, redirections legacy).
+ *  Champs :
+ *   - id          : ancre HTML (#robes…) et ID du carrousel. Ne pas modifier
+ *                   une fois en production (liens externes, Google).
+ *   - airtableKey : valeur EXACTE de l'option du champ Airtable « Catégorie ».
+ *   - legacyKeys  : anciennes valeurs Airtable encore acceptées et rangées
+ *                   dans cette catégorie, le temps de retagguer les produits.
+ *   - legacyIds   : anciennes ancres de la home redirigées vers celle-ci
+ *                   (ex : un vieux lien /#working ouvre /#pantalons).
+ *   - location    : 'home' → homepage ; 'archive' → page PE 2026.
+ *
+ *  Une catégorie sans produit est masquée automatiquement (section, onglet,
+ *  menu). Elle apparaît d'elle-même dès qu'un produit y est rangé.
  */
 const UNIVERS = [
   {
+    id: 'manteaux',
+    airtableKey: 'Manteaux & Vestes',
+    legacyKeys: [],
+    legacyIds: [],
+    emoji: '\u{1F9E5}',
+    label: 'Manteaux & Vestes',
+    eyebrow: 'Grossiste manteaux & vestes femme',
+    sub: 'Du trench à la doudoune, l\u2019extérieur de la saison',
+    desc: 'Manteaux longs, vestes courtes, blazers et doudounes : les pièces qui habillent la silhouette de la rentrée aux grands froids. Un rayon extérieur complet, renouvelé au fil de la saison.',
+    location: 'home',
+  },
+  {
+    id: 'mailles',
+    airtableKey: 'Mailles & Pulls',
+    legacyKeys: [],
+    legacyIds: [],
+    emoji: '\u{1F9F6}',
+    label: 'Mailles & Pulls',
+    eyebrow: 'Grossiste pulls & mailles femme',
+    sub: 'Pulls, cardigans et gilets, du plus fin au plus enveloppant',
+    desc: 'Côtes, torsades, maille fine ou épaisse : une large gamme de pulls, cardigans et gilets pour composer un rayon maille qui tourne tout l\u2019hiver.',
+    location: 'home',
+  },
+  {
+    id: 'robes',
+    airtableKey: 'Robes & Jupes',
+    legacyKeys: ['Chic & Soirée', 'Chic & Soiree'],
+    legacyIds: ['chic'],
+    emoji: '\u{1F457}',
+    label: 'Robes & Jupes',
+    eyebrow: 'Grossiste robes & jupes femme',
+    sub: 'Du quotidien à la soirée',
+    desc: 'Robes fluides ou ajustées, robes de soirée, jupes courtes ou midi : une offre très large pour habiller toutes les occasions, du jour à l\u2019événementiel.',
+    location: 'home',
+  },
+  {
+    id: 'tops',
+    airtableKey: 'Tops & Bodys',
+    legacyKeys: ['Casual Chic', 'Casual'],
+    legacyIds: ['casual'],
+    emoji: '\u{1F45A}',
+    label: 'Tops & Bodys',
+    eyebrow: 'Grossiste tops & bodys femme',
+    sub: 'Les hauts qui font la silhouette',
+    desc: 'Tops, bodys, débardeurs, chemisiers, corsets et bustiers : des pièces faciles à associer et à renouveler souvent en rayon.',
+    location: 'home',
+  },
+  {
+    id: 'pantalons',
+    airtableKey: 'Pantalons & Ensembles',
+    legacyKeys: ['Urban Woman'],
+    legacyIds: ['working'],
+    emoji: '\u{1F456}',
+    label: 'Pantalons & Ensembles',
+    eyebrow: 'Grossiste pantalons & ensembles femme',
+    sub: 'Coupes droites, larges ou ajustées, et ensembles coordonnés',
+    desc: 'Pantalons, jeans, joggings et ensembles assortis : des basiques et des pièces tendance pour vendre des looks complets.',
+    location: 'home',
+  },
+
+  /* ---- Ancienne collection PE 2026 (page /collection-printemps-ete-2026/) ---- */
+  {
     id: 'summer',
     airtableKey: 'Summer Vibes',
+    legacyKeys: [],
+    legacyIds: [],
     emoji: '\u{1F30A}',
     label: 'Summer Vibes',
+    eyebrow: 'Collection Printemps-Été 2026',
     sub: 'Légèreté, couleur & féminité solaire',
     desc: 'Des pièces qui capturent l\u2019essence de l\u2019été : matières fluides, imprimés vivants, silhouettes libres. Un univers à fort potentiel de vente.',
     location: 'archive',
   },
   {
-    id: 'working',
-    airtableKey: 'Urban Woman',
-    emoji: '\u{1F454}',
-    label: 'Urban Woman',
-    sub: 'Élégance, confiance & polyvalence au quotidien.',
-    desc: 'Une sélection conçue pour la femme active contemporaine. Du bureau au week-end, découvrez des basiques surélevés et des pièces fluides qui s\u2019adaptent à toutes ses vies.',
-    location: 'home',
-    insertBannerAfter: true, // Encart "Vêtir les boutiques..." (doré) après Urban Woman
-  },
-  {
-    id: 'chic',
-    airtableKey: 'Chic & Soirée',
-    emoji: '\u2728',
-    label: 'Chic & Soirée',
-    sub: 'Glamour, strass & dentelle précieuse',
-    desc: 'Quand l\u2019élégance s\u2019habille de nuit. Strass, satin, dentelle — des pièces à fort impact visuel pour les boutiques de soirée et d\u2019événementiel.',
-    location: 'home',
-    insertEditorialAfter: true,
-  },
-  {
     id: 'boheme',
     airtableKey: 'Bohème',
+    legacyKeys: ['Boheme'],
+    legacyIds: [],
     emoji: '\u{1F33F}',
     label: 'Bohème',
+    eyebrow: 'Collection Printemps-Été 2026',
     sub: 'Fluidité, crochet & âme libre',
     desc: 'L\u2019esprit free spirit rencontre l\u2019artisanat délicat : crochet, matières naturelles, silhouettes aériennes. Fort potentiel pour les boutiques lifestyle.',
     location: 'archive',
-  },
-  {
-    id: 'casual',
-    airtableKey: 'Casual Chic',
-    emoji: '\u{1F90D}',
-    label: 'Casual',
-    sub: 'L\u2019attitude au quotidien, sans effort apparent',
-    desc: 'Le quotidien stylé : vestes à caractère, tops ornementés, looks urban-cool qui tournent en boutique.',
-    location: 'home',
   },
 ];
 
 // Vues dérivées de UNIVERS (utilisées partout : sections, nav, tabs, JSON-LD, sitemap)
 const HOME_UNIVERS    = UNIVERS.filter(u => u.location === 'home');
 const ARCHIVE_UNIVERS = UNIVERS.filter(u => u.location === 'archive');
+
+/** Catégories home qui ont au moins un produit. Calculé dans main() après le
+ *  regroupement des produits, AVANT le rendu des pages : nav, menu mobile,
+ *  onglets et sections n'affichent que celles-ci. */
+let VISIBLE_HOME_UNIVERS = HOME_UNIVERS;
+
+/** Strates insérées entre les sections de la home, par position : après la
+ *  1ʳᵉ section visible, après la 2ᵉ… Si la home compte moins de sections,
+ *  les strates restantes sont placées à la suite des sections. */
+const HOME_STRATES_AFTER = [
+  () => renderPartnersSection(), // bande plateformes (fond charcoal)
+  () => renderValueStrate(),     // « Plus de choix. De meilleures marges. »
+];
+
+/** Photo de la strate valeur. Déposer le fichier sous ce nom dans
+ *  src/pages/img/ pour remplacer l'image par défaut. */
+const VALUE_STRATE_IMAGE_FILE = 'strate-valeurs.jpg';
+let VALUE_STRATE_IMG = null; // { jpg, webp } si la photo a été trouvée et traitée
 
 // URL de la page archive (ancienne collection PE 2026)
 const ARCHIVE_PAGE_SLUG  = 'collection-printemps-ete-2026';
@@ -307,15 +372,20 @@ const CATEGORY_TO_UNIVERS = new Map();
 for (const u of UNIVERS) {
   CATEGORY_TO_UNIVERS.set(normalizeKey(u.airtableKey), u);
 }
-// Aliases usuels : variantes sans accent, alias court…
-const ALIASES = [
-  ['Chic & Soiree', 'chic'],
-  ['Boheme', 'boheme'],
-  ['Casual', 'casual'],
-];
-for (const [key, id] of ALIASES) {
-  const u = UNIVERS.find(x => x.id === id);
-  if (u) CATEGORY_TO_UNIVERS.set(normalizeKey(key), u);
+// Anciennes valeurs Airtable (Urban Woman, Chic & Soirée, Casual Chic…)
+// rangées provisoirement dans les nouvelles catégories — voir legacyKeys.
+for (const u of UNIVERS) {
+  for (const key of (u.legacyKeys || [])) {
+    const k = normalizeKey(key);
+    if (!CATEGORY_TO_UNIVERS.has(k)) CATEGORY_TO_UNIVERS.set(k, u);
+  }
+}
+
+/** Table ancienne ancre → nouvelle ancre, injectée dans le JS partagé. */
+function renderLegacyAnchorsJs() {
+  const map = {};
+  for (const u of UNIVERS) for (const old of (u.legacyIds || [])) map[old] = u.id;
+  return JSON.stringify(map);
 }
 
 /* ==========================================================================
@@ -1104,7 +1174,7 @@ function renderUniversSection(univ, products) {
   h += `<div class="sec-hdr">`;
   h += `<div class="sec-line"></div>`;
   h += `<div class="sec-center">`;
-  h += `<span class="sec-eye">GIORGIA paris — Collection Printemps-Été 2026</span>`;
+  h += `<span class="sec-eye">${esc(univ.eyebrow || 'GIORGIA paris')}</span>`;
   h += `<h2 class="sec-title" id="title-${univ.id}">${esc(univ.label)}</h2>`;
   h += `<span class="sec-sub">${esc(univ.sub)}</span>`;
   h += `<p class="sec-desc">${esc(univ.desc)}</p>`;
@@ -1129,7 +1199,7 @@ function renderUniversSection(univ, products) {
   // NB : pour la page archive, on garde la même logique (premier univers archive).
   const priorityUnivId = univ.location === 'archive'
     ? (ARCHIVE_UNIVERS[0]?.id)
-    : (HOME_UNIVERS[0]?.id);
+    : (VISIBLE_HOME_UNIVERS[0]?.id);
   products.forEach((rec, i) => {
     const isPriority = (univ.id === priorityUnivId && i < 4);
     h += renderProductCard(rec.fields || {}, isPriority, univ);
@@ -1166,18 +1236,19 @@ function renderFeatBanner() {
 /**
  * Strate « valeur GIORGIA » de la home (remplace « Votre stock. Notre expertise. »).
  * Quatre piliers : choix, prix & marges, qualité, service.
- * Insérée après l'univers portant le flag `insertEditorialAfter`.
+ * Placée après la 2ᵉ section visible de la home (voir HOME_STRATES_AFTER).
  * Le CSS correspondant (.valeurs, .val-*) est dans src/template.html.
  */
 function renderValueStrate() {
-  const local = localImageFor(ILLUSTRATION_URLS.editorialUnsplash);
+  // Photo déposée dans src/pages/img/ en priorité, sinon image par défaut.
+  const local = VALUE_STRATE_IMG || localImageFor(ILLUSTRATION_URLS.editorialUnsplash);
   const alt = 'GIORGIA paris, grossiste en prêt-à-porter féminin';
   let imgHtml;
   if (local) {
     imgHtml =
       '<picture>' +
       `<source srcset="${esc(local.webp)}" type="image/webp">` +
-      `<img src="${esc(local.jpg)}" width="${local.width}" height="${local.height}" alt="${alt}" loading="lazy" decoding="async">` +
+      `<img src="${esc(local.jpg)}"${local.width ? ` width="${local.width}" height="${local.height}"` : ''} alt="${alt}" loading="lazy" decoding="async">` +
       '</picture>';
   } else {
     imgHtml = `<img src="${esc(ILLUSTRATION_URLS.editorialUnsplash)}" alt="${alt}" loading="lazy" decoding="async">`;
@@ -1239,7 +1310,7 @@ function renderNavLinks(context = 'home') {
   const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
   const sep = '<li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li>';
 
-  const universSubLinks = HOME_UNIVERS.map(u =>
+  const universSubLinks = VISIBLE_HOME_UNIVERS.map(u =>
     `<li><a href="${univHref(u.id)}">${esc(u.label)}</a></li>`
   ).join('');
   const preventesSubLink = HAS_PREVENTES
@@ -1278,7 +1349,7 @@ function renderMobMenuLinks(context = 'home') {
   const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
 
   const universHeading = `<div class="mob-menu-heading">${esc(CATALOGUE_MENU_LABEL)}</div>`;
-  const universSubLinks = HOME_UNIVERS.map(u =>
+  const universSubLinks = VISIBLE_HOME_UNIVERS.map(u =>
     `<a href="${univHref(u.id)}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
   const preventesSubLink = HAS_PREVENTES
@@ -1312,12 +1383,25 @@ function renderMobMenuLinks(context = 'home') {
 }
 
 /**
+ * Cases à cocher « Catégories qui vous intéressent » du formulaire contact.
+ * Générées depuis UNIVERS : toute catégorie ajoutée à la config apparaît ici
+ * sans toucher au template. On liste TOUTES les catégories home, même vides :
+ * une boutique peut s'intéresser aux manteaux avant leur mise en ligne.
+ */
+function renderUniversCheckboxes() {
+  const labels = [...HOME_UNIVERS.map(u => u.label), 'Ancienne collection PE 2026'];
+  return labels.map(l =>
+    `<label class="cf-check"><input type="checkbox" name="Catégories" value="${esc(l)}"> <span>${esc(l)}</span></label>`
+  ).join('\n            ');
+}
+
+/**
  * Tabs univers (slider horizontal sous le hero, homepage uniquement).
  * On ne rend QUE les univers `location: 'home'` — Summer Vibes et Bohème
  * ont leur propre page dédiée.
  */
 function renderUniversTabs() {
-  return HOME_UNIVERS.map(u =>
+  return VISIBLE_HOME_UNIVERS.map(u =>
     `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`
   ).join('');
 }
@@ -2734,7 +2818,8 @@ function extractSharedInteractiveJs(template) {
   if (openIdx === -1) throw new Error('<script> post-CATALOG_DATA introuvable');
   const closeIdx = after.indexOf(closeTag, openIdx);
   if (closeIdx === -1) throw new Error('</script> post-CATALOG_DATA introuvable');
-  return after.slice(openIdx, closeIdx + closeTag.length);
+  return after.slice(openIdx, closeIdx + closeTag.length)
+    .split('<!-- LEGACY_ANCHORS_JS -->').join(renderLegacyAnchorsJs());
 }
 
 /**
@@ -2961,6 +3046,7 @@ async function buildContactPage(mainTemplate) {
     context: 'other',
     replacements: [
       ['<!-- CAROUSEL_IDS_JS -->', '[]'], // Pas de carrousel sur la page contact
+      ['<!-- UNIVERS_CHECKBOXES -->', renderUniversCheckboxes()],
       ['<!-- PAGE_JSON_LD -->', jsonLd],
       ['<!-- PAGE_TITLE -->', 'Contact'],
       ['<!-- WEB3FORMS_KEY -->', WEB3FORMS_ACCESS_KEY],
@@ -3244,6 +3330,22 @@ async function main() {
   if (unmatched.length) {
     console.warn(`⚠ Catégories non reconnues dans Airtable :`, [...new Set(unmatched)]);
   }
+
+  // Catégories home affichées : uniquement celles qui ont des produits.
+  VISIBLE_HOME_UNIVERS = HOME_UNIVERS.filter(u => (byUniversHome.get(u.id) || []).length > 0);
+  const hiddenUnivers = HOME_UNIVERS.filter(u => !VISIBLE_HOME_UNIVERS.includes(u));
+  if (hiddenUnivers.length) {
+    console.log(`  ℹ️  Catégories masquées (aucun produit) : ${hiddenUnivers.map(u => u.label).join(', ')}`);
+  }
+
+  // Photo de la strate valeur (facultative) : src/pages/img/strate-valeurs.jpg
+  try {
+    await stat(resolve('src/pages/img', VALUE_STRATE_IMAGE_FILE));
+    const url = await processPageHeroImage(VALUE_STRATE_IMAGE_FILE);
+    if (url) VALUE_STRATE_IMG = { jpg: url, webp: url.replace(/\.(jpe?g|png)$/i, '.webp') };
+  } catch {
+    console.log(`  ℹ️  Strate valeur : photo par défaut (déposer src/pages/img/${VALUE_STRATE_IMAGE_FILE} pour la remplacer).`);
+  }
   console.log('  Répartition home / archive :');
   for (const u of UNIVERS) {
     const nHome    = byUniversHome.get(u.id).length;
@@ -3273,24 +3375,25 @@ async function main() {
 
   // Sections univers HOME uniquement — Summer Vibes et Bohème ne sont plus
   // rendus ici (ils vivent sur /collection-printemps-ete-2026/).
+  // Les strates (plateformes, valeur) se placent après la 1ʳᵉ, la 2ᵉ…
+  // section VISIBLE, quelles que soient les catégories masquées.
   let sectionsHtml = '';
-  for (const u of HOME_UNIVERS) {
-    const recs = byUniversHome.get(u.id) || [];
-    sectionsHtml += renderUniversSection(u, recs);
-    // Un même univers peut avoir plusieurs encarts derrière lui — en pratique
-    // un seul flag est posé par univers pour rester lisible.
-    if (u.insertBannerAfter)    sectionsHtml += renderPartnersSection();
-    if (u.insertEditorialAfter) sectionsHtml += renderValueStrate();
+  VISIBLE_HOME_UNIVERS.forEach((u, i) => {
+    sectionsHtml += renderUniversSection(u, byUniversHome.get(u.id) || []);
+    if (HOME_STRATES_AFTER[i]) sectionsHtml += HOME_STRATES_AFTER[i]();
+  });
+  for (let i = VISIBLE_HOME_UNIVERS.length; i < HOME_STRATES_AFTER.length; i++) {
+    sectionsHtml += HOME_STRATES_AFTER[i]();
   }
 
   // ===================================================================
   //  CTA HERO : la home hero affiche "Découvrir la collection".
   //  Cible prioritaire : ancre #preventes s'il y a des préventes,
-  //  sinon fallback sur le premier univers home (#working = Urban Woman).
+  //  sinon fallback sur la première catégorie visible de la home.
   // ===================================================================
   const heroCtaHref = preventeRecords.length > 0
     ? '#preventes'
-    : `#${HOME_UNIVERS[0]?.id || 'working'}`;
+    : `#${VISIBLE_HOME_UNIVERS[0]?.id || 'contact'}`;
 
   // JSON-LD
   const jsonLdHtml = renderJsonLd(sortedRecords);
@@ -3318,7 +3421,7 @@ async function main() {
   // Les IDs archive ('summer', 'boheme') ne sont PAS listés ici car ces sections
   // n'existent plus sur la home — leurs carrousels sont initialisés sur la page
   // /collection-printemps-ete-2026/ uniquement.
-  const homeCarouselIds = ['preventes', ...HOME_UNIVERS.map(u => u.id)];
+  const homeCarouselIds = ['preventes', ...VISIBLE_HOME_UNIVERS.map(u => u.id)];
   const homeCarouselIdsJs = JSON.stringify(homeCarouselIds);
 
   // Substitutions des placeholders
@@ -3331,6 +3434,7 @@ async function main() {
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
+    ['<!-- LEGACY_ANCHORS_JS -->', renderLegacyAnchorsJs()],
     ['<!-- PARTNERS_BAND -->', renderPartnersBand('dark')],
     ['<!-- FOOT_LEGAL_LINKS -->', renderFootLegalLinks()],
     ['<!-- JSON_LD -->', jsonLdHtml],
