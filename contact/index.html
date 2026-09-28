@@ -39,7 +39,7 @@
   </style>
 <style>
     /* =====================================================
-       GIORGIA paris — Catalogue PE 2026
+       GIORGIA paris — Catalogue
        =====================================================
        GUIDE MISE À JOUR :
        • Remplacer les photos produits : chercher "PHOTO-PRODUIT"
@@ -666,6 +666,46 @@
       .editorial { grid-template-columns: 1fr; }
       .ed-img { aspect-ratio: 16/9; }
       .ed-txt { padding: 2rem 1.5rem; }
+    }
+
+    /* ===================== BANDEAU NOUVELLE COLLECTION =====================
+       Généré par renderSeasonBanner() dans build.mjs, juste après les
+       Préventes. Absent tant qu'aucun produit n'est taggé dans Airtable. */
+    .season-bn { background: var(--cream-dark); padding: 3.2rem 3.5rem; }
+    .season-bn-inner {
+      max-width: 1400px; margin: 0 auto;
+      display: grid; grid-template-columns: minmax(260px, 1fr) 2fr;
+      gap: 3rem; align-items: center;
+    }
+    .season-bn-eye {
+      font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold);
+    }
+    .season-bn h2 {
+      font-family: var(--ff-display); font-weight: 300; font-style: italic;
+      font-size: clamp(1.9rem, 3.4vw, 2.9rem); line-height: 1.1;
+      color: var(--black); margin: .6rem 0 .9rem;
+    }
+    .season-bn p { font-size: .88rem; line-height: 1.8; color: var(--taupe); max-width: 36ch; }
+    .season-bn-cta {
+      display: inline-block; margin-top: 1.4rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: var(--black);
+      padding: .9rem 2.2rem; transition: background .3s;
+    }
+    .season-bn-cta:hover { background: var(--charcoal); }
+    .season-bn-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .season-bn-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
+    .season-bn-thumb { display: block; aspect-ratio: 3/4; overflow: hidden; background: var(--cream); }
+    .season-bn-thumb picture, .season-bn-thumb img { display: block; width: 100%; height: 100%; }
+    .season-bn-thumb img { object-fit: cover; transition: transform .6s var(--ease); }
+    .season-bn-thumb:hover img { transform: scale(1.04); }
+    @media(max-width:900px) {
+      .season-bn { padding: 2.6rem 1.5rem; }
+      .season-bn-inner { grid-template-columns: 1fr; gap: 1.6rem; }
+      .season-bn-thumbs { grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+    }
+    @media(max-width:520px) {
+      .season-bn-thumbs { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ===================== STRATE VALEUR GIORGIA =====================
@@ -1991,7 +2031,7 @@
         </a>
 
         <!-- WhatsApp -->
-        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20PE%202026." target="_blank">
+        <a class="sp-row" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20des%20informations%20sur%20votre%20catalogue." target="_blank">
           <svg class="sp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="24" rx="5" fill="#25D366"/>
             <path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12c0 1.65.5 3.19 1.36 4.47L4.5 19.5l3.18-1.33A7.46 7.46 0 0 0 12 19.5c4.14 0 7.5-3.36 7.5-7.5S16.14 4.5 12 4.5Zm3.6 10.3c-.15.42-.88.82-1.22.87-.31.05-.7.07-1.13-.07-.26-.09-.6-.2-1.02-.39-1.8-.78-2.97-2.6-3.06-2.72-.09-.12-.74-1-.74-1.9 0-.9.47-1.34.63-1.52.17-.18.37-.22.49-.22h.35c.11 0 .27-.04.41.32l.6 1.47c.05.12.08.26.01.4l-.22.4-.3.33c-.1.1-.2.22-.09.43.12.21.52.85 1.12 1.38.77.68 1.41.89 1.62.99.2.1.32.08.44-.05l.58-.67c.13-.16.25-.1.41-.06l1.33.63c.17.08.28.12.32.2.04.07.04.44-.11.86Z"/>
@@ -2512,7 +2552,7 @@
     const DEFAULT_WHATSAPP_LINK =
       'https://wa.me/33686729311?text=' +
       encodeURIComponent(
-        'Bonjour GIORGIA paris, je souhaite passer commande pour la collection PE 2026.'
+        'Bonjour GIORGIA paris, je souhaite passer commande.'
       );
     const PROD_REF_LINE = '';
 
