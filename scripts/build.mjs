@@ -212,6 +212,17 @@ const CONTACT_PAGE_SLUG  = 'contact';
 const HISTOIRE_PAGE_SLUG = 'notre-histoire';
 const HISTOIRE_PAGE_TITLE = 'Qui sommes-nous';
 
+// Libellé de l'entrée de menu qui regroupe catégories, préventes et saisons.
+const CATALOGUE_MENU_LABEL = 'Catalogue';
+// Libellé court de la page archive dans le menu (le titre complet reste
+// ARCHIVE_PAGE_TITLE pour le H1 et le SEO de la page elle-même).
+const ARCHIVE_MENU_LABEL = 'Collection Printemps-Été 2026';
+
+/** Vrai si au moins un produit est coché « Prévente » dans Airtable.
+ *  Positionné dans main() AVANT le rendu de toutes les pages : le lien
+ *  « Préventes » du menu n'apparaît que si la strate existe sur la home. */
+let HAS_PREVENTES = false;
+
 /**
  * FORMULAIRE DE CONTACT — clé d'accès Web3Forms.
  *
@@ -1152,33 +1163,53 @@ function renderFeatBanner() {
   ].join('');
 }
 
-function renderEditorial() {
+/**
+ * Strate « valeur GIORGIA » de la home (remplace « Votre stock. Notre expertise. »).
+ * Quatre piliers : choix, prix & marges, qualité, service.
+ * Insérée après l'univers portant le flag `insertEditorialAfter`.
+ * Le CSS correspondant (.valeurs, .val-*) est dans src/template.html.
+ */
+function renderValueStrate() {
   const local = localImageFor(ILLUSTRATION_URLS.editorialUnsplash);
-  // Balise <picture> pour bénéficier du WebP si dispo
+  const alt = 'GIORGIA paris, grossiste en prêt-à-porter féminin';
   let imgHtml;
   if (local) {
     imgHtml =
       '<picture>' +
       `<source srcset="${esc(local.webp)}" type="image/webp">` +
-      `<img src="${esc(local.jpg)}" width="${local.width}" height="${local.height}" alt="GIORGIA paris — Showroom parisien et collection Printemps-Été 2026" loading="lazy" decoding="async">` +
+      `<img src="${esc(local.jpg)}" width="${local.width}" height="${local.height}" alt="${alt}" loading="lazy" decoding="async">` +
       '</picture>';
   } else {
-    imgHtml = `<img src="${esc(ILLUSTRATION_URLS.editorialUnsplash)}" alt="GIORGIA paris — Showroom parisien et collection Printemps-Été 2026" loading="lazy" decoding="async">`;
+    imgHtml = `<img src="${esc(ILLUSTRATION_URLS.editorialUnsplash)}" alt="${alt}" loading="lazy" decoding="async">`;
   }
+
+  const piliers = [
+    ['Un choix immense',
+     'Un catalogue très large, renouvelé en continu, pour composer votre rayon à votre image.'],
+    ['Des prix très attractifs',
+     'Des prix de gros pensés pour vous laisser de grosses marges à la revente.'],
+    ['Une qualité suivie',
+     'Des matières, des coupes et des finitions choisies pour plaire en boutique.'],
+    ['Un service rapide',
+     'Livraison en 48 h en France métropolitaine, packs de 6 pièces, minimum de commande 100 € HT.'],
+  ];
+
   return [
-    '<div class="editorial">',
-    '<div class="ed-img">',
-    imgHtml,
+    '<section class="valeurs" aria-labelledby="valeurs-title">',
+    '<div class="val-img">', imgHtml, '</div>',
+    '<div class="val-txt">',
+    '<span class="sec-eye">Grossiste B2B depuis 2007</span>',
+    '<h2 class="sec-title" id="valeurs-title">Plus de choix.<br>De meilleures marges.</h2>',
+    '<p class="val-intro">Depuis notre showroom d\u2019Aubervilliers, nous fournissons les boutiques indépendantes en France, en Europe et dans les DOM\u2011TOM.</p>',
+    '<ul class="val-list">',
+    ...piliers.map(([t, d]) => `<li><h3>${t}</h3><p>${d}</p></li>`),
+    '</ul>',
+    '<div class="val-ctas">',
+    `<a class="btn-ed" href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/">Contacter l\u2019équipe</a>`,
+    `<a class="val-link" href="${SITE_BASE}/${HISTOIRE_PAGE_SLUG}/">Découvrir notre histoire</a>`,
     '</div>',
-    '<div class="ed-txt">',
-    '<div class="logo"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div>',
-    '<span class="sec-eye">Grossiste B2B · Partenaire depuis 2007</span>',
-    '<h2 class="sec-title" style="color:white">Votre stock.<br>Notre expertise.</h2>',
-    '<p>Basé à Aubervilliers, au cœur du triangle d\u2019or du prêt-à-porter des grossistes parisiens, nous accompagnons les boutiques de mode partout en France et à l\u2019international.</p>',
-    '<p>Rejoignez les centaines de revendeurs qui font confiance à GIORGIA paris chaque saison.</p>',
-    '<a class="btn-ed" href="#contact">Devenir revendeur</a>',
     '</div>',
-    '</div>',
+    '</section>',
   ].join('');
 }
 
@@ -1190,8 +1221,10 @@ function renderEditorial() {
  * Navbar desktop.
  *
  * Structure :
- *   • Dropdown "Nos Univers" (hover/focus) contenant :
+ *   • Dropdown "Catalogue" (hover/focus) contenant :
  *      - les univers `location: 'home'` (ancres vers la home)
+ *      - un séparateur
+ *      - « Préventes » (ancre #preventes), seulement s'il y en a
  *      - un lien vers la page ancienne collection PE 2026
  *   • Tendances & Conseils Pro (page dédiée)
  *   • Qui sommes-nous (page notre-histoire — URL conservée pour SEO)
@@ -1204,19 +1237,25 @@ function renderEditorial() {
 function renderNavLinks(context = 'home') {
   const homeUrl = SITE_BASE ? `${SITE_BASE}/` : '/';
   const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
+  const sep = '<li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li>';
 
   const universSubLinks = HOME_UNIVERS.map(u =>
     `<li><a href="${univHref(u.id)}">${esc(u.label)}</a></li>`
   ).join('');
-  const archiveSubLink = `<li><a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/">${esc(ARCHIVE_PAGE_TITLE)}</a></li>`;
+  const preventesSubLink = HAS_PREVENTES
+    ? `<li><a href="${univHref('preventes')}">Préventes</a></li>`
+    : '';
+  const archiveSubLink = `<li><a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/">${esc(ARCHIVE_MENU_LABEL)}</a></li>`;
 
-  const universDropdown = [
+  const catalogueDropdown = [
     '<li class="nav-dropdown" tabindex="0">',
     '<span class="nav-dropdown-toggle" aria-haspopup="true">',
-    'Nos Univers <span class="nav-dropdown-chev" aria-hidden="true">▾</span>',
+    `${esc(CATALOGUE_MENU_LABEL)} <span class="nav-dropdown-chev" aria-hidden="true">▾</span>`,
     '</span>',
     '<ul class="nav-dropdown-menu" role="menu">',
     universSubLinks,
+    sep,
+    preventesSubLink,
     archiveSubLink,
     '</ul>',
     '</li>',
@@ -1226,11 +1265,11 @@ function renderNavLinks(context = 'home') {
   const quiLink       = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
   const contactLink   = `<li><a href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/">Contact</a></li>`;
 
-  return universDropdown + tendancesLink + quiLink + contactLink;
+  return catalogueDropdown + tendancesLink + quiLink + contactLink;
 }
 
 /**
- * Menu mobile — liste plate avec sous-titre "Nos Univers".
+ * Menu mobile — liste plate avec sous-titre "Catalogue".
  * Choix (b) validé : tous les liens visibles direct dans le HTML rendu,
  * meilleur pour le SEO (pas d'interaction requise pour révéler les liens).
  */
@@ -1238,11 +1277,14 @@ function renderMobMenuLinks(context = 'home') {
   const homeUrl = SITE_BASE ? `${SITE_BASE}/` : '/';
   const univHref = (id) => context === 'home' ? `#${id}` : `${homeUrl}#${id}`;
 
-  const universHeading = `<div class="mob-menu-heading">Nos Univers</div>`;
+  const universHeading = `<div class="mob-menu-heading">${esc(CATALOGUE_MENU_LABEL)}</div>`;
   const universSubLinks = HOME_UNIVERS.map(u =>
     `<a href="${univHref(u.id)}" onclick="closeMob()">${esc(u.label)}</a>`
   ).join('');
-  const archiveSubLink = `<a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/" onclick="closeMob()">${esc(ARCHIVE_PAGE_TITLE)}</a>`;
+  const preventesSubLink = HAS_PREVENTES
+    ? `<a href="${univHref('preventes')}" onclick="closeMob()">Préventes</a>`
+    : '';
+  const archiveSubLink = `<a href="${SITE_BASE}/${ARCHIVE_PAGE_SLUG}/" onclick="closeMob()">${esc(ARCHIVE_MENU_LABEL)}</a>`;
 
   const separator = `<div class="mob-menu-sep" aria-hidden="true"></div>`;
 
@@ -1259,6 +1301,7 @@ function renderMobMenuLinks(context = 'home') {
   return (
     universHeading +
     universSubLinks +
+    preventesSubLink +
     archiveSubLink +
     separator +
     tendancesLink +
@@ -2383,7 +2426,7 @@ function renderFootLegalLinks() {
    La page hub `/tendances-conseils-pro/` et les pages d'articles ont leur
    propre design system (src/articles/articles-styles.css) et leur propre
    navbar codée en dur. Pour qu'elles portent le MÊME menu que le reste du
-   site (dropdown "Nos Univers" + Qui sommes-nous + Contact), on remplace
+   site (dropdown "Catalogue" + Qui sommes-nous + Contact), on remplace
    leur navbar après rendu, plutôt que d'exiger une refonte de ces templates.
 
    L'injection est tolérante : si le markup attendu n'est pas trouvé, on
@@ -2432,6 +2475,7 @@ function renderSharedNavCss() {
     white-space: nowrap; transition: background .2s, color .2s;
   }
   .nav-dropdown-menu a:hover { background: rgba(197,163,106,.08); color: #C5A36A; }
+  .nav-dropdown-menu .nav-dropdown-sep { height: 1px; margin: .35rem 1.5rem; background: rgba(0,0,0,.08); }
   #mob-menu .mob-menu-heading {
     font-size: .68rem; font-weight: 500; letter-spacing: .22em;
     text-transform: uppercase; color: #C5A36A;
@@ -2505,6 +2549,19 @@ function injectSharedNav(html, label) {
   //    on les y redirige pour éviter un aller-retour inutile vers la home.
   const contactHref = `${SITE_BASE}/${CONTACT_PAGE_SLUG}/`;
   out = out.split(`href="${SITE_BASE}/#contact"`).join(`href="${contactHref}"`);
+
+  // 3b. Bouton de la navbar : l'ancien « Commander » pointait vers la
+  //     marketplace. On l'aligne sur le reste du site (canal direct).
+  const btnRe = /<a([^>]*)class="btn-nav"[^>]*>[\s\S]*?<\/a>/;
+  if (btnRe.test(out)) {
+    out = out.replace(btnRe, `<a class="btn-nav" href="${contactHref}">Contacter l\u2019équipe</a>`);
+  }
+
+  // 3c. Message WhatsApp pré-rempli du sticky contact : on retire la
+  //     mention de saison codée en dur pour qu'il reste valable toute l'année.
+  const oldWa = encodeURIComponent('je souhaite passer commande PE 2026.');
+  const newWa = encodeURIComponent('je souhaite des informations sur votre catalogue.');
+  out = out.split(oldWa).join(newWa);
 
   // 4. Footer légal : on aligne les liens sur ceux du site principal
   //    (les templates articles n'avaient ni "Qui sommes-nous" ni "Contact").
@@ -3204,6 +3261,7 @@ async function main() {
   // ===================================================================
   const preventeRecords = sortedRecords.filter(rec => resolvePrevente(rec.fields || {}));
   console.log(`  • Préventes : ${preventeRecords.length} produits`);
+  HAS_PREVENTES = preventeRecords.length > 0; // pilote le lien « Préventes » du menu
 
   // Rendu des sections
   console.log('→ Rendu du HTML…');
@@ -3222,7 +3280,7 @@ async function main() {
     // Un même univers peut avoir plusieurs encarts derrière lui — en pratique
     // un seul flag est posé par univers pour rester lisible.
     if (u.insertBannerAfter)    sectionsHtml += renderPartnersSection();
-    if (u.insertEditorialAfter) sectionsHtml += renderEditorial();
+    if (u.insertEditorialAfter) sectionsHtml += renderValueStrate();
   }
 
   // ===================================================================
