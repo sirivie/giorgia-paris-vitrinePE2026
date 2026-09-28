@@ -1964,6 +1964,15 @@
       if (legacyIds.includes(hash)) {
         const target = '/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/#' + hash;
         window.location.replace(target);
+        return;
+      }
+      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
+         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS.
+         On ne redirige que si la nouvelle section existe sur la page. */
+      const renamed = <!-- LEGACY_ANCHORS_JS -->;
+      const next = renamed[hash];
+      if (next && document.getElementById(next)) {
+        window.location.replace('#' + next);
       }
     })();
 
@@ -2105,7 +2114,7 @@
 
     /* Resize : recalcule sans réattacher les listeners */
     function onResize() {
-      ['summer', 'working', 'chic', 'boheme', 'casual'].forEach(id => {
+      CAROUSEL_IDS.forEach(id => {
         if (!carState[id]) return;
         carState[id].pos = 0;
         buildDots(id);
