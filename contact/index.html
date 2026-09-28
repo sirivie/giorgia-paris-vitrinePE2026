@@ -2200,12 +2200,10 @@
         </div>
 
         <fieldset class="cf-field cf-field--full cf-fieldset">
-          <legend>Univers qui vous intéressent</legend>
+          <legend>Catégories qui vous intéressent</legend>
           <div class="cf-checks">
-            <label class="cf-check"><input type="checkbox" name="Univers" value="Urban Woman"> <span>Urban Woman</span></label>
-            <label class="cf-check"><input type="checkbox" name="Univers" value="Chic &amp; Soirée"> <span>Chic &amp; Soirée</span></label>
-            <label class="cf-check"><input type="checkbox" name="Univers" value="Casual"> <span>Casual</span></label>
-            <label class="cf-check"><input type="checkbox" name="Univers" value="Ancienne collection PE 2026"> <span>Ancienne collection PE 2026</span></label>
+            <!-- UNIVERS_CHECKBOXES : généré par build.mjs depuis la config UNIVERS -->
+            <!-- UNIVERS_CHECKBOXES -->
           </div>
         </fieldset>
 
@@ -2472,6 +2470,11 @@
       showStatus('success', 'Envoi de votre demande…');
 
       var data = new FormData(form);
+      // Plusieurs cases cochées = plusieurs valeurs sous le même nom : on les
+      // regroupe en une seule ligne pour qu'elles arrivent toutes dans l'email.
+      var cats = data.getAll('Catégories');
+      data.delete('Catégories');
+      if (cats.length) data.append('Catégories', cats.join(', '));
 
       fetch(form.action, { method: 'POST', body: data })
         .then(function (res) { return res.json().catch(function () { return {}; }); })
