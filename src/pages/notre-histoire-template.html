@@ -8,7 +8,7 @@
 
   <!-- ==================== SEO ==================== -->
   <title>Qui sommes-nous — GIORGIA paris | Grossiste Prêt-à-Porter Féminin depuis 2007</title>
-  <meta name="description" content="GIORGIA paris, grossiste en prêt-à-porter féminin fondé en 2007 à Aubervilliers. Découvrez notre histoire, notre savoir-faire et notre engagement auprès des boutiques de mode indépendantes en France et en Europe.">
+  <meta name="description" content="GIORGIA paris, grossiste en prêt-à-porter féminin depuis 2007 à Aubervilliers : un catalogue très large renouvelé en continu, des prix très attractifs et de grosses marges pour les boutiques indépendantes, en France et en Europe.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
 
@@ -16,7 +16,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="<!-- SITE_ORIGIN --><!-- SITE_BASE -->/notre-histoire/">
   <meta property="og:title" content="Qui sommes-nous — GIORGIA paris">
-  <meta property="og:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007, au service des boutiques indépendantes.">
+  <meta property="og:description" content="Grossiste parisien en prêt-à-porter féminin depuis 2007 : choix très large, prix très attractifs, grosses marges pour les boutiques.">
   <meta property="og:image" content="<!-- SITE_ORIGIN --><!-- PAGE_HERO_URL -->">
   <meta property="og:site_name" content="GIORGIA paris">
   <meta property="og:locale" content="fr_FR">
@@ -157,34 +157,26 @@
       line-height: 1.5;
     }
 
-    /* ===================== VALEURS ===================== */
+    /* ===================== QUATRE PILIERS =====================
+       Mêmes piliers que la strate de la home : choix, prix & marges,
+       qualité, service. Pas de numérotation : ce n'est pas une séquence. */
+    .histoire-values-wrap { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; }
+    .histoire-values-title {
+      font-family: var(--ff-display); font-weight: 400;
+      font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--black);
+      text-align: center; margin-bottom: 2.6rem;
+    }
     .histoire-values {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.2rem;
     }
+    .histoire-value { border-top: 1px solid var(--gold); padding-top: 1.2rem; }
     .histoire-value h3 {
-      font-family: var(--ff-display);
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--black);
-      margin-bottom: .8rem;
+      font-family: var(--ff-display); font-size: 1.35rem; font-style: italic;
+      font-weight: 400; color: var(--black); margin-bottom: .7rem; line-height: 1.25;
     }
-    .histoire-value p {
-      font-size: .94rem;
-      line-height: 1.7;
-      color: var(--taupe);
-    }
-    .histoire-value-num {
-      font-size: .68rem;
-      letter-spacing: .2em;
-      color: var(--gold);
-      margin-bottom: .8rem;
-      display: block;
-    }
+    .histoire-value p { font-size: .92rem; line-height: 1.75; color: var(--taupe); }
+    @media (max-width: 1000px) { .histoire-values { grid-template-columns: repeat(2, 1fr); gap: 2rem 2.4rem; } }
+    @media (max-width: 600px)  { .histoire-values { grid-template-columns: 1fr; } }
 
     /* ===================== CTA FINAL ===================== */
     .histoire-cta {
@@ -236,7 +228,6 @@
       .breadcrumb { padding: 1.2rem 1.5rem .4rem; }
       .histoire-body { padding: 3rem 1.4rem 1rem; }
       .histoire-stats-inner { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-      .histoire-values { grid-template-columns: 1fr; gap: 2rem; }
       .histoire-cta { padding: 3.5rem 1.4rem; }
     }
   </style>
@@ -295,36 +286,43 @@
   </nav>
 
   <!-- ==========================================================
-       CORPS ÉDITORIAL
-
-       ⚠ SIRI : c'est ICI que se place le texte de ta page actuelle.
-       J'ai repris ce qui était visible sur ton ancienne version et
-       complété avec une trame SEO cohérente. Remplace / ajuste
-       librement les paragraphes ci-dessous par ta rédaction existante
-       si tu veux conserver mot pour mot le travail Phase 4.
+       CORPS ÉDITORIAL — réécrit (lot D, sept. 2026) autour des quatre
+       piliers : choix, prix & marges, qualité, service.
        ========================================================== -->
   <article class="histoire-body">
-    <p class="lead">GIORGIA paris est un grossiste prêt-à-porter féminin fondé en 2007, basé à Aubervilliers. Depuis près de vingt ans, nous construisons saison après saison des collections pensées pour celles qui font vivre la mode en boutique.</p>
+    <p class="lead">GIORGIA paris est un grossiste en prêt-à-porter féminin fondé en 2007 et installé à Aubervilliers. Depuis près de vingt ans, nous fournissons les boutiques indépendantes avec une promesse simple : beaucoup de choix, des prix très attractifs et de belles marges à la revente.</p>
 
-    <p>Tout commence par une conviction simple : une boutique indépendante n'a pas les mêmes besoins qu'une enseigne de chaîne. Elle a besoin de <strong>pièces qui tournent vite</strong>, de quantités maîtrisées, d'un interlocuteur qui répond, et d'un réassort possible quand un modèle part plus vite que prévu. C'est autour de ces exigences que nous avons bâti notre façon de travailler.</p>
+    <p>Une boutique indépendante n'a pas les mêmes besoins qu'une enseigne de chaîne. Elle a besoin de <strong>pièces qui se vendent</strong>, de quantités raisonnables, d'un interlocuteur qui répond et d'un réassort possible quand un modèle part plus vite que prévu. C'est autour de ces besoins que nous avons construit notre façon de travailler.</p>
 
-    <h2>Un choix large, renouvelé en permanence</h2>
+    <h2>Un choix très large, renouvelé en continu</h2>
 
-    <p>Notre parti pris est celui de l'<strong>abondance maîtrisée</strong>. Là où certains grossistes proposent une trentaine de références par saison, nous en référençons plusieurs centaines, réparties sur des univers complémentaires. Une boutique n'a pas besoin qu'on choisisse à sa place : elle connaît sa clientèle mieux que nous. Elle a besoin de <strong>matière à composer</strong>.</p>
+    <p>Notre parti pris est celui de l'<strong>abondance maîtrisée</strong>. Une boutique n'a pas besoin qu'on choisisse à sa place : elle connaît sa clientèle mieux que personne. Ce qu'il lui faut, c'est de la <strong>matière à composer</strong>. Notre catalogue est donc très large, et de nouvelles pièces arrivent tout au long de la saison. Vos rayons restent vivants, et vos clientes fidèles trouvent du nouveau à chaque visite.</p>
 
-    <p>Ce choix s'accompagne d'un rythme soutenu : de <strong>nouvelles pièces arrivent chaque semaine</strong>, pas seulement deux fois par an. Vos rayons ne s'endorment pas, vos clientes régulières trouvent du nouveau à chaque passage, et vous pouvez tester une tendance sans immobiliser votre trésorerie sur une commande unique.</p>
+    <p>Pour vous y retrouver, <a href="<!-- SITE_BASE -->/">notre catalogue</a> est organisé par type de pièce : manteaux et vestes, mailles et pulls, robes et jupes, tops et bodys, pantalons et ensembles. Chaque saison a aussi sa page, comme la <a href="<!-- SITE_BASE -->/collection-automne-hiver-2026/">Collection Automne-Hiver 2026</a>.</p>
 
-    <p>Nos collections s'organisent en univers complémentaires : <strong>Urban Woman</strong> pour la femme active, <strong>Chic &amp; Soirée</strong> pour l'événementiel, <strong>Casual</strong> pour le quotidien stylé. Cette structure permet à chaque boutique de naviguer dans un catalogue dense sans s'y perdre, et de construire un assortiment cohérent avec sa clientèle.</p>
+    <h2>Des prix très attractifs, de grosses marges pour votre boutique</h2>
+
+    <p>Nous vendons en direct, depuis notre propre stock, sans plateforme ni intermédiaire à rémunérer. C'est ce qui nous permet de proposer des <strong>prix de gros très attractifs</strong> et de vous laisser de <strong>grosses marges à la revente</strong>. Votre marge, c'est ce qui fait vivre votre boutique : nous en tenons compte dans chacun de nos prix.</p>
+
+    <p>Le format de commande va dans le même sens. Les pièces sont vendues par <strong>pack de 6</strong> (tailles S/M ou M/L), avec un <strong>minimum de commande de 100 € HT</strong>. Vous pouvez tester un modèle ou une tendance sans immobiliser votre trésorerie.</p>
+
+    <!-- ⚠ SIRI : paragraphe qualité volontairement général. Dès que tu as des
+         éléments concrets (origine de fabrication, matières, contrôle des
+         pièces, ateliers partenaires…), on les ajoute ici : c'est l'argument
+         le plus convaincant pour une acheteuse. -->
+    <h2>Une qualité qui fait revenir vos clientes</h2>
+
+    <p>Une pièce qui se vend bien, c'est aussi une pièce qui tient ses promesses une fois portée. Nous choisissons nos modèles pour leurs <strong>matières</strong>, leurs <strong>coupes</strong> et leurs <strong>finitions</strong>, et vous pouvez les voir et les toucher au showroom avant de commander.</p>
 
     <h2>Un partenaire, pas un simple fournisseur</h2>
 
-    <p>Nous travaillons avec des boutiques de toutes tailles, de la première commande à plusieurs centaines de références par saison. Ce qui ne change pas : <strong>le minimum de commande reste à 100 € HT</strong>, pour qu'une boutique puisse tester sans engager une trésorerie disproportionnée. Et nous restons joignables — par WhatsApp, par email, ou directement au showroom.</p>
+    <p>Nous travaillons avec des boutiques de toutes tailles, de la première commande aux clientes fidèles depuis des années. Nous restons joignables, <strong>par WhatsApp, par email ou au showroom</strong>, et vous parlez directement à l'équipe qui prépare votre commande.</p>
 
-    <p>Notre implantation à Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous permet d'expédier depuis notre propre stock en <strong>48 heures en France métropolitaine</strong>. Pas d'intermédiaire, pas de rupture opaque : ce qui est affiché disponible l'est réellement.</p>
+    <p>Depuis Aubervilliers, au cœur du triangle d'or du prêt-à-porter parisien, nous expédions depuis notre propre stock en <strong>48 heures en France métropolitaine</strong>, et sur demande en Europe et dans les DOM-TOM. Ce qui est annoncé disponible l'est réellement.</p>
 
     <h2>Où nous trouver</h2>
 
-    <p>Notre showroom se visite sur rendez-vous au <strong>70 rue de la Haie Coq, 93300 Aubervilliers</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins. C'est l'occasion de voir les matières, d'essayer les coupes, et d'échanger sur ce qui fonctionne actuellement en boutique. Pour convenir d'un créneau, <a href="<!-- SITE_BASE -->/contact/">contactez-nous</a>.</p>
+    <p>Notre showroom se visite sur rendez-vous au <strong>70 rue de la Haie Coq, 93300 Aubervilliers</strong>, à quelques minutes du métro Aubervilliers-Pantin-Quatre-Chemins. C'est l'occasion de voir les matières, d'essayer les coupes et d'échanger sur ce qui se vend en ce moment en boutique. Pour convenir d'un créneau, <a href="<!-- SITE_BASE -->/contact/">contactez-nous</a>.</p>
   </article>
 
   <!-- ========== CHIFFRES CLÉS ========== -->
@@ -343,37 +341,41 @@
         <div class="histoire-stat-lbl">Livraison France<br>métropolitaine</div>
       </div>
       <div>
-        <div class="histoire-stat-num">12</div>
-        <div class="histoire-stat-lbl">Pays<br>desservis</div>
+        <div class="histoire-stat-num">6</div>
+        <div class="histoire-stat-lbl">Pièces par pack<br>S/M ou M/L</div>
       </div>
     </div>
   </section>
 
-  <!-- ========== VALEURS ========== -->
-  <section class="histoire-values" aria-label="Nos engagements">
-    <div class="histoire-value">
-      <span class="histoire-value-num">01</span>
-      <h3>Un choix qui donne le choix</h3>
-      <p>Plusieurs centaines de références, renouvelées chaque semaine. De quoi composer un assortiment qui vous ressemble, tester une tendance, et proposer du nouveau à vos clientes régulières.</p>
-    </div>
-    <div class="histoire-value">
-      <span class="histoire-value-num">02</span>
-      <h3>Stock en propre</h3>
-      <p>Nos pièces sont physiquement à Aubervilliers. Ce qui est annoncé disponible part sous 48 h, sans attente de réapprovisionnement chez un tiers.</p>
-    </div>
-    <div class="histoire-value">
-      <span class="histoire-value-num">03</span>
-      <h3>Relation directe</h3>
-      <p>Pas de plateforme entre vous et nous. Un message WhatsApp, un email, une visite au showroom : vous parlez à l'équipe qui gère réellement votre commande.</p>
+  <!-- ========== QUATRE PILIERS ========== -->
+  <section class="histoire-values-wrap" aria-labelledby="histoire-values-title">
+    <h2 class="histoire-values-title" id="histoire-values-title">Pourquoi les boutiques travaillent avec nous</h2>
+    <div class="histoire-values">
+      <div class="histoire-value">
+        <h3>Un choix immense</h3>
+        <p>Un catalogue très large, renouvelé en continu, pour composer un assortiment qui vous ressemble et proposer du nouveau à vos clientes.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Des prix très attractifs</h3>
+        <p>Des prix de gros en direct, sans intermédiaire, pensés pour vous laisser de grosses marges à la revente.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Une qualité suivie</h3>
+        <p>Des matières, des coupes et des finitions choisies pour plaire en boutique, à voir et à toucher au showroom.</p>
+      </div>
+      <div class="histoire-value">
+        <h3>Un service rapide</h3>
+        <p>Stock en propre à Aubervilliers, livraison en 48 h en France métropolitaine, une équipe joignable directement sur WhatsApp.</p>
+      </div>
     </div>
   </section>
 
   <!-- ========== CTA FINAL ========== -->
   <section class="histoire-cta">
     <h2>Travaillons ensemble</h2>
-    <p>Vous tenez une boutique et cherchez un partenaire de confiance pour votre approvisionnement ? Découvrez la collection ou contactez directement notre équipe.</p>
+    <p>Vous tenez une boutique et cherchez un grossiste qui vous laisse de vraies marges ? Parcourez le catalogue ou écrivez directement à notre équipe.</p>
     <div class="histoire-cta-btns">
-      <a class="cta-primary" href="<!-- SITE_BASE -->/">Découvrir la collection</a>
+      <a class="cta-primary" href="<!-- SITE_BASE -->/">Découvrir le catalogue</a>
       <a class="cta-secondary" href="<!-- SITE_BASE -->/contact/">Nous contacter</a>
     </div>
   </section>
