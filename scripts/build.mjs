@@ -307,7 +307,7 @@ const SEASON = {
   title:     'Collection Automne-Hiver 2026',
   h1:        'Collection<em>Automne-Hiver 2026</em>',
   menuLabel: 'Nouveautés Automne-Hiver 2026',
-  metaDesc:  'Collection Automne-Hiver 2026 de GIORGIA paris : manteaux, vestes, mailles, robes et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison 48 h.',
+  metaDesc:  'Collection Automne-Hiver 2026 de GIORGIA paris : manteaux, vestes, mailles, robes et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison rapide dans le monde entier.',
   heroFile:  'collection-ah-2026.jpg',
 };
 let SEASON_COUNT = 0; // nombre de produits de la saison, calculé dans main()
@@ -1295,7 +1295,7 @@ function renderValueStrate() {
     ['Une qualité suivie',
      'Des matières, des coupes et des finitions choisies pour plaire en boutique.'],
     ['Un service rapide',
-     'Livraison en 48 h en France métropolitaine, packs de 6 pièces, minimum de commande 100 € HT.'],
+     'Livraison rapide dans le monde entier depuis notre stock, packs de 6 pièces, minimum de commande 100 € HT.'],
   ];
 
   return [
@@ -1304,7 +1304,7 @@ function renderValueStrate() {
     '<div class="val-txt">',
     '<span class="sec-eye">Grossiste B2B depuis 2007</span>',
     '<h2 class="sec-title" id="valeurs-title">Plus de choix.<br>De meilleures marges.</h2>',
-    '<p class="val-intro">Depuis notre showroom d\u2019Aubervilliers, nous fournissons les boutiques indépendantes en France, en Europe et dans les DOM\u2011TOM.</p>',
+    '<p class="val-intro">Depuis notre showroom d\u2019Aubervilliers, nous fournissons les boutiques indépendantes en France et dans le monde entier.</p>',
     '<ul class="val-list">',
     ...piliers.map(([t, d]) => `<li><h3>${t}</h3><p>${d}</p></li>`),
     '</ul>',
@@ -1481,7 +1481,7 @@ function buildOrganizationLd() {
       addressRegion: 'Île-de-France',
       addressCountry: 'FR',
     },
-    areaServed: ['FR', 'BE', 'LU', 'CH', 'IT', 'ES', 'DE', 'NL', 'GB', 'IE', 'PT', 'AT'],
+    areaServed: { '@type': 'Place', name: 'Monde entier' }, // livraison dans le monde entier
     sameAs: [
       'https://instagram.com/giorgia.auber',
       'https://tiktok.com/@giorgia.paris56',
@@ -3316,7 +3316,7 @@ function renderContactJsonLd() {
       ['Puis-je voir les collections avant de commander ?',
        'Oui. Notre showroom d\'Aubervilliers vous accueille sur rendez-vous pour voir la collection en physique. Nous pouvons également vous envoyer des photos ou vidéos complémentaires par WhatsApp sur les pièces qui vous intéressent.'],
       ['Quels sont les délais de livraison ?',
-       'En moyenne 48 h en France métropolitaine depuis notre stock à Aubervilliers. Pour les DOM-TOM et l\'Europe, comptez 3 à 7 jours ouvrés selon la destination. Nous confirmons systématiquement le délai à la validation de commande.'],
+       'Nous expédions rapidement depuis notre stock à Aubervilliers, en France comme dans le monde entier. Le délai dépend de la destination : nous vous le confirmons systématiquement à la validation de votre commande.'],
       ['Puis-je acheter à la pièce ou uniquement par pack ?',
        'Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L au choix). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
       ['Existe-t-il d\'anciennes collections encore disponibles ?',
