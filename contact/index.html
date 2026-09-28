@@ -331,16 +331,26 @@
       color: var(--gold-lt);
       letter-spacing: clamp(.3em, 2vw, .9em);
     }
-    .hero-tagline {
+    /* Accroche : le H1 porte le mot-clé SEO (1re ligne, discrète) et la
+       promesse (2e ligne, en grand). La ligne .hero-sub est l'argumentaire. */
+    .hero-tagline { margin: 1.3rem 0 1rem; }
+    .hero-kw {
+      display: block;
+      font-family: var(--ff-body); font-style: normal; font-weight: 500;
+      font-size: clamp(.62rem, 1.2vw, .76rem); letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.9); margin-bottom: .7rem;
+    }
+    .hero-promise {
+      display: block;
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: clamp(1rem, 2vw, 1.5rem); color: rgba(255,255,255,.82);
-      line-height: 1.65; margin: 1.3rem 0 .5rem;
+      font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.2;
+      color: var(--white);
     }
     .hero-sub {
-      font-size: clamp(.60rem, 1.3vw, .75rem); letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.92); font-weight: 500;
-      margin-bottom: 2.2rem;
-      white-space: normal; line-height: 1.7;
+      font-size: clamp(.85rem, 1.4vw, .98rem); line-height: 1.7;
+      color: rgba(255,255,255,.84); font-weight: 400;
+      max-width: 46ch; margin: 0 0 2.2rem;
+      white-space: normal;
     }
     .btn-hero-p {
       display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
