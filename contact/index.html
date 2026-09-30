@@ -2923,49 +2923,16 @@
       if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
 
-    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
-    (function() {
-      const articlesTrack = document.getElementById('articles-track');
-      if (!articlesTrack) return;
-
-      // Charger le JSON des articles
-      fetch('./api/latest-articles.json')
-        .then(res => res.json())
-        .then(data => {
-          const articlesData = data.articles || [];
-          if (articlesData.length === 0) {
-            console.log('Pas d\'articles à afficher');
-            return;
-          }
-          renderCarousel(articlesData);
-        })
-        .catch(err => console.log('Erreur chargement articles:', err));
-
-      function renderCarousel(articlesData) {
-        articlesTrack.innerHTML = '';
-        articlesData.forEach(article => {
-          const dateObj = new Date(article.date_publication);
-          const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-          const card = document.createElement('a');
-          card.href = `./tendances-conseils-pro/${article.slug}/`;
-          card.innerHTML = `
-            <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">
-              <img src="${article.hero_image_url}" alt="${article.title}" loading="lazy" decoding="async">
-            </div>
-            <div class="article-card-content">
-              <h3 class="article-card-title">${article.title}</h3>
-              <p class="article-card-excerpt">${article.chapo}</p>
-              <div class="article-card-meta">
-                <time datetime="${article.date_publication}">${dateStr}</time>
-                <span class="article-card-cta">Lire →</span>
-              </div>
-            </div>
-          `;
-          articlesTrack.appendChild(card);
-        });
-      }
-    })();
+    /* ---- ARTICLES (À LIRE AUSSI) ----
+       Les cartes sont écrites dans le HTML au build (visibles par Google).
+       Ici, seulement le défilement au clic sur les flèches. */
+    function scrollArticles(dir) {
+      const track = document.getElementById('articles-track');
+      if (!track) return;
+      const card = track.querySelector('a');
+      const step = card ? card.offsetWidth + 24 : 300; // largeur carte + gap 1.5rem
+      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+    }
   </script>
 
 </body>
