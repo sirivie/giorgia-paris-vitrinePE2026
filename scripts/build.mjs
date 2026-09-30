@@ -173,39 +173,40 @@ const UNIVERS = [
     location: 'home',
   },
   {
-    id: 'mailles',
-    airtableKey: 'Mailles & Pulls',
-    legacyKeys: [],
-    legacyIds: [],
-    emoji: '\u{1F9F6}',
-    label: 'Mailles & Pulls',
-    eyebrow: 'Grossiste pulls & mailles femme',
-    sub: 'Pulls, cardigans et gilets, du plus fin au plus enveloppant',
-    desc: 'Côtes, torsades, maille fine ou épaisse : une large gamme de pulls, cardigans et gilets pour composer un rayon maille qui tourne tout l\u2019hiver.',
+    id: 'soiree',
+    airtableKey: 'Robes de Soirée',
+    legacyKeys: ['Robes de Soiree', 'Chic & Soirée', 'Chic & Soiree'],
+    legacyIds: ['chic'],
+    emoji: '\u2728',
+    label: 'Robes de Soirée',
+    eyebrow: 'Grossiste robes de soirée femme',
+    sub: 'Cocktail, fêtes et grandes occasions',
+    desc: 'Robes longues ou courtes, satin, sequins, drapés et coupes ajustées : des pièces habillées pour les fêtes de fin d\u2019année, les mariages et toutes les soirées de vos clientes.',
+    location: 'home',
+  },
+  {
+    id: 'tops',
+    airtableKey: 'Tops & Pulls',
+    // « Tops & Bodys » et « Mailles & Pulls » : noms précédents, fusionnés ici
+    legacyKeys: ['Tops & Bodys', 'Mailles & Pulls', 'Casual Chic', 'Casual'],
+    legacyIds: ['casual', 'mailles'],
+    emoji: '\u{1F45A}',
+    label: 'Tops & Pulls',
+    eyebrow: 'Grossiste tops & pulls femme',
+    sub: 'Les hauts qui font la silhouette, du débardeur au pull',
+    desc: 'Tops, bodys, débardeurs, chemisiers, corsets, pulls et cardigans : des pièces faciles à associer et à renouveler souvent en rayon, en toute saison.',
     location: 'home',
   },
   {
     id: 'robes',
     airtableKey: 'Robes & Jupes',
-    legacyKeys: ['Chic & Soirée', 'Chic & Soiree'],
-    legacyIds: ['chic'],
+    legacyKeys: [],
+    legacyIds: [],
     emoji: '\u{1F457}',
     label: 'Robes & Jupes',
     eyebrow: 'Grossiste robes & jupes femme',
-    sub: 'Du quotidien à la soirée',
-    desc: 'Robes fluides ou ajustées, robes de soirée, jupes courtes ou midi : une offre très large pour habiller toutes les occasions, du jour à l\u2019événementiel.',
-    location: 'home',
-  },
-  {
-    id: 'tops',
-    airtableKey: 'Tops & Bodys',
-    legacyKeys: ['Casual Chic', 'Casual'],
-    legacyIds: ['casual'],
-    emoji: '\u{1F45A}',
-    label: 'Tops & Bodys',
-    eyebrow: 'Grossiste tops & bodys femme',
-    sub: 'Les hauts qui font la silhouette',
-    desc: 'Tops, bodys, débardeurs, chemisiers, corsets et bustiers : des pièces faciles à associer et à renouveler souvent en rayon.',
+    sub: 'Les indispensables du quotidien',
+    desc: 'Robes fluides ou ajustées, robes pull, jupes courtes ou midi : une offre très large de pièces de jour, faciles à porter et à vendre.',
     location: 'home',
   },
   {
@@ -289,7 +290,7 @@ const ARCHIVE_MENU_LABEL = 'Collection Printemps-Été 2026';
 let HAS_PREVENTES = false;
 
 /**
- * COLLECTION DE SAISON EN COURS — page /collection-automne-hiver-2026/,
+ * COLLECTION DE SAISON EN COURS — page /collection-automne-hiver-2026-2027/,
  * bandeau nouveauté de la home, entrée en tête du menu Catalogue.
  *
  * Un produit en fait partie si son champ Airtable « Collection » vaut
@@ -302,20 +303,23 @@ let HAS_PREVENTES = false;
  * nouvelle photo de hero dans src/pages/img/.
  */
 const SEASON = {
-  key:       'AH 2026',
-  slug:      'collection-automne-hiver-2026',
-  title:     'Collection Automne-Hiver 2026',
-  h1:        'Collection<em>Automne-Hiver 2026</em>',
-  menuLabel: 'Nouveautés Automne-Hiver 2026',
-  metaDesc:  'Collection Automne-Hiver 2026 de GIORGIA paris : manteaux, vestes, mailles, robes et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison rapide dans le monde entier.',
-  heroFile:  'collection-ah-2026.jpg',
+  key:       'AH 2026-2027',
+  slug:      'collection-automne-hiver-2026-2027',
+  title:     'Collection Automne-Hiver 2026-2027',
+  h1:        'Collection<em>Automne-Hiver 2026-2027</em>',
+  menuLabel: 'Nouveautés Automne-Hiver 2026-2027',
+  metaDesc:  'Collection Automne-Hiver 2026-2027 de GIORGIA paris : manteaux, vestes, robes de soirée, pulls et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison rapide dans le monde entier.',
+  heroFile:  'collection-ah-2026.jpg', // nom conservé (photo déjà prévue sous ce nom)
 };
 let SEASON_COUNT = 0; // nombre de produits de la saison, calculé dans main()
 
 /** Vrai si le produit appartient à la collection de saison en cours. */
 function isSeasonRecord(rec) {
-  return normalizeKey(resolveCollection(rec.fields || {})) === normalizeKey(SEASON.key);
+  const val = normalizeKey(resolveCollection(rec.fields || {}));
+  return val === normalizeKey(SEASON.key) || SEASON_ALIASES.some(k => normalizeKey(k) === val);
 }
+// Autres valeurs Airtable acceptées pour la saison (ex : ancien libellé prévu).
+const SEASON_ALIASES = ['AH 2026', 'AH 2026-27', 'AH 26-27'];
 
 /**
  * FORMULAIRE DE CONTACT — clé d'accès Web3Forms.
@@ -1530,7 +1534,7 @@ function buildWebSiteLd() {
     '@id': `${SITE_ORIGIN}${SITE_BASE}/#website`,
     url: `${SITE_ORIGIN}${SITE_BASE}/`,
     name: 'GIORGIA paris',
-    description: 'Catalogue du grossiste prêt-à-porter féminin GIORGIA paris : manteaux, mailles, robes, tops, pantalons et ensembles pour boutiques.',
+    description: 'Catalogue du grossiste prêt-à-porter féminin GIORGIA paris : manteaux, robes de soirée, tops, pulls, robes, pantalons et ensembles pour boutiques.',
     inLanguage: 'fr-FR',
     publisher: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#organization` },
   };
@@ -2285,7 +2289,10 @@ async function renderArticlePage(article, productIndex, allRecords) {
   //  Vu que marked() a déjà rendu le markdown en HTML, les balises HTML du
   //  carrousel s'injectent directement (pas de double-échappement).
   // =========================================================================
-  let contentHtml = article.contentHtml;
+  // Liens internes écrits dans le markdown (« /contact/ »…) : préfixés par
+  // SITE_BASE en qualif pour ne pas pointer hors du site. Sans effet en prod.
+  // Fait AVANT l'injection du carrousel, dont les URLs sont déjà complètes.
+  let contentHtml = applyBasePathToHtml(article.contentHtml);
   if (contentHtml.includes('<!-- SELECTION_GIORGIA_SECTION -->')) {
     contentHtml = contentHtml.replace('<!-- SELECTION_GIORGIA_SECTION -->', selectionHtml);
     console.log(`     ✓ Carrousel injecté dans le contenu HTML`);
@@ -3111,7 +3118,7 @@ function renderSeasonBanner(records) {
 }
 
 /**
- * Génère /collection-automne-hiver-2026/ (ou la saison définie dans SEASON).
+ * Génère /collection-automne-hiver-2026-2027/ (ou la saison définie dans SEASON).
  * Les produits sont regroupés par catégorie, seules les catégories non vides
  * sont affichées. Page vide → noindex + message d'attente.
  */
@@ -3767,7 +3774,7 @@ async function main() {
   console.log(`→ Génération de /${ARCHIVE_PAGE_SLUG}/…`);
   await buildArchivePage(byUniversArchive, template);
 
-  // Page collection de saison — /collection-automne-hiver-2026/
+  // Page collection de saison — /collection-automne-hiver-2026-2027/
   console.log(`→ Génération de /${SEASON.slug}/…`);
   await buildSeasonPage(bySeason, template);
 
