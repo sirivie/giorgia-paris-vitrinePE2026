@@ -1810,7 +1810,8 @@
       
       <div style="position: relative; margin-bottom: 2rem;">
         <div id="articles-track" style="display: flex; gap: 1.5rem; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 0.5rem;">
-          <!-- Articles injectés par JS depuis /api/latest-articles.json -->
+          <!-- Cartes générées au build par renderLatestArticleCards() (build.mjs) -->
+          <!-- LATEST_ARTICLES_CARDS -->
         </div>
         <style>
           #articles-track::-webkit-scrollbar { display: none; }
@@ -1884,11 +1885,21 @@
         </style>
       </div>
 
+      <!-- Flèches cliquables (souris) + glisser (tactile) -->
       <div style="display: flex; justify-content: center; align-items: center; gap: .6rem; margin-top: 1rem; color: var(--taupe); font-size: 0.78rem; letter-spacing: 0.06em;">
-        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">←</span>
+        <button type="button" class="articles-arrow" onclick="scrollArticles(-1)" aria-label="Articles précédents">←</button>
         <span>Faites glisser pour découvrir plus d'articles</span>
-        <span aria-hidden="true" style="font-size: 1.05rem; line-height: 1;">→</span>
+        <button type="button" class="articles-arrow" onclick="scrollArticles(1)" aria-label="Articles suivants">→</button>
       </div>
+      <style>
+        .articles-arrow {
+          background: none; border: 1px solid transparent; color: var(--taupe);
+          font-size: 1.05rem; line-height: 1; padding: .3rem .6rem; cursor: pointer;
+          transition: color .25s, border-color .25s;
+        }
+        .articles-arrow:hover { color: var(--gold); border-color: var(--gold); }
+        .articles-arrow:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+      </style>
 
       <a href="./tendances-conseils-pro/" style="display: inline-block; padding: 0.8rem 1.6rem; background: transparent; border: 1.5px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; transition: all 0.3s; margin-top: 1rem;">Voir tous les articles →</a>
 
@@ -2305,49 +2316,16 @@
       if (sc && sc.classList.contains('open') && !sc.contains(e.target)) sc.classList.remove('open');
     });
 
-    /* ---- ARTICLES CAROUSEL (À LIRE AUSSI) — swipe natif uniquement ---- */
-    (function() {
-      const articlesTrack = document.getElementById('articles-track');
-      if (!articlesTrack) return;
-
-      // Charger le JSON des articles
-      fetch('./api/latest-articles.json')
-        .then(res => res.json())
-        .then(data => {
-          const articlesData = data.articles || [];
-          if (articlesData.length === 0) {
-            console.log('Pas d\'articles à afficher');
-            return;
-          }
-          renderCarousel(articlesData);
-        })
-        .catch(err => console.log('Erreur chargement articles:', err));
-
-      function renderCarousel(articlesData) {
-        articlesTrack.innerHTML = '';
-        articlesData.forEach(article => {
-          const dateObj = new Date(article.date_publication);
-          const dateStr = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-          const card = document.createElement('a');
-          card.href = `./tendances-conseils-pro/${article.slug}/`;
-          card.innerHTML = `
-            <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">
-              <img src="${article.hero_image_url}" alt="${article.title}" loading="lazy" decoding="async">
-            </div>
-            <div class="article-card-content">
-              <h3 class="article-card-title">${article.title}</h3>
-              <p class="article-card-excerpt">${article.chapo}</p>
-              <div class="article-card-meta">
-                <time datetime="${article.date_publication}">${dateStr}</time>
-                <span class="article-card-cta">Lire →</span>
-              </div>
-            </div>
-          `;
-          articlesTrack.appendChild(card);
-        });
-      }
-    })();
+    /* ---- ARTICLES (À LIRE AUSSI) ----
+       Les cartes sont écrites dans le HTML au build (visibles par Google).
+       Ici, seulement le défilement au clic sur les flèches. */
+    function scrollArticles(dir) {
+      const track = document.getElementById('articles-track');
+      if (!track) return;
+      const card = track.querySelector('a');
+      const step = card ? card.offsetWidth + 24 : 300; // largeur carte + gap 1.5rem
+      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+    }
   </script>
 </body>
 </html>
