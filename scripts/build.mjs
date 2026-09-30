@@ -2367,8 +2367,48 @@ ${JSON.stringify(breadcrumbSchema, null, 2)}
   };
 }
 
+/** Nombre d'articles affichés dans « À lire aussi » sur la home. */
+const HOME_ARTICLES_COUNT = 6;
+
+/** Articles triés du plus récent au plus ancien. */
+function sortArticlesByDate(articles) {
+  return [...articles].sort((a, b) => {
+    const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
+    const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
+    return dateB - dateA;
+  });
+}
+
 /**
- * Génère un fichier JSON avec les 3 derniers articles
+ * Cartes « À lire aussi » de la home, écrites directement dans le HTML.
+ * Avant : chargées en JavaScript depuis /api/latest-articles.json, donc
+ * invisibles pour les moteurs qui ne lisent pas le JS, et limitées à 3.
+ * Maintenant : liens visibles par Google dès le chargement de la page.
+ */
+function renderLatestArticleCards(articles) {
+  return sortArticlesByDate(articles).slice(0, HOME_ARTICLES_COUNT).map(a => {
+    const url = `${SITE_BASE}/tendances-conseils-pro/${a.slug}/`;
+    const img = a.hero_image_url || `${SITE_BASE}/img/placeholder.jpg`;
+    return [
+      `<a href="${esc(url)}">`,
+      '<div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--border);">',
+      `<img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy" decoding="async">`,
+      '</div>',
+      '<div class="article-card-content">',
+      `<h3 class="article-card-title">${esc(a.title)}</h3>`,
+      `<p class="article-card-excerpt">${esc(a.chapo || '')}</p>`,
+      '<div class="article-card-meta">',
+      `<time datetime="${esc(a.date_publication || '')}">${esc(formatArticleDate(a.date_publication))}</time>`,
+      '<span class="article-card-cta">Lire →</span>',
+      '</div>',
+      '</div>',
+      '</a>',
+    ].join('');
+  }).join('\n          ');
+}
+
+/**
+ * Génère un fichier JSON avec les derniers articles
  * Utilisé par la home page pour afficher le carrousel "À lire aussi"
  */
 async function generateLatestArticlesJson(generatedArticles) {
@@ -2376,14 +2416,9 @@ async function generateLatestArticlesJson(generatedArticles) {
     return { deployed: false };
   }
 
-  // Trier par date DESC et prendre les 3 premiers
-  const latest3 = generatedArticles
-    .sort((a, b) => {
-      const dateA = a.date_publication ? new Date(a.date_publication) : new Date(0);
-      const dateB = b.date_publication ? new Date(b.date_publication) : new Date(0);
-      return dateB - dateA;
-    })
-    .slice(0, 3)
+  // Trier par date DESC et prendre les plus récents (même nombre que la home)
+  const latest3 = sortArticlesByDate(generatedArticles)
+    .slice(0, HOME_ARTICLES_COUNT)
     .map(article => ({
       slug: article.slug,
       title: article.title,
@@ -3819,6 +3854,14 @@ async function main() {
     // Stocker les articles pour la sitemap
     articlesForSitemap = articlesResult.articles || [];
   }
+
+  // « À lire aussi » : cartes des derniers articles écrites dans la home.
+  // La home a été écrite plus haut, avant la génération des articles :
+  // on complète le placeholder puis on la réécrit.
+  const latestCards = articlesForSitemap.length ? renderLatestArticleCards(articlesForSitemap) : '';
+  html = html.split('<!-- LATEST_ARTICLES_CARDS -->').join(latestCards);
+  await writeFile(OUTPUT_HTML, html, 'utf8');
+  console.log(`✓ Home : ${Math.min(articlesForSitemap.length, HOME_ARTICLES_COUNT)} article(s) dans « À lire aussi ».`);
 
   // Générer la sitemap (avec les articles)
   await writeFile(resolve(OUTPUT_DIR, 'sitemap.xml'), renderSitemapXml(now, articlesForSitemap), 'utf8');
