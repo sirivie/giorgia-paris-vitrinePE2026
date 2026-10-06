@@ -1447,7 +1447,7 @@ function renderUniversCheckboxes() {
  */
 function renderUniversTabs() {
   return VISIBLE_HOME_UNIVERS.map(u =>
-    `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`
+    `<a href="#${u.id}" class="utab">${esc(u.label)}</a>`
   ).join('');
 }
 
@@ -1456,7 +1456,7 @@ function renderUniversTabs() {
  */
 function renderArchiveUniversTabs() {
   return ARCHIVE_UNIVERS.map(u =>
-    `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`
+    `<a href="#${u.id}" class="utab">${esc(u.label)}</a>`
   ).join('');
 }
 
@@ -3195,7 +3195,7 @@ async function buildSeasonPage(bySeason, mainTemplate) {
 
   const tabsBlock = cats.length > 1
     ? `<div class="univers-nav"><div class="univers-nav-inner" id="js-univers-nav">${
-        cats.map(u => `<a href="#${u.id}" class="utab">${u.emoji} ${esc(u.label)}</a>`).join('')
+        cats.map(u => `<a href="#${u.id}" class="utab">${esc(u.label)}</a>`).join('')
       }</div></div>`
     : '';
 
