@@ -14,10 +14,11 @@ auteur: "GIORGIA paris"
 selection_univers: "Robes de soirée"
 selection_limite: 12
 
-# --- Optionnel : image d'en-tête -------------------------------------------
-# Déposer le fichier dans src/articles/img/ et renseigner son nom ci-dessous.
-# hero_image: "tenues-fetes-fin-annee.jpg"
-# hero_image_alt: "Rayon de robes de soirée dans une boutique de mode"
+# --- Image d'en-tête ---------------------------------------------------------
+# Le fichier doit être déposé dans src/articles/img/ avec EXACTEMENT ce nom
+# (minuscules, extension .jpg).
+hero_image: "tenues-fetes-fin-annee.jpg"
+hero_image_alt: "Sélection de robes de soirée pour les fêtes de fin d'année"
 
 mots_cles_seo:
   - tenues de fêtes grossiste
