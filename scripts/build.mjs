@@ -2174,6 +2174,11 @@ async function loadArticleFromFile(filePath) {
     selection_titre: fm.selection_titre || '',
     selection_intro: fm.selection_intro || '',
     selection_produits: Array.isArray(fm.selection_produits) ? fm.selection_produits : [],
+    // Alternative à selection_produits : afficher automatiquement les produits
+    // d'un univers entier (ex. "Robes de Soirée"). Accepte l'id, le libellé ou
+    // la clé Airtable de l'univers. selection_limite = nombre max de produits.
+    selection_univers: fm.selection_univers ? String(fm.selection_univers).trim() : '',
+    selection_limite: Number(fm.selection_limite) > 0 ? Number(fm.selection_limite) : 12,
     mots_cles_seo: Array.isArray(fm.mots_cles_seo) ? fm.mots_cles_seo : [],
     contentHtml,
     sourcePath: filePath,
@@ -2183,6 +2188,38 @@ async function loadArticleFromFile(filePath) {
   console.log(`     ✓ Selection produits : ${article.selection_produits.length} items`);
   
   return article;
+}
+
+/**
+ * Retrouve un univers à partir de ce qu'on écrit dans le front-matter d'un
+ * article : son id ("soiree"), son libellé affiché ("Robes de Soirée") ou sa
+ * clé Airtable. Comparaison tolérante (casse, accents, espaces).
+ */
+function findUniversByName(wanted) {
+  const k = normalizeKey(wanted);
+  if (!k) return null;
+  return UNIVERS.find(u =>
+    normalizeKey(u.id) === k ||
+    normalizeKey(u.label) === k ||
+    normalizeKey(u.airtableKey) === k
+  ) || null;
+}
+
+/**
+ * Produits d'un univers pour un article : uniquement ceux de la collection
+ * courante (les produits d'archive sont exclus), dans l'ordre Airtable.
+ */
+function productsForUnivers(allRecords, univ, limit) {
+  const out = [];
+  for (const rec of allRecords) {
+    const u = CATEGORY_TO_UNIVERS.get(normalizeKey(resolveCategorie(rec.fields || {})));
+    if (!u || u.id !== univ.id) continue;
+    if (isArchiveRecord(rec, u)) continue;
+    if (!resolvePhotos(rec.fields || {}).length) continue; // carte sans photo = non rendue
+    out.push(rec);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 /**
@@ -2213,6 +2250,22 @@ async function renderArticlePage(article, productIndex, allRecords) {
     console.warn(`     ⚠ Produits non trouvés dans Airtable : ${missing.join(', ')}`);
   }
   console.log(`     ✓ Produits résolus : ${resolvedProducts.length}/${article.selection_produits.length}`);
+
+  // Mode "univers entier" : remplace la liste manuelle par les produits de
+  // l'univers demandé, avec son titre et sa description par défaut.
+  if (article.selection_univers) {
+    const univ = findUniversByName(article.selection_univers);
+    if (!univ) {
+      console.warn(`     ⚠ selection_univers "${article.selection_univers}" ne correspond à aucun univers (id, libellé ou clé Airtable).`);
+    } else {
+      const fromUnivers = productsForUnivers(allRecords || [], univ, article.selection_limite);
+      if (!article.selection_titre) article.selection_titre = univ.label;
+      if (!article.selection_intro) article.selection_intro = univ.sub;
+      resolvedProducts.length = 0;
+      resolvedProducts.push(...fromUnivers);
+      console.log(`     ✓ Univers "${univ.label}" : ${fromUnivers.length} produit(s) affiché(s) (limite ${article.selection_limite})`);
+    }
+  }
 
   // Section sélection GIORGIA
   const selectionHtml = renderSelectionSection(article, resolvedProducts);
