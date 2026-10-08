@@ -231,6 +231,17 @@
       background: var(--border);
     }
 
+    /* Lien doré « Nouveautés AH » en premier niveau (renderNavLinks) */
+    .nav-links a.nav-feat {
+      color: #8A6A35; font-weight: 600;
+      border-bottom: 1.5px solid var(--gold); padding-bottom: 3px;
+    }
+    .nav-links a.nav-feat:hover { color: var(--black); }
+    @media (max-width: 1240px) and (min-width: 901px) {
+      #navbar { padding-left: 2rem; padding-right: 2rem; }
+      .nav-links { gap: 1.4rem; }
+    }
+
     .nav-right { display: flex; align-items: center; gap: 1rem; }
 
     .btn-nav {
@@ -295,69 +306,70 @@
       font-size: 1.6rem; cursor: pointer;
     }
 
-    /* ===================== HERO ===================== */
+    /* ===================== HERO (oct. 2026) =====================
+       Photo de collection dans un <picture> généré par build.mjs, voile de
+       lisibilité à gauche, texte à gauche. Sur mobile : photo portrait si
+       fournie, texte et boutons empilés en bas (zone du pouce). */
     #hero {
-      height: 100vh; position: relative;
-      display: flex; align-items: center; overflow: hidden;
+      position: relative; overflow: hidden;
+      height: 88vh; height: 88svh;
+      min-height: 600px; max-height: 920px;
+      display: flex; align-items: center;
+      /* le texte se centre sous la barre d'annonce + la navbar (fixes) */
+      padding-top: calc(var(--wa-banner-h) + 67px);
+      box-sizing: border-box;
+      background: var(--charcoal);
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
-         télécharger l'original full-resolution. L'URL doit matcher celle
-         du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
-      background: url('') center center / cover no-repeat;
-      filter: brightness(.62);
+    .hero-pic, .hero-pic img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
     }
-    .hero-grad {
+    .hero-pic img { object-fit: cover; object-position: center; max-width: none; }
+    .hero-veil {
       position: absolute; inset: 0;
-      background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
+      background: linear-gradient(90deg, rgba(22,22,22,.72) 0%, rgba(22,22,22,.55) 38%, rgba(22,22,22,0) 70%);
     }
     .hero-content {
       position: relative; z-index: 2;
-      padding: 0 4rem; max-width: 680px;
-      /* Empêche tout débordement horizontal sur mobile */
-      box-sizing: border-box;
-      width: 100%;
+      width: 100%; max-width: 1320px; margin: 0 auto;
+      padding: 0 3.5rem; box-sizing: border-box;
     }
-    .hero-eyebrow {
-      font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
-      color: var(--gold-lt); margin-bottom: 1.4rem;
+    .hero-inner { max-width: 620px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold); color: var(--black);
+      font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      line-height: 1.35; padding: .6rem 1rem;
     }
-    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
-    .hero-logo .logo-g {
-      font-size: clamp(2rem, 10vw, 5.5rem);
-      color: var(--white);
-      letter-spacing: clamp(.15em, 1.5vw, .5em);
-      padding-left: clamp(.05em, .8vw, .25em);
-      display: block; word-break: keep-all; white-space: nowrap;
-      overflow: visible;
-    }
-    .hero-logo .logo-p {
-      font-size: clamp(.7rem, 2vw, 1.4rem);
-      color: var(--gold-lt);
-      letter-spacing: clamp(.3em, 2vw, .9em);
-    }
-    /* Accroche : le H1 porte le mot-clé SEO (1re ligne, discrète) et la
-       promesse (2e ligne, en grand). La ligne .hero-sub est l'argumentaire. */
-    .hero-tagline { margin: 1.3rem 0 1rem; }
+    .hero-badge .hb-short { display: none; }
+    .hero-season .nw { white-space: nowrap; }
+    /* H1 : mot-clé SEO (petit), saison (doré), promesse (italique) */
+    .hero-tagline { margin: 1.6rem 0 0; font-weight: 400; }
     .hero-kw {
       display: block;
-      font-family: var(--ff-body); font-style: normal; font-weight: 500;
-      font-size: clamp(.62rem, 1.2vw, .76rem); letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(255,255,255,.9); margin-bottom: .7rem;
+      font-family: var(--ff-body); font-weight: 500;
+      font-size: clamp(.68rem, 1.1vw, .8rem); letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+    }
+    .hero-season {
+      display: block; margin-top: 1rem;
+      font-family: var(--ff-display); font-weight: 500;
+      font-size: clamp(2.5rem, 4.6vw, 3.9rem); line-height: 1.02;
+      color: var(--gold-lt);
     }
     .hero-promise {
-      display: block;
+      display: block; margin-top: .6rem;
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.2;
+      font-size: clamp(1.75rem, 3.2vw, 2.8rem); line-height: 1.12;
       color: var(--white);
     }
     .hero-sub {
-      font-size: clamp(.85rem, 1.4vw, .98rem); line-height: 1.7;
-      color: rgba(255,255,255,.84); font-weight: 400;
-      max-width: 46ch; margin: 0 0 2.2rem;
-      white-space: normal;
+      margin: 1.4rem 0 0; max-width: 46ch;
+      font-size: clamp(.95rem, 1.3vw, 1.06rem); line-height: 1.65;
+      color: rgba(255,255,255,.9);
     }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2.1rem; }
+
+    /* Boutons génériques (aussi utilisés par la page saison) */
     .btn-hero-p {
       display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
       text-transform: uppercase; text-decoration: none;
@@ -374,46 +386,85 @@
     }
     .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
 
-    /* Mention marketplace sous les CTA du hero — volontairement discrète :
-       c'est une information et une réassurance, pas un appel à l'action. */
-    .hero-marketplace {
-      margin-top: 1.5rem;
-      font-size: .78rem;
-      color: var(--taupe);
-      letter-spacing: .01em;
+    /* Boutons de la hero de la home : doré plein + contour blanc */
+    #hero .btn-hero-p, #hero .btn-hero-s {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 50px; padding: 0 1.8rem; box-sizing: border-box;
+      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; transform: none;
+      transition: background .3s, color .3s, border-color .3s;
     }
-    .hero-marketplace a {
-      color: var(--taupe);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(138,124,110,.35);
-      transition: color .25s, border-color .25s;
+    #hero .btn-hero-p { background: var(--gold); color: var(--black); font-weight: 600; }
+    #hero .btn-hero-p:hover { background: var(--white); }
+    #hero .btn-hero-s {
+      background: transparent; color: var(--white); font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.85);
     }
-    .hero-marketplace a:hover { color: var(--gold); border-color: var(--gold); }
-    .hero-btns {
-      display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
+    #hero .btn-hero-s:hover { background: var(--white); color: var(--black); }
+    #hero a:focus-visible { outline: 2px solid var(--gold-lt); outline-offset: 3px; }
+
+    @media (max-width: 760px) {
+      #hero {
+        height: auto; max-height: none;
+        min-height: 85vh; min-height: 85svh;
+        align-items: flex-end; padding-bottom: 1.6rem;
+      }
+      .hero-veil {
+        background: linear-gradient(180deg, rgba(22,22,22,0) 25%, rgba(22,22,22,.7) 52%, rgba(22,22,22,.92) 100%);
+      }
+      /* Sans photo mobile, on garde le sujet (à droite sur la photo desktop) */
+      .hero-pic img { object-position: 68% center; }
+      .hero-pic--mobile img { object-position: center top; }
+      .hero-content { padding: 0 1.25rem; }
+      .hero-badge { font-size: .62rem; padding: .5rem .75rem; }
+      .hero-badge .hb-long { display: none; }
+      .hero-badge .hb-short { display: inline; }
+      .hero-tagline { margin-top: 1.1rem; }
+      .hero-kw { font-size: .64rem; }
+      .hero-season { font-size: 2.2rem; margin-top: .7rem; }
+      .hero-promise { font-size: 1.75rem; }
+      .hero-sub { font-size: .95rem; margin-top: 1rem; }
+      .hero-btns { flex-direction: column; gap: .7rem; margin-top: 1.4rem; }
+      #hero .btn-hero-p, #hero .btn-hero-s { width: 100%; min-height: 52px; }
     }
 
-    .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center;
-      gap: .4rem; color: rgba(255,255,255,.5);
-      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    /* ===================== MICRO-PREUVES (sous la hero) ===================== */
+    .proofs { background: var(--cream-dark); border-bottom: 1px solid var(--border); }
+    .proofs-inner {
+      list-style: none; max-width: 1320px; margin: 0 auto;
+      padding: 1.9rem 3.5rem;
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem;
     }
-    .hero-scroll::after {
-      content: ''; width: 1px; height: 38px;
-      background: rgba(255,255,255,.35);
-      animation: scrollAnim 2.4s ease infinite;
+    .proofs li { display: flex; gap: .85rem; align-items: flex-start; }
+    .proofs svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .proofs strong { display: block; font-weight: 600; font-size: .92rem; color: var(--black); }
+    .proofs span { display: block; font-size: .8rem; color: #5E5245; margin-top: .15rem; }
+    @media (max-width: 1000px) {
+      .proofs-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @keyframes scrollAnim {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      49%  { transform: scaleY(1); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+    @media (max-width: 600px) {
+      .proofs-inner { padding: 1.3rem 1.25rem; gap: 1rem .9rem; }
+      .proofs svg { display: none; }
+      .proofs strong { font-size: .86rem; }
+      .proofs span { font-size: .74rem; }
     }
 
-    @media(max-width:768px) {
-      .hero-content { padding: 0 1.4rem; }
+    /* ===================== EN-TÊTE DE LA COLLECTION (renderCollectionIntro) ===================== */
+    .coll-intro {
+      max-width: 900px; margin: 0 auto;
+      padding: 4.5rem 2rem 2.2rem; text-align: center;
+      scroll-margin-top: 110px;
     }
+    .coll-intro-title {
+      font-family: var(--ff-display); font-weight: 500;
+      font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.05;
+      margin-top: .5rem;
+    }
+    .coll-intro p {
+      font-size: .92rem; line-height: 1.8; color: #5E5245;
+      max-width: 60ch; margin: 1rem auto 0;
+    }
+    @media (max-width: 600px) { .coll-intro { padding: 3rem 1.25rem 1.6rem; } }
 
     /* ===================== INTRO STRIP ===================== */
     .intro-strip {
@@ -1212,21 +1263,30 @@
       position: fixed; top: 0; left: 0; right: 0;
       height: var(--wa-banner-h);
       z-index: 110; /* au-dessus de la navbar (100) */
-      display: flex; align-items: center; justify-content: center;
-      background: var(--pv-bg);
-      color: var(--pv-text);
+      display: flex; align-items: center; justify-content: center; gap: .8rem;
+      background: var(--black);
+      color: var(--cream);
       font-family: var(--ff-body);
-      font-size: .72rem;
-      letter-spacing: .04em;
+      font-size: .76rem;
+      letter-spacing: .03em;
       padding: 0 1rem;
-      border-bottom: 1px solid var(--pv-border);
+      cursor: pointer;
     }
-    #wa-banner a {
-      color: var(--pv-text); text-decoration: none;
-      display: inline-flex; align-items: center; gap: .55rem;
+    /* Barre d'annonce de la collection (renderAnnounceBar dans build.mjs) */
+    #wa-banner .ann-badge {
+      background: var(--gold); color: var(--black);
+      font-size: .58rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      padding: .2rem .5rem; flex-shrink: 0;
+    }
+    #wa-banner .ann-short { display: none; }
+    #wa-banner .ann-link {
+      color: var(--gold-lt);
+      border-bottom: 1px solid rgba(226,207,168,.5);
       transition: color .25s var(--ease);
+      white-space: nowrap;
     }
-    #wa-banner a:hover { color: #fff; }
+    #wa-banner:hover .ann-link { color: #fff; }
+    /* Ancienne version WhatsApp (affichée seulement si la saison n'a aucun produit) */
     #wa-banner .wa-banner-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 18px; height: 18px;
@@ -1236,13 +1296,11 @@
       flex-shrink: 0;
     }
     #wa-banner .wa-banner-icon svg { width: 11px; height: 11px; fill: currentColor; }
-    #wa-banner .wa-banner-arrow {
-      color: var(--pv-text); opacity: .85;
-      margin-left: .25rem;
-    }
+    #wa-banner .wa-banner-arrow { opacity: .85; }
     @media (max-width: 760px) {
-      #wa-banner { font-size: .65rem; line-height: 1.25; padding: 0 .8rem; text-align: center; }
-      #wa-banner a { gap: .4rem; }
+      #wa-banner { font-size: .7rem; line-height: 1.25; padding: 0 .8rem; text-align: center; gap: .5rem; }
+      #wa-banner .ann-long { display: none; }
+      #wa-banner .ann-short { display: inline; }
     }
 
     /* =========================================================
@@ -1387,10 +1445,10 @@
        le site n'est qu'une partie du catalogue total.
        ========================================================= */
     .wa-catalog {
-      background: var(--cream);
+      background: var(--cream-dark);
       color: var(--black);
-      padding: 3rem 1.5rem;
-      margin: 2rem 0;
+      padding: 3.5rem 1.5rem;
+      margin: 0;
     }
     .wa-catalog-inner {
       max-width: 1100px; margin: 0 auto;
@@ -1591,7 +1649,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/zXQz94GuBlt4RwCMHG3EtQ/SSB43dJfs-_UqA8ib2q6HDVfAFa8qWoh1WFjVvf5EbDjs3mfw216Ifowrd3TQ37KS6nxV68NHpf7OqCFKESA96BqyC0ce-dzTPIliNrIdc61FdnpdUQm5rhIvsuJV9CNo_qfZzJuAyToWUkAMS14MQ/NKIjRORdPx3EJPs8vg_hcEbdoYPMVKIkx4bP2XNHJ7I"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/BzLRc8vyzoYRpEWVLQY0lg/3t6_94DDCCxpyb2z6bG_ujEnyYtXBrYo1lPndOXyPNPYwBlD3z6wTp3GziiFTGxGsnz8pBcSHOnwJ6iFxH62uig3rz9O3X-1bHP7I-kaBkggfUngYbln0YHx0p6Gzx5sIkQLzG97UQPKDPU4gS68Kw/BpkAKH5yEv8fmJFaULKCUevLPSOeAdVi6UkWfNG3aqM"
             ],
             "description": "Veste courte à carreaux marron, sublimée par un large col effet fourrure. Sa coupe structurée et légèrement ample apporte une allure chic, chaleureuse et tendance.",
             "sku": "J8574",
@@ -1609,7 +1667,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/VWrOIqgsYXrdZTH0ENuO4Q/5Izz28C8HBry4iaajCAlaGmK8t5VSnuO93HoSlzBYYj9n_XIBbZyzOVDEsjWLo1Yc55TL2vttdRKrV0ijeWwVC8nw4T9LeOMBKtYwsHCPUmvwGk5OwLJflEWSwad19FhPPh8kUq6642j9GjCCVDPMg/StxS0jp3rUPFQt8A3sspgPzHKCoH1FQfwzgKN4Oauuw"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/VvfGvIlkQiZg0OhmT3ukwA/a7wDLr6KGdFyMu--lv6GYuSG2T31Mk8s0wwLwrOreaKkfGXoH9RWS2zlD1zxK4O9B5epOmNZjlZxFEhuy2ryo-oSXHzd5zt8QJNn9iQsvS3g-xGelIEC_kqnda35Woxvf-Kviqh2upNyWpU0znIY7A/EQfyLWAasur-dr9U8MVc8P8e7KzgptXDy_Z3CaUY8EY"
             ],
             "description": "Manteau zippé, avec ouverture et capuche en fourrure pour un look hivernale en totale confort.",
             "sku": "S6706",
@@ -1627,7 +1685,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/kWiF3QK8f_kcmB5kqR93hA/aRWguakjnt22YuGSzX2U2QIfvGuxbO5U1cLT7DXoXNSr9Rw8MFaXtMGmtqs1sbF2m6VR8L0qIHfe3J3iX_NcNFoNOXGhHGQ4j1Fu68Ra8OK9wtaoacFNKuDovqxlzJPvyIGgaWCyTQDINf7AG60HxA/EFAWBv_I8tssEFs0jztBsR2X79Mll2G7ArkqQC-80yA"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/yJDzZ0EgNEvKirONFVgWDg/MdvYMsiyUe8vM5voHH9T9AQ8IwDIzFLqznODjiwAnXiEh-bzhwEXm5miWu-TvtUl_IBY1ASolXsZVepa1s7_mY9Jx4dW-ZULTqVtpYlq9sFFaRQ9sq5y30rbNXIjt9QR9lu3gQ3QfMvNYxyTGcfwVw/ET9zbdwbE94Mh1AgliOLHi79OTB5e-2MZs5f7HJdbBI"
             ],
             "description": "Veste, disponible en 3 coloris, avec détails fourrure",
             "sku": "S6702",
@@ -1645,9 +1703,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/9l_INWwJwdECcVWRGGbX5g/D08t5zzRy90SIdpkgtmjzLOfMfbrjC0-mjSLNvWEfjFdKRVC560j05YVKrQuyfEONZvms-5U3BDyRiRWvzZB9g5HOCuH9jMvOnCBQjsOkgjwN0XavKQOo6h4jy_dHHEv0wCkoEjw5LYE--JjZvljMw/zl52ULhIM9ox3si0xWRKSOx5GEBdkMMZDWZ3JtyqNKw",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/7aV4psFZ6RQllK-D43Hvqw/1o7NKcx5BV5WpRFlhm3cou0EkjIKelWmcqneo84Tf9t1M1oXWdpzey2g6rLXEw9JRyrpNwVIwGnKgnbQZWMrsc8LN6P9W-TC_pa5dmj8lVMmuhyCZxledGKHuuJ_aqLDAWbYaRwsJm0qn7JdSwrySQ/eH3ICd80x6VDwpSbqSPtfFiKi6d-qS8AM7hI8jM5tek",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/0_Nq0GeHDUey94aIC0PD0A/UVb70pq2EOrenKZX_GRaH3V7w9rAJAIGWjLsSzqF0qYg4F3jnBJUZbfpse8ko9w_6caY0J_oFTFwb63gWHd3ytEJcdtmg9Xceg843SvXeVDpNiDbz8HZDj06jNfTM9316aIEvV6V07gnZLCn8FLoFQ/UNNEYf9sTQLiv26Heeu6a3hgPnf3ZuOzyACd3v6KGvo"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/8IOIwGxnSRl-H1tcw8aJmA/5LhDDpv_EVSJDE3uMY01YBSVDJL_yGC-FPvChqM3XxljonfCDD_783FwLQD_udl2DTh2yBREZkGUr3iV0fbaHZ7-NJrsamvYCY8JhG1dpfUStUqd1X8NOxaL3WYAwI1oZKJAS6ovDhw08E-Np5tuOQ/yVyFA7k-uFJdTVSJomxliUbg7bp_qXhuohdS3LNh5IA",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/tKcO6ZZjNxti5mWdBZgZBA/kdk_EkGeM7emf35RIL7saCs5ySV4_DjCvzlZPaWqOji_rwo22DbWNVvwPdUWwb66pmgFytYgPvNaxnmg9psvVHZ3F4nT0zEGdApBauoxCOreNpOBmaCcNvlFUSrmN3ZvZ_FdR4igjRn1BbgX3dogyQ/O8woFlfHfpF6UUob5DBE2G_TLznKwcyaCpJclVYeBWM",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/jm4tCWuOLYZ7je7SchNb4Q/kgzSiY2G0Mu6bs6Q3exPU2wOC42GuWtMcrq5SgKRUN9yXNhZi5U645RtXehWYXFAaNsjEwLvZvGkYG4C_FXo-LVy4PcmjNx8H2WHozHp0wjutiG3EB5y8yBHdWHi5lIGUSVqm5ZKWLnYfRsGWFRlVA/Y56fTvQeAlMa-4PRCtdHeNXiudoiQHwPUK3mGZsUNQ8"
             ],
             "description": "Veste simili cuir, boutons et ouverture zippée dorée, disponible en 4 couleurs",
             "sku": "M7693#",
@@ -1665,7 +1723,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/8HSf0-iNj3fojZ9GU7r0jw/7Lg5zJMuPUjhyekKzZ38s870uxXfXjEjaoIp4VidH-tQq7wa1Zp5XU-bz-zfGC8ZgB5gWe_3pWs19ztteRf1SE80fO7QimrXIAWr-eaBRT5tAtekzQs4xVkjgGmmMpkacYE-DGqCFxlk1FyJSh1Iwg/Apv8va4jgnu6-NdGvDNzb1dcvtQgk7eE30_CP1orHYE"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/aizdW36IQXc2DuJpT091Dg/0DW2hlvdgqkq3zEPZkkuGe2-3IIkkXR05IrNnx3nA0U1J2Aw26D6XGbnFR9kefA7eBbIWqmteK6kv-ec__3NOx8bzz9yRydvZ7J5QgzGs-7aCN1wJtDj_JpishwRGQkx7qogctbEzkaQ64AZq4TjzA/eGzZLjZ1VpKY_sFPbC2RNUMusGpxHSMRb6KDiLL5qqQ"
             ],
             "description": "Veste simili cuir, fourrure douce et poches à rabat",
             "sku": "S6699",
@@ -1683,7 +1741,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/nxnt6HBAjzpz5inMbxUmYQ/8ifo3C54MF35bT_Wx9jbmzNHb-o7vC9RTODeNefS_2ub8jw8nuLuO8smOkV1hE8uweOJKjgqC_XvDWXV6GZfJnh7_BJDbI4i-F2TUTcjU4IWWK_EikE-HVzisu8WJODczM9WW3RIAA0vq9G0ZgSEnA/zgUk8Rhg3qPPnckMknylLm6skgbzJZWSGFLMzqLbcb8"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/ci_3YCe1TPpq00f030WSKg/aIypU4IFz6h4aTQTJCf5lJMrCJmy0-tEqpPRSwNK0sSnns0qpnsF8yoma5EpE7Oh27A1PiHYNAZCFFYlrUkd13B-eARbWOtkUUzgAoXfQOXBZ-Yq1gowkcsVGs-0luFs49DcacZTox4DMwgkNrGMZQ/P_c-_i0NdMIlkHYRv894oIxTY2DYzl--rEVUd_K-xrE"
             ],
             "description": "Veste lacée à fourrure, disponible en 3 couleurs : noir, café, vert",
             "sku": "S6701",
@@ -1701,7 +1759,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/n6OWTndMapZUQoWs_FfNmw/kxDNSz2ucOaA2KQOXFluRVgmbDumqio8rAwT8zU4M5TZOE1gwFn-xIRTejVHIpC1IB3OWWsOcy_0fe0yEmrMEwpjFSlUUqgtzgVzwFT3xunfpJoCkQ0cuAZlEk6teT4alnu1rSXQIaTu_HaJLMck6A/D_0A3fYOtEBoyLW1WZdDW-qetAUKYBdJ5-KmOL-UYGU"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/hmvoDeE2LZcLpcqWSSiXog/bVAQ3wR1yykIrjQn2Gksw2soG6yju2WzUHvXVPmR6Bkur-D6MDNeOUreTSfyRSkYWZRduN_3Vrfyg8mAzzcmrcF1Ao47sbsgnp6Xom_yrg0Xh7hVQMmWuBit7Ek1QWi17Vb8UgN-OflsFdCyoOGBhQ/UqPjm4bGEtIMCD2EOkDRqmyVaZRyp7HeMmvs-t7m2EM"
             ],
             "description": "Veste avec lacet, serrage niveau taille",
             "sku": "S6700",
@@ -1719,7 +1777,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/Fzrn1YAxWPl32KDiinvLOA/DwUQDu9tXIh9h4jAN-RKMr5e5J7ZTSQjcfRyqF2DDQYSnx486hZGBnVBox2QYt2JYnAUuUpRU1l21L2qZPkKPfPBwHA17TXXbaEOgGGEX8bALpI0ep9ddxvG-o5AHAzYLxY5EcP17i_g9fqd4UEVuA/z10WbXGIRHiQH3YT49oCHsgPswcnjSpCjoFRk4RbB6w"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/D8Zu0TgDwsWi1SumOpXEmA/Aye8DmSlxyMrNlkEZKZoBz0LoACWElDmKDEFyKhIkUGs55h05bp8gMLIS5mEHlDbSu_-inUOpI7CG_ot2lKjamDjDwaRNrX0UR90sCGj7SIHiC62dO1v09FBxPWfiaf3LAii5oqDKe2HsX2Ceg7NgQ/bNQocC01AhCE0R0uANq2ekb2IAE5yXUsRZMwsjL4AXg"
             ],
             "description": "Parka fourure, disponible en 5 couleurs",
             "sku": "S6708",
@@ -1737,9 +1795,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/m8uy5Q9mrlp7sqBlopbq8A/LPjZMoFtrEz_RW2fGNRL1SuJk6z6MvLrA1wr0Dphzkrw8gkb36VxV8UpJdEOzs-BaPVGluViTkQTf4BbA1Oiu_anaPv9iPy4xSfFXybroDDvTOb9mT6s3n9N60zlB5N4QjCVkojknNssEq4pAy741A/OU30GEmK7nBGs191QUVW7CaqfOrEP7jPCt62ESoLrnI",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/83_cnJhXn4XiVRPurcHhDQ/uZ3wOCV_VsbP_hxNW88aXI2fpeGNPflQWQ5QdwdYGM0YJVgOpCSqaGSKWxQ0eODpL3YLHtyYNCagRD9ujritJz-xLr1Zx10rsQKlzCzRBMLeCn9GSRLojk2vx5CsIb9gDelsnxUnTzbXfUkOhEFF1g/8MPwpwQrOmmLnPNr_P-4JMa3beDooUy5aoKYTptY3Ds",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/s782bztbVZUIH3zqv6CCIA/kEzkyBM5kwkAe_te_47w1dGh8PVhUi5-4kKF50nT9y5j6FrSGqH3jU6B_Fne0UiIqD_E3GVbUNRPJw__1jqm2Wsl5GXmCI69hRV_hn0dqDhfijRG2HOTKGN6r0muD7QWz5e7IjJ7bcG1dFamm8ysjw/gGynoUwKVnOOogs3eIyvjPwGzcge_Y08xFcy9Tjfss0"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/JI-v0T2JlS6CQ-7Z-PUYIw/8bkNz5C9b29rFQfRKSw8HLOJb8wJAmlf-bGB6Sla10mTqPYFSmnR1zBoPvh-6L_omv72cMlBNVuEViB60Pkgy2T0Ym2TW8MiIXlHFZz-yAVIPvZcVH1iY4wD8e5Fa2YuwNkiAeBF4Gq5RsRIOx5LyQ/vDQUORolN0gIFEILINcB3h5DLWmVtTwhz4e8M8hClGM",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/Pr4viPBum0JckjQnCFEUOA/4yopLaugI5A_eCnf7aFdDviOfIq_WGSlAKXJN57KF-PhzpmVWKkfOhz-ofwMn-u7Ymhhgyk3jZsCIUCTKwk5FBawvlEf3oGRpC3fZ1omcI4xr5PSmLpnA6frXJPw2kNf-FOG27TPzEWRPaCL4fUWlw/Q3qDXnwOQF00jmiNI4WpA9rWUcmwtL1b08dw9ZvWL4o",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/_IT7FeMEfb47gUexs4be-w/tBb0zg0h8ly3FgRS5XvjxN6hpeghfIu7B1R6-ART_Jz2FGkSHVo4kNBVr6PbtIb4CxFUX-lGHyCcHH_okX3JfW6RIir5CUYKhFoWL_x-p5HvV12mNqxdiuvtUXT-ccxDQvTjqgaXk1hfNS_0iRLQxg/BFQtw3Gl3RQUMnv0wF3wpQJ0mcNWqoayG5kZA7ffAco"
             ],
             "description": "Une veste blazer féminine à la coupe structurée, confectionnée dans une matière effet cuir subtilement texturée. Sa taille ajustée, ses épaules dessinées et sa ceinture au dos créent une silhouette élégante et moderne.",
             "sku": "s6696",
@@ -1757,9 +1815,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/gO5gMgHx-deOpbvmWsDokg/xcPuFuqTCVQOSH3wQmYq6FsCteQL9eFxnL31f9MoI8R0ybwSYn_74FgeTIA3Fy0aCeKWb7GQN4vmrzQ8MaL09divTHsnYCPGkFcFT9StXockWA4KN-bicxc-XcX4XA9j7TDMFDfYksgx7r95HhNZfA/1rWtDDefQirzuA8rK3V4zdiEz6nfo8QHbg8PtVlaCaA",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/wJB8f1i-8FNzmqyweMpNAQ/GNrhGvLCM1zhjj_uoU6CSJOHh-2I32Ax2ju72FxfNxNSCQbaw-PAgkm50ahYbkdkubu3gM1mYlHwcRH-Ramus_xi8J389DlHZ9qPir9itumvdHZEj4Kwe2OZTUo9KnPLkoUX0fN_i0fH8rJqkA33aw/9zGgPlg-4x6hN2Xs-WTlCaBdzEtRbCDwQB_UR5r3tgA",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/bGUBQBlGjWGuAjAt28zF6g/j4eSq8DfowT3SLDjfPNbMIJyrok5o6f0XDfQ6BqGCf9Vo1YqTfs0F9HqwsI0bd_U_oJVct4Fxk3swMi2F6pZwmIgVPcYOvoWBDFOLmm_kYw6UiYOTulaqaRiMt-Ph4HMn05saJjE-4ela-WxOiPFIQ/1sfdozNrmwZZP3J4KIlEwcu_FehpNTU6smDnT5-sigY"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/sOnPhjbQ1x_ZY1Ssb_SIZA/0CiZ87VfkFmRniy4HdqptFbj-E8NlheO6a2ow8Uvt0JklxAx1PfLlDkSxLf13dqJu8SGxkxMvkEwkRsghGUhcgV2LRgZYcWK1rHyWWRIdm97S_0k8jLI5P2wDtcKZgmGlxCYvq7lTPsWlotBzAyjQg/vFl-JeqwVS_0GjIvBdBf6tg4vOyk5bez-t07LSNx_ec",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/pzeRA6cvaBtcDkeD7aOobQ/nIlW6Zco7qWtMjWOMHkvkAnfjvAZ0t_wFx_QSv67YDBH9aDbMCCZpUAoSJFgH1qky2ZjGc_AZMITjhzIjhnIJKoYh_HW0sspkVd0WGVJDhnr30gGM71mE7bjPXAiz1e8r9unjwRe5H0bqLPnNXfwmw/XcesLMehNNSLTlh-E1tTv5phmixMDA5p58av5zqUMZ8",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/5mJJGpYJy7mFnSaaStp7RQ/tEEhIfVo0Dur5yjAY-9S5g4uAsVFiX9OSMF1EJ_lB76AHZZzyNNTo3DLLtDfJz9dawHQzgghR_6MezmhvmLw56j0Abq9lcCjjd9A78KKLlCcAU-I8XEj_RHlrXTSLFi0_BWcqLV-3QK7576EKUnxGg/sOjDAomtT9nA55l8qwRIocLh0I54JFjtHhO0q9vDuBY"
             ],
             "description": "Une veste au style affirmé, associant une coupe légèrement oversize à un large col effet fourrure. Sa matière effet cuir texturé et ses poches généreuses apportent une allure moderne, urbaine et sophistiquée.",
             "sku": "s6697",
@@ -1777,9 +1835,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/O6Roc9A3hpJcgnz8JSMtOA/713kfrsVhFnQ0d3NmmsuO-QAQzlKB0NIySLNz5e4A8p6G6joSAkvBvx0KmT4qjJCmOtb2QfYz_SaKYaXTO_-avwk99yOaXkjPmNN2aMs0ybJtNQxGzT8Tjh0sVQh0dxO70viI5c85Y5Y4GiesFaIzg/_kIYy-ud4Cx-IlX-_dFa9UWI__p6YgdfCEpLI56mkMI",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/zScav97wipgRx2OULQGCgw/XyCK_WW3katZFUtmzbkJRzf2_8L1IRgWoU0BZXe-FLvfGUw9P1qUPiWlxLKfjE373ody7bCgSr3VYqNuZ2txMTGrgdV4eazvld1yPwL39_oaY57NYIbSuTDY02vXz4morX99YzrkQ2DZhPdARn-S0w/s7xPKfF28ZUUlIw3K_2BR735NI87CjCRcVRo3tBkWN4",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/sw9sNHsFIOsAy4D8s1xAIQ/IOUn6HQ6DnzoNrqc4liV4ZVEEbQxsyC3goj5ul1j4ZpSSEywa00dH0TVKxLw1qb2yv9EDA_-tfrasvWPr82n4Y2_OnuyLtrDuCViX7J6Fg-LYpNq3-6EM3gJzeqoyhuqtGGAKYOe8swSWU5hgIY0xw/vVFoceWUuqLLNIO96sDBYsIsBivsLGQAyGWw4zElnhU"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/TvTfJFjCh_-jg1bF2war0A/akDxAZ6p1lXYaFDBdE4QwH5DaTIlupXE3atEW22v2a6b519csxVXI3wWd4O5hpwzYmzU2_Nd98ft4PYKc2GEfMk0ukfhHPMbDRqRtSsUNTLI4GG2eVT1uYEg5RszPzMRKJqU4KZhxXeoLh842tzHDQ/HYCZ0l8EEEmjdlEYNawktxX41axdyic1F0cg912QUE4",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/3Ywl7dfm9RYB9sbh-Oz17g/Y2wqf39fAi8la5d4XSmRU0EvYeY8Td-nQV9i9KY3Xx9VLXaDu7odjhRLfBnUS664JKzUZR9JxK-wdt5-2fsJa9q-xHTxHXnyElK0ru98_qozvNoUUmipCtwI_K013jJmeMBA6zmAoHLLBr36ttzUBg/ZeEFsTGuuv6nLuzkRNtz4IxdeNs7I_I20DAQmdxDge4",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/LXSsCgNDR5X0a6Ilwbdytg/dfaYgUUbNP921vmqCcFW_uY3YclugeZbNRNur0PAF1P7nbV-ZPHvdsQnY3dg2WlMymdkDEMgQukaU7DJnoh-9xUMl3jeXNtMI2q4lZpSKku_Hx9Q__MslTVrNLlSkRYnyBC_65t9yezZWJdV1xYhMQ/7-bMU5hKPW3dBd9u8D-Yc8fGMl915p__jawWEYd07jE"
             ],
             "description": "Veste courte, col montant, fermeture éclair centrale cachée et boutons pression dorés. qualité premium épaisse, douce et structurée.",
             "sku": "S6689",
@@ -1797,9 +1855,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/0M5o8R1fcPxHDSywYjv01g/3eHu8Qk1D94Tc3M7hO2J3Ip4a2mReLxD8zrxBJXw5O8u6743c3Ok30OgALCSveB_6w2lRtDTEXs-LqeLhNpyEAXWDZDzjLuPowwK-Qq5hjTkKNp2kWbjtu7wfz1nsWNTMkxPK90JNEbDjKuVq7VKgg/oZ4A4nTvjfpw1CzA4rjwapdnHwuJN3wxI4Prph3xnPM",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/IuJGSib0D-aDeMePOcTcFA/uJSQs-WJfCb4OFbxueeNk6nRovCV2PdDp_CH1Ulf0yYrDeltsfZETB97sW1OaRGPGt_-rg2UNBK9YhDjIDqO3S6ChAZwcJsvfHSDgAdwwfCjyWdl66qbOqCELAUhE1Y9lbnNW6BuzPW8B2YOdFr7QQ/C6gN-SLjFKnW44gRKVfK49C6ZQLVV6zkzHCwd78CLNY",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/SnFVJy-NPnR0VgKndVGPMQ/HIrGs_TNrxwLvnSOeqkupY679GaXn7HucZoejxDhULdi6fWlTKCwqFch86jMFUCa56HBaKazrMw_t-2-8K9cHpzlT6IYYT2utUVlans7eSp4LJx_pBexif2qWfnduqDR-tnhCOwb7Il5TiklHKAQxw/f1rR7MyfmeRnD9MrIW8BCw0nXqZcEFrI1t64ubFxkwY"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/NIZ_7tHmPsKDwWVTRENv6g/x70l8dWf3gCcmMlKY4wVIWL1DILHbBUUufy_jFWUTTCWwgtc8ZS3OlIV9jix0d9jYbYu1rXB5El6s94i6qHgbAUdigmrSabncCxwfBaEX4wzd7yZ2FXkSz6CGphFwKOiYAMDAJqxfHR28T-8frwYbg/wI2H3CBbbdTuhMpfWUogvb3EiwTdYArwwS1ktgU72_Q",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/lT5rRv9nYycTLSvuvWsiRw/IwHDa2yNzVGmXtpvNu2BDq1c05PZZkwzOrkjeIePEc5VwtvN7ec1SHq3RzqO6WYpAwW7_uckFSdH8OmyMqni943Ff9t8sZXZDar7utrDLuFMP3yUGRlLjdAP356G7BTgDMQDtnfvrZ7NEhaQX18Ezw/3pA4kYfXfdWqlXpsRoLLEAr1_LhIkr1B59Xn8bdzjt0",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/4JdWEp8yt4R8CrtmlBg_mA/iOqiwYimtrRm8964VXFTtirL5nHfQeXLVjf9E9K3KqJ26kQmXRfj6fiNSAXgTzx8mtUmSfBRtDK5jVFthnlboWw1a8ovgPGwh2aArE8BtaLyQ-aBBZme-I3T7RcavfiA9Um4jiXweoD66mPGdwXT0w/TvrRZwb9wyJOXCGclebldPTLQFDIOGSaF9PYkp-MBYM"
             ],
             "description": "Gilet chaud et douillet en imitation shearling. Fermeture boutonnée, finitions effet suédine et poches avant pratiques.",
             "sku": "J8532",
@@ -1817,8 +1875,8 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/oSbxKYszum92Tmq1fUuqBw/Z9mH-AMiKQhgP8H_1PBkJZRXfikH54xSFz_qVLkyeXqJxezK0QyC9L0qWCm-e_r7_arsDU-rfvQxdaBnnZ1fn6kgdETdyyloXpDuOTOXK0-RKOv5Ncnnngz-gJzdp7loa3qnrSihKp99PCkj6Gd0_A/d0aC3G3wDMR1A1_iziO018NrwGOOgYa4_2UxQFBej60",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/9yzn9OvLiBXrsA3r8HgXfw/xFX0TYqM2qDQ0Kk2Xqp-DVqCjutURRiLdwzarvomrAu8n0p17Fv0FqJCFuvAxoesVSWZjSER9tHgbVvyMR2YSh35DKe_I1VLCkYloECtJEZVr-gIYULsHBJ8LPGdb1rCWMJeE_mYem2UmDmZJcib8g/xurOdfs0QbT4fSGJfNN7ylxKZxllZNYewCc0MT7qaa4"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/KfnDQ-rNmElZV7YRIuPnYQ/ISXPC5muQKk6Y9XVW5ooxmZRSA0SqZlbMq_cQyjcTzeXdvEX31PQUAwQZD_p2pQQR5jTBCkJkLumAhKtrtcZtvM1T-tbtHi1P6ZxvAuZPHtLq_WELavirHqnbzOol7ryjwRgmOJHa1fQ76kdVXpuPA/sRKhyhNwbEMAZTDGEWJJx4VZUYg4grCCzRng3ZL-JVA",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/8xp_FF5nhJEhrN5JEaTe8A/i2tH0u9xHLzi5ikKwA1waKsjotEtnE3xRQ7H_TePCj8_NHohezRna1ZZgq87tx79IRTAmiuIne9j_yUMmQQ2KG6K79D6YNfX8qtnpvnxGneMOy8E57jn3nNojsPdxdOtzsXaml_HM7Ox94r7UEvbTw/aIPllN8HzRy1MABV_R3XBE2jUxKkRSDerW1uHLF_svU"
             ],
             "description": "Robe longue à bretelles fines avec bustier en dentelle et jupe fluide semi-transparente. Une pièce féminine et élégante.",
             "sku": "26616",
@@ -1851,9 +1909,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/tUNgiQ8mGtutvSGEguPIRQ/O8SgJdC_uLnxYR6hwPTpHBnI5JitfNqpq-xX5A_IGef2SQBvVDxR1lBjKTesnvxFL6m13mgx9uKll6Xg6z6X60jq0kGjOMyGspYLLK38iJG9ZXNgvKCEOQ6dQjmzNhcsvk-e0gsg002-Wlgydtc_ZA/Ba3LkIFsGBGLrTkEX3ud0Bz2avXXPmL95ObWjlsA9Hs",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/guHFLLoItbGrVUoiJ8s2hQ/mvwI4vE8GlfCj07fg1Oo3BUZt6i-YXlZzaf2SOPucO6QpnujtXGN3bz7IhdS3LaNn3Bk0D7iwvvpw0mbwvLyMfi62tpjVSwIoblZKEIT6cUrX9jdJ7NSoIN-BvaokKpAvryzDpHgYHMxLGKcYJBxlQ/fhTYBPCpX1JuCVGpBvU_RG-ly8WrJ0izYlxEcrXVTNs",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/lVOJVoEZV86MVdTMigNAxA/Z1SXgVCO_U23rRMJDqDM-Ay40TPBn0RIPmVfqLTrSKzMSZcEBBtWHa_f8OolO_BWUcvsGQ1ul4acV5fTRzwIVGN8yJKDRf1bKZdtZ0P3nFt6szsBiUT2xNsnfqIzKAGeGBsT-Qm67rgPykQ4lP7abg/hHeuEejRLxgV28brw50boEi9dIj6cKSg5-3IKy2CdOM"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/yNudU5szDCwdpxsu85_bSQ/UWHQKuk7wTdsxGXvxcW-FqK703QV-0q8PlMDfvYpypkePeLSNgG0cRzNbe5yIoc3oFx7KHRDrUh3LhMPEiJ5AA9Uiil6-TtqmQc7BK5cYTWc4T_f2LH6Rqva-dgEvjnOxv8K39hEhF0KhWyZnm04sw/n2zh9Y7Wzvv4v49_rXu0Fzk5-bwp2yJZ2VVBwI2WFLo",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/7G3hlhnd-AqLplukJtGr5Q/79yG-oFcuav0nB4itVlzHvqj8zmlusvK7gNhCP1ZQjIrHW-_OQZq6CqkvgUoJTIlP4uQqzcCmuBfcKUkhGPhqnZIr5h22WdITZa7N8v3MwdyROu1oaYGJnTRfwWFrInFUyN6tjoei1aOIxks-hDYvA/wDsBQN7GnZ32vQrtTLhxHfobKPJgFtxSz56ZLmN6s8M",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/WtkR6RdtBYHkTyGK7HRKyw/L2nO5mKnYLoF3A2Ah6eE7XgW2KaVWtqd2RSS1jwTSe0EXhVdOjxtqghlqrAwKk7V2q3-Et1DSHrM5kiyNmc2i9V0SW7_NV7CFNwQoNCyZ6Hj_SKvxpNX-yVUoUaTK33E2B9SrkRiOhsfvdt_N3rDYw/R3cZREDF3epr-Am_f0jtaP-Zn844Vwo3ffxJVIOcni0"
             ],
             "description": "Caraco en Satin avec Bordure Dentelle",
             "sku": "22621",
@@ -1871,7 +1929,7 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/0Ppv_L3FOa-18az4bCAdWw/mKwrNPe33CSCwUQ7uqCO8q6uKHnVElRTIKFfRXaAL0YS4U6h-V0YDofsSlork5BCeEPgU_EgAC5erZumEJAXNj5WcUF9xRx2d-CcFyK0mvtT3LGtxhu3nURYxZrO154Q-Tqrrlog9t7OWcXcxah10Q/RrwxDDVJOKpqRKC5bgb1wgvmgzDKnKqeYUaBnbNJr3U"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/mL8g7POdzqJDakroMXawGA/HEJzViKu5fBduVHVizOJY3Z5Tx02-EId2qAPmjku1YtX_SlKmMiLYITULV6QcXfKjHeBfy8BB7pZ4zcEzh1AJKlSuOEKkPvPaRQmax4cPkduMtbwwxG-JBPAerMVeDEkIxBAWC_m-8mM2HZXVce09w/NI08RrOjF2_hXPRoynSmS6sxCNDclT_CwGlNA8z8wtc"
             ],
             "description": "Cardigan dentelle, pour un look et sexy. Existe en 4 couleurs.",
             "sku": "26700",
@@ -1889,9 +1947,9 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/jEphnG0ZOd-rMIDhPoUPeA/8eMB9at09K0UiiLd5b_rocDCSmZTzN-zlhF60gMeolBYrK1Epv4vb4o7rCVCCu0eB6bfPvsaf_Vg1GfHGF8BEIc8IFR8l6ELH2lzlZUrYWQZA_UayG-AUqL4mvDct-el_10lYnNS15j6u6-ZI3az_g/EEUpxjul5ekTi4eTZr9wVEieH3Ua-2fSyVRsa9Gl0gw",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/on3G8R8ZLp0nlCfKIFL5qg/O65kKHojEtn-6sS75Sav6IWKGPg2mCqtyaRnmHsvY9SWzom2n3xmNwjDK-sQJzEwQnHqBgb_E7Co6Ahftyin_PGP86gaRXPqb-HMgMvFx52NqMQPGUx3SaJwuaztKBoZQnp5_tTAHZVLm8Q4uuWWbg/WUAjmuZ_-NmS3USkdMzijuyTeYl6K_Oe_VkNU8w_yj0",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/976XFKOY0rXGUfUJhj85PQ/rB0ijFi22nDO-qwq0e9dcxvf9JsuOsd-eee2QV4TxWlr_e6KGzEZfgpWD8mZoL5ADOfFq9yw6R5QeSiloMdEfrzZ1SVixqwpjMn96QipP0RMip9Ort60NE_Ph5WK0pTdta2jxmtT_nVmbochRjHX0Q/nzsICSBiLWjwQUu0UMAAO-XbfInfs3Qg5NdSASGQcog"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/XK1G-uMClskHReKG5GXmEg/SEl8lhMC5XJrhZuYhuCDC0xQ5hN1Y-sGJO3EZv-Xv4_Gg6ILhkGBxv9qsvWqee3zdGL5F8n-VcqLMiKX31Fw4rWoAgHZ1DV1ulG1izG5P4p6AuxYU1rqF3xfwfhiRuPhsdgySzAz3IQ4fUWGLe-gTQ/AmY_CjSHSeyAXFdSig9ontRyaj8efVXdM5xtBXKgm_k",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/0O2NrmV-3CzDt97o1Dk54g/EEmES9mw97SgWKxL-GWHwuUfcwtMc75dt5tsXlVfO9XgYMusC9Yxvd7QxzrbmKW2zOW3RlVGgtGfGkPeffmkiRwZb8Ga6NTMtBQNXSiP9BqmMX0A4XaD6BzAwhL48COXI0rr1QTS_HD_eAPtEhvUng/7zyCendFhs-K4UafX0QLiwIgxwnU-fiALDE5MzrWi4k",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/gXIXKmCNyqhMY_aT1xjrlA/QBI3vFwzQRkWWgHnuiZr-ssu_UT0c82fqj7SUIAROIulAQ1T4iiIdcwOccbQRkZxn9lpL-6fA8I7drkowf4iW7Hrdxz3lupf4nDxQhLV_GID98QrJP2nflz9miE1Jmz_qgRrjlnxI7kBqiSOrrbwpg/1OOTx0S6pDWBtdQjHbULApLlW_Jf-1wUqbeyVEBXWyI"
             ],
             "description": "Robe en maille avec poignets évasés en dentelle",
             "sku": "08704",
@@ -1909,8 +1967,8 @@
               "name": "GIORGIA paris"
             },
             "image": [
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/8CWfq5D-KFK2N4J1BI0PuA/4L-sIu3Bw-4lVevxNmC07_VziYdB_3LUqUt_CyBrdd5148Utb_sHqDoezcSXDc6mRBhqMbPeMMnwix_LL1ORtfmp6_p0xYrDWZEf_H_VKMmwqofg4uKtTgJ8RmkPri8F8eTP6XnhSyzBITQE_cATLA/IxI0Hzkf7IEfqO2fqCtwyRHtE_BHcD02Eq0qOxnfsYc",
-              "https://v5.airtableusercontent.com/v3/u/58/58/1791504000000/XAi6Hd-aUajuEQ5odwJzbA/S-iLFiqtkxViKnDzG1OW1Twi-GHV5TOILp1wO3bugmBFWVhRhyx7ZXLV7nUWhsYXnMnJN9R_YF1NvE__m37ye5wkizQrV_deYEL2sqH9AMH0VZmM6MaK98q9t-_t-bi5KLGMdIGNR4MDfJA8H-CZ-A/bMQstvYcVEZS0I-N1EupgivImGFa5lA-Sq8vm_YzwL8"
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/ZbYESTRMJC79W3-OLDG-bQ/rvE7DbEO46-qtcrZM4toYUfoBgqaz_ZpioueNrplCEdAyH-iCseDtK93K5N6XbUho7v8EWhoagMlPeMGO-QS2_OWW8PBIJ5IM_ovo7or9IG_VFL9RSSiYvlG0Md1sQKOzV___qjVvbUwlBHhgSFI0g/mTgh5SiDSI-XTyrwrpXRfiTKyXiqy5-5WnBYwbOr4CA",
+              "https://v5.airtableusercontent.com/v3/u/58/58/1791511200000/GpHB3mFD4QnYIr0aIN8Rhw/Eb43Upy68VICDjw_pJk4JxgLkwaEgT8xUNEg2Trkexc-p32lhdlGN1Czu-pn_SGSE3JWhM7hfDOv0FkSJNeHnMgbY6HoQuJBO3s3M8XBCLXpNAC1RuYdFmiZMGwFrYtUhk25IctIU2bcnsu70-BWUw/UbzlNbvPmj1bmt5OjNckPximsDENVcmXfYQggfYaU3k"
             ],
             "description": "Jean Parachute tendance, confort au quotidien.",
             "sku": "YX1035",
@@ -1924,18 +1982,7 @@
 </head>
 <body style="--season-hero-img: url('/giorgia-paris-vitrinePE2026/img/pages/collection-ah-2026.jpg')">
 
-  <a id="wa-banner-link"
-     href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
-     target="_blank" rel="noopener noreferrer"
-     style="display:contents">
-  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
-    <span class="wa-banner-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </span>
-    <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
-    <span class="wa-banner-arrow" aria-hidden="true">→</span>
-  </div>
-  </a>
+  <a id="wa-banner-link" href="/giorgia-paris-vitrinePE2026/collection-automne-hiver-2026-2027/" style="display:contents"><div id="wa-banner" role="region" aria-label="Nouvelle collection"><span class="ann-badge">Nouveau</span><span class="ann-long">La collection Automne-Hiver 2026-2027 est arrivée au showroom</span><span class="ann-short">Collection Automne-Hiver 2026-2027</span><span class="ann-link">Découvrir <span aria-hidden="true">→</span></span></div></a>
   <div id="sticky-contact">
     <div id="sticky-panel">
       <div class="sp-inner" style="position:relative">
@@ -2039,7 +2086,7 @@
       <span class="logo-p">paris</span>
     </a>
     <ul class="nav-links">
-      <li class="nav-dropdown" tabindex="0"><span class="nav-dropdown-toggle" aria-haspopup="true">Catalogue <span class="nav-dropdown-chev" aria-hidden="true">▾</span></span><ul class="nav-dropdown-menu" role="menu"><li><a class="nav-dropdown-feat" href="/giorgia-paris-vitrinePE2026/collection-automne-hiver-2026-2027/">Nouveautés Automne-Hiver 2026-2027</a></li><li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li><li><a href="/giorgia-paris-vitrinePE2026/#manteaux">Manteaux &amp; Vestes</a></li><li><a href="/giorgia-paris-vitrinePE2026/#soiree">Robes de Soirée</a></li><li><a href="/giorgia-paris-vitrinePE2026/#tops">Tops &amp; Pulls</a></li><li><a href="/giorgia-paris-vitrinePE2026/#robes">Robes &amp; Jupes</a></li><li><a href="/giorgia-paris-vitrinePE2026/#pantalons">Pantalons &amp; Ensembles</a></li><li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li><li><a href="/giorgia-paris-vitrinePE2026/#preventes">Préventes</a></li><li><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/">Collection Printemps-Été 2026</a></li></ul></li><li><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li><li><a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a></li><li><a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a></li>
+      <li><a class="nav-feat" href="/giorgia-paris-vitrinePE2026/collection-automne-hiver-2026-2027/">Nouveautés AH 26-27</a></li><li class="nav-dropdown" tabindex="0"><span class="nav-dropdown-toggle" aria-haspopup="true">Catalogue <span class="nav-dropdown-chev" aria-hidden="true">▾</span></span><ul class="nav-dropdown-menu" role="menu"><li><a class="nav-dropdown-feat" href="/giorgia-paris-vitrinePE2026/collection-automne-hiver-2026-2027/">Nouveautés Automne-Hiver 2026-2027</a></li><li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li><li><a href="/giorgia-paris-vitrinePE2026/#manteaux">Manteaux &amp; Vestes</a></li><li><a href="/giorgia-paris-vitrinePE2026/#soiree">Robes de Soirée</a></li><li><a href="/giorgia-paris-vitrinePE2026/#tops">Tops &amp; Pulls</a></li><li><a href="/giorgia-paris-vitrinePE2026/#robes">Robes &amp; Jupes</a></li><li><a href="/giorgia-paris-vitrinePE2026/#pantalons">Pantalons &amp; Ensembles</a></li><li class="nav-dropdown-sep" role="separator" aria-hidden="true"></li><li><a href="/giorgia-paris-vitrinePE2026/#preventes">Préventes</a></li><li><a href="/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/">Collection Printemps-Été 2026</a></li></ul></li><li><a href="/giorgia-paris-vitrinePE2026/tendances-conseils-pro/">Tendances &amp; Conseils Pro</a></li><li><a href="/giorgia-paris-vitrinePE2026/notre-histoire/">Qui sommes-nous</a></li><li><a href="/giorgia-paris-vitrinePE2026/contact/">Contact</a></li>
     </ul>
     <div class="nav-right">
       <a class="btn-nav" href="/giorgia-paris-vitrinePE2026/contact/">Contacter l'équipe</a>
@@ -2080,7 +2127,7 @@
 
   <!-- ========== SECTIONS PAR CATÉGORIE ========== -->
   <div id="js-univers-sections">
-    <section class="univ-sec" id="manteaux" style="scroll-margin-top:130px" aria-labelledby="title-manteaux"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste manteaux &amp; vestes femme</span><h2 class="sec-title" id="title-manteaux">Manteaux &amp; Vestes</h2><span class="sec-sub">Du trench à la doudoune, l’extérieur de la saison</span><p class="sec-desc">Manteaux longs, vestes courtes, blazers et doudounes : les pièces qui habillent la silhouette de la rentrée aux grands froids. Un rayon extérieur complet, renouvelé au fil de la saison.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="manteaux"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('manteaux',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('manteaux',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-manteaux"><div id="grid-manteaux" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/c0cf3b3207.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/c0cf3b3207.jpg" alt="Veste courte à carreaux avec col effet fourrure — Réf. J8574 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="544"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste courte à carreaux avec col effet fourrure</h3><p class="prod-ref">Réf. J8574</p><p class="prod-desc">Veste courte à carreaux marron, sublimée par un large col effet fourrure. Sa coupe structurée et légèrement ample apporte une allure chic, chaleureuse et tendance.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/7e834808a1.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/7e834808a1.jpg" alt="Manteau zippé avec ouverture et capuche fourrure — Réf. S6706 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="546"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Manteau zippé avec ouverture et capuche fourrure</h3><p class="prod-ref">Réf. S6706</p><p class="prod-desc">Manteau zippé, avec ouverture et capuche en fourrure pour un look hivernale en totale confort.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/3555dd6190.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/3555dd6190.jpg" alt="Veste à capuche fourrure — Réf. S6702 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="545"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste à capuche fourrure</h3><p class="prod-ref">Réf. S6702</p><p class="prod-desc">Veste, disponible en 3 coloris, avec détails fourrure</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/8735d0dfdd.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/8735d0dfdd.jpg" alt="Veste simili cuir taillé crop — Réf. M7693# — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="686" data-hover-url="/giorgia-paris-vitrinePE2026/img/50ebba1d75.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/50ebba1d75.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/8735d0dfdd.webp"><img src="/giorgia-paris-vitrinePE2026/img/8735d0dfdd.jpg" alt="Veste simili cuir taillé crop — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/50ebba1d75.webp"><img src="/giorgia-paris-vitrinePE2026/img/50ebba1d75.jpg" alt="Veste simili cuir taillé crop — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/5b4020bcf6.webp"><img src="/giorgia-paris-vitrinePE2026/img/5b4020bcf6.jpg" alt="Veste simili cuir taillé crop — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste simili cuir taillé crop</h3><p class="prod-ref">Réf. M7693#</p><p class="prod-desc">Veste simili cuir, boutons et ouverture zippée dorée, disponible en 4 couleurs</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/1a1bb331cb.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/1a1bb331cb.jpg" alt="Veste simili cuir, col fourrure — Réf. S6699 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste simili cuir, col fourrure</h3><p class="prod-ref">Réf. S6699</p><p class="prod-desc">Veste simili cuir, fourrure douce et poches à rabat</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/9dac72bf78.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/9dac72bf78.jpg" alt="Veste lacée à fourrure — Réf. S6701 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="683"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste lacée à fourrure</h3><p class="prod-ref">Réf. S6701</p><p class="prod-desc">Veste lacée à fourrure, disponible en 3 couleurs : noir, café, vert</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/4ad290c132.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/4ad290c132.jpg" alt="Veste avec lacet taille — Réf. S6700 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste avec lacet taille</h3><p class="prod-ref">Réf. S6700</p><p class="prod-desc">Veste avec lacet, serrage niveau taille</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/de95a32683.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/de95a32683.jpg" alt="Parka Fourrure — Réf. S6708 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="683"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">5 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Parka Fourrure</h3><p class="prod-ref">Réf. S6708</p><p class="prod-desc">Parka fourure, disponible en 5 couleurs</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/41eb6e60a0.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/41eb6e60a0.jpg" alt="Veste blazer effet cuir texturé — Réf. s6696 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/65097d3c74.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/65097d3c74.webp"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/41eb6e60a0.webp"><img src="/giorgia-paris-vitrinePE2026/img/41eb6e60a0.jpg" alt="Veste blazer effet cuir texturé — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/65097d3c74.webp"><img src="/giorgia-paris-vitrinePE2026/img/65097d3c74.jpg" alt="Veste blazer effet cuir texturé — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/9d07eab4c4.webp"><img src="/giorgia-paris-vitrinePE2026/img/9d07eab4c4.jpg" alt="Veste blazer effet cuir texturé — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste blazer effet cuir texturé</h3><p class="prod-ref">Réf. s6696</p><p class="prod-desc">Une veste blazer féminine à la coupe structurée, confectionnée dans une matière effet cuir subtilement texturée. Sa taille ajustée, ses épaules dessinées et sa ceinture au dos créent une silhouette élégante et moderne.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/446f8e98cb.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/446f8e98cb.jpg" alt="Veste oversize avec col effet fourrure — Réf. s6697 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/be47535789.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/be47535789.webp"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/446f8e98cb.webp"><img src="/giorgia-paris-vitrinePE2026/img/446f8e98cb.jpg" alt="Veste oversize avec col effet fourrure — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/be47535789.webp"><img src="/giorgia-paris-vitrinePE2026/img/be47535789.jpg" alt="Veste oversize avec col effet fourrure — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/72cd47805f.webp"><img src="/giorgia-paris-vitrinePE2026/img/72cd47805f.jpg" alt="Veste oversize avec col effet fourrure — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste oversize avec col effet fourrure</h3><p class="prod-ref">Réf. s6697</p><p class="prod-desc">Une veste au style affirmé, associant une coupe légèrement oversize à un large col effet fourrure. Sa matière effet cuir texturé et ses poches généreuses apportent une allure moderne, urbaine et sophistiquée.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/be60aea336.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/be60aea336.jpg" alt="Veste Suédine (daim) — Réf. S6689 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/99c00ad195.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/99c00ad195.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/be60aea336.webp"><img src="/giorgia-paris-vitrinePE2026/img/be60aea336.jpg" alt="Veste Suédine (daim) — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/99c00ad195.webp"><img src="/giorgia-paris-vitrinePE2026/img/99c00ad195.jpg" alt="Veste Suédine (daim) — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/1f7f69004c.webp"><img src="/giorgia-paris-vitrinePE2026/img/1f7f69004c.jpg" alt="Veste Suédine (daim) — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste Suédine (daim)</h3><p class="prod-ref">Réf. S6689</p><p class="prod-desc">Veste courte, col montant, fermeture éclair centrale cachée et boutons pression dorés. qualité premium épaisse, douce et structurée.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/7615ba38d6.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/7615ba38d6.jpg" alt="Gilet Sans Manches en fourrure moutonnée — Réf. J8532 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/27d210bda7.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/27d210bda7.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">5 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/7615ba38d6.webp"><img src="/giorgia-paris-vitrinePE2026/img/7615ba38d6.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/27d210bda7.webp"><img src="/giorgia-paris-vitrinePE2026/img/27d210bda7.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/9826f330e1.webp"><img src="/giorgia-paris-vitrinePE2026/img/9826f330e1.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Gilet Sans Manches en fourrure moutonnée</h3><p class="prod-ref">Réf. J8532</p><p class="prod-desc">Gilet chaud et douillet en imitation shearling. Fermeture boutonnée, finitions effet suédine et poches avant pratiques.</p></div></a></div></div></div><div class="car-dots" id="dots-manteaux"></div></div></section><section class="univ-sec" id="soiree" style="scroll-margin-top:130px" aria-labelledby="title-soiree"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste robes de soirée femme</span><h2 class="sec-title" id="title-soiree">Robes de Soirée</h2><span class="sec-sub">Cocktail, fêtes et grandes occasions</span><p class="sec-desc">Robes longues ou courtes, satin, sequins, drapés et coupes ajustées : des pièces habillées pour les fêtes de fin d’année, les mariages et toutes les soirées de vos clientes.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="soiree"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('soiree',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('soiree',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-soiree"><div id="grid-soiree" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/b373998e01.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/b373998e01.jpg" alt="Robe longue en dentelle — Réf. 26616 — Robes de Soirée — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/0920cbc1ce.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/0920cbc1ce.webp"></picture><div class="prod-badges"><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Robe longue en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/b373998e01.webp"><img src="/giorgia-paris-vitrinePE2026/img/b373998e01.jpg" alt="Robe longue en dentelle — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Robe longue en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/0920cbc1ce.webp"><img src="/giorgia-paris-vitrinePE2026/img/0920cbc1ce.jpg" alt="Robe longue en dentelle — vue 2" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Robe longue en dentelle</h3><p class="prod-ref">Réf. 26616</p><p class="prod-desc">Robe longue à bretelles fines avec bustier en dentelle et jupe fluide semi-transparente. Une pièce féminine et élégante.</p></div></a></div></div></div><div class="car-dots" id="dots-soiree"></div></div></section><section class="univ-sec" id="tops" style="scroll-margin-top:130px" aria-labelledby="title-tops"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste tops &amp; pulls femme</span><h2 class="sec-title" id="title-tops">Tops &amp; Pulls</h2><span class="sec-sub">Les hauts qui font la silhouette, du débardeur au pull</span><p class="sec-desc">Tops, bodys, débardeurs, chemisiers, corsets, pulls et cardigans : des pièces faciles à associer et à renouveler souvent en rayon, en toute saison.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="tops"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('tops',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('tops',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-tops"><div id="grid-tops" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/bb1d558ccb.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/bb1d558ccb.jpg" alt="Caraco Satin Dentelles — Réf. 22621 — Tops &amp; Pulls — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/9c53ad11d6.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/9c53ad11d6.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/bb1d558ccb.webp"><img src="/giorgia-paris-vitrinePE2026/img/bb1d558ccb.jpg" alt="Caraco Satin Dentelles — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/9c53ad11d6.webp"><img src="/giorgia-paris-vitrinePE2026/img/9c53ad11d6.jpg" alt="Caraco Satin Dentelles — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/9da04c5d58.webp"><img src="/giorgia-paris-vitrinePE2026/img/9da04c5d58.jpg" alt="Caraco Satin Dentelles — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Caraco Satin Dentelles</h3><p class="prod-ref">Réf. 22621</p><p class="prod-desc">Caraco en Satin avec Bordure Dentelle</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/809c5be8da.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/809c5be8da.jpg" alt="Cardigan dentelle boutonné — Réf. 26700 — Tops &amp; Pulls — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">4 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Cardigan dentelle boutonné</h3><p class="prod-ref">Réf. 26700</p><p class="prod-desc">Cardigan dentelle, pour un look et sexy. Existe en 4 couleurs.</p></div></a></div></div></div><div class="car-dots" id="dots-tops"></div></div></section><section class="univ-sec" id="robes" style="scroll-margin-top:130px" aria-labelledby="title-robes"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste robes &amp; jupes femme</span><h2 class="sec-title" id="title-robes">Robes &amp; Jupes</h2><span class="sec-sub">Les indispensables du quotidien</span><p class="sec-desc">Robes fluides ou ajustées, robes pull, jupes courtes ou midi : une offre très large de pièces de jour, faciles à porter et à vendre.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="robes"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('robes',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('robes',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-robes"><div id="grid-robes" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/461e4d75fb.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/461e4d75fb.jpg" alt="Robe en maille avec poignets évasés en dentelle — Réf. 08704 — Robes &amp; Jupes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/7131354e5e.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/7131354e5e.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/461e4d75fb.webp"><img src="/giorgia-paris-vitrinePE2026/img/461e4d75fb.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/7131354e5e.webp"><img src="/giorgia-paris-vitrinePE2026/img/7131354e5e.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/702bdafeea.webp"><img src="/giorgia-paris-vitrinePE2026/img/702bdafeea.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Robe en maille avec poignets évasés en dentelle</h3><p class="prod-ref">Réf. 08704</p><p class="prod-desc">Robe en maille avec poignets évasés en dentelle</p></div></a></div></div></div><div class="car-dots" id="dots-robes"></div></div></section><section class="univ-sec" id="pantalons" style="scroll-margin-top:130px" aria-labelledby="title-pantalons"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste pantalons &amp; ensembles femme</span><h2 class="sec-title" id="title-pantalons">Pantalons &amp; Ensembles</h2><span class="sec-sub">Coupes droites, larges ou ajustées, et ensembles coordonnés</span><p class="sec-desc">Pantalons, jeans, joggings et ensembles assortis : des basiques et des pièces tendance pour vendre des looks complets.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="pantalons"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('pantalons',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('pantalons',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-pantalons"><div id="grid-pantalons" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/619b2851b1.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/619b2851b1.jpg" alt="Jean Parachute Tendance — Réf. YX1035 — Pantalons &amp; Ensembles — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/2a3cac60e5.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/2a3cac60e5.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Jean Parachute Tendance" data-webp="/giorgia-paris-vitrinePE2026/img/619b2851b1.webp"><img src="/giorgia-paris-vitrinePE2026/img/619b2851b1.jpg" alt="Jean Parachute Tendance — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Jean Parachute Tendance" data-webp="/giorgia-paris-vitrinePE2026/img/2a3cac60e5.webp"><img src="/giorgia-paris-vitrinePE2026/img/2a3cac60e5.jpg" alt="Jean Parachute Tendance — vue 2" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Jean Parachute Tendance</h3><p class="prod-ref">Réf. YX1035</p><p class="prod-desc">Jean Parachute tendance, confort au quotidien.</p></div></a></div></div></div><div class="car-dots" id="dots-pantalons"></div></div></section>
+    <section class="univ-sec" id="manteaux" style="scroll-margin-top:130px" aria-labelledby="title-manteaux"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste manteaux &amp; vestes femme</span><h2 class="sec-title" id="title-manteaux">Manteaux &amp; Vestes</h2><span class="sec-sub">Du trench à la doudoune, l’extérieur de la saison</span><p class="sec-desc">Manteaux longs, vestes courtes, blazers et doudounes : les pièces qui habillent la silhouette de la rentrée aux grands froids. Un rayon extérieur complet, renouvelé au fil de la saison.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="manteaux"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('manteaux',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('manteaux',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-manteaux"><div id="grid-manteaux" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/10d63370a5.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/10d63370a5.jpg" alt="Veste courte à carreaux avec col effet fourrure — Réf. J8574 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="544"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste courte à carreaux avec col effet fourrure</h3><p class="prod-ref">Réf. J8574</p><p class="prod-desc">Veste courte à carreaux marron, sublimée par un large col effet fourrure. Sa coupe structurée et légèrement ample apporte une allure chic, chaleureuse et tendance.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/c6eca869a1.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/c6eca869a1.jpg" alt="Manteau zippé avec ouverture et capuche fourrure — Réf. S6706 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="546"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Manteau zippé avec ouverture et capuche fourrure</h3><p class="prod-ref">Réf. S6706</p><p class="prod-desc">Manteau zippé, avec ouverture et capuche en fourrure pour un look hivernale en totale confort.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/286e828390.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/286e828390.jpg" alt="Veste à capuche fourrure — Réf. S6702 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="545"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste à capuche fourrure</h3><p class="prod-ref">Réf. S6702</p><p class="prod-desc">Veste, disponible en 3 coloris, avec détails fourrure</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/5517d04768.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/5517d04768.jpg" alt="Veste simili cuir taillé crop — Réf. M7693# — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="eager" fetchpriority="high" decoding="async" width="512" height="686" data-hover-url="/giorgia-paris-vitrinePE2026/img/1744be8fac.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/1744be8fac.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/5517d04768.webp"><img src="/giorgia-paris-vitrinePE2026/img/5517d04768.jpg" alt="Veste simili cuir taillé crop — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/1744be8fac.webp"><img src="/giorgia-paris-vitrinePE2026/img/1744be8fac.jpg" alt="Veste simili cuir taillé crop — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste simili cuir taillé crop" data-webp="/giorgia-paris-vitrinePE2026/img/e83168fd21.webp"><img src="/giorgia-paris-vitrinePE2026/img/e83168fd21.jpg" alt="Veste simili cuir taillé crop — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste simili cuir taillé crop</h3><p class="prod-ref">Réf. M7693#</p><p class="prod-desc">Veste simili cuir, boutons et ouverture zippée dorée, disponible en 4 couleurs</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/7398e620b4.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/7398e620b4.jpg" alt="Veste simili cuir, col fourrure — Réf. S6699 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste simili cuir, col fourrure</h3><p class="prod-ref">Réf. S6699</p><p class="prod-desc">Veste simili cuir, fourrure douce et poches à rabat</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/3e7805ae7e.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/3e7805ae7e.jpg" alt="Veste lacée à fourrure — Réf. S6701 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="683"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste lacée à fourrure</h3><p class="prod-ref">Réf. S6701</p><p class="prod-desc">Veste lacée à fourrure, disponible en 3 couleurs : noir, café, vert</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/b6882b776c.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/b6882b776c.jpg" alt="Veste avec lacet taille — Réf. S6700 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Veste avec lacet taille</h3><p class="prod-ref">Réf. S6700</p><p class="prod-desc">Veste avec lacet, serrage niveau taille</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/493119a9e7.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/493119a9e7.jpg" alt="Parka Fourrure — Réf. S6708 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="683"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">5 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Parka Fourrure</h3><p class="prod-ref">Réf. S6708</p><p class="prod-desc">Parka fourure, disponible en 5 couleurs</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/ef78f17c66.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/ef78f17c66.jpg" alt="Veste blazer effet cuir texturé — Réf. s6696 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/94bf1a061e.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/94bf1a061e.webp"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/ef78f17c66.webp"><img src="/giorgia-paris-vitrinePE2026/img/ef78f17c66.jpg" alt="Veste blazer effet cuir texturé — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/94bf1a061e.webp"><img src="/giorgia-paris-vitrinePE2026/img/94bf1a061e.jpg" alt="Veste blazer effet cuir texturé — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste blazer effet cuir texturé" data-webp="/giorgia-paris-vitrinePE2026/img/096d02d765.webp"><img src="/giorgia-paris-vitrinePE2026/img/096d02d765.jpg" alt="Veste blazer effet cuir texturé — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste blazer effet cuir texturé</h3><p class="prod-ref">Réf. s6696</p><p class="prod-desc">Une veste blazer féminine à la coupe structurée, confectionnée dans une matière effet cuir subtilement texturée. Sa taille ajustée, ses épaules dessinées et sa ceinture au dos créent une silhouette élégante et moderne.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/8343fe877a.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/8343fe877a.jpg" alt="Veste oversize avec col effet fourrure — Réf. s6697 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/2f5ee6cf38.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/2f5ee6cf38.webp"></picture><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/8343fe877a.webp"><img src="/giorgia-paris-vitrinePE2026/img/8343fe877a.jpg" alt="Veste oversize avec col effet fourrure — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/2f5ee6cf38.webp"><img src="/giorgia-paris-vitrinePE2026/img/2f5ee6cf38.jpg" alt="Veste oversize avec col effet fourrure — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste oversize avec col effet fourrure" data-webp="/giorgia-paris-vitrinePE2026/img/1208666140.webp"><img src="/giorgia-paris-vitrinePE2026/img/1208666140.jpg" alt="Veste oversize avec col effet fourrure — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste oversize avec col effet fourrure</h3><p class="prod-ref">Réf. s6697</p><p class="prod-desc">Une veste au style affirmé, associant une coupe légèrement oversize à un large col effet fourrure. Sa matière effet cuir texturé et ses poches généreuses apportent une allure moderne, urbaine et sophistiquée.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/af7536dbae.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/af7536dbae.jpg" alt="Veste Suédine (daim) — Réf. S6689 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/4bfe94d317.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/4bfe94d317.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/af7536dbae.webp"><img src="/giorgia-paris-vitrinePE2026/img/af7536dbae.jpg" alt="Veste Suédine (daim) — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/4bfe94d317.webp"><img src="/giorgia-paris-vitrinePE2026/img/4bfe94d317.jpg" alt="Veste Suédine (daim) — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Veste Suédine (daim)" data-webp="/giorgia-paris-vitrinePE2026/img/52e4929f89.webp"><img src="/giorgia-paris-vitrinePE2026/img/52e4929f89.jpg" alt="Veste Suédine (daim) — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Veste Suédine (daim)</h3><p class="prod-ref">Réf. S6689</p><p class="prod-desc">Veste courte, col montant, fermeture éclair centrale cachée et boutons pression dorés. qualité premium épaisse, douce et structurée.</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/b6010f14a6.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/b6010f14a6.jpg" alt="Gilet Sans Manches en fourrure moutonnée — Réf. J8532 — Manteaux &amp; Vestes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/e1bef41da4.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/e1bef41da4.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">5 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/b6010f14a6.webp"><img src="/giorgia-paris-vitrinePE2026/img/b6010f14a6.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/e1bef41da4.webp"><img src="/giorgia-paris-vitrinePE2026/img/e1bef41da4.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Gilet Sans Manches en fourrure moutonnée" data-webp="/giorgia-paris-vitrinePE2026/img/dfe00b9582.webp"><img src="/giorgia-paris-vitrinePE2026/img/dfe00b9582.jpg" alt="Gilet Sans Manches en fourrure moutonnée — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Gilet Sans Manches en fourrure moutonnée</h3><p class="prod-ref">Réf. J8532</p><p class="prod-desc">Gilet chaud et douillet en imitation shearling. Fermeture boutonnée, finitions effet suédine et poches avant pratiques.</p></div></a></div></div></div><div class="car-dots" id="dots-manteaux"></div></div></section><section class="univ-sec" id="soiree" style="scroll-margin-top:130px" aria-labelledby="title-soiree"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste robes de soirée femme</span><h2 class="sec-title" id="title-soiree">Robes de Soirée</h2><span class="sec-sub">Cocktail, fêtes et grandes occasions</span><p class="sec-desc">Robes longues ou courtes, satin, sequins, drapés et coupes ajustées : des pièces habillées pour les fêtes de fin d’année, les mariages et toutes les soirées de vos clientes.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="soiree"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('soiree',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('soiree',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-soiree"><div id="grid-soiree" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/d13d4dc3ad.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/d13d4dc3ad.jpg" alt="Robe longue en dentelle — Réf. 26616 — Robes de Soirée — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640" data-hover-url="/giorgia-paris-vitrinePE2026/img/ed5fb9053c.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/ed5fb9053c.webp"></picture><div class="prod-badges"><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Robe longue en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/d13d4dc3ad.webp"><img src="/giorgia-paris-vitrinePE2026/img/d13d4dc3ad.jpg" alt="Robe longue en dentelle — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Robe longue en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/ed5fb9053c.webp"><img src="/giorgia-paris-vitrinePE2026/img/ed5fb9053c.jpg" alt="Robe longue en dentelle — vue 2" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Robe longue en dentelle</h3><p class="prod-ref">Réf. 26616</p><p class="prod-desc">Robe longue à bretelles fines avec bustier en dentelle et jupe fluide semi-transparente. Une pièce féminine et élégante.</p></div></a></div></div></div><div class="car-dots" id="dots-soiree"></div></div></section><section class="univ-sec" id="tops" style="scroll-margin-top:130px" aria-labelledby="title-tops"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste tops &amp; pulls femme</span><h2 class="sec-title" id="title-tops">Tops &amp; Pulls</h2><span class="sec-sub">Les hauts qui font la silhouette, du débardeur au pull</span><p class="sec-desc">Tops, bodys, débardeurs, chemisiers, corsets, pulls et cardigans : des pièces faciles à associer et à renouveler souvent en rayon, en toute saison.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="tops"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('tops',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('tops',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-tops"><div id="grid-tops" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/28b84c851a.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/28b84c851a.jpg" alt="Caraco Satin Dentelles — Réf. 22621 — Tops &amp; Pulls — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/876aebbcba.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/876aebbcba.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/28b84c851a.webp"><img src="/giorgia-paris-vitrinePE2026/img/28b84c851a.jpg" alt="Caraco Satin Dentelles — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/876aebbcba.webp"><img src="/giorgia-paris-vitrinePE2026/img/876aebbcba.jpg" alt="Caraco Satin Dentelles — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Caraco Satin Dentelles" data-webp="/giorgia-paris-vitrinePE2026/img/e65e2a0aaa.webp"><img src="/giorgia-paris-vitrinePE2026/img/e65e2a0aaa.jpg" alt="Caraco Satin Dentelles — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Caraco Satin Dentelles</h3><p class="prod-ref">Réf. 22621</p><p class="prod-desc">Caraco en Satin avec Bordure Dentelle</p></div></a><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/c3f9e85249.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/c3f9e85249.jpg" alt="Cardigan dentelle boutonné — Réf. 26700 — Tops &amp; Pulls — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="640"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">4 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div></div><div class="prod-info"><h3 class="prod-name">Cardigan dentelle boutonné</h3><p class="prod-ref">Réf. 26700</p><p class="prod-desc">Cardigan dentelle, pour un look et sexy. Existe en 4 couleurs.</p></div></a></div></div></div><div class="car-dots" id="dots-tops"></div></div></section><section class="univ-sec" id="robes" style="scroll-margin-top:130px" aria-labelledby="title-robes"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste robes &amp; jupes femme</span><h2 class="sec-title" id="title-robes">Robes &amp; Jupes</h2><span class="sec-sub">Les indispensables du quotidien</span><p class="sec-desc">Robes fluides ou ajustées, robes pull, jupes courtes ou midi : une offre très large de pièces de jour, faciles à porter et à vendre.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="robes"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('robes',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('robes',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-robes"><div id="grid-robes" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/da1c809d2d.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/da1c809d2d.jpg" alt="Robe en maille avec poignets évasés en dentelle — Réf. 08704 — Robes &amp; Jupes — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/cfda6f3a80.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/cfda6f3a80.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div><div class="prod-badge2">3 couleurs</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/da1c809d2d.webp"><img src="/giorgia-paris-vitrinePE2026/img/da1c809d2d.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/cfda6f3a80.webp"><img src="/giorgia-paris-vitrinePE2026/img/cfda6f3a80.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 2" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 3 de Robe en maille avec poignets évasés en dentelle" data-webp="/giorgia-paris-vitrinePE2026/img/a8f2696544.webp"><img src="/giorgia-paris-vitrinePE2026/img/a8f2696544.jpg" alt="Robe en maille avec poignets évasés en dentelle — vue 3" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Robe en maille avec poignets évasés en dentelle</h3><p class="prod-ref">Réf. 08704</p><p class="prod-desc">Robe en maille avec poignets évasés en dentelle</p></div></a></div></div></div><div class="car-dots" id="dots-robes"></div></div></section><section class="univ-sec" id="pantalons" style="scroll-margin-top:130px" aria-labelledby="title-pantalons"><div class="sec-hdr"><div class="sec-line"></div><div class="sec-center"><span class="sec-eye">Grossiste pantalons &amp; ensembles femme</span><h2 class="sec-title" id="title-pantalons">Pantalons &amp; Ensembles</h2><span class="sec-sub">Coupes droites, larges ou ajustées, et ensembles coordonnés</span><p class="sec-desc">Pantalons, jeans, joggings et ensembles assortis : des basiques et des pièces tendance pour vendre des looks complets.</p></div><div class="sec-line"></div></div><div class="carousel-outer" data-carousel="pantalons"><button class="car-btn car-btn-prev" aria-label="Produit précédent" onclick="carMove('pantalons',-1)">&#8592;</button><button class="car-btn car-btn-next" aria-label="Produit suivant" onclick="carMove('pantalons',1)">&#8594;</button><div class="carousel-clip"><div class="carousel-track" id="track-pantalons"><div id="grid-pantalons" class="catalog-grid-root"><a class="prod-card" target="_blank" rel="noopener noreferrer" href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20passer%20commande%20pour%20la%20collection%20PE%202026."><div class="prod-media"><div class="prod-img"><picture><source srcset="/giorgia-paris-vitrinePE2026/img/8fc330a32d.webp" type="image/webp"><img class="prod-img-primary" src="/giorgia-paris-vitrinePE2026/img/8fc330a32d.jpg" alt="Jean Parachute Tendance — Réf. YX1035 — Pantalons &amp; Ensembles — Grossiste GIORGIA paris" loading="lazy" decoding="async" width="512" height="768" data-hover-url="/giorgia-paris-vitrinePE2026/img/f655e94ebd.jpg" data-hover-webp="/giorgia-paris-vitrinePE2026/img/f655e94ebd.webp"></picture><div class="prod-badges"><div class="prod-badge">Nouvelle Collection</div></div><div class="prod-wm logo" aria-hidden="true"><span class="logo-g">GIORGIA</span><span class="logo-p">paris</span></div></div><div class="prod-thumbs"><span class="prod-thumb is-active" role="button" tabindex="0" aria-label="Voir la vue 1 de Jean Parachute Tendance" data-webp="/giorgia-paris-vitrinePE2026/img/8fc330a32d.webp"><img src="/giorgia-paris-vitrinePE2026/img/8fc330a32d.jpg" alt="Jean Parachute Tendance — vue 1" loading="lazy" decoding="async"></span><span class="prod-thumb" role="button" tabindex="0" aria-label="Voir la vue 2 de Jean Parachute Tendance" data-webp="/giorgia-paris-vitrinePE2026/img/f655e94ebd.webp"><img src="/giorgia-paris-vitrinePE2026/img/f655e94ebd.jpg" alt="Jean Parachute Tendance — vue 2" loading="lazy" decoding="async"></span></div></div><div class="prod-info"><h3 class="prod-name">Jean Parachute Tendance</h3><p class="prod-ref">Réf. YX1035</p><p class="prod-desc">Jean Parachute tendance, confort au quotidien.</p></div></a></div></div></div><div class="car-dots" id="dots-pantalons"></div></div></section>
   </div>
 
   <!-- ========== CTA ========== -->
@@ -2170,20 +2217,25 @@
        Le préfixe /giorgia-paris-vitrinePE2026 est vide en prod, '/<repo>' en qualif.
     ==================================================================== */
     (function redirectLegacyHomeAnchors() {
-      const legacyIds = ['summer', 'boheme'];
       const hash = (window.location.hash || '').replace(/^#/, '');
-      if (legacyIds.includes(hash)) {
-        const target = '/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/#' + hash;
-        window.location.replace(target);
+      /* L'ancre existe sur cette page : rien à faire. */
+      if (!hash || document.getElementById(hash)) return;
+
+      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
+         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS. */
+      const renamed = {"chic":"soiree","casual":"tops","mailles":"tops","working":"pantalons"};
+      const next = renamed[hash] || hash;
+      if (next !== hash && document.getElementById(next)) {
+        window.location.replace('#' + next);
         return;
       }
-      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
-         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS.
-         On ne redirige que si la nouvelle section existe sur la page. */
-      const renamed = {"chic":"soiree","casual":"tops","mailles":"tops","working":"pantalons"};
-      const next = renamed[hash];
-      if (next && document.getElementById(next)) {
-        window.location.replace('#' + next);
+
+      /* Catégorie absente d'ici mais présente sur la page de l'ancienne
+         collection (Summer Vibes, Bohème, ou une catégorie sans produit de la
+         saison) : on y envoie le visiteur. Liste générée par build.mjs. */
+      const archiveIds = ["summer","boheme","manteaux","soiree","tops","robes","pantalons"];
+      if (archiveIds.includes(next)) {
+        window.location.replace('/giorgia-paris-vitrinePE2026/collection-printemps-ete-2026/#' + next);
       }
     })();
 
