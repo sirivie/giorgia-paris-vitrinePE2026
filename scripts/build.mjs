@@ -120,6 +120,20 @@ const IMG_WEBP_QUALITY = 78;         // WebP à qualité équivalente visuelle, 
 const IMG_CONCURRENCY = 6;           // Téléchargements en parallèle — pas trop pour ne pas taper Airtable trop fort
 const IMG_TIMEOUT_MS = 20000;        // Abandonne un download qui traîne au-delà de 20 s
 
+// PHOTOS DE HERO DE LA HOME — à déposer dans src/pages/img/ :
+//   • home-hero.jpg         paysage 16:9, 2400 × 1350 px conseillés (desktop)
+//   • home-hero-mobile.jpg  portrait 4:5, 1200 × 1500 px (facultative)
+// Extensions acceptées : .jpg, .jpeg, .png, .webp. Plafond plus haut que les
+// photos produits (IMG_MAX_WIDTH) car la hero s'affiche en pleine largeur.
+const HOME_HERO_FILE = 'home-hero';
+const HOME_HERO_MOBILE_FILE = 'home-hero-mobile';
+const HERO_MAX_WIDTH = 2000;
+const HERO_MOBILE_MAX_WIDTH = 1200;
+const HERO_JPEG_QUALITY = 80;
+const HERO_WEBP_QUALITY = 72;
+let HOME_HERO = null;          // { jpg, webp, width, height } si la photo existe
+let HOME_HERO_MOBILE = null;
+
 // URLs d'illustration "en dur" (non-Airtable). Centralisées ici pour qu'elles
 // soient téléchargées au build, et remplacées par leurs chemins locaux dans le HTML.
 const ILLUSTRATION_URLS = {
@@ -258,12 +272,18 @@ const ARCHIVE_UNIVERS = UNIVERS.filter(u => u.location === 'archive');
  *  onglets et sections n'affichent que celles-ci. */
 let VISIBLE_HOME_UNIVERS = HOME_UNIVERS;
 
+/** Catégories affichées sur la page de l'ancienne collection PE 2026 :
+ *  Summer Vibes et Bohème d'abord, puis toute catégorie qui a des produits
+ *  non taggés de la saison en cours. Calculé dans main(). */
+let VISIBLE_ARCHIVE_UNIVERS = ARCHIVE_UNIVERS;
+
 /** Strates insérées entre les sections de la home, par position : après la
- *  1ʳᵉ section visible, après la 2ᵉ… Si la home compte moins de sections,
- *  les strates restantes sont placées à la suite des sections. */
+ *  1ʳᵉ section visible, après la 2ᵉ, après la 3ᵉ. Si la home compte moins de
+ *  sections, les strates restantes sont placées à la suite des sections. */
 const HOME_STRATES_AFTER = [
-  () => renderPartnersSection(), // bande plateformes (fond charcoal)
-  () => renderValueStrate(),     // « Plus de choix. De meilleures marges. »
+  () => renderPartnersSection(),   // bande plateformes (fond charcoal)
+  () => renderValueStrate(),       // « Plus de choix. De meilleures marges. »
+  () => renderWhatsAppCatalogue(), // « Tous nos modèles ne sont pas en ligne »
 ];
 
 /** Photo de la strate valeur. Déposer le fichier sous ce nom dans
@@ -310,6 +330,11 @@ const SEASON = {
   menuLabel: 'Nouveautés Automne-Hiver 2026-2027',
   metaDesc:  'Collection Automne-Hiver 2026-2027 de GIORGIA paris : manteaux, vestes, robes de soirée, pulls et ensembles pour boutiques indépendantes. Grossiste B2B, prix très attractifs, packs de 6, minimum 100 € HT, livraison rapide dans le monde entier.',
   heroFile:  'collection-ah-2026.jpg', // nom conservé (photo déjà prévue sous ce nom)
+  // Textes de la home quand la saison a des produits
+  navLabel:      'Nouveautés AH 26-27',          // lien doré de la navbar
+  announce:      'La collection Automne-Hiver 2026-2027 est arrivée au showroom', // barre du haut
+  announceShort: 'Collection Automne-Hiver 2026-2027',                            // barre du haut, mobile
+  heroSub:       'Manteaux, mailles, robes de soirée et ensembles, par pack de 6 dès 100\u00a0€\u00a0HT. Livraison rapide dans le monde entier depuis Aubervilliers.',
 };
 let SEASON_COUNT = 0; // nombre de produits de la saison, calculé dans main()
 
@@ -412,6 +437,12 @@ for (const u of UNIVERS) {
     const k = normalizeKey(key);
     if (!CATEGORY_TO_UNIVERS.has(k)) CATEGORY_TO_UNIVERS.set(k, u);
   }
+}
+
+/** Ancres présentes sur la page PE 2026. Un vieux lien /#manteaux dont la
+ *  catégorie n'a plus de produit sur la home y est redirigé. */
+function renderArchiveAnchorsJs() {
+  return JSON.stringify(VISIBLE_ARCHIVE_UNIVERS.map(u => u.id));
 }
 
 /** Table ancienne ancre → nouvelle ancre, injectée dans le JS partagé. */
@@ -1205,7 +1236,7 @@ function renderWhatsAppCatalogue() {
    9. RENDU DES SECTIONS UNIVERS + BANNERS ÉDITORIAUX
    ========================================================================== */
 
-function renderUniversSection(univ, products) {
+function renderUniversSection(univ, products, priorityId) {
   let h = '';
   h += `<section class="univ-sec" id="${univ.id}" style="scroll-margin-top:130px" aria-labelledby="title-${univ.id}">`;
   h += `<div class="sec-hdr">`;
@@ -1234,7 +1265,7 @@ function renderUniversSection(univ, products) {
   // Priorité de chargement : 4 premières du premier univers home
   // (au-dessus de la ligne de flottaison sur la home).
   // NB : pour la page archive, on garde la même logique (premier univers archive).
-  const priorityUnivId = univ.location === 'archive'
+  const priorityUnivId = priorityId !== undefined ? priorityId : univ.location === 'archive'
     ? (ARCHIVE_UNIVERS[0]?.id)
     : (VISIBLE_HOME_UNIVERS[0]?.id);
   products.forEach((rec, i) => {
@@ -1308,7 +1339,7 @@ function renderValueStrate() {
     '<div class="val-txt">',
     '<span class="sec-eye">Grossiste B2B depuis 2007</span>',
     '<h2 class="sec-title" id="valeurs-title">Plus de choix.<br>De meilleures marges.</h2>',
-    '<p class="val-intro">Depuis notre showroom d\u2019Aubervilliers, nous fournissons les boutiques indépendantes en France et dans le monde entier.</p>',
+    '<p class="val-intro">Une boutique indépendante n\u2019a pas besoin qu\u2019on choisisse à sa place\u00a0: elle a besoin de matière à composer. Depuis notre showroom d\u2019Aubervilliers, nous fournissons les boutiques en France et dans le monde entier.</p>',
     '<ul class="val-list">',
     ...piliers.map(([t, d]) => `<li><h3>${t}</h3><p>${d}</p></li>`),
     '</ul>',
@@ -1377,7 +1408,12 @@ function renderNavLinks(context = 'home') {
   const quiLink       = `<li><a href="${SITE_BASE}/notre-histoire/">Qui sommes-nous</a></li>`;
   const contactLink   = `<li><a href="${SITE_BASE}/${CONTACT_PAGE_SLUG}/">Contact</a></li>`;
 
-  return catalogueDropdown + tendancesLink + quiLink + contactLink;
+  // Lien doré « Nouveautés » en premier niveau, dès que la saison a des produits.
+  const seasonTopLink = SEASON_COUNT > 0
+    ? `<li><a class="nav-feat" href="${SITE_BASE}/${SEASON.slug}/">${esc(SEASON.navLabel)}</a></li>`
+    : '';
+
+  return seasonTopLink + catalogueDropdown + tendancesLink + quiLink + contactLink;
 }
 
 /**
@@ -1455,7 +1491,7 @@ function renderUniversTabs() {
  * Tabs univers pour la page archive — pointent vers les ancres archive.
  */
 function renderArchiveUniversTabs() {
-  return ARCHIVE_UNIVERS.map(u =>
+  return VISIBLE_ARCHIVE_UNIVERS.map(u =>
     `<a href="#${u.id}" class="utab">${esc(u.label)}</a>`
   ).join('');
 }
@@ -2206,20 +2242,19 @@ function findUniversByName(wanted) {
 }
 
 /**
- * Produits d'un univers pour un article : uniquement ceux de la collection
- * courante (les produits d'archive sont exclus), dans l'ordre Airtable.
+ * Produits d'un univers pour un article : d'abord ceux de la collection de
+ * saison, puis, pour compléter jusqu'à la limite, les autres produits encore
+ * au stock. Les Préventes hors saison (masquées partout) sont exclues.
  */
 function productsForUnivers(allRecords, univ, limit) {
-  const out = [];
-  for (const rec of allRecords) {
-    const u = CATEGORY_TO_UNIVERS.get(normalizeKey(resolveCategorie(rec.fields || {})));
-    if (!u || u.id !== univ.id) continue;
-    if (isArchiveRecord(rec, u)) continue;
-    if (!resolvePhotos(rec.fields || {}).length) continue; // carte sans photo = non rendue
-    out.push(rec);
-    if (out.length >= limit) break;
-  }
-  return out;
+  const inUnivers = (rec) => {
+    const f = rec.fields || {};
+    const u = CATEGORY_TO_UNIVERS.get(normalizeKey(resolveCategorie(f)));
+    return u && u.id === univ.id && resolvePhotos(f).length > 0; // carte sans photo = non rendue
+  };
+  const fresh = allRecords.filter(r => inUnivers(r) && isSeasonRecord(r));
+  const others = allRecords.filter(r => inUnivers(r) && !isSeasonRecord(r) && !resolvePrevente(r.fields || {}));
+  return [...fresh, ...others].slice(0, limit);
 }
 
 /**
@@ -2751,6 +2786,8 @@ function renderSharedNavCss() {
   .nav-dropdown-menu a:hover { background: rgba(197,163,106,.08); color: #C5A36A; }
   .nav-dropdown-menu .nav-dropdown-sep { height: 1px; margin: .35rem 1.5rem; background: rgba(0,0,0,.08); }
   .nav-dropdown-menu a.nav-dropdown-feat { color: #A8854A; font-weight: 600; }
+  .nav-links a.nav-feat { color: #8A6A35; font-weight: 600; border-bottom: 1.5px solid #C5A36A; padding-bottom: 3px; }
+  .nav-links a.nav-feat:hover { color: #161616; }
   #mob-menu .mob-menu-heading {
     font-size: .68rem; font-weight: 500; letter-spacing: .22em;
     text-transform: uppercase; color: #C5A36A;
@@ -3011,7 +3048,8 @@ function extractSharedInteractiveJs(template) {
   const closeIdx = after.indexOf(closeTag, openIdx);
   if (closeIdx === -1) throw new Error('</script> post-CATALOG_DATA introuvable');
   return after.slice(openIdx, closeIdx + closeTag.length)
-    .split('<!-- LEGACY_ANCHORS_JS -->').join(renderLegacyAnchorsJs());
+    .split('<!-- LEGACY_ANCHORS_JS -->').join(renderLegacyAnchorsJs())
+    .split('<!-- ARCHIVE_ANCHORS_JS -->').join(renderArchiveAnchorsJs());
 }
 
 /**
@@ -3079,19 +3117,44 @@ function extractSharedFooter(template) {
 }
 
 /**
- * Extrait le bandeau WhatsApp sticky du haut de page.
+ * BARRE D'ANNONCE du haut de page — remplace le bandeau WhatsApp (oct. 2026).
  *
- * Il est extrait plutôt que recopié dans chaque template de page, car son
- * markup est couplé à la CSS (.wa-banner-icon dimensionne le SVG à 11px —
- * recopier le SVG sans ce wrapper produit un picto géant en pleine page).
+ * Générée ici (source unique) et injectée sur la home (<!-- ANNOUNCE_BAR -->)
+ * comme sur les pages dédiées (<!-- SHARED_WA_BANNER -->). Elle garde les
+ * identifiants #wa-banner-link / #wa-banner : la CSS du site (hauteur fixe,
+ * position sticky) s'y applique déjà.
+ *
+ *  • Saison avec produits → « Nouveau · La collection … est arrivée » vers sa page.
+ *  • Sinon → l'ancien message WhatsApp, pour ne jamais laisser la barre vide.
  */
-function extractSharedWaBanner(template) {
-  const match = template.match(/<a id="wa-banner-link"[\s\S]*?<div id="wa-banner"[\s\S]*?<\/div>\s*<\/a>/);
-  if (!match) {
-    console.warn('  ⚠ Bandeau WhatsApp introuvable dans template.html — non injecté sur les pages dédiées.');
-    return '';
+function renderAnnounceBar() {
+  if (SEASON_COUNT === 0) {
+    const wa = 'https://wa.me/33686729311?text=' +
+      encodeURIComponent('Bonjour GIORGIA paris, je souhaite découvrir le catalogue complet (modèles non visibles sur le site).');
+    return [
+      `<a id="wa-banner-link" href="${wa}" target="_blank" rel="noopener noreferrer" style="display:contents">`,
+      '<div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">',
+      '<span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>',
+      '<span class="wa-banner-arrow" aria-hidden="true">→</span>',
+      '</div>',
+      '</a>',
+    ].join('');
   }
-  return match[0];
+  return [
+    `<a id="wa-banner-link" href="${SITE_BASE}/${SEASON.slug}/" style="display:contents">`,
+    '<div id="wa-banner" role="region" aria-label="Nouvelle collection">',
+    '<span class="ann-badge">Nouveau</span>',
+    `<span class="ann-long">${esc(SEASON.announce)}</span>`,
+    `<span class="ann-short">${esc(SEASON.announceShort)}</span>`,
+    '<span class="ann-link">Découvrir <span aria-hidden="true">→</span></span>',
+    '</div>',
+    '</a>',
+  ].join('');
+}
+
+/** Compatibilité : les pages dédiées appellent toujours ce nom. */
+function extractSharedWaBanner(_template) {
+  return renderAnnounceBar();
 }
 
 /**
@@ -3126,20 +3189,28 @@ async function buildArchivePage(byUniversArchive, mainTemplate) {
     return { deployed: false };
   }
 
-  // Rendu des sections univers archive
+  // Rendu des sections : Summer Vibes, Bohème, puis les autres catégories
+  // qui ont des produits hors saison. Les catégories vides sont omises.
   let sectionsHtml = '';
   const allArchiveRecords = [];
-  for (const u of ARCHIVE_UNIVERS) {
+  const firstId = VISIBLE_ARCHIVE_UNIVERS[0]?.id;
+  for (const u of VISIBLE_ARCHIVE_UNIVERS) {
     const recs = byUniversArchive.get(u.id) || [];
-    sectionsHtml += renderUniversSection(u, recs);
+    sectionsHtml += renderUniversSection(u, recs, firstId);
     allArchiveRecords.push(...recs);
   }
+
+  // « Summer Vibes, Bohème et Robes & Jupes » — pour le texte d'introduction.
+  const labels = VISIBLE_ARCHIVE_UNIVERS.map(u => u.label);
+  const categoriesText = labels.length > 1
+    ? `${labels.slice(0, -1).join(', ')} et ${labels[labels.length - 1]}`
+    : (labels[0] || '');
 
   // JSON-LD spécifique : ItemList des produits archive + Breadcrumb
   const jsonLd = renderArchiveJsonLd(allArchiveRecords);
 
   // IDs des carrousels à init sur cette page (les univers archive uniquement)
-  const carouselIds = ARCHIVE_UNIVERS.map(u => u.id);
+  const carouselIds = VISIBLE_ARCHIVE_UNIVERS.map(u => u.id);
   const carouselIdsJs = JSON.stringify(carouselIds);
 
   const html = await composePageFromTemplate(pageTemplatePath, mainTemplate, {
@@ -3147,6 +3218,7 @@ async function buildArchivePage(byUniversArchive, mainTemplate) {
     replacements: [
       ['<!-- ARCHIVE_UNIVERS_NAV_TABS -->', renderArchiveUniversTabs()],
       ['<!-- ARCHIVE_SECTIONS -->', sectionsHtml],
+      ['<!-- ARCHIVE_CATEGORIES_TEXT -->', esc(categoriesText)],
       ['<!-- CAROUSEL_IDS_JS -->', carouselIdsJs],
       ['<!-- PAGE_JSON_LD -->', jsonLd],
       ['<!-- PAGE_TITLE -->', ARCHIVE_PAGE_TITLE],
@@ -3156,7 +3228,7 @@ async function buildArchivePage(byUniversArchive, mainTemplate) {
   const outDir = resolve(OUTPUT_DIR, ARCHIVE_PAGE_SLUG);
   await mkdir(outDir, { recursive: true });
   await writeFile(join(outDir, 'index.html'), html, 'utf8');
-  console.log(`  ✓ /${ARCHIVE_PAGE_SLUG}/ — ${allArchiveRecords.length} produits (${ARCHIVE_UNIVERS.map(u => u.label).join(' + ')})`);
+  console.log(`  ✓ /${ARCHIVE_PAGE_SLUG}/ — ${allArchiveRecords.length} produits (${labels.join(' + ')})`);
   return { deployed: true, count: allArchiveRecords.length };
 }
 
@@ -3165,8 +3237,8 @@ async function buildArchivePage(byUniversArchive, mainTemplate) {
    ========================================================================== */
 
 /**
- * Bandeau « nouvelle collection » de la home, placé juste après les Préventes.
- * Chaîne vide tant qu'aucun produit n'est taggé SEASON.key dans Airtable.
+ * Bandeau « nouvelle collection » (4 vignettes). PLUS UTILISÉ depuis oct. 2026 :
+ * la home entière présente la collection. Conservé pour un usage éventuel.
  */
 function renderSeasonBanner(records) {
   if (!records.length) return '';
@@ -3225,6 +3297,10 @@ async function buildSeasonPage(bySeason, mainTemplate) {
     await stat(resolve('src/pages/img', SEASON.heroFile));
     heroUrl = await processPageHeroImage(SEASON.heroFile);
   } catch { /* photo non déposée : fallback ci-dessous */ }
+  if (!heroUrl && HOME_HERO) {
+    heroUrl = HOME_HERO.jpg;
+    console.log(`  ℹ️  Hero saison : photo de la home réutilisée (déposer src/pages/img/${SEASON.heroFile} pour une photo dédiée).`);
+  }
   if (!heroUrl) {
     const fallback = localImageFor(ILLUSTRATION_URLS.heroPexels);
     heroUrl = fallback ? fallback.jpg : ILLUSTRATION_URLS.heroPexels;
@@ -3234,7 +3310,7 @@ async function buildSeasonPage(bySeason, mainTemplate) {
   const cats = HOME_UNIVERS.filter(u => (bySeason.get(u.id) || []).length > 0);
   const allRecs = cats.flatMap(u => bySeason.get(u.id));
 
-  let sectionsHtml = cats.map(u => renderUniversSection(u, bySeason.get(u.id))).join('');
+  let sectionsHtml = cats.map(u => renderUniversSection(u, bySeason.get(u.id), cats[0].id)).join('');
   const waUrl = 'https://wa.me/33686729311?text=' +
     encodeURIComponent(`Bonjour GIORGIA paris, je suis intéressé(e) par la ${SEASON.title}.`);
   if (!allRecs.length) {
@@ -3350,7 +3426,7 @@ function renderArchiveJsonLd(records) {
     '@id': `${url}#webpage`,
     url,
     name: `${ARCHIVE_PAGE_TITLE} — GIORGIA paris`,
-    description: 'Découvrez les pièces Summer Vibes et Bohème de la collection Printemps-Été 2026 — Grossiste B2B en prêt-à-porter féminin, disponibles au stock depuis Paris.',
+    description: 'Pièces de la collection Printemps-Été 2026 encore disponibles au stock — Grossiste B2B en prêt-à-porter féminin, livraison rapide dans le monde entier depuis Aubervilliers.',
     isPartOf: { '@id': `${SITE_ORIGIN}${SITE_BASE}/#website` },
     inLanguage: 'fr-FR',
   };
@@ -3359,7 +3435,7 @@ function renderArchiveJsonLd(records) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Ancienne Collection Printemps-Été 2026 — GIORGIA paris',
-    description: 'Pièces Summer Vibes et Bohème de la collection Printemps-Été 2026.',
+    description: 'Pièces de la collection Printemps-Été 2026 encore disponibles au stock.',
     numberOfItems: records.length,
     itemListElement: records.map((rec, i) => {
       const f = rec.fields || {};
@@ -3467,7 +3543,7 @@ function renderContactJsonLd() {
       ['Puis-je acheter à la pièce ou uniquement par pack ?',
        'Nos produits sont vendus par pack de 6 pièces (tailles S/M ou M/L au choix). Ce fonctionnement nous permet de proposer des tarifs de gros compétitifs et convient au réassort régulier des boutiques.'],
       ['Existe-t-il d\'anciennes collections encore disponibles ?',
-       'Oui, une sélection de pièces de l\'ancienne collection Printemps-Été 2026 (Summer Vibes et Bohème) reste disponible au stock.'],
+       'Oui, des pièces de l\'ancienne collection Printemps-Été 2026 restent disponibles au stock. Elles sont rassemblées par catégorie sur la page de cette collection.'],
     ].map(([q, a]) => ({
       '@type': 'Question',
       name: q,
@@ -3525,6 +3601,109 @@ async function processPageHeroImage(filename) {
     console.warn(`  ⚠ Échec traitement hero de page ${filename} : ${err.message}`);
     return '';
   }
+}
+
+/* ==========================================================================
+   HERO DE LA HOME — photo de collection (desktop + mobile)
+   ========================================================================== */
+
+/** Cherche src/pages/img/<base>.jpg (ou .jpeg/.png/.webp). */
+async function findHeroSource(base) {
+  for (const ext of ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']) {
+    const p = resolve('src/pages/img', `${base}.${ext}`);
+    try { await stat(p); return p; } catch { /* extension suivante */ }
+  }
+  return null;
+}
+
+/** Compresse une photo de hero en JPEG + WebP dans dist/img/pages/. */
+async function processHeroFile(base, maxWidth) {
+  const src = await findHeroSource(base);
+  if (!src) return null;
+  try {
+    const outDir = resolve(IMG_OUTPUT_DIR, 'pages');
+    await mkdir(outDir, { recursive: true });
+    const buffer = await readFile(src);
+    const img = sharp(buffer, { failOn: 'none' }).rotate();
+    const resize = { width: maxWidth, withoutEnlargement: true };
+    const [jpgBuf, webpBuf] = await Promise.all([
+      img.clone().resize(resize).jpeg({ quality: HERO_JPEG_QUALITY, mozjpeg: true, progressive: true }).toBuffer(),
+      img.clone().resize(resize).webp({ quality: HERO_WEBP_QUALITY }).toBuffer(),
+    ]);
+    const meta = await sharp(jpgBuf).metadata();
+    await Promise.all([
+      writeFile(join(outDir, `${base}.jpg`), jpgBuf),
+      writeFile(join(outDir, `${base}.webp`), webpBuf),
+    ]);
+    console.log(`  ✓ Hero ${base} : ${meta.width} × ${meta.height} px, WebP ${fmtBytes(webpBuf.length)}`);
+    if (base === HOME_HERO_FILE && meta.width < 1600) {
+      console.warn(`  ⚠ ${base} ne fait que ${meta.width} px de large : elle paraîtra floue sur grand écran (2400 px conseillés).`);
+    }
+    return {
+      jpg: `${SITE_BASE}/img/pages/${base}.jpg`,
+      webp: `${SITE_BASE}/img/pages/${base}.webp`,
+      width: meta.width,
+      height: meta.height,
+    };
+  } catch (err) {
+    console.warn(`  ⚠ Échec traitement de la hero ${base} : ${err.message}`);
+    return null;
+  }
+}
+
+async function processHomeHeroImages() {
+  HOME_HERO = await processHeroFile(HOME_HERO_FILE, HERO_MAX_WIDTH);
+  if (!HOME_HERO) {
+    console.log(`  ℹ️  Hero de la home : photo par défaut (déposer src/pages/img/${HOME_HERO_FILE}.jpg pour la remplacer).`);
+  }
+  HOME_HERO_MOBILE = await processHeroFile(HOME_HERO_MOBILE_FILE, HERO_MOBILE_MAX_WIDTH);
+  if (HOME_HERO && !HOME_HERO_MOBILE) {
+    console.log(`  ℹ️  Pas de ${HOME_HERO_MOBILE_FILE}.jpg : sur mobile, la photo desktop est recadrée automatiquement.`);
+  }
+}
+
+/** <picture> de la hero : version portrait sur mobile si elle existe. */
+function renderHeroPicture(desk, mob, alt) {
+  const cls = mob ? 'hero-pic hero-pic--mobile' : 'hero-pic';
+  if (!desk) {
+    return `<picture class="${cls}"><img src="${esc(ILLUSTRATION_URLS.heroPexels)}" alt="${esc(alt)}" fetchpriority="high" decoding="async"></picture>`;
+  }
+  let h = `<picture class="${cls}">`;
+  if (mob) {
+    h += `<source media="(max-width: 760px)" srcset="${esc(mob.webp)}" type="image/webp">`;
+    h += `<source media="(max-width: 760px)" srcset="${esc(mob.jpg)}">`;
+  }
+  if (desk.webp) h += `<source srcset="${esc(desk.webp)}" type="image/webp">`;
+  h += `<img src="${esc(desk.jpg)}" alt="${esc(alt)}"${desk.width ? ` width="${desk.width}" height="${desk.height}"` : ''} fetchpriority="high" decoding="async">`;
+  return h + '</picture>';
+}
+
+/** Préchargement de la hero (élément LCP) : une ligne par format d'écran. */
+function renderHeroPreload(desk, mob) {
+  if (!desk) {
+    return `<link rel="preload" as="image" href="${esc(ILLUSTRATION_URLS.heroPexels)}" fetchpriority="high">`;
+  }
+  const deskHref = desk.webp || desk.jpg;
+  const deskType = desk.webp ? ' type="image/webp"' : '';
+  if (!mob) {
+    return `<link rel="preload" as="image" href="${esc(deskHref)}"${deskType} fetchpriority="high">`;
+  }
+  return [
+    `<link rel="preload" as="image" href="${esc(mob.webp)}" type="image/webp" media="(max-width: 760px)" fetchpriority="high">`,
+    `<link rel="preload" as="image" href="${esc(deskHref)}"${deskType} media="(min-width: 761px)" fetchpriority="high">`,
+  ].join('\n  ');
+}
+
+/** En-tête de la collection, juste avant les onglets catégories de la home. */
+function renderCollectionIntro() {
+  if (SEASON_COUNT === 0) return '';
+  return [
+    '<section class="coll-intro" id="collection" aria-labelledby="coll-intro-title">',
+    `<span class="sec-eye">${esc(SEASON.title)}</span>`,
+    '<h2 class="coll-intro-title" id="coll-intro-title">Les nouveautés de la saison</h2>',
+    '<p>Toutes les pièces présentées sur cette page sont issues de la nouvelle collection, enrichie au fil des arrivages. Choisissez une catégorie ou parcourez tout.</p>',
+    '</section>',
+  ].join('');
 }
 
 /**
@@ -3653,6 +3832,9 @@ async function main() {
   // Logos des plateformes partenaires (bande de réassurance en bas de page)
   await processPartnerLogos();
 
+  // Photos de hero de la home (src/pages/img/home-hero.jpg, home-hero-mobile.jpg)
+  await processHomeHeroImages();
+
   // Audit webperf des images (post-compression : évalue l'état de Airtable
   // "à la source", pas des images servies qui sont maintenant locales)
   let imageAudit = null;
@@ -3676,15 +3858,43 @@ async function main() {
     byUniversArchive.set(u.id, []);
     bySeason.set(u.id, []);
   }
+
+  // ===================================================================
+  //  RÈGLE DE ROUTAGE (oct. 2026)
+  //  • Dès qu'au moins un produit porte la saison en cours (champ Airtable
+  //    « Collection » = SEASON.key), la home n'affiche QUE ces produits.
+  //    Tous les autres partent sur la page de l'ancienne collection PE 2026,
+  //    rangés par catégorie.
+  //  • Un produit en Prévente qui n'est pas de la saison n'apparaît nulle part.
+  //  • Filet de sécurité : si aucun produit n'est taggé, on garde l'ancien
+  //    comportement, pour ne jamais publier une home vide.
+  // ===================================================================
+  const SEASON_MODE = sortedRecords.some(isSeasonRecord);
   const unmatched = [];
+  const strandedSeason = [];
+  let hiddenPreventes = 0;
   for (const rec of sortedRecords) {
-    const cat = resolveCategorie(rec.fields || {});
+    const f = rec.fields || {};
+    const cat = resolveCategorie(f);
     const univ = CATEGORY_TO_UNIVERS.get(normalizeKey(cat));
     if (!univ) {
       if (cat) unmatched.push(cat);
       continue;
     }
-    if (isArchiveRecord(rec, univ)) {
+    if (SEASON_MODE) {
+      if (isSeasonRecord(rec)) {
+        if (univ.location === 'home') {
+          byUniversHome.get(univ.id).push(rec);
+          bySeason.get(univ.id).push(rec);
+        } else {
+          strandedSeason.push(resolveRef(f) || resolveName(f) || rec.id);
+        }
+      } else if (resolvePrevente(f)) {
+        hiddenPreventes++;
+      } else {
+        byUniversArchive.get(univ.id).push(rec);
+      }
+    } else if (isArchiveRecord(rec, univ)) {
       byUniversArchive.get(univ.id).push(rec);
     } else {
       byUniversHome.get(univ.id).push(rec);
@@ -3694,11 +3904,24 @@ async function main() {
   if (unmatched.length) {
     console.warn(`⚠ Catégories non reconnues dans Airtable :`, [...new Set(unmatched)]);
   }
+  if (!SEASON_MODE) {
+    console.warn(`⚠ Aucun produit taggé « ${SEASON.key} » : la home garde l'ancien affichage (toutes collections confondues).`);
+  }
+  if (strandedSeason.length) {
+    console.warn(`⚠ ${strandedSeason.length} produit(s) taggé(s) « ${SEASON.key} » mais rangé(s) dans Summer Vibes ou Bohème : non affichés. Changer leur catégorie dans Airtable : ${strandedSeason.join(', ')}`);
+  }
+  if (hiddenPreventes) {
+    console.log(`  ℹ️  ${hiddenPreventes} produit(s) en Prévente non taggé(s) « ${SEASON.key} » : masqué(s) partout.`);
+  }
 
   // Collection de saison (champ Airtable « Collection » = SEASON.key).
   const seasonRecords = HOME_UNIVERS.flatMap(u => bySeason.get(u.id) || []);
   SEASON_COUNT = seasonRecords.length;
   console.log(`  • ${SEASON.title} : ${SEASON_COUNT} produits`);
+
+  // Page PE 2026 : Summer Vibes et Bohème d'abord, puis les autres catégories.
+  VISIBLE_ARCHIVE_UNIVERS = [...ARCHIVE_UNIVERS, ...HOME_UNIVERS]
+    .filter(u => (byUniversArchive.get(u.id) || []).length > 0);
 
   // Catégories home affichées : uniquement celles qui ont des produits.
   VISIBLE_HOME_UNIVERS = HOME_UNIVERS.filter(u => (byUniversHome.get(u.id) || []).length > 0);
@@ -3715,14 +3938,9 @@ async function main() {
   } catch {
     console.log(`  ℹ️  Strate valeur : photo par défaut (déposer src/pages/img/${VALUE_STRATE_IMAGE_FILE} pour la remplacer).`);
   }
-  console.log('  Répartition home / archive :');
+  console.log('  Répartition home / page PE 2026 :');
   for (const u of UNIVERS) {
-    const nHome    = byUniversHome.get(u.id).length;
-    const nArchive = byUniversArchive.get(u.id).length;
-    const suffix = u.location === 'archive'
-      ? `(archive: ${nArchive}${nHome > 0 ? ` — nouveau home: ${nHome}` : ''})`
-      : `(home: ${nHome})`;
-    console.log(`  • ${u.label} ${suffix}`);
+    console.log(`  • ${u.label} (home : ${byUniversHome.get(u.id).length} · PE 2026 : ${byUniversArchive.get(u.id).length})`);
   }
 
   // ===================================================================
@@ -3730,18 +3948,18 @@ async function main() {
   //  On garde l'ordre d'origine (tri par « Ordre » fait plus haut).
   //  Aucune limite stricte sur le nombre — le carrousel s'adapte.
   // ===================================================================
-  const preventeRecords = sortedRecords.filter(rec => resolvePrevente(rec.fields || {}));
+  // En mode saison, seules les Préventes de la saison en cours restent.
+  const preventeRecords = sortedRecords.filter(rec =>
+    resolvePrevente(rec.fields || {}) && (!SEASON_MODE || isSeasonRecord(rec)));
   console.log(`  • Préventes : ${preventeRecords.length} produits`);
   HAS_PREVENTES = preventeRecords.length > 0; // pilote le lien « Préventes » du menu
 
   // Rendu des sections
   console.log('→ Rendu du HTML…');
   // Section Préventes (en tête de home, après le hero)
-  // Bandeau nouvelle collection juste après les Préventes (vide si aucun produit).
-  const preventesHtml = renderPreventeSection(preventeRecords) + renderSeasonBanner(seasonRecords);
-  // Encart WhatsApp catalogue étendu — placé directement après la section
-  // Préventes (haut de page, maximise le rebond commercial vers WhatsApp).
-  const waCatalogueHtml = renderWhatsAppCatalogue();
+  const preventesHtml = renderPreventeSection(preventeRecords);
+  // L'encart WhatsApp « catalogue étendu » est désormais une strate placée
+  // entre les catégories (voir HOME_STRATES_AFTER).
 
   // Sections univers HOME uniquement — Summer Vibes et Bohème ne sont plus
   // rendus ici (ils vivent sur /collection-printemps-ete-2026/).
@@ -3761,18 +3979,32 @@ async function main() {
   //  Cible prioritaire : ancre #preventes s'il y a des préventes,
   //  sinon fallback sur la première catégorie visible de la home.
   // ===================================================================
-  //  Priorité à la collection de saison dès qu'elle a des produits.
+  //  Collection de saison avec produits → ancre #collection de la home.
   const heroCtaHref = SEASON_COUNT > 0
-    ? `${SITE_BASE}/${SEASON.slug}/`
+    ? '#collection'
     : preventeRecords.length > 0
       ? '#preventes'
       : `#${VISIBLE_HOME_UNIVERS[0]?.id || 'contact'}`;
+  // Badge : version longue sur desktop, courte sur mobile (le titre juste
+  // en dessous répète déjà la saison).
   const heroEyebrow = SEASON_COUNT > 0
-    ? `Nouvelle collection ${SEASON.title.replace(/^Collection\s+/i, '')}`
+    ? `<span class="hb-long">Nouveau · ${esc(SEASON.title)}</span><span class="hb-short">Nouvelle collection</span>`
     : 'Catalogue renouvelé en continu';
+  const heroCtaLabel = SEASON_COUNT > 0 ? 'Découvrir la collection' : 'Découvrir le catalogue';
+  const heroSeasonLine = SEASON_COUNT > 0
+    // « 2026-2027 » ne doit jamais se couper au trait d'union.
+    ? `<span class="hero-season">${esc(SEASON.title.replace(/^Collection\s+/i, '')).replace(/(\d{4}-\d{4})/, '<span class="nw">$1</span>')}</span>`
+    : '';
+  const heroSub = SEASON_COUNT > 0
+    ? SEASON.heroSub
+    : 'Des nouveautés en continu, des prix de gros très attractifs et une livraison rapide dans le monde entier. Au service des boutiques indépendantes depuis 2007.';
+
+  // Produits réellement présents sur la home (pour le JSON-LD et le payload)
+  const homeRecords = VISIBLE_HOME_UNIVERS.flatMap(u => byUniversHome.get(u.id) || []);
+  console.log(`✓ Home : ${homeRecords.length} produits${SEASON_MODE ? ` (uniquement « ${SEASON.key} »)` : ''}.`);
 
   // JSON-LD
-  const jsonLdHtml = renderJsonLd(sortedRecords);
+  const jsonLdHtml = renderJsonLd(homeRecords);
 
   // Lecture template
   const template = await readFile(TEMPLATE_PATH, 'utf8');
@@ -3782,15 +4014,21 @@ async function main() {
   const payload = {
     version: 2,
     generatedAt: now.toISOString(),
-    count: slim.length,
-    products: slim,
+    count: homeRecords.length,
+    products: homeRecords.map(slimRecord),
   };
   const payloadJson = JSON.stringify(payload).replace(/<\/script>/gi, '<\\/script>');
   const catalogDataScript = `<script id="giorgia-catalog-data">window.__GIORGIA_CATALOG__=${payloadJson};</script>`;
 
-  // Chemin local pour l'image hero (fallback sur Pexels si le traitement a échoué)
-  const heroLocal = localImageFor(ILLUSTRATION_URLS.heroPexels);
-  const heroImageUrl = heroLocal ? heroLocal.jpg : ILLUSTRATION_URLS.heroPexels;
+  // Hero : photo déposée dans src/pages/img/, sinon ancienne photo par défaut.
+  const heroDesk = HOME_HERO || localImageFor(ILLUSTRATION_URLS.heroPexels);
+  // Adresse ABSOLUE pour les aperçus de partage (WhatsApp, réseaux sociaux).
+  const heroImageUrl = heroDesk ? `${SITE_ORIGIN}${heroDesk.jpg}` : ILLUSTRATION_URLS.heroPexels;
+  const heroAlt = SEASON_COUNT > 0
+    ? `${SEASON.title} — GIORGIA paris, grossiste prêt-à-porter féminin`
+    : 'GIORGIA paris, grossiste prêt-à-porter féminin';
+  const heroPictureHtml = renderHeroPicture(heroDesk, HOME_HERO_MOBILE, heroAlt);
+  const heroPreloadHtml = renderHeroPreload(heroDesk, HOME_HERO_MOBILE);
 
   // IDs des carrousels à initialiser côté client sur la home.
   // 'preventes' est un carrousel spécial rendu conditionnellement.
@@ -3805,13 +4043,20 @@ async function main() {
     ['<!-- UNIVERS_NAV_TABS -->', renderUniversTabs()],
     ['<!-- NAV_LINKS -->', renderNavLinks('home')],
     ['<!-- MOB_MENU_LINKS -->', renderMobMenuLinks('home')],
+    ['<!-- ANNOUNCE_BAR -->', renderAnnounceBar()],
+    ['<!-- HERO_PRELOAD -->', heroPreloadHtml],
+    ['<!-- HERO_PICTURE -->', heroPictureHtml],
+    ['<!-- HERO_SEASON_LINE -->', heroSeasonLine],
+    ['<!-- HERO_SUB -->', esc(heroSub)],
+    ['<!-- HERO_CTA_LABEL -->', esc(heroCtaLabel)],
     ['<!-- PREVENTES_SECTION -->', preventesHtml],
-    ['<!-- WA_CATALOGUE_SECTION -->', waCatalogueHtml],
+    ['<!-- COLLECTION_INTRO -->', renderCollectionIntro()],
     ['<!-- UNIVERS_SECTIONS -->', sectionsHtml],
     ['<!-- HERO_CTA_HREF -->', heroCtaHref],
-    ['<!-- HERO_EYEBROW -->', esc(heroEyebrow)],
+    ['<!-- HERO_EYEBROW -->', heroEyebrow],
     ['<!-- CAROUSEL_IDS_JS -->', homeCarouselIdsJs],
     ['<!-- LEGACY_ANCHORS_JS -->', renderLegacyAnchorsJs()],
+    ['<!-- ARCHIVE_ANCHORS_JS -->', renderArchiveAnchorsJs()],
     ['<!-- PARTNERS_BAND -->', renderPartnersBand('dark')],
     ['<!-- FOOT_LEGAL_LINKS -->', renderFootLegalLinks()],
     ['<!-- JSON_LD -->', jsonLdHtml],
