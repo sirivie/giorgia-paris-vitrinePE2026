@@ -46,23 +46,13 @@
        réelle, un grossiste, avec un catalogue identifié. -->
   <!-- JSON_LD -->
 
-  <!-- PATCH WEBPERF : preload de l'image hero (la première chose vue).
-       On force aussi un resize à 1600px pour éviter de télécharger l'original
-       de plusieurs Mo. Pexels supporte les query params ?w=...&auto=compress. -->
-  <link rel="preload" as="image"
-        href="<!-- HERO_IMAGE_URL -->"
-        fetchpriority="high">
-  
+  <!-- Préchargement de la photo de hero (élément LCP, le plus important pour la
+       vitesse ressentie). Généré par build.mjs : une ligne pour le mobile et une
+       pour le desktop quand les deux photos existent. -->
+  <!-- HERO_PRELOAD -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- PATCH WEBPERF : preconnect vers les CDN Airtable qui servent les images.
-       Économise DNS+TCP+TLS (200-400 ms) avant la première image produit.
-       dl.airtable.com est utilisé pour les originaux, v5.airtableusercontent.com
-       pour les thumbnails. -->
-  <link rel="preconnect" href="https://v5.airtableusercontent.com" crossorigin>
-  <link rel="preconnect" href="https://dl.airtable.com" crossorigin>
-  <link rel="dns-prefetch" href="https://v5.airtableusercontent.com">
-  <link rel="dns-prefetch" href="https://dl.airtable.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     /* Century Gothic via @font-face si disponible système, sinon Josefin Sans */
@@ -261,6 +251,17 @@
       background: var(--border);
     }
 
+    /* Lien doré « Nouveautés AH » en premier niveau (renderNavLinks) */
+    .nav-links a.nav-feat {
+      color: #8A6A35; font-weight: 600;
+      border-bottom: 1.5px solid var(--gold); padding-bottom: 3px;
+    }
+    .nav-links a.nav-feat:hover { color: var(--black); }
+    @media (max-width: 1240px) and (min-width: 901px) {
+      #navbar { padding-left: 2rem; padding-right: 2rem; }
+      .nav-links { gap: 1.4rem; }
+    }
+
     .nav-right { display: flex; align-items: center; gap: 1rem; }
 
     .btn-nav {
@@ -325,69 +326,70 @@
       font-size: 1.6rem; cursor: pointer;
     }
 
-    /* ===================== HERO ===================== */
+    /* ===================== HERO (oct. 2026) =====================
+       Photo de collection dans un <picture> généré par build.mjs, voile de
+       lisibilité à gauche, texte à gauche. Sur mobile : photo portrait si
+       fournie, texte et boutons empilés en bas (zone du pouce). */
     #hero {
-      height: 100vh; position: relative;
-      display: flex; align-items: center; overflow: hidden;
+      position: relative; overflow: hidden;
+      height: 88vh; height: 88svh;
+      min-height: 600px; max-height: 920px;
+      display: flex; align-items: center;
+      /* le texte se centre sous la barre d'annonce + la navbar (fixes) */
+      padding-top: calc(var(--wa-banner-h) + 67px);
+      box-sizing: border-box;
+      background: var(--charcoal);
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      /* PATCH WEBPERF : on ajoute ?auto=compress&w=1600 pour ne plus
-         télécharger l'original full-resolution. L'URL doit matcher celle
-         du <link rel="preload"> dans <head> pour déclencher un HIT de cache. */
-      background: url('<!-- HERO_IMAGE_URL -->') center center / cover no-repeat;
-      filter: brightness(.62);
+    .hero-pic, .hero-pic img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
     }
-    .hero-grad {
+    .hero-pic img { object-fit: cover; object-position: center; max-width: none; }
+    .hero-veil {
       position: absolute; inset: 0;
-      background: linear-gradient(120deg, rgba(22,22,22,.65) 0%, rgba(22,22,22,.2) 55%, transparent 100%);
+      background: linear-gradient(90deg, rgba(22,22,22,.72) 0%, rgba(22,22,22,.55) 38%, rgba(22,22,22,0) 70%);
     }
     .hero-content {
       position: relative; z-index: 2;
-      padding: 0 4rem; max-width: 680px;
-      /* Empêche tout débordement horizontal sur mobile */
-      box-sizing: border-box;
-      width: 100%;
+      width: 100%; max-width: 1320px; margin: 0 auto;
+      padding: 0 3.5rem; box-sizing: border-box;
     }
-    .hero-eyebrow {
-      font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
-      color: var(--gold-lt); margin-bottom: 1.4rem;
+    .hero-inner { max-width: 620px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold); color: var(--black);
+      font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      line-height: 1.35; padding: .6rem 1rem;
     }
-    /* Logo GIORGIA hero — adapté mobile pour ne pas dépasser */
-    .hero-logo .logo-g {
-      font-size: clamp(2rem, 10vw, 5.5rem);
-      color: var(--white);
-      letter-spacing: clamp(.15em, 1.5vw, .5em);
-      padding-left: clamp(.05em, .8vw, .25em);
-      display: block; word-break: keep-all; white-space: nowrap;
-      overflow: visible;
-    }
-    .hero-logo .logo-p {
-      font-size: clamp(.7rem, 2vw, 1.4rem);
-      color: var(--gold-lt);
-      letter-spacing: clamp(.3em, 2vw, .9em);
-    }
-    /* Accroche : le H1 porte le mot-clé SEO (1re ligne, discrète) et la
-       promesse (2e ligne, en grand). La ligne .hero-sub est l'argumentaire. */
-    .hero-tagline { margin: 1.3rem 0 1rem; }
+    .hero-badge .hb-short { display: none; }
+    .hero-season .nw { white-space: nowrap; }
+    /* H1 : mot-clé SEO (petit), saison (doré), promesse (italique) */
+    .hero-tagline { margin: 1.6rem 0 0; font-weight: 400; }
     .hero-kw {
       display: block;
-      font-family: var(--ff-body); font-style: normal; font-weight: 500;
-      font-size: clamp(.62rem, 1.2vw, .76rem); letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(255,255,255,.9); margin-bottom: .7rem;
+      font-family: var(--ff-body); font-weight: 500;
+      font-size: clamp(.68rem, 1.1vw, .8rem); letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+    }
+    .hero-season {
+      display: block; margin-top: 1rem;
+      font-family: var(--ff-display); font-weight: 500;
+      font-size: clamp(2.5rem, 4.6vw, 3.9rem); line-height: 1.02;
+      color: var(--gold-lt);
     }
     .hero-promise {
-      display: block;
+      display: block; margin-top: .6rem;
       font-family: var(--ff-display); font-style: italic; font-weight: 300;
-      font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.2;
+      font-size: clamp(1.75rem, 3.2vw, 2.8rem); line-height: 1.12;
       color: var(--white);
     }
     .hero-sub {
-      font-size: clamp(.85rem, 1.4vw, .98rem); line-height: 1.7;
-      color: rgba(255,255,255,.84); font-weight: 400;
-      max-width: 46ch; margin: 0 0 2.2rem;
-      white-space: normal;
+      margin: 1.4rem 0 0; max-width: 46ch;
+      font-size: clamp(.95rem, 1.3vw, 1.06rem); line-height: 1.65;
+      color: rgba(255,255,255,.9);
     }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2.1rem; }
+
+    /* Boutons génériques (aussi utilisés par la page saison) */
     .btn-hero-p {
       display: inline-block; font-size: .68rem; font-weight: 500; letter-spacing: .18em;
       text-transform: uppercase; text-decoration: none;
@@ -404,46 +406,85 @@
     }
     .btn-hero-s:hover { background: var(--charcoal); transform: translateY(-2px); }
 
-    /* Mention marketplace sous les CTA du hero — volontairement discrète :
-       c'est une information et une réassurance, pas un appel à l'action. */
-    .hero-marketplace {
-      margin-top: 1.5rem;
-      font-size: .78rem;
-      color: var(--taupe);
-      letter-spacing: .01em;
+    /* Boutons de la hero de la home : doré plein + contour blanc */
+    #hero .btn-hero-p, #hero .btn-hero-s {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 50px; padding: 0 1.8rem; box-sizing: border-box;
+      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; transform: none;
+      transition: background .3s, color .3s, border-color .3s;
     }
-    .hero-marketplace a {
-      color: var(--taupe);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(138,124,110,.35);
-      transition: color .25s, border-color .25s;
+    #hero .btn-hero-p { background: var(--gold); color: var(--black); font-weight: 600; }
+    #hero .btn-hero-p:hover { background: var(--white); }
+    #hero .btn-hero-s {
+      background: transparent; color: var(--white); font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.85);
     }
-    .hero-marketplace a:hover { color: var(--gold); border-color: var(--gold); }
-    .hero-btns {
-      display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 0;
+    #hero .btn-hero-s:hover { background: var(--white); color: var(--black); }
+    #hero a:focus-visible { outline: 2px solid var(--gold-lt); outline-offset: 3px; }
+
+    @media (max-width: 760px) {
+      #hero {
+        height: auto; max-height: none;
+        min-height: 85vh; min-height: 85svh;
+        align-items: flex-end; padding-bottom: 1.6rem;
+      }
+      .hero-veil {
+        background: linear-gradient(180deg, rgba(22,22,22,0) 25%, rgba(22,22,22,.7) 52%, rgba(22,22,22,.92) 100%);
+      }
+      /* Sans photo mobile, on garde le sujet (à droite sur la photo desktop) */
+      .hero-pic img { object-position: 68% center; }
+      .hero-pic--mobile img { object-position: center top; }
+      .hero-content { padding: 0 1.25rem; }
+      .hero-badge { font-size: .62rem; padding: .5rem .75rem; }
+      .hero-badge .hb-long { display: none; }
+      .hero-badge .hb-short { display: inline; }
+      .hero-tagline { margin-top: 1.1rem; }
+      .hero-kw { font-size: .64rem; }
+      .hero-season { font-size: 2.2rem; margin-top: .7rem; }
+      .hero-promise { font-size: 1.75rem; }
+      .hero-sub { font-size: .95rem; margin-top: 1rem; }
+      .hero-btns { flex-direction: column; gap: .7rem; margin-top: 1.4rem; }
+      #hero .btn-hero-p, #hero .btn-hero-s { width: 100%; min-height: 52px; }
     }
 
-    .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center;
-      gap: .4rem; color: rgba(255,255,255,.5);
-      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    /* ===================== MICRO-PREUVES (sous la hero) ===================== */
+    .proofs { background: var(--cream-dark); border-bottom: 1px solid var(--border); }
+    .proofs-inner {
+      list-style: none; max-width: 1320px; margin: 0 auto;
+      padding: 1.9rem 3.5rem;
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem;
     }
-    .hero-scroll::after {
-      content: ''; width: 1px; height: 38px;
-      background: rgba(255,255,255,.35);
-      animation: scrollAnim 2.4s ease infinite;
+    .proofs li { display: flex; gap: .85rem; align-items: flex-start; }
+    .proofs svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .proofs strong { display: block; font-weight: 600; font-size: .92rem; color: var(--black); }
+    .proofs span { display: block; font-size: .8rem; color: #5E5245; margin-top: .15rem; }
+    @media (max-width: 1000px) {
+      .proofs-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @keyframes scrollAnim {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      49%  { transform: scaleY(1); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+    @media (max-width: 600px) {
+      .proofs-inner { padding: 1.3rem 1.25rem; gap: 1rem .9rem; }
+      .proofs svg { display: none; }
+      .proofs strong { font-size: .86rem; }
+      .proofs span { font-size: .74rem; }
     }
 
-    @media(max-width:768px) {
-      .hero-content { padding: 0 1.4rem; }
+    /* ===================== EN-TÊTE DE LA COLLECTION (renderCollectionIntro) ===================== */
+    .coll-intro {
+      max-width: 900px; margin: 0 auto;
+      padding: 4.5rem 2rem 2.2rem; text-align: center;
+      scroll-margin-top: 110px;
     }
+    .coll-intro-title {
+      font-family: var(--ff-display); font-weight: 500;
+      font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.05;
+      margin-top: .5rem;
+    }
+    .coll-intro p {
+      font-size: .92rem; line-height: 1.8; color: #5E5245;
+      max-width: 60ch; margin: 1rem auto 0;
+    }
+    @media (max-width: 600px) { .coll-intro { padding: 3rem 1.25rem 1.6rem; } }
 
     /* ===================== INTRO STRIP ===================== */
     .intro-strip {
@@ -1242,21 +1283,30 @@
       position: fixed; top: 0; left: 0; right: 0;
       height: var(--wa-banner-h);
       z-index: 110; /* au-dessus de la navbar (100) */
-      display: flex; align-items: center; justify-content: center;
-      background: var(--pv-bg);
-      color: var(--pv-text);
+      display: flex; align-items: center; justify-content: center; gap: .8rem;
+      background: var(--black);
+      color: var(--cream);
       font-family: var(--ff-body);
-      font-size: .72rem;
-      letter-spacing: .04em;
+      font-size: .76rem;
+      letter-spacing: .03em;
       padding: 0 1rem;
-      border-bottom: 1px solid var(--pv-border);
+      cursor: pointer;
     }
-    #wa-banner a {
-      color: var(--pv-text); text-decoration: none;
-      display: inline-flex; align-items: center; gap: .55rem;
+    /* Barre d'annonce de la collection (renderAnnounceBar dans build.mjs) */
+    #wa-banner .ann-badge {
+      background: var(--gold); color: var(--black);
+      font-size: .58rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      padding: .2rem .5rem; flex-shrink: 0;
+    }
+    #wa-banner .ann-short { display: none; }
+    #wa-banner .ann-link {
+      color: var(--gold-lt);
+      border-bottom: 1px solid rgba(226,207,168,.5);
       transition: color .25s var(--ease);
+      white-space: nowrap;
     }
-    #wa-banner a:hover { color: #fff; }
+    #wa-banner:hover .ann-link { color: #fff; }
+    /* Ancienne version WhatsApp (affichée seulement si la saison n'a aucun produit) */
     #wa-banner .wa-banner-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 18px; height: 18px;
@@ -1266,13 +1316,11 @@
       flex-shrink: 0;
     }
     #wa-banner .wa-banner-icon svg { width: 11px; height: 11px; fill: currentColor; }
-    #wa-banner .wa-banner-arrow {
-      color: var(--pv-text); opacity: .85;
-      margin-left: .25rem;
-    }
+    #wa-banner .wa-banner-arrow { opacity: .85; }
     @media (max-width: 760px) {
-      #wa-banner { font-size: .65rem; line-height: 1.25; padding: 0 .8rem; text-align: center; }
-      #wa-banner a { gap: .4rem; }
+      #wa-banner { font-size: .7rem; line-height: 1.25; padding: 0 .8rem; text-align: center; gap: .5rem; }
+      #wa-banner .ann-long { display: none; }
+      #wa-banner .ann-short { display: inline; }
     }
 
     /* =========================================================
@@ -1417,10 +1465,10 @@
        le site n'est qu'une partie du catalogue total.
        ========================================================= */
     .wa-catalog {
-      background: var(--cream);
+      background: var(--cream-dark);
       color: var(--black);
-      padding: 3rem 1.5rem;
-      margin: 2rem 0;
+      padding: 3.5rem 1.5rem;
+      margin: 0;
     }
     .wa-catalog-inner {
       max-width: 1100px; margin: 0 auto;
@@ -1481,21 +1529,11 @@
 </head>
 <body>
 
-  <!-- ========== BANDEAU STICKY WHATSAPP — visible en permanence en haut ==========
-       Rappelle aux visiteurs que tous les modèles ne sont pas en ligne.
-       Renvoie sur WhatsApp avec un message pré-rempli différent du CTA "commande". -->
-  <a id="wa-banner-link"
-     href="https://wa.me/33686729311?text=Bonjour%20GIORGIA%20paris%2C%20je%20souhaite%20d%C3%A9couvrir%20le%20catalogue%20complet%20%28mod%C3%A8les%20non%20visibles%20sur%20le%20site%29."
-     target="_blank" rel="noopener noreferrer"
-     style="display:contents">
-  <div id="wa-banner" role="region" aria-label="Information catalogue WhatsApp">
-    <span class="wa-banner-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </span>
-    <span><strong style="font-weight:500">Tous nos modèles ne sont pas en ligne</strong> — Contactez-nous sur WhatsApp pour découvrir le catalogue complet</span>
-    <span class="wa-banner-arrow" aria-hidden="true">→</span>
-  </div>
-  </a>
+  <!-- ========== BARRE D'ANNONCE — fixe en haut de page ==========
+       Générée par renderAnnounceBar() dans build.mjs (même barre sur toutes
+       les pages dédiées) : « Nouveau · La collection … est arrivée », ou
+       l'ancien message WhatsApp si la saison n'a encore aucun produit. -->
+  <!-- ANNOUNCE_BAR -->
 
   <!-- ========== STICKY CONTACT TAB ========== -->
   <div id="sticky-contact">
@@ -1614,52 +1652,62 @@
     </div>
   </nav>
 
-  <!-- ========== HERO ========== -->
+  <!-- ========== HERO ==========
+       PHOTO : déposer dans src/pages/img/
+         • home-hero.jpg         paysage 16:9, 2400 × 1350 px (desktop)
+         • home-hero-mobile.jpg  portrait 4:5, 1200 × 1500 px (facultative)
+       La balise <picture> est générée par build.mjs (HERO_PICTURE). Sans photo,
+       l'ancienne image par défaut est utilisée. -->
   <section id="top">
     <div id="hero">
-      <!--
-        IMAGE HERO — Pour changer l'image :
-        Remplacer l'URL dans .hero-bg (dans le CSS en haut)
-        ou uploader une photo dans /images/ sur GitHub et écrire : url('images/votre-photo.jpg')
-      -->
-      <div class="hero-bg"></div>
-      <div class="hero-grad"></div>
+      <!-- HERO_PICTURE -->
+      <div class="hero-veil" aria-hidden="true"></div>
       <div class="hero-content">
-        <p class="hero-eyebrow"><!-- HERO_EYEBROW --></p>
-        <div class="hero-logo logo" style="margin-bottom:.8rem">
-          <span class="logo-g" style="font-size:clamp(2.8rem,7vw,5.5rem);color:#fff;letter-spacing:.5em">GIORGIA</span>
-          <span class="logo-p" style="font-size:clamp(.9rem,1.6vw,1.4rem);color:#E2CFA8;letter-spacing:.9em">paris</span>
+        <div class="hero-inner">
+          <p class="hero-badge"><!-- HERO_EYEBROW --></p>
+          <!-- ========== H1 SEO ==========
+               Un seul <h1> par page. Il garde le mot-clé commercial
+               « grossiste prêt-à-porter féminin à Paris », puis la saison
+               (générée par build.mjs) et la promesse. -->
+          <h1 class="hero-tagline">
+            <span class="hero-kw">Grossiste prêt-à-porter féminin à Paris</span>
+            <!-- HERO_SEASON_LINE -->
+            <span class="hero-promise">De quoi remplir vos rayons. Et vos marges.</span>
+          </h1>
+          <p class="hero-sub"><!-- HERO_SUB --></p>
+          <div class="hero-btns">
+            <!-- HERO_CTA_HREF est piloté par build.mjs :
+                 • produits de la saison → #collection (en-tête de la collection)
+                 • sinon, produits en Prévente → #preventes
+                 • sinon → première catégorie visible de la home -->
+            <a class="btn-hero-p" href="<!-- HERO_CTA_HREF -->"><!-- HERO_CTA_LABEL --></a>
+            <a class="btn-hero-s" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
+          </div>
         </div>
-        <!-- ========== H1 SEO ==========
-             Un seul <h1> par page, obligatoire pour le référencement.
-             On garde exactement l'apparence visuelle de l'ancien .hero-tagline
-             (la classe .hero-tagline était déjà stylée en serif italique).
-             Le contenu inclut les mots-clés commerciaux clés :
-             "grossiste", "prêt-à-porter féminin", "Paris". -->
-        <h1 class="hero-tagline">
-          <span class="hero-kw">Grossiste prêt-à-porter féminin à Paris</span>
-          <span class="hero-promise">De quoi remplir vos rayons.<br>Et vos marges.</span>
-        </h1>
-        <p class="hero-sub">Des nouveautés en continu, des prix de gros très attractifs et une livraison rapide dans le monde entier. Au service des boutiques indépendantes depuis 2007.</p>
-        <div class="hero-btns">
-          <!-- HERO_CTA_HREF est piloté par build.mjs :
-               • s'il y a des produits de la collection de saison → sa page
-               • sinon, s'il y a des produits en Prévente → "#preventes"
-               • sinon → première catégorie visible de la home -->
-          <a class="btn-hero-p" href="<!-- HERO_CTA_HREF -->">Découvrir la collection</a>
-          <a class="btn-hero-s" href="<!-- SITE_BASE -->/contact/">Contacter l'équipe</a>
-        </div>
-        <!-- Mention marketplace : volontairement en lien tertiaire discret.
-             La commande en direct (WhatsApp / page contact) est le canal
-             privilégié — pas de commission. La marketplace reste accessible
-             pour qui préfère commander en ligne, et sert de réassurance. -->
-        <p class="hero-marketplace">
-          Vous préférez commander en ligne&nbsp;?
-          <a href="https://parisfashionshops.com/fr/femme/marque/giorgia" target="_blank" rel="noopener noreferrer nofollow sponsored">Notre catalogue est aussi sur Paris&nbsp;Fashion&nbsp;Shops</a>
-        </p>
       </div>
-      <div class="hero-scroll">Scroll</div>
     </div>
+  </section>
+
+  <!-- ========== MICRO-PREUVES ========== -->
+  <section class="proofs" aria-label="Nos conditions">
+    <ul class="proofs-inner">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+        <div><strong>Packs de 6 pièces</strong><span>Tailles S/M ou M/L au choix</span></div>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 6.5A7 7 0 1 0 17 17.5"/><path d="M4 10h9M4 14h9"/></svg>
+        <div><strong>Dès 100&nbsp;€ HT</strong><span>Minimum de commande</span></div>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+        <div><strong>Livraison dans le monde entier</strong><span>Depuis notre stock d'Aubervilliers</span></div>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-7h6v7"/></svg>
+        <div><strong>Grossiste depuis 2007</strong><span>Showroom à Aubervilliers</span></div>
+      </li>
+    </ul>
   </section>
 
   <!-- ========== SECTION PRÉVENTES (juste après le hero, en tête de page) ==========
@@ -1669,28 +1717,12 @@
        (build.mjs renvoie une chaîne vide → aucun bloc dans le HTML final). -->
   <!-- PREVENTES_SECTION -->
 
-  <!-- ========== ENCART WHATSAPP CATALOGUE ==========
-       Placé juste après les préventes pour rester haut sur la page et
-       maximiser le rebond commercial vers WhatsApp. -->
-  <!-- WA_CATALOGUE_SECTION -->
-
-  <!-- ========== INTRO STRIP ========== -->
-  <div class="intro-strip">
-    <div class="logo">
-      <span class="logo-g">GIORGIA</span>
-      <span class="logo-p">paris</span>
-    </div>
-    <div class="intro-text">
-      <h2>Qui sommes-nous ?</h2>
-      <p>Grossiste B2B basé à Aubervilliers depuis 2007, GIORGIA paris propose un <strong>catalogue très large et renouvelé en continu</strong>, des pièces qui allient tendance, finition et <strong>prix très attractifs</strong>. Une boutique indépendante n'a pas besoin qu'on choisisse à sa place — elle a besoin de <strong>matière à composer</strong> pour construire son propre assortiment. Des vêtements qui séduiront dans vos rayons — et pour lesquels vos clientes reviendront. <strong>Livraison rapide dans le monde entier</strong> depuis notre stock parisien.</p>
-    </div>
-    <div class="intro-stats">
-      <div>
-        <span class="stat-num">+18</span>
-        <span class="stat-lbl">ans d'expérience</span>
-      </div>
-    </div>
-  </div>
+  <!-- ========== EN-TÊTE DE LA COLLECTION ==========
+       « Les nouveautés de la saison » — généré par renderCollectionIntro().
+       L'encart WhatsApp et les strates partenaires / valeur sont placés ENTRE
+       les catégories (HOME_STRATES_AFTER dans build.mjs). La strate
+       « Qui sommes-nous ? » est fondue dans la strate valeur. -->
+  <!-- COLLECTION_INTRO -->
 
   <!-- ========== UNIVERS — SLIDER DE TABS & SECTIONS ==========
        Tout est rendu au buildtime depuis le tableau UNIVERS de build.mjs.
@@ -1986,20 +2018,25 @@
        Le préfixe <!-- SITE_BASE --> est vide en prod, '/<repo>' en qualif.
     ==================================================================== */
     (function redirectLegacyHomeAnchors() {
-      const legacyIds = ['summer', 'boheme'];
       const hash = (window.location.hash || '').replace(/^#/, '');
-      if (legacyIds.includes(hash)) {
-        const target = '<!-- SITE_BASE -->/collection-printemps-ete-2026/#' + hash;
-        window.location.replace(target);
+      /* L'ancre existe sur cette page : rien à faire. */
+      if (!hash || document.getElementById(hash)) return;
+
+      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
+         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS. */
+      const renamed = <!-- LEGACY_ANCHORS_JS -->;
+      const next = renamed[hash] || hash;
+      if (next !== hash && document.getElementById(next)) {
+        window.location.replace('#' + next);
         return;
       }
-      /* Catégories renommées (sept. 2026) : #working → #pantalons, etc.
-         Table générée par build.mjs depuis `legacyIds` de la config UNIVERS.
-         On ne redirige que si la nouvelle section existe sur la page. */
-      const renamed = <!-- LEGACY_ANCHORS_JS -->;
-      const next = renamed[hash];
-      if (next && document.getElementById(next)) {
-        window.location.replace('#' + next);
+
+      /* Catégorie absente d'ici mais présente sur la page de l'ancienne
+         collection (Summer Vibes, Bohème, ou une catégorie sans produit de la
+         saison) : on y envoie le visiteur. Liste générée par build.mjs. */
+      const archiveIds = <!-- ARCHIVE_ANCHORS_JS -->;
+      if (archiveIds.includes(next)) {
+        window.location.replace('<!-- SITE_BASE -->/collection-printemps-ete-2026/#' + next);
       }
     })();
 
